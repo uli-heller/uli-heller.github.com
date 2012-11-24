@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[Was ich so treibe...]]></title>
-  <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
-  <link href="http://uli-heller.github.com/"/>
-  <updated>2012-11-24T18:45:35+01:00</updated>
-  <id>http://uli-heller.github.com/</id>
+  <title><![CDATA[My Octopress Blog]]></title>
+  <link href="http://yoursite.com/atom.xml" rel="self"/>
+  <link href="http://yoursite.com/"/>
+  <updated>2012-11-24T18:52:04+01:00</updated>
+  <id>http://yoursite.com/</id>
   <author>
-    <name><![CDATA[Uli Heller]]></name>
+    <name><![CDATA[Your Name]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -19,9 +19,9 @@
 
 
 <title type="html"><![CDATA[Octopress-2.1]]></title>
-<link href="http://uli-heller.github.com/2012/11/24/octopress-21/"/>
+<link href="http://yoursite.com/2012/11/24/octopress-21/"/>
 <updated>2012-11-24T10:49:00+01:00</updated>
-<id>http://uli-heller.github.com/2012/11/24/octopress-21</id>
+<id>http://yoursite.com/2012/11/24/octopress-21</id>
 
       <content type="html"><![CDATA[<h1>Meine Tests mit Octopress-2.1</h1>
 
@@ -81,14 +81,12 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Hier meine ersten Eindrücke:</p>
-
-<ul>
-<li>Code-Blöcke verwenden nun weißen Hintergrund, was für mich deutlich lesbarer und ansprechender aussieht</li>
-<li>Blog-Einträge mit <code>published: false</code> werden nicht veröffentlicht, in 2.0 werden alle Blog-Einträge veröffentlicht</li>
-<li>Bei RVM wird Ruby-1.9.2 &#8220;angezogen&#8221;, es funktioniert aber auch mit 1.9.3</li>
-</ul>
-
+<p>Hier meine ersten Eindrücke:
+* Code-Blöcke verwenden nun weißen Hintergrund, was für mich deutlich lesbarer und ansprechender aussieht
+* Blog-Einträge mit <code>published: false</code> werden nicht veröffentlicht, in 2.0 werden alle Blog-Einträge veröffentlicht
+* Bei RVM wird Ruby-1.9.2 &#8220;angezogen&#8221;, es funktioniert aber auch mit 1.9.3
+* Die Blog-Kategorien werden nicht angezeigt
+* Beim Drücken auf &#8220;Blog&#8221; erscheint in der Leiste rechts keine Liste der Blog-Einträge</p>
 
 <figure class='code'><figcaption><span>Anpassungen an Octopress-2.1 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -258,7 +256,7 @@
 
 
 
-<p><a rel="bookmark" href="http://uli-heller.github.com/2012/11/24/octopress-21/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://yoursite.com/2012/11/24/octopress-21/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -268,9 +266,9 @@
 
 
 <title type="html"><![CDATA[Octopress-Installation]]></title>
-<link href="http://uli-heller.github.com/2012/11/24/octopress/"/>
+<link href="http://yoursite.com/2012/11/24/octopress/"/>
 <updated>2012-11-24T10:49:00+01:00</updated>
-<id>http://uli-heller.github.com/2012/11/24/octopress</id>
+<id>http://yoursite.com/2012/11/24/octopress</id>
 
       <content type="html"><![CDATA[<h1>Meine erste Octopress-Installation</h1>
 
@@ -890,7 +888,7 @@
 
 
 <p>&#8230; funktioniert.</p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2012/11/24/octopress/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://yoursite.com/2012/11/24/octopress/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>
