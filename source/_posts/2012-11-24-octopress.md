@@ -11,6 +11,7 @@ categories:
 - Precise
 - Ruby
 - Blog
+- Octopress
 ---
 
 Meine erste Octopress-Installation
