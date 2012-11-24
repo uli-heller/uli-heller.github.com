@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Precise | Was ich so treibe ...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/precise/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2012-11-24T10:42:44+01:00</updated>
+  <updated>2012-11-24T10:44:15+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -280,6 +280,7 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
+<span class='line-number'>17</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>git clone  git@github.com:uli-heller/uli-heller.github.com octopress
 </span><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>git checkout <span class="nb">source</span>
@@ -296,6 +297,7 @@
 </span><span class='line'><span class="nb">cd </span>_deploy
 </span><span class='line'>git remote add -t master -f origin git@github.com:uli-heller/uli-heller.github.com
 </span><span class='line'>git checkout master
+</span><span class='line'><span class="nb">cd</span> ..
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Anpassungen</h2>
