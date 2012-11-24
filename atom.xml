@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://yoursite.com/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2012-11-24T18:23:06+01:00</updated>
-  <id>http://yoursite.com/</id>
+  <title><![CDATA[Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2012-11-24T18:45:35+01:00</updated>
+  <id>http://uli-heller.github.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Uli Heller]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -19,9 +19,9 @@
 
 
 <title type="html"><![CDATA[Octopress-2.1]]></title>
-<link href="http://yoursite.com/2012/11/24/octopress-21/"/>
+<link href="http://uli-heller.github.com/2012/11/24/octopress-21/"/>
 <updated>2012-11-24T10:49:00+01:00</updated>
-<id>http://yoursite.com/2012/11/24/octopress-21</id>
+<id>http://uli-heller.github.com/2012/11/24/octopress-21</id>
 
       <content type="html"><![CDATA[<h1>Meine Tests mit Octopress-2.1</h1>
 
@@ -187,6 +187,39 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h2>Einstellungen anpassen</h2>
+
+<figure class='code'><figcaption><span>Einstellungen anpassen - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -2,10 +2,10 @@</span>
+</span><span class='line'> #      Main Configs       #
+</span><span class='line'> # ----------------------- #
+</span><span class='line'>
+</span><span class='line'><span class="gd">-url: http://yoursite.com</span>
+</span><span class='line'><span class="gd">-title: My Octopress Blog</span>
+</span><span class='line'><span class="gd">-subtitle: A blogging framework for hackers.</span>
+</span><span class='line'><span class="gd">-author: Your Name</span>
+</span><span class='line'><span class="gi">+url: http://uli-heller.github.com</span>
+</span><span class='line'><span class="gi">+title: Was ich so treibe...</span>
+</span><span class='line'><span class="gi">+subtitle: Java, Linux und Groovy</span>
+</span><span class='line'><span class="gi">+author: Uli Heller</span>
+</span><span class='line'> simple_search: http://google.com/search
+</span><span class='line'> description:
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h2>GitHub-Pages reaktivieren</h2>
 
 <figure class='code'><figcaption><span>GutHub-Pages reaktivieren - Rakefile </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
@@ -225,7 +258,7 @@
 
 
 
-<p><a rel="bookmark" href="http://yoursite.com/2012/11/24/octopress-21/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2012/11/24/octopress-21/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -235,9 +268,9 @@
 
 
 <title type="html"><![CDATA[Octopress-Installation]]></title>
-<link href="http://yoursite.com/2012/11/24/octopress/"/>
+<link href="http://uli-heller.github.com/2012/11/24/octopress/"/>
 <updated>2012-11-24T10:49:00+01:00</updated>
-<id>http://yoursite.com/2012/11/24/octopress</id>
+<id>http://uli-heller.github.com/2012/11/24/octopress</id>
 
       <content type="html"><![CDATA[<h1>Meine erste Octopress-Installation</h1>
 
@@ -857,7 +890,7 @@
 
 
 <p>&#8230; funktioniert.</p>
-<p><a rel="bookmark" href="http://yoursite.com/2012/11/24/octopress/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2012/11/24/octopress/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>
