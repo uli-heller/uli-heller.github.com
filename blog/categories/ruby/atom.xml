@@ -1,100 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Was ich so treibe ...</title>
-  <meta name="author" content="Uli Heller">
-
-  
-  <meta name="description" content="Meine erste Octopress-Installation Installation Vorbereitungen Sicherstellen: Zugang zum Internet besteht
-Größe der /usr-Partition auf 800MB setzen &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://uli-heller.github.com/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Was ich so treibe ..." type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Was ich so treibe ...</a></h1>
-  
-    <h2>Linux, Java und Groovy</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:uli-heller.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[Category: Ruby | Was ich so treibe ...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2012-11-24T10:18:53+01:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2012/11/24/octopress/">Octopress-Installation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2012-11-24T10:49:00+01:00" pubdate data-updated="true">Nov 24<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Meine erste Octopress-Installation</h1>
+  <entry>
+    <title type="html"><![CDATA[Octopress-Installation]]></title>
+    <link href="http://uli-heller.github.com/blog/2012/11/24/octopress/"/>
+    <updated>2012-11-24T10:49:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2012/11/24/octopress</id>
+    <content type="html"><![CDATA[<h1>Meine erste Octopress-Installation</h1>
 
 <h2>Installation</h2>
 
@@ -111,7 +35,7 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </ul>
 
 
-<figure class='code'><figcaption><span>Partition vergrößern und diverse Pakete installieren  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Partition vergrößern und diverse Pakete installieren  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -130,26 +54,24 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </span><span class='line'>sudo apt-get install gcc build-essential
 </span><span class='line'>sudo apt-get install libyaml-dev libz-dev libssl-dev
 </span><span class='line'>sudo apt-get install curl
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Basispakete</h3>
 
 <h4>Git</h4>
 
-<figure class='code'><figcaption><span>Git installieren  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Git installieren  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install -y git
 </span><span class='line'>sudo apt-get clean
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Für GIT wird die Version 1.8.0-0dp3~precise01 vom DPREPO angezogen.</p>
 
 <h4>Ruby mittels RVM</h4>
 
-<figure class='code'><figcaption><span>Ruby installieren  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ruby installieren  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -162,8 +84,7 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </span><span class='line'>rvm use 1.9.3
 </span><span class='line'>rvm rubygems latest
 </span><span class='line'>ruby --version    <span class="c"># ruby 1.9.3p327 (2012-11-10 revision 37606) [i686-linux]</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Octopress</h3>
 
@@ -173,7 +94,7 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 
 <h5>Octopress und Pakete</h5>
 
-<figure class='code'><figcaption><span>Octropress installieren  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Octropress installieren  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -184,12 +105,11 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </span><span class='line'>gem install bundler
 </span><span class='line'>bundle install
 </span><span class='line'>rake install
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5>Textile statt Markdown</h5>
 
-<figure class='code'><figcaption><span>Textile statt Markdown - Rakefile  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Textile statt Markdown - Rakefile  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -199,21 +119,20 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -22,8 +22,8 @@ deploy_dir      = &quot;_deploy&quot;   # deploy directory (for Github p</span>
-</span><span class='line'> stash_dir       = &quot;_stash&quot;    # directory to stash posts for speedy generation
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -22,8 +22,8 @@ deploy_dir      = &quot;&lt;em&gt;deploy&quot;   # deploy directory (for Github p</span>
+</span><span class='line'> stash_dir       = &quot;&lt;/em&gt;stash&quot;    # directory to stash posts for speedy generation
 </span><span class='line'> posts_dir       = &quot;_posts&quot;    # directory for blog files
 </span><span class='line'> themes_dir      = &quot;.themes&quot;   # directory for blog files
-</span><span class='line'><span class="gd">-new_post_ext    = &quot;markdown&quot;  # default new post file extension when using the </span>
-</span><span class='line'><span class="gd">-new_page_ext    = &quot;markdown&quot;  # default new page file extension when using the </span>
-</span><span class='line'><span class="gi">+new_post_ext    = &quot;textile&quot;   # default new post file extension when using the </span>
-</span><span class='line'><span class="gi">+new_page_ext    = &quot;textile&quot;   # default new page file extension when using the </span>
+</span><span class='line'><span class="gd">-new_post_ext    = &quot;markdown&quot;  # default new post file extension when using the</span>
+</span><span class='line'><span class="gd">-new_page_ext    = &quot;markdown&quot;  # default new page file extension when using the</span>
+</span><span class='line'><span class="gi">+new_post_ext    = &quot;textile&quot;   # default new post file extension when using the</span>
+</span><span class='line'><span class="gi">+new_page_ext    = &quot;textile&quot;   # default new page file extension when using the</span>
 </span><span class='line'> server_port     = &quot;4000&quot;      # port for preview server eg. localhost:4000
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5>Autor und Titel</h5>
 
-<figure class='code'><figcaption><span>Autor und Tutel - _config.yml  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Autor und Tutel - _config.yml  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -230,9 +149,9 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 <span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -2,10 +2,10 @@</span>
 </span><span class='line'> #      Main Configs       #
-</span><span class='line'> # ----------------------- #
+</span><span class='line'> # ----------------------- #&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'><span class="gd">-url: http://yoursite.com</span>
+</span><span class='line'>&lt;p&gt;-url: http://yoursite.com
 </span><span class='line'><span class="gd">-title: My Octopress Blog</span>
 </span><span class='line'><span class="gd">-subtitle: A blogging framework for hackers.</span>
 </span><span class='line'><span class="gd">-author: Your Name</span>
@@ -242,8 +161,7 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </span><span class='line'><span class="gi">+author: Uli Heller</span>
 </span><span class='line'> simple_search: http://google.com/search
 </span><span class='line'> description:
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Veröffentlichung auf GitHub</h4>
 
@@ -261,8 +179,8 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 <p>Auf GitHub muß ein spezielles Repository angelegt werden:</p>
 
 <ul>
-<li>mein GitHub-Benutzer: &#8220;uli-heller&#8221;</li>
-<li>neu anzulegendes Repository: &#8220;uli-heller.github.com&#8221;</li>
+<li>mein GitHub-Benutzer: "uli-heller"</li>
+<li>neu anzulegendes Repository: "uli-heller.github.com"</li>
 </ul>
 
 
@@ -280,72 +198,72 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </ul>
 
 
-<p>an und gib&#8217; danach im Browser die URL</p>
+<p>an und gib' danach im Browser die URL</p>
 
 <ul>
 <li>http://uli-heller.github.com</li>
 </ul>
 
 
-<p>ein. Mit etwas Glück erscheint der Inhalt der &#8220;index.html&#8221;</p>
+<p>ein. Mit etwas Glück erscheint der Inhalt der "index.html"</p>
 
 <h5>Anpassungen im Octopress-Verzeichnis</h5>
 
-<figure class='code'><figcaption><span>Octopress für Veröffentlichung vorbereiten  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Octopress für Veröffentlichung vorbereiten  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>rake setup_github_pages
-</span><span class='line'><span class="c"># Repository url: git@github.com:uli-heller/uli-heller.github.com</span>
-</span><span class='line'>rake generate
+</span><span class='line'>rake setup_github_pages&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Repository url: git@github.com:uli-heller/uli-heller.github.com&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;rake generate
 </span><span class='line'>rake deploy
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5>Quellverzeichnis zur Sicherung hinzufügen</h5>
 
-<figure class='code'><figcaption><span>Sicherung vorbereiten  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Sicherung vorbereiten  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>git add <span class="nb">source</span>
 </span><span class='line'>git commit -m <span class="s2">&quot;Quelltexte sichern&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5>Neue Artikel sichern</h5>
 
 <p>Neue Artikel werden mit diesem Befehl auf GitHub gesichert:</p>
 
-<figure class='code'><figcaption><span>Quellverzeichnis sichern  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Quellverzeichnis sichern  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>git commit -m <span class="s2">&quot;Sprechende Nachricht mit Änderungsbeschreibungen&quot;</span>
 </span><span class='line'>git push origin <span class="nb">source</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5>Neue Veröffentlichungen</h5>
 
 <p>Immer dann, wenn neue Artikel veröffentlicht werden sollen, muß man so vorgehen:</p>
 
-<figure class='code'><figcaption><span>Neue Veröffentlichungen  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Veröffentlichungen  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>rake generate
 </span><span class='line'>rake deploy
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Folgeinstallation</h4>
 
-<figure class='code'><figcaption><span>Folgeinstallation  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Folgeinstallation  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -362,34 +280,31 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </span><span class='line'>rake install<span class="o">[</span><span class="s1">&#39;uli&#39;</span><span class="o">]</span>
 </span><span class='line'>git remote add octopress git://github.com/imathis/octopress.git
 </span><span class='line'>git fetch octopress
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Anpassungen</h2>
 
 <h3>Darstellung</h3>
 
-<figure class='code'><figcaption><span>Meinen Darstellungsstil aktivieren  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Meinen Darstellungsstil aktivieren  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>rake install<span class="o">[</span><span class="s1">&#39;uli&#39;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
+<p>Zurück zur Standard-Darstellung geht's so:</p>
 
-<p>Zurück zur Standard-Darstellung geht&#8217;s so:</p>
-
-<figure class='code'><figcaption><span>Standarddarstellung aktivieren  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Standarddarstellung aktivieren  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>rake install
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Ein erster Blog-Eintrag</h2>
 
-<figure class='code'><figcaption><span>Ersten Blog-Eintrag erstellen  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ersten Blog-Eintrag erstellen  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -399,17 +314,24 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>rake new_post<span class="o">[</span><span class="s2">&quot;Octopress&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="nv">$ </span>mkdir -p <span class="nb">source</span>/_posts
-</span><span class='line'>Creating new post: <span class="nb">source</span>/_posts/2012-11-10-octopress.textile
-</span><span class='line'><span class="c"># Datei source/_posts/2012-11-10-octopress.textile editieren</span>
-</span><span class='line'><span class="nv">$ </span>rake generate
-</span><span class='line'><span class="nv">$ </span>rake preview
-</span><span class='line'><span class="c"># Sichten mit http://localhost:4000</span>
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Erster Blog-Eintrag ist fertig&quot;</span>
+</span><span class='line'><span class="nv">$ </span>mkdir -p <span class="nb">source</span>/&lt;em&gt;posts
+</span><span class='line'>Creating new post: <span class="nb">source</span>/&lt;/em&gt;posts/2012-11-10-octopress.textile&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Datei <span class="nb">source</span>/_posts/2012-11-10-octopress.textile editieren&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>rake generate
+</span><span class='line'><span class="nv">$ </span>rake preview&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Sichten mit http://localhost:4000&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>git commit -m <span class="s2">&quot;Erster Blog-Eintrag ist fertig&quot;</span>
 </span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Probleme</h2>
 
@@ -433,7 +355,7 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 
 <p>Die Beschreibung ist obsolet! Verwende besser: <code>rake install['uli']</code>!</p>
 
-<figure class='code'><figcaption><span>Hellere Farben - sass/custom/_colors.scss  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Hellere Farben - sass/custom/<em>colors.scss  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -499,9 +421,9 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 <span class='line-number'>63</span>
 <span class='line-number'>64</span>
 <span class='line-number'>65</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>uli@uli-hp:~/git/octopress$ diff -u sass/custom/_colors.scss~ sass/custom/_colors.scss
-</span><span class='line'><span class="gd">--- sass/custom/_colors.scss~    2012-11-10 19:45:17.000000000 +0100</span>
-</span><span class='line'><span class="gi">+++ sass/custom/_colors.scss 2012-11-18 11:21:14.913856809 +0100</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>uli@uli-hp:~/git/octopress$ diff -u sass/custom/&lt;/em&gt;colors.scss~ sass/custom/&lt;em&gt;colors.scss
+</span><span class='line'><span class="gd">--- sass/custom/&lt;/em&gt;colors.scss~   2012-11-10 19:45:17.000000000 +0100</span>
+</span><span class='line'><span class="gi">+++ sass/custom/_colors.scss    2012-11-18 11:21:14.913856809 +0100</span>
 </span><span class='line'><span class="gu">@@ -41,3 +41,61 @@</span>
 </span><span class='line'> //$pre-bg: $base03;
 </span><span class='line'> //$pre-border: darken($base02, 5);
@@ -564,8 +486,7 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </span><span class='line'><span class="gi">+$footer-link-color: darken($footer-bg, 38) !default;</span>
 </span><span class='line'><span class="gi">+$footer-link-color-hover: darken($footer-color, 25) !default;</span>
 </span><span class='line'><span class="gi">+$page-border-bottom: darken($footer-bg, 5) !default;</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Listen sind nicht eingerückt</h4>
 
@@ -579,11 +500,11 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </ul>
 
 
-<p>Die Listeneinträge werden zu weit links angeziegt, so dass die &#8220;Punkte&#8221; links außerhalb des Textbereichs erscheinen.</p>
+<p>Die Listeneinträge werden zu weit links angeziegt, so dass die "Punkte" links außerhalb des Textbereichs erscheinen.</p>
 
 <p>Korrektur: Editiere sass/custom/_layout.scss wie folgt:</p>
 
-<figure class='code'><figcaption><span>Eingerückte Listen - sass/custom/_layout.scss  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Eingerückte Listen - sass/custom/<em>layout.scss  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -596,20 +517,19 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u sass/custom/_layout.scss~  sass/custom/_layout.scss</span>
-</span><span class='line'><span class="gd">--- sass/custom/_layout.scss~    2012-11-10 19:45:17.000000000 +0100</span>
-</span><span class='line'><span class="gi">+++ sass/custom/_layout.scss 2012-11-18 11:05:43.661813157 +0100</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u sass/custom/&lt;/em&gt;layout.scss~  sass/custom/&lt;em&gt;layout.scss</span>
+</span><span class='line'><span class="gd">--- sass/custom/&lt;/em&gt;layout.scss~   2012-11-10 19:45:17.000000000 +0100</span>
+</span><span class='line'><span class="gi">+++ sass/custom/_layout.scss    2012-11-18 11:05:43.661813157 +0100</span>
 </span><span class='line'><span class="gu">@@ -6,7 +6,7 @@</span>
-</span><span class='line'> //$header-padding-bottom: 1.5em;
+</span><span class='line'> //$header-padding-bottom: 1.5em;&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'> //$max-width: 1350px;
+</span><span class='line'>&lt;p&gt; //$max-width: 1350px;
 </span><span class='line'><span class="gd">-//$indented-lists: true;</span>
-</span><span class='line'><span class="gi">+$indented-lists: true;</span>
+</span><span class='line'><span class="gi">+$indented-lists: true;&lt;/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'> // Padding used for layout margins
+</span><span class='line'>&lt;p&gt; // Padding used for layout margins
 </span><span class='line'> //$pad-min: 18px;
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Ruby mittels RBENV</h4>
 
@@ -617,7 +537,7 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 
 <h5>RBENV</h5>
 
-<figure class='code'><figcaption><span>RBENV  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>RBENV  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -630,24 +550,22 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;eval &quot;$(rbenv init -)&quot;&#39;</span> &gt;&gt; ~/.bash_profile
 </span><span class='line'>git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 </span><span class='line'><span class="nb">source</span> ~/.bash_profile
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5>RUBY</h5>
 
-<figure class='code'><figcaption><span>RUBY  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>RUBY  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>rbenv install 1.9.3-p0
 </span><span class='line'>rbenv rehash
-</span></code></pre></td></tr></table></div></figure>
-
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Danach sollte dann <code>ruby --version</code> irgendwas mit 1.9.3 anzeigen, funktioniert aber nicht!</p>
 
 <h4>YAML und zlib</h4>
 
-<figure class='code'><figcaption><span>Fehlermeldung yaml und zlib  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fehlermeldung yaml und zlib  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -656,20 +574,33 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>gem install bundler
 </span><span class='line'>/home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/yaml.rb:56:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="err">&#39;</span>:
 </span><span class='line'>It seems your ruby installation is missing psych <span class="o">(</span><span class="k">for </span>YAML output<span class="o">)</span>.
 </span><span class='line'>To eliminate this warning, please install libyaml and reinstall your ruby.
-</span><span class='line'>ERROR:  Loading <span class="nb">command</span>: install <span class="o">(</span>LoadError<span class="o">)</span>
-</span><span class='line'>    cannot load such file -- zlib
-</span><span class='line'>ERROR:  While executing gem ... <span class="o">(</span>NameError<span class="o">)</span>
-</span><span class='line'>    uninitialized constant Gem::Commands::InstallCommand
-</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>ERROR:  Loading <span class="nb">command</span>: install <span class="o">(</span>LoadError<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;cannot load such file -- zlib
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;ERROR:  While executing gem ... <span class="o">(</span>NameError<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;uninitialized constant Gem::Commands::InstallCommand
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Lösungsversuch mit libyaml-dev und libz-dev:</p>
 
-<figure class='code'><figcaption><span>yaml und zlib installieren  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>yaml und zlib installieren  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -678,14 +609,13 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </span><span class='line'>rvm reinstall 1.9.3
 </span><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>gem install bundler
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-
-<p>&#8230; funktioniert.</p>
+<p>... funktioniert.</p>
 
 <h4>OpenSSL</h4>
 
-<figure class='code'><figcaption><span>Fehlermeldung OpenSSL  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fehlermeldung OpenSSL  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -694,20 +624,31 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli@ubuntu1204:~/octopress<span class="nv">$ </span>rake generate
-</span><span class='line'><span class="c">## Generating Site with Jekyll</span>
-</span><span class='line'>directory <span class="nb">source</span>/stylesheets/
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli@ubuntu1204:~/octopress<span class="nv">$ </span>rake generate&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h2&gt;Generating Site with Jekyll&lt;/h2&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;directory <span class="nb">source</span>/stylesheets/
 </span><span class='line'>   create <span class="nb">source</span>/stylesheets/screen.css
-</span><span class='line'>/home/uli/.rvm/gems/ruby-1.9.3-p327/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;: iconv will be deprecated in the future, use String#encode instead.</span>
+</span><span class='line'>/home/uli/.rvm/gems/ruby-1.9.3-p327/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in &lt;code&gt;&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="s1">&#39;: iconv will be deprecated in the future, use String#encode instead.</span>
 </span><span class='line'><span class="s1">Configuration from /home/uli/octopress/_config.yml</span>
-</span><span class='line'><span class="s1">/home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/net/https.rb:22:in `require&#39;</span>: cannot load such file -- openssl <span class="o">(</span>LoadError<span class="o">)</span>
-</span><span class='line'>  from /home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/net/https.rb:22:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="err">&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'><span class="s1">/home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/net/https.rb:22:in&lt;/code&gt;require&#39;</span>: cannot load such file -- openssl <span class="o">(</span>LoadError<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;from /home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/net/https.rb:22:in <span class="sb">`</span>&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="err">&#39;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Lösungsversuch mit libssl-dev:</p>
 
-<figure class='code'><figcaption><span>libssl-dev installieren  </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>libssl-dev installieren  </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -716,73 +657,10 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
 </span><span class='line'>rvm reinstall 1.9.3
 </span><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>rake generate
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-
-<p>&#8230; funktioniert.</p>
-</div>
+<p>... funktioniert.</p>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/11/24/octopress/">Octopress-Installation</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Uli Heller -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
