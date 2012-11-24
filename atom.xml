@@ -1,24 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-
-  <title><![CDATA[Was ich so treibe ...]]></title>
-  <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
-  <link href="http://uli-heller.github.com/"/>
-  <updated>2012-11-24T10:44:15+01:00</updated>
-  <id>http://uli-heller.github.com/</id>
+  <title><![CDATA[My Octopress Blog]]></title>
+  <link href="http://yoursite.com/atom.xml" rel="self"/>
+  <link href="http://yoursite.com/"/>
+  <updated>2012-11-24T18:14:41+01:00</updated>
+  <id>http://yoursite.com/</id>
   <author>
-    <name><![CDATA[Uli Heller]]></name>
+    <name><![CDATA[Your Name]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
-  <entry>
-    <title type="html"><![CDATA[Octopress-Installation]]></title>
-    <link href="http://uli-heller.github.com/blog/2012/11/24/octopress/"/>
-    <updated>2012-11-24T10:49:00+01:00</updated>
-    <id>http://uli-heller.github.com/blog/2012/11/24/octopress</id>
-    <content type="html"><![CDATA[<h1>Meine erste Octopress-Installation</h1>
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Octopress-2.1]]></title>
+<link href="http://yoursite.com/2012/11/24/octopress-21/"/>
+<updated>2012-11-24T10:49:00+01:00</updated>
+<id>http://yoursite.com/2012/11/24/octopress-21</id>
+
+      <content type="html"><![CDATA[<h1>Meine Tests mit Octopress-2.1</h1>
+
+<p>Ausgangspunkt ist meine &#8220;normale&#8221; Octopress-Installation:</p>
+
+<figure class='code'><figcaption><span>Normale Octopress-Installation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span>git branch -a
+</span><span class='line'>  master
+</span><span class='line'>* <span class="nb">source</span>
+</span><span class='line'><span class="nb">  </span>remotes/octopress/2.1
+</span><span class='line'>  remotes/octopress/gh-pages
+</span><span class='line'>  remotes/octopress/linklog
+</span><span class='line'>  remotes/octopress/master
+</span><span class='line'>  remotes/octopress/refactor_with_tests
+</span><span class='line'>  remotes/octopress/rubygemcli
+</span><span class='line'>  remotes/octopress/site
+</span><span class='line'>  remotes/origin/HEAD -&gt; origin/master
+</span><span class='line'>  remotes/origin/gh-pages
+</span><span class='line'>  remotes/origin/master
+</span><span class='line'>  remotes/origin/source
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Mit diesem Setup kann man nun umschalten auf Version 2.1:</p>
+
+<figure class='code'><figcaption><span>Umstellen auf Octopress-2.1 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span><span class="nb">export </span><span class="nv">LANG</span><span class="o">=</span>C.UTF-8
+</span><span class='line'>octopress<span class="nv">$ </span>git checkout -t remotes/octopress/2.1
+</span><span class='line'>Branch 2.1 <span class="nb">set </span>up to track remote branch 2.1 from octopress by rebasing.
+</span><span class='line'>Switched to a new branch <span class="s1">&#39;2.1&#39;</span>
+</span><span class='line'>octopress<span class="nv">$ </span>bundle install
+</span><span class='line'>octopress<span class="nv">$ </span>rake install
+</span><span class='line'>octopress<span class="nv">$ </span>rake generate
+</span><span class='line'>octopress<span class="nv">$ </span>rake preview
+</span><span class='line'><span class="c"># Browser: http://localhost:4000</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hier meine ersten Eindrücke:</p>
+
+<ul>
+<li>Code-Blöcke verwenden nun weißen Hintergrund, was für mich deutlich lesbarer und ansprechender aussieht</li>
+<li>Blog-Einträge mit <code>published: false</code> werden nicht veröffentlicht, in 2.0 werden alle Blog-Einträge veröffentlicht</li>
+<li>Bei RVM wird Ruby-1.9.2 &#8220;angezogen&#8221;, es funktioniert aber auch mit 1.9.3</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Anpassungen an Octopress-2.1 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git branch -m 2.1 <span class="nb">source</span>-2.1
+</span><span class='line'>git checkout <span class="nb">source</span>-2.1
+</span><span class='line'>git push -u origin <span class="nb">source</span>-2.1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Eigenes Darstellungsthema erzeugen</h2>
+
+<h3>Kopie des Standards-Themas anlegen</h3>
+
+<figure class='code'><figcaption><span>Eigenes Darstellungsthema für Octopress-2.1 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>cp -a .themes/classic .themes/uli
+</span><span class='line'>git add .themes/uli
+</span><span class='line'>git commit -m <span class="s2">&quot;.themes: classic -&gt; uli&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Anpassungen von Octopress-2.0 übernehmen</h3>
+
+<ul>
+<li>Historie vom Zweig &#8220;source&#8221; durchsuchen nach den dort erledigten Änderungen am Thema</li>
+<li>Übernehmen der Änderungen in den Zweig &#8220;source-2.1&#8221;</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 übernehmen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Sichten der Historie</span>
+</span><span class='line'>octopress<span class="nv">$ </span>git log --oneline ..source -- .themes/uli
+</span><span class='line'>b941c1c Anpassungen am Layout
+</span><span class='line'>1cfd652 cp -a .themes/classic .themes/uli
+</span><span class='line'><span class="c"># Änderungen in source-2.1 übernehmen</span>
+</span><span class='line'>octopress<span class="nv">$ </span>git rebase -i --onto <span class="nb">source</span>-2.1 1cfd652 b941c1c
+</span><span class='line'><span class="c"># Konflikt wird angezeigt -&gt; auflösen und festschreiben (committen)</span>
+</span><span class='line'>octopress<span class="nv">$ </span>...
+</span><span class='line'><span class="c"># Zustand sichten</span>
+</span><span class='line'>octopress<span class="nv">$ </span>gitk
+</span><span class='line'><span class="c"># &quot;Detached head&quot;, source-2.1 liegt ein wenig &quot;zurück&quot;</span>
+</span><span class='line'>octopress<span class="nv">$ </span>git checkout -b tmp
+</span><span class='line'>octopress<span class="nv">$ </span>git checkout -B <span class="nb">source</span>-2.1 tmp
+</span><span class='line'>octopress<span class="nv">$ </span>git branch -d tmp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Darstellungsthema aktivieren</h3>
+
+<figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 übernehmen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span>rake install<span class="o">[</span><span class="s1">&#39;uli&#39;</span><span class="o">]</span>
+</span><span class='line'>A theme is already installed, proceeding will overwrite existing files. Are you sure? <span class="o">[</span>y/n<span class="o">]</span> y
+</span><span class='line'><span class="c">## Copying uli theme into ./source and ./sass</span>
+</span><span class='line'>mkdir -p <span class="nb">source</span>
+</span><span class='line'>cp -r .themes/uli/source/. <span class="nb">source</span>
+</span><span class='line'>mkdir -p sass
+</span><span class='line'>cp -r .themes/uli/sass/. sass
+</span><span class='line'>mkdir -p <span class="nb">source</span>/_posts
+</span><span class='line'>mkdir -p public
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Blog-Einträge von Octopress-2.0 übernehmen</h2>
+
+<figure class='code'><figcaption><span>Dokumente von Octopress-2.0 übernehmen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git add <span class="nb">source</span>
+</span><span class='line'>git commit -m <span class="s2">&quot;Quelltexte in&#39;s Repository aufgenommen&quot;</span> .
+</span><span class='line'>git checkout <span class="nb">source</span> -- ./source/_posts
+</span><span class='line'>git commit -m <span class="s2">&quot;Blog-Einträge kopiert von &#39;source&#39;&quot;</span> ./source
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+<p><a rel="bookmark" href="http://yoursite.com/2012/11/24/octopress-21/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Octopress-Installation]]></title>
+<link href="http://yoursite.com/2012/11/24/octopress/"/>
+<updated>2012-11-24T10:49:00+01:00</updated>
+<id>http://yoursite.com/2012/11/24/octopress</id>
+
+      <content type="html"><![CDATA[<h1>Meine erste Octopress-Installation</h1>
 
 <h2>Installation</h2>
 
@@ -35,8 +219,7 @@
 </ul>
 
 
-<figure class='code'><figcaption><span>Partition vergrößern und diverse Pakete installieren  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Partition vergrößern und diverse Pakete installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -61,8 +244,7 @@
 
 <h4>Git</h4>
 
-<figure class='code'><figcaption><span>Git installieren  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Git installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install -y git
 </span><span class='line'>sudo apt-get clean
@@ -73,8 +255,7 @@
 
 <h4>Ruby mittels RVM</h4>
 
-<figure class='code'><figcaption><span>Ruby installieren  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Ruby installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -97,8 +278,7 @@
 
 <h5>Octopress und Pakete</h5>
 
-<figure class='code'><figcaption><span>Octropress installieren  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Octropress installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -113,8 +293,7 @@
 
 <h5>Textile statt Markdown</h5>
 
-<figure class='code'><figcaption><span>Textile statt Markdown - Rakefile  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Textile statt Markdown - Rakefile </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -137,8 +316,7 @@
 
 <h5>Autor und Titel</h5>
 
-<figure class='code'><figcaption><span>Autor und Tutel - _config.yml  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Autor und Tutel - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -215,8 +393,7 @@
 
 <h5>Anpassungen im Octopress-Verzeichnis</h5>
 
-<figure class='code'><figcaption><span>Octopress für Veröffentlichung vorbereiten  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Octopress für Veröffentlichung vorbereiten </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -231,8 +408,7 @@
 
 <h5>Quellverzeichnis zur Sicherung hinzufügen</h5>
 
-<figure class='code'><figcaption><span>Sicherung vorbereiten  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Sicherung vorbereiten </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>git add <span class="nb">source</span>
 </span><span class='line'>git commit -m <span class="s2">&quot;Quelltexte sichern&quot;</span>
@@ -243,8 +419,7 @@
 
 <p>Neue Artikel werden mit diesem Befehl auf GitHub gesichert:</p>
 
-<figure class='code'><figcaption><span>Quellverzeichnis sichern  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Quellverzeichnis sichern </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
@@ -257,8 +432,7 @@
 
 <p>Immer dann, wenn neue Artikel veröffentlicht werden sollen, muß man so vorgehen:</p>
 
-<figure class='code'><figcaption><span>Neue Veröffentlichungen  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Neue Veröffentlichungen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
@@ -269,8 +443,7 @@
 
 <h4>Folgeinstallation</h4>
 
-<figure class='code'><figcaption><span>Folgeinstallation  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Folgeinstallation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -307,8 +480,7 @@
 
 <h3>Darstellung</h3>
 
-<figure class='code'><figcaption><span>Meinen Darstellungsstil aktivieren  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Meinen Darstellungsstil aktivieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>rake install<span class="o">[</span><span class="s1">&#39;uli&#39;</span><span class="o">]</span>
@@ -317,8 +489,7 @@
 
 <p>Zurück zur Standard-Darstellung geht&#8217;s so:</p>
 
-<figure class='code'><figcaption><span>Standarddarstellung aktivieren  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Standarddarstellung aktivieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>rake install
@@ -327,8 +498,7 @@
 
 <h2>Ein erster Blog-Eintrag</h2>
 
-<figure class='code'><figcaption><span>Ersten Blog-Eintrag erstellen  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Ersten Blog-Eintrag erstellen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -371,8 +541,7 @@
 
 <p>Die Beschreibung ist obsolet! Verwende besser: <code>rake install['uli']</code>!</p>
 
-<figure class='code'><figcaption><span>Hellere Farben - sass/custom/_colors.scss  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Hellere Farben - sass/custom/_colors.scss </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -521,8 +690,7 @@
 
 <p>Korrektur: Editiere sass/custom/_layout.scss wie folgt:</p>
 
-<figure class='code'><figcaption><span>Eingerückte Listen - sass/custom/_layout.scss  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Eingerückte Listen - sass/custom/_layout.scss </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -555,8 +723,7 @@
 
 <h5>RBENV</h5>
 
-<figure class='code'><figcaption><span>RBENV  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>RBENV </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -573,8 +740,7 @@
 
 <h5>RUBY</h5>
 
-<figure class='code'><figcaption><span>RUBY  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>RUBY </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>rbenv install 1.9.3-p0
 </span><span class='line'>rbenv rehash
@@ -585,8 +751,7 @@
 
 <h4>YAML und zlib</h4>
 
-<figure class='code'><figcaption><span>Fehlermeldung yaml und zlib  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Fehlermeldung yaml und zlib </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -607,8 +772,7 @@
 
 <p>Lösungsversuch mit libyaml-dev und libz-dev:</p>
 
-<figure class='code'><figcaption><span>yaml und zlib installieren  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>yaml und zlib installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -623,8 +787,7 @@
 
 <h4>OpenSSL</h4>
 
-<figure class='code'><figcaption><span>Fehlermeldung OpenSSL  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Fehlermeldung OpenSSL </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -645,8 +808,7 @@
 
 <p>Lösungsversuch mit libssl-dev:</p>
 
-<figure class='code'><figcaption><span>libssl-dev installieren  </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>libssl-dev installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -658,7 +820,7 @@
 
 
 <p>&#8230; funktioniert.</p>
-]]></content>
-  </entry>
+<p><a rel="bookmark" href="http://yoursite.com/2012/11/24/octopress/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
 </feed>

@@ -1,15 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://uli-heller.github.com/blog/2012/11/24/octopress/</loc>
-        <lastmod>2012-11-24T10:44:14+01:00</lastmod>
+        <loc>http://yoursite.com/2012/11/24/octopress/</loc>
+        <lastmod>2012-11-24T18:11:02+01:00</lastmod>
     </url>
     <url>
-        <loc>http://uli-heller.github.com/</loc>
-        <lastmod>2012-11-24T10:44:14+01:00</lastmod>
+        <loc>http://yoursite.com/2012/11/24/octopress-21/</loc>
+        <lastmod>2012-11-24T18:14:40+01:00</lastmod>
     </url>
     <url>
-        <loc>http://uli-heller.github.com/blog/archives/</loc>
-        <lastmod>2012-11-24T10:44:14+01:00</lastmod>
+        <loc>http://yoursite.com/archives/</loc>
+        <lastmod>2012-11-24T18:14:40+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://yoursite.com/</loc>
+        <lastmod>2012-11-24T18:14:40+01:00</lastmod>
     </url>
 </urlset>
