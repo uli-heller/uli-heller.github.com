@@ -3,7 +3,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://yoursite.com/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2012-11-24T18:14:41+01:00</updated>
+  <updated>2012-11-24T18:23:06+01:00</updated>
   <id>http://yoursite.com/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -184,6 +184,43 @@
 </span><span class='line'>git commit -m <span class="s2">&quot;Quelltexte in&#39;s Repository aufgenommen&quot;</span> .
 </span><span class='line'>git checkout <span class="nb">source</span> -- ./source/_posts
 </span><span class='line'>git commit -m <span class="s2">&quot;Blog-Einträge kopiert von &#39;source&#39;&quot;</span> ./source
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>GitHub-Pages reaktivieren</h2>
+
+<figure class='code'><figcaption><span>GutHub-Pages reaktivieren - Rakefile </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -9,13 +9,13 @@</span>
+</span><span class='line'> ssh_user       = &quot;user@domain.com&quot;
+</span><span class='line'> ssh_port       = &quot;22&quot;
+</span><span class='line'> document_root  = &quot;~/website.com/&quot;
+</span><span class='line'> rsync_delete   = false
+</span><span class='line'><span class="gd">-deploy_default = &quot;rsync&quot;</span>
+</span><span class='line'><span class="gi">+deploy_default = &quot;push&quot;</span>
+</span><span class='line'>
+</span><span class='line'> # Hidden &quot;dot&quot; files that should be included with the deployed site (see task c
+</span><span class='line'> copy_dot_files = []
+</span><span class='line'>
+</span><span class='line'> # This will be configured for you when you run config_deploy
+</span><span class='line'><span class="gd">-deploy_branch  = &quot;gh-pages&quot;</span>
+</span><span class='line'><span class="gi">+deploy_branch  = &quot;master&quot;</span>
+</span><span class='line'>
+</span><span class='line'> ## -- Misc Configs -- ##
 </span></code></pre></td></tr></table></div></figure>
 
 
