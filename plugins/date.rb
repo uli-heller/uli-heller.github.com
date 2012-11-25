@@ -1,5 +1,57 @@
+# -*- coding: utf-8 -*-
 module Octopress
   module Date
+    #Deutsche Lokalisation:
+    MONTHNAMES_DE = [nil,
+      "Januar", "Februar", "März", "April", "Mai", "Juni",
+      "Juli", "August", "September", "Oktober", "November", "Dezember" ]
+    ABBR_MONTHNAMES_DE = [nil,
+      "Jan", "Feb", "Mär", "Apr", "Mai", "Jun",
+      "Jul", "Aug", "Sep", "Okt", "Nov", "Dez" ]
+    DAYNAMES_DE = [
+      "Sonntag", "Montag", "Dienstag", "Mittwoch",
+      "Donnerstag", "Freitag", "Samstag" ]
+    ABBR_DAYNAMES_DE = [
+      "So", "Mo", "Di", "Mi",
+      "Do", "Fr", "Sa" ]
+
+    # Returns a datetime if the input is a string
+    def datetime(date)
+      if date.class == String
+        date = Time.parse(date)
+      end
+      date
+    end
+
+    # in _config.yml muss stehen: date_format: ordinal 
+    def ordinalize(date)
+      #**** hier Format bei Bedarf ändern, z.B. %A für ausgeschriebenen Wochentag    
+      format_date(date, "%a, %e. %B %Y") # SA, 10. MÄRZ 2012
+    end
+
+
+    # Formats date either as ordinal or by given date format
+    # Adds %o as ordinal representation of the day
+    def format_date(date, format)
+      myformat = format.dup
+      date = datetime(date)
+      if format.nil? || format.empty? || format == "ordinal"
+        date_formatted = ordinalize(date) 
+      else
+        myformat.gsub!(/%a/, ABBR_DAYNAMES_DE[date.wday])
+        myformat.gsub!(/%A/, DAYNAMES_DE[date.wday])
+        myformat.gsub!(/%b/, ABBR_MONTHNAMES_DE[date.mon])
+        myformat.gsub!(/%B/, MONTHNAMES_DE[date.mon])
+        date_formatted = date.strftime(myformat)
+        # date_formatted = date.strftime(format)
+        # date_formatted.gsub!(/%o/, ordinal(date.strftime('%e').to_i))
+      end
+      date_formatted #+" ULI:#{date.mon}"
+    end
+
+  end
+
+  module DateEn
 
     # Returns a datetime if the input is a string
     def datetime(date)
