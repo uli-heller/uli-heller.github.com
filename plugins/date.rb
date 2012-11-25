@@ -147,4 +147,11 @@ module Jekyll
       self.data['updated_formatted'] = format_date(self.data['updated'], date_format) if self.data.has_key?('updated')
     end
   end
+
+  module Filters
+    include Octopress::Date
+    def date(date, format)
+      format_date(date, format)
+    end
+  end
 end
