@@ -2,26 +2,30 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://uli-heller.github.com/2004/01/01/daringfireball/</loc>
-        <lastmod>2012-11-25T14:49:17+01:00</lastmod>
+        <lastmod>2012-11-25T15:35:35+01:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/2012/05/18/markdown/</loc>
-        <lastmod>2012-11-25T14:59:23+01:00</lastmod>
+        <lastmod>2012-11-25T15:35:35+01:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/2012/11/24/octopress/</loc>
-        <lastmod>2012-11-25T14:49:17+01:00</lastmod>
+        <lastmod>2012-11-25T15:35:35+01:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/2012/11/24/octopress-21/</loc>
-        <lastmod>2012-11-25T14:49:17+01:00</lastmod>
+        <lastmod>2012-11-25T15:35:35+01:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/archives/</loc>
-        <lastmod>2012-11-25T14:59:23+01:00</lastmod>
+        <lastmod>2012-11-25T15:35:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://uli-heller.github.com/impressum/</loc>
+        <lastmod>2012-11-25T16:35:12+01:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/</loc>
-        <lastmod>2012-11-25T14:59:23+01:00</lastmod>
+        <lastmod>2012-11-25T15:35:35+01:00</lastmod>
     </url>
 </urlset>
