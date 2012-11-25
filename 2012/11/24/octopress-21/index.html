@@ -5,8 +5,8 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Octopress-2.1 - My Octopress Blog</title>
-  <meta name="author" content="Your Name">
+  <title>Octopress-2.1 - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
   <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
 
   
@@ -18,15 +18,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://yoursite.com/2012/11/24/octopress-21/">
+  <link rel="canonical" href="http://uli-heller.github.com/2012/11/24/octopress-21/">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
   
 
 <!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<!--
 <link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+-->
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 
   
 
@@ -36,28 +39,28 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">My Octopress Blog</a></h1>
+  <h1><a href="/">Was ich so treibe...</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>Java, Linux und Groovy</h2>
   
 </hgroup>
 
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
   
 </ul>
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:yoursite.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
   </fieldset>
 </form>
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
-  <li><a href="/archives/">Archives</a></li>
+  <li><a href="/archives/">Archiv</a></li>
 </ul>
 
 </nav>
@@ -98,7 +101,9 @@ Octopress-2.1
   
 
 
-<time datetime="2012-11-24T10:49:00+01:00" pubdate data-updated="true">Nov 24<span>th</span>, 2012</time>
+
+  
+<time datetime="2012-11-24T10:49:00+01:00" pubdate data-updated="true">24. November 2012</time>
          &bull; <a rel="bookmark" href="/2012/11/24/octopress-21/">Permalink</a>
       </p>
     
@@ -174,12 +179,17 @@ Octopress-2.1
 <!--end-escape-->
 
 
-<p>Hier meine ersten Eindrücke:
-* Code-Blöcke verwenden nun weißen Hintergrund, was für mich deutlich lesbarer und ansprechender aussieht
-* Blog-Einträge mit <code>published: false</code> werden nicht veröffentlicht, in 2.0 werden alle Blog-Einträge veröffentlicht
-* Bei RVM wird Ruby-1.9.2 "angezogen", es funktioniert aber auch mit 1.9.3
-* Die Blog-Kategorien werden nicht angezeigt
-* Beim Drücken auf "Blog" erscheint in der Leiste rechts keine Liste der Blog-Einträge</p>
+<p>Hier meine ersten Eindrücke:</p>
+
+<ul>
+<li>Code-Blöcke verwenden nun weißen Hintergrund, was für mich deutlich lesbarer und ansprechender aussieht</li>
+<li>Blog-Einträge mit <code>published: false</code> werden nicht veröffentlicht, in 2.0 werden alle Blog-Einträge veröffentlicht</li>
+<li>Bei RVM wird Ruby-1.9.2 "angezogen", es funktioniert aber auch mit 1.9.3</li>
+<li>Beim Drücken auf "Blog" erscheint in der Leiste rechts keine Liste der Blog-Einträge - source/_includes/sidebars/blog_index_default.html</li>
+<li>Bei Überschriften werden die ersten Buchstaben immer groß geschrieben (also: So Eine Überschrift) - _config.yml, titlecase</li>
+<li>Datumsangaben erfolgen in Englisch (wie bei 2.0) - etwas kompliziert zu ändern</li>
+</ul>
+
 
 <!--escape-->
 
@@ -310,6 +320,8 @@ Octopress-2.1
 
 <h2>Einstellungen anpassen</h2>
 
+<h3>Grundeinstellungen</h3>
+
 <!--escape-->
 
 
@@ -341,6 +353,246 @@ Octopress-2.1
 </span><span class='line'><span class="gi">+author: Uli Heller</span>
 </span><span class='line'> simple_search: http://google.com/search
 </span><span class='line'> description:
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h3>Überschriften - keine Großbuchstaben</h3>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Keine Großbuchstaben in Überschriften - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -49,7 +49,7 @@</span>
+</span><span class='line'> linklog_marker_position: after
+</span><span class='line'> linklog_marker_position_feed: after
+</span><span class='line'> standard_post_marker:
+</span><span class='line'>
+</span><span class='line'><span class="gd">-titlecase: true       # Converts page and post titles to titlecase</span>
+</span><span class='line'><span class="gi">+titlecase: false       # Converts page and post titles to titlecase</span>
+</span><span class='line'>
+</span><span class='line'> # To change the layout&#39;s default sidebar Add a new sidebar source/_includes/sid
+</span><span class='line'> # then make changes below, eg. post_sidebar: your_sidebar.html
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h3>Deutsche Übersetzungen</h3>
+
+<p>Die Ideen sind weitgehend "geklaut" von <a href="http://www.uru.ch/blog/2011/09/12/octopress-oberflaeche-im-schnelldurchgang-auf-deutsch-uebersetzen/">Roger Schärer</a>. In folgenden Dateien sind englische Texte hinterlegt:</p>
+
+<ul>
+<li>_config.yml ... OK</li>
+<li>source/_includes/archive_post.html ... OK</li>
+<li>source/<em>includes/asides/recent_posts.html ... nicht gefunden
+source/</em>includes/sidebars/sections/recent_posts.html</li>
+<li>source/<em>includes/asides/twitter.html .. nicht gefunden
+source/</em>includes/sidebars/sections/twitter.html</li>
+<li>source/_includes/custom/navigation.html</li>
+<li>source/_includes/navigation.html</li>
+<li>source/_includes/post/author.html</li>
+<li>source/_layouts/post.html</li>
+<li>source/_layouts/posts.html ... nicht gefunden</li>
+<li>source/_layouts/page.html ... nicht gefunden</li>
+<li>source/index.html</li>
+<li>source/blog/archives/index.html ... nicht gefunden
+source/archives/index.html</li>
+</ul>
+
+
+<p>Die meisten dieser Änderungen führe ich nicht direkt an den Dateien unterhalb von "source" durch, sondern in meinem Themenverzeichnis ".themes/uli". Von dort kann ich sie dann mittels <code>rake install['uli']</code> aktivieren.</p>
+
+<h3>Deutsche Datumsangaben</h3>
+
+<p>Das grundätzliche Vorgehen kommt von <a href="http://home-server-mind.com/deutsche-lokalisation-in-octopress-seiten/">Marc </a>. Er schreibt allerdings, dass man als Einstellung für das Format "ordinal" verwenden muß. Grund hierfür ist eine Unschönheit in seiner Implementierung der Methode "format_date". Bei meiner Variante kann man auch beliebige andere Einstellungen verwenden. Ich verwende beispielsweise "%d. %B %Y".</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Deutsche Datumsangaben - plugins/date.rb </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -1,5 +1,57 @@</span>
+</span><span class='line'><span class="gi">+# -*- coding: utf-8 -*-</span>
+</span><span class='line'> module Octopress
+</span><span class='line'>   module Date
+</span><span class='line'><span class="gi">+    #Deutsche Lokalisation:</span>
+</span><span class='line'><span class="gi">+    MONTHNAMES_DE = [nil,</span>
+</span><span class='line'><span class="gi">+      &quot;Januar&quot;, &quot;Februar&quot;, &quot;März&quot;, &quot;April&quot;, &quot;Mai&quot;, &quot;Juni&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Juli&quot;, &quot;August&quot;, &quot;September&quot;, &quot;Oktober&quot;, &quot;November&quot;, &quot;Dezember&quot; ]</span>
+</span><span class='line'><span class="gi">+    ABBR_MONTHNAMES_DE = [nil,</span>
+</span><span class='line'><span class="gi">+      &quot;Jan&quot;, &quot;Feb&quot;, &quot;Mär&quot;, &quot;Apr&quot;, &quot;Mai&quot;, &quot;Jun&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Okt&quot;, &quot;Nov&quot;, &quot;Dez&quot; ]</span>
+</span><span class='line'><span class="gi">+    DAYNAMES_DE = [</span>
+</span><span class='line'><span class="gi">+      &quot;Sonntag&quot;, &quot;Montag&quot;, &quot;Dienstag&quot;, &quot;Mittwoch&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Donnerstag&quot;, &quot;Freitag&quot;, &quot;Samstag&quot; ]</span>
+</span><span class='line'><span class="gi">+    ABBR_DAYNAMES_DE = [</span>
+</span><span class='line'><span class="gi">+      &quot;So&quot;, &quot;Mo&quot;, &quot;Di&quot;, &quot;Mi&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Do&quot;, &quot;Fr&quot;, &quot;Sa&quot; ]</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+    # Returns a datetime if the input is a string</span>
+</span><span class='line'><span class="gi">+    def datetime(date)</span>
+</span><span class='line'><span class="gi">+      if date.class == String</span>
+</span><span class='line'><span class="gi">+        date = Time.parse(date)</span>
+</span><span class='line'><span class="gi">+      end</span>
+</span><span class='line'><span class="gi">+      date</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+    # in _config.yml muss stehen: date_format: ordinal </span>
+</span><span class='line'><span class="gi">+    def ordinalize(date)</span>
+</span><span class='line'><span class="gi">+      #**** hier Format bei Bedarf ändern, z.B. %A für ausgeschriebenen Wochent</span>
+</span><span class='line'><span class="gi">+      format_date(date, &quot;%a, %e. %B %Y&quot;) # SA, 10. MÄRZ 2012</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+    # Formats date either as ordinal or by given date format</span>
+</span><span class='line'><span class="gi">+    # Adds %o as ordinal representation of the day</span>
+</span><span class='line'><span class="gi">+    def format_date(date, format)</span>
+</span><span class='line'><span class="gi">+      myformat = format.dup</span>
+</span><span class='line'><span class="gi">+      date = datetime(date)</span>
+</span><span class='line'><span class="gi">+      if format.nil? || format.empty? || format == &quot;ordinal&quot;</span>
+</span><span class='line'><span class="gi">+        date_formatted = ordinalize(date) </span>
+</span><span class='line'><span class="gi">+      else</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%a/, ABBR_DAYNAMES_DE[date.wday])</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%A/, DAYNAMES_DE[date.wday])</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%b/, ABBR_MONTHNAMES_DE[date.mon])</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%B/, MONTHNAMES_DE[date.mon])</span>
+</span><span class='line'><span class="gi">+        date_formatted = date.strftime(myformat)</span>
+</span><span class='line'><span class="gi">+        # date_formatted = date.strftime(format)</span>
+</span><span class='line'><span class="gi">+        # date_formatted.gsub!(/%o/, ordinal(date.strftime(&#39;%e&#39;).to_i))</span>
+</span><span class='line'><span class="gi">+      end</span>
+</span><span class='line'><span class="gi">+      date_formatted #+&quot; ULI:#{date.mon}&quot;</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+  end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+  module DateEn</span>
+</span><span class='line'>
+</span><span class='line'>     # Returns a datetime if the input is a string
+</span><span class='line'>     def datetime(date)
+</span><span class='line'><span class="gu">@@ -95,4 +147,11 @@ module Jekyll</span>
+</span><span class='line'>       self.data[&#39;updated_formatted&#39;] = format_date(self.data[&#39;updated&#39;], date_format) if self.data.has_key?(&#39;updated&#39;)
+</span><span class='line'>     end
+</span><span class='line'>   end
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+  module Filters</span>
+</span><span class='line'><span class="gi">+    include Octopress::Date</span>
+</span><span class='line'><span class="gi">+    def date(date, format)</span>
+</span><span class='line'><span class="gi">+      format_date(date, format)</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+  end</span>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<p>Änderung an _config.yml, damit das Datum so angegeben wird: "25. Dezember 2012"</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Datumsangaben 'TT. Monat JJJJ' - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -13,7 +13,11 @@ description:</span>
+</span><span class='line'> # You can customize the format as defined in
+</span><span class='line'> # http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime
+</span><span class='line'> # Additionally, %o will give you the ordinal representation of the day
+</span><span class='line'><span class="gd">-date_format: &quot;ordinal&quot;</span>
+</span><span class='line'><span class="gi">+#  %d.%m.%Y&quot; -&gt; 25.12.2012</span>
+</span><span class='line'><span class="gi">+#  %d. %B %Y&quot; -&gt; 25. December 2012 (oder 25. Dezember 2012)</span>
+</span><span class='line'><span class="gi">+date_format: &quot;%d. %B %Y&quot;</span>
+</span><span class='line'>
+</span><span class='line'> # RSS / Email (optional) subscription links (change if using something like Fee
+</span><span class='line'> subscribe_rss: /atom.xml
 </span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
@@ -399,7 +651,7 @@ Octopress-2.1
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">Uli Heller</span></span>
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
 
 
 
@@ -413,7 +665,9 @@ Octopress-2.1
   
 
 
-<time datetime="2012-11-24T10:49:00+01:00" pubdate data-updated="true">Nov 24<span>th</span>, 2012</time>
+
+  
+<time datetime="2012-11-25T12:00:00+01:00" class="updated">Updated 25. November 2012</time>
 
 
 <span class="categories">
@@ -443,7 +697,7 @@ Octopress-2.1
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2012/11/24/octopress/" title="Previous Post: Octopress-Installation">&laquo; Octopress-Installation</a>
+        <a class="basic-alignment left" href="/2012/11/24/octopress/" title="Voriger Beitrag: Octopress-Installation">&laquo; Octopress-Installation</a>
       
       
     </p>
@@ -462,7 +716,7 @@ Octopress-2.1
 <aside class="sidebar">
   
     <section>
-  <h1>Recent Posts</h1>
+  <h1>Neueste Beiträge</h1>
   <ul id="recent_posts">
     
       <li class="post">
@@ -471,6 +725,14 @@ Octopress-2.1
     
       <li class="post">
         <a href="/2012/11/24/octopress/">Octopress-Installation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/05/18/markdown/">Markdown-Testdokument</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2004/01/01/daringfireball/">Markdown Syntax (von John Gruber)</a>
       </li>
     
   </ul>
@@ -493,7 +755,7 @@ Octopress-2.1
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Your Name -
+  Copyright &copy; 2012 - Uli Heller -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
