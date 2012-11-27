@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2012-11-26T07:41:53+01:00</updated>
+  <updated>2012-11-27T06:56:16+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,78 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[ASM - BytecodeOutline-Plugin in Eclipse installieren]]></title>
+<link href="http://uli-heller.github.com/2012/11/27/bytecodeoutline/"/>
+<updated>2012-11-27T08:00:00+01:00</updated>
+<id>http://uli-heller.github.com/2012/11/27/bytecodeoutline</id>
+
+      <content type="html"><![CDATA[<h1>BytecodeOutline-Plugin für Eclipse</h1>
+
+<p>Zuerst ein paar Angaben zu meiner Systemumgebung:</p>
+
+<ul>
+<li>Ubuntu-12.04, 64bit</li>
+<li>Eclipse-jee-juno-SR1</li>
+<li><a href="http://forge.ow2.org/projects/asm/">de.loskutov.BytecodeOutline_2.4.0.jar</a></li>
+</ul>
+
+
+<p>Ich benötige das Plugin nur temporär. Es soll nicht permanent in meiner Eclipse-Umgebung verfügbar sein.</p>
+
+<h2>Neue Eclipse-Installation</h2>
+
+<figure class='code'><figcaption><span>Neue Eclipse-Installation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /opt
+</span><span class='line'>gzip -cd <span class="err">&quot;</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/eclipse/eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz |sudo tar xf -
+</span><span class='line'>sudo chown -R uli.uli eclipse
+</span><span class='line'>sudo mv eclipse eclipse-botst
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Test der neuen Eclipse-Installation</h2>
+
+<figure class='code'><figcaption><span>Test der Eclipse-Installation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/opt/eclipse-botst/eclipse &amp;
+</span><span class='line'><span class="c"># Eclipse wird gestartet</span>
+</span><span class='line'><span class="c"># -&gt; wieder stoppen</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Einspielen des Plugins</h2>
+
+<figure class='code'><figcaption><span>Einspielen des Plugins </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Sicherstellen: Eclipse ist gestoppt</span>
+</span><span class='line'><span class="nb">cd</span> /opt/eclipse-botst
+</span><span class='line'>cp <span class="err">&quot;</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Kurztest des Plugins</h2>
+
+<ul>
+<li>Eclipse starten</li>
+<li>Java-Klasse aus einem bestehenden Eclipse-Projekt selektieren</li>
+<li>Window -> Show View -> Other -> Java -> Bytecode</li>
+</ul>
+
+
+<p><img class="" src="http://uli-heller.github.com/images/java/eclipse/bytecode-outline.png" title="'Eclipse mit Bytecode-View'" ></p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2012/11/27/bytecodeoutline/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -1175,6 +1247,8 @@ source/archives/index.html</li>
 </ul>
 
 
+<p>Ein Bild: <img src="http://uli-heller.github.com/images/cc-by-sa-3.0_88x31.png" alt="CC-Icon" /></p>
+
 <h2>Octopress-Erweiterungen</h2>
 
 <h3>Codeblock</h3>
@@ -1202,6 +1276,10 @@ source/archives/index.html</li>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<h3>Bild</h3>
+
+<p><img class="" src="http://uli-heller.github.com/images/cc-by-sa-3.0_88x31.png" title="'CC-Icon'" ></p>
 
 <h2>Tests</h2>
 
