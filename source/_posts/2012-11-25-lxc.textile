@@ -27,11 +27,14 @@ sudo mkfs.btrfs /dev/datavg/lxclv
 
 h3. Partition einbinden
 
-bc. sudo mount /lxc
-sudo rmdir /var/lib/lxc
-sudo ln -s /lxc/lib /var/lib/lxc
-sudo rm -rf /var/cache/lxc
-sudo ln -s /lxc/cache /var/cache/lxc
+bc. sudo -s
+mkdir /lxc
+echo "/dev/datavg/lxclv /lxc btrfs defaults 0 3" >>/etc/fstab
+mount /lxc
+rmdir /var/lib/lxc
+ln -s /lxc/lib /var/lib/lxc
+rm -rf /var/cache/lxc
+ln -s /lxc/cache /var/cache/lxc
 
 h2. Verwendung vom lokalen Apt-Cacher-Ng
 
