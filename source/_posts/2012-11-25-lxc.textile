@@ -4,6 +4,7 @@ author: Uli Heller
 published: false
 title: "LXC"
 date: 2012-11-25 10:49
+updated: 2013-01-10 07:30
 comments: true
 categories: 
 - Linux
@@ -38,7 +39,7 @@ ln -s /lxc/cache /var/cache/lxc
 
 h2. Verwendung vom lokalen Apt-Cacher-Ng
 
-Datei /etc/defauls:lxc editieren:
+Datei /etc/default/lxc editieren:
 
 bc. MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"
 
@@ -129,4 +130,4 @@ h4. Wie übernimmt man einen Container auf ein anderes System?
 
 h2. Links
 
-* https://help.ubuntu.com/12.04/serverguide/lxc.html
+* Ubuntu 12.04 Server Guide: https://help.ubuntu.com/12.04/serverguide/lxc.html
