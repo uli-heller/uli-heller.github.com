@@ -1,0 +1,7 @@
+NginX - Apache
+--------------
+http://unhandledexpression.com/2013/01/25/5-easy-tips-to-accelerate-ssl/
+
+Git
+---
+http://rambaudpierre.fr/blog/linux/2013-01-26-git-tricks-and-tips
