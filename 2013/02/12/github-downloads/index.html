@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Markdown-Testdokument - Was ich so treibe...</title>
+  <title>GitHub - Downloads - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
   <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
 
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.com/2012/05/18/markdown/">
+  <link rel="canonical" href="http://uli-heller.github.com/2013/02/12/github-downloads/">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -85,7 +85,7 @@
   <header>
     <h1 class="entry-title">
 
-Markdown-Testdokument
+GitHub - Downloads
 
 </h1>
 
@@ -105,117 +105,83 @@ Markdown-Testdokument
 
 
   
-<time datetime="2012-05-18T08:00:00+02:00" pubdate data-updated="true">18. Mai 2012</time>
-         &bull; <a rel="bookmark" href="/2012/05/18/markdown/">Permalink</a>
+<time datetime="2013-02-12T08:00:00+01:00" pubdate data-updated="true">12. Februar 2013</time>
+         &bull; <a rel="bookmark" href="/2013/02/12/github-downloads/">Permalink</a>
       </p>
     
   </header>
 
-<div class="entry-content"><h1>Markdown-Testdokument</h1>
+<div class="entry-content"><h1>GitHub - Anlegen eines Download-Bereichs</h1>
 
-<p>Dies ist mein Testdokument für Markdown. Ich packe hier einfach alle denkbaren Konstrukte in Markdown rein, damit ich nicht immer wieder neu suchen muß.</p>
+<p>Ende 2012 sorgte GitHub bei mir für einige Verwirrung, indem
+die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
 
-<p>Quellen:</p>
+<p>Als Notbehelf verwende ich aktuell einfach einen speziellen Zweig namens
+"downloads" und lege dann die runterladbaren Dateien darin ab.</p>
 
-<ul>
-<li><a href="http://daringfireball.net/projects/markdown/">DaringFireball</a> - (besser lesbare lokale <a href="/articles/daringfireball-markdown.html">Kopie</a> davon)</li>
-</ul>
+<h2>Download-Zweig anlegen</h2>
 
-
-<h2>Überschrift</h2>
-
-<h2>Noch eine Überschrift</h2>
-
-<h3>Abschnitt 1</h3>
-
-<h3>Abschnitt 2</h3>
+<p>Den Download-Zweig legt man grob so an:</p>
 
 <ul>
-<li>Eine Liste
-
-<ul>
-<li>Geschachtelte Liste</li>
-</ul>
-</li>
-<li>Formatierungen
-
-<ul>
-<li><em>fett</em></li>
-<li><em>fett</em></li>
-<li><strong>fett</strong></li>
-<li><strong>fett</strong></li>
-<li>Kommando: <code>ls -l</code></li>
-</ul>
-</li>
-<li>Liste mit Code-Block:
-
-<pre><code>  cd /tmp
-  ls
-</code></pre></li>
+<li>Sicherstellen: Alle Dateien sind gespeichert in Git! (mittels: <code>git status</code>)</li>
+<li>Neuen Zweig anlegen und leeren</li>
+<li>README.txt erzeugen mit einer kurzen Beschreibung</li>
+<li>README.txt in Git abspeichern</li>
+<li>Zweig nach GitHub hochschieben</li>
 </ul>
 
-
-<p>Ein Bild: <img src="/images/cc-by-sa-3.0_88x31.png" alt="CC-Icon" /></p>
-
-<h2>Octopress-Erweiterungen</h2>
-
-<h3>Codeblock</h3>
 
 <!--escape-->
 
 
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Here's an example .rvmrc file. </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
-
-
-<p>Nach gegenwärtigem Kenntnisstand kann so ein Codeblock nicht Bestandteil einer Liste sein! (Octopress-2.0 und 2.1)</p>
-
-<h3>Datei</h3>
-
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Beispiel.java</span><a href='/downloads/code/Beispiel.java' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Download-Zweig anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Beispiel</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>     <span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;Dies ist ein Beispiel&quot;</span><span class="o">;</span>
-</span><span class='line'>     <span class="k">return</span> <span class="n">s</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout master
+</span><span class='line'><span class="nv">$ </span>git status
+</span><span class='line'><span class="c"># On branch master</span>
+</span><span class='line'>nothing to commit, working directory clean
+</span><span class='line'><span class="nv">$ </span>git checkout --orphan downloads
+</span><span class='line'><span class="nv">$ </span>git rm -rf .
+</span><span class='line'><span class="nv">$ </span>jmacs README.txt <span class="c"># Enter description of the branch</span>
+</span><span class='line'><span class="nv">$ </span>git add README.txt
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Created branch: downloads&quot;</span>
+</span><span class='line'><span class="nv">$ </span>git push --set-upstream origin downloads
+</span><span class='line'><span class="nv">$ </span>git checkout master
 </span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
 <!--end-escape-->
 
 
-<h3>Bild</h3>
-
-<p><img class="" src="/images/cc-by-sa-3.0_88x31.png" title="'CC-Icon'" ></p>
-
-<h2>Tests</h2>
-
-<h3>Liste mit Codeblock</h3>
-
-<ul>
-<li>Liste</li>
-<li>mit Codeblock</li>
-</ul>
-
+<h2>Dateien ablegen</h2>
 
 <!--escape-->
 
 
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Here's an example .rvmrc file. </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Dateien ablegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout downloads
+</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.tar.xz .
+</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.zip .
+</span><span class='line'><span class="nv">$ </span>git add my-project-0.1-bin.tar.xz my-project-0.1-bin.zip
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Added downloads of version 0.1&quot;</span> .
+</span><span class='line'><span class="nv">$ </span>git push <span class="c"># might take some time depending on your internet connection bandwidth</span>
+</span><span class='line'><span class="nv">$ </span>git checkout master <span class="c"># switch back to master</span>
 </span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
@@ -247,12 +213,12 @@ Markdown-Testdokument
 
 
   
-<time datetime="2012-11-27T07:00:00+01:00" class="updated">Updated 27. November 2012</time>
+<time datetime="2013-02-14T08:00:00+01:00" class="updated">Updated 14. Februar 2013</time>
 
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/blog/'>Blog</a>, <a class='category' href='/blog/categories/markdown/'>Markdown</a>, <a class='category' href='/blog/categories/octopress/'>Octopress</a>
+    <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/github/'>GitHub</a>
   
 </span>
 
@@ -277,8 +243,10 @@ Markdown-Testdokument
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/2013/01/11/redmine-rails-update/" title="Voriger Beitrag: Rails-2.3.15">&laquo; Rails-2.3.15</a>
       
-        <a class="basic-alignment right" href="/2012/11/24/octopress/" title="Nächster Beitrag: Octopress-Installation">Octopress-Installation &raquo;</a>
+      
+        <a class="basic-alignment right" href="/2013/02/14/redmine-rails-update/" title="Nächster Beitrag: Rails-2.3.17">Rails-2.3.17 &raquo;</a>
       
     </p>
   </footer>
