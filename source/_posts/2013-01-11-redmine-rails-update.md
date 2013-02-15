@@ -2,8 +2,9 @@
 layout: post
 author: Uli Heller
 published: true
-title: "Rails-Update für Redmine-1.2"
+title: "Rails-2.3.15"
 date: 2013-01-11 07:00
+updated: 2013-02-14 06:10
 comments: true
 categories: 
 - Linux
