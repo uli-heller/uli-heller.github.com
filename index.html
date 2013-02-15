@@ -86,6 +86,244 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/02/15/quilt/">Patchverwaltung mit Quilt</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-02-15T18:00:00+01:00" pubdate data-updated="true">15. Februar 2013</time>
+         &bull; <a rel="bookmark" href="/2013/02/15/quilt/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Ubuntu-Pakete aktualisieren - Patchverwaltung mit Quilt</h1>
+
+<p>Heute hatte ich die Idee, eine neue Version von NGINX zu erzeugen.
+Grob sollte es nach diesem Muster klappen:</p>
+
+<figure class='code'><figcaption><span>Paket aktualisieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Quellen zum Ubuntu-Paket runterladen</span>
+</span><span class='line'>apt-get <span class="nb">source </span>nginx
+</span><span class='line'><span class="c"># Aktuelle Nginx-Quellen runterladen</span>
+</span><span class='line'>wget -c http://nginx.org/download/nginx-1.2.7.tar.gz
+</span><span class='line'><span class="c"># Paket aktualisieren</span>
+</span><span class='line'><span class="nb">cd </span>nginx-1.1.19
+</span><span class='line'>uupdate -u ../nginx-1.2.7.tar.gz
+</span><span class='line'><span class="nb">cd</span> ..
+</span><span class='line'><span class="c"># Paket neu erzeugen</span>
+</span><span class='line'><span class="nb">cd </span>nginx-1.2.7
+</span><span class='line'>dpkg-buildpackage
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Danach sollten die neuen Paketdateien bereit zur Installation sein.</p>
+
+<h2>Fatales Problem</h2>
+
+<p>Leider klappt&#8217;s nicht, es gibt fatale Fehlermeldungen:</p>
+
+<figure class='code'><figcaption><span>Fatale Fehler bei der Paketerzeugung </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli@ubuntu-120464:/build/nginx/nginx-1.2.7<span class="nv">$ </span>dpkg-buildpackage
+</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2 -fstack-protector --param<span class="o">=</span>ssp-buffer-size<span class="o">=</span>4 -Wformat -Wformat-security
+</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CPPFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -D_FORTIFY_SOURCE<span class="o">=</span>2
+</span><span class='line'>...
+</span><span class='line'> dpkg-source -b nginx-1.2.7
+</span><span class='line'>dpkg-source: Information: Quellformat »3.0 <span class="o">(</span>quilt<span class="o">)</span>« wird verwendet
+</span><span class='line'>dpkg-source: Information: nginx wird unter Benutzung des existierenden ./nginx_1.2.7.orig.tar.gz gebaut
+</span><span class='line'>patching file src/http/modules/perl/Makefile.PL
+</span><span class='line'>Hunk <span class="c">#2 FAILED at 14.</span>
+</span><span class='line'>1 out of 2 hunks FAILED -- saving rejects to file src/http/modules/perl/Makefile.PL.rej
+</span><span class='line'>dpkg-source: Fehler: Fehler-Exitstatus von <span class="nv">LC_ALL</span><span class="o">=</span>C patch -t -F 0 -N -p1 -u -V never -g0 -E -b -B .pc/perl-use-dpkg-buildflags.patch/ &lt; nginx-1.2.7.orig.OjasVr/debian/patches/perl-use-dpkg-buildflags.patch war 1
+</span><span class='line'>dpkg-buildpackage: Fehler: Fehler-Exitstatus von dpkg-source -b nginx-1.2.7 war 2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Korrektur</h2>
+
+<p>In der Fehlermeldung erkennt man den Hinweis auf das Werkzeug QUILT.
+Dieses verwaltet die Anpassungsdateien (patches) und kann auch zur Korrektur
+der fehlerhaften Anpassungen verwendet werden.</p>
+
+<p>Hier der Korrekturablauf:</p>
+
+<figure class='code'><figcaption><span>Patch aktualisieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">export </span><span class="nv">QUILT_PATCHES</span><span class="o">=</span>debian/patches
+</span><span class='line'>quilt push -f <span class="c"># ... eigentlich hätte ich hier einen Fehler erwartet,</span>
+</span><span class='line'><span class="c">#  stattdessen erscheint eine Meldung mit &quot;succeeded with fuzz...&quot;</span>
+</span><span class='line'>quilt refresh
+</span><span class='line'>quilt pop -a
+</span><span class='line'>dpkg-buildpackage
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nun läuft die Erzeugung durch, DEB-Dateien werden erstellt.</p>
+
+<h2>Notizen</h2>
+
+<h3>Diverse Befehle</h3>
+
+<ul>
+<li><code>sudo apt-get install devscripts</code></li>
+<li><code>sudo apt-get build-dep nginx</code></li>
+</ul>
+
+
+<h3>Protokoll</h3>
+
+<figure class='code'><figcaption><span>Protokoll: Fehler und Korrektur </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>dpkg-buildpackage
+</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2 -fstack-protector --param<span class="o">=</span>ssp-buffer-size<span class="o">=</span>4 -Wformat -Wformat-security
+</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CPPFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -D_FORTIFY_SOURCE<span class="o">=</span>2
+</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CXXFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2 -fstack-protector --param<span class="o">=</span>ssp-buffer-size<span class="o">=</span>4 -Wformat -Wformat-security
+</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>FFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2
+</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>LDFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -Wl,-Bsymbolic-functions -Wl,-z,relro
+</span><span class='line'>dpkg-buildpackage: <span class="nb">source </span>package nginx
+</span><span class='line'>dpkg-buildpackage: <span class="nb">source </span>version 1.2.7-0dp01~precise1
+</span><span class='line'>dpkg-buildpackage: <span class="nb">source </span>changed by Uli Heller &lt;uli.heller@daemons-point.com&gt;
+</span><span class='line'>dpkg-buildpackage: host architecture i386
+</span><span class='line'> dpkg-source --before-build nginx-1.2.7
+</span><span class='line'> fakeroot debian/rules clean
+</span><span class='line'>dh_testdir
+</span><span class='line'>dh_testroot
+</span><span class='line'>rm -f build-stamp
+</span><span class='line'>rm -f config.sub config.guess
+</span><span class='line'>dh_clean
+</span><span class='line'>rm -rf /build/nginx/nginx-1.2.7/debian/modules/naxsi
+</span><span class='line'>rm -rf /build/nginx/nginx-1.2.7/debian/build-*
+</span><span class='line'> dpkg-source -b nginx-1.2.7
+</span><span class='line'>dpkg-source: info: using <span class="nb">source </span>format <span class="sb">`</span>3.0 <span class="o">(</span>quilt<span class="o">)</span><span class="err">&#39;</span>
+</span><span class='line'>dpkg-source: info: building nginx using existing ./nginx_1.2.7.orig.tar.gz
+</span><span class='line'>patching file src/http/modules/perl/Makefile.PL
+</span><span class='line'>Hunk <span class="c">#2 FAILED at 14.</span>
+</span><span class='line'>1 out of 2 hunks FAILED -- saving rejects to file src/http/modules/perl/Makefile.PL.rej
+</span><span class='line'>dpkg-source: error: <span class="nv">LC_ALL</span><span class="o">=</span>C patch -t -F 0 -N -p1 -u -V never -g0 -E -b -B .pc/perl-use-dpkg-buildflags.patch/ &lt; nginx-1.2.7.orig.G94ZuW/debian/patches/perl-use-dpkg-buildflags.patch gave error <span class="nb">exit </span>status 1
+</span><span class='line'>dpkg-buildpackage: error: dpkg-source -b nginx-1.2.7 gave error <span class="nb">exit </span>status 2
+</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span><span class="nb">export </span><span class="nv">QUILT_PATCHES</span><span class="o">=</span>debian/patches
+</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>quilt push -f
+</span><span class='line'>Applying patch perl-use-dpkg-buildflags.patch
+</span><span class='line'>patching file src/http/modules/perl/Makefile.PL
+</span><span class='line'>Hunk <span class="c">#2 succeeded at 14 with fuzz 1.</span>
+</span><span class='line'>
+</span><span class='line'>Now at patch perl-use-dpkg-buildflags.patch
+</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>quilt refresh
+</span><span class='line'>Refreshed patch perl-use-dpkg-buildflags.patch
+</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>quilt pop -a
+</span><span class='line'>Removing patch perl-use-dpkg-buildflags.patch
+</span><span class='line'>Restoring src/http/modules/perl/Makefile.PL
+</span><span class='line'>
+</span><span class='line'>No patches applied
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/02/14/redmine-rails-update/">Rails-2.3.17</a>
 
 </h1>
@@ -2160,6 +2398,10 @@ source/archives/index.html</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/02/15/quilt/">Patchverwaltung mit Quilt</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/02/14/redmine-rails-update/">Rails-2.3.17</a>
       </li>
     
@@ -2173,10 +2415,6 @@ source/archives/index.html</li>
     
       <li class="post">
         <a href="/2012/11/30/wsgen/">WSGEN - Wie man&#8217;s mit Interfaces macht</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/11/27/bytecodeoutline/">ASM - BytecodeOutline-Plugin in Eclipse installieren</a>
       </li>
     
   </ul>
