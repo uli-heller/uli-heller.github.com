@@ -1,0 +1,498 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Hetzner-Mailserver - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+  <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/articles/hetzner-mailserver.html">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  
+
+<!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<!--
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+-->
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+  
+
+   
+  <link href="/octopress-favicon.png" rel="icon">
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Java, Linux und Groovy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+
+
+
+
+
+
+
+
+
+
+
+<article class="hentry " role="article">
+  
+  <header>
+    <h1 class="entry-title">
+
+Hetzner-Mailserver
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-02-19T07:00:00+01:00" pubdate data-updated="true">19. Februar 2013</time>
+         &bull; <a rel="bookmark" href="/articles/hetzner-mailserver.html">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Aufsetzen des Hetzner-Mailservers</h1>
+
+<h2>Grundinstallation und -konfiguration</h2>
+
+<ul>
+<li>Anmelden am Robot</li>
+<li>Ubuntu-12.04 64bit</li>
+<li>Anmelden via SSH: root/xxxxx</li>
+<li>Einspielen der SSH-Schlüssel</li>
+<li>Test: Klappt das Anmelden via SSH ohne Kennworteingabe? Ja!</li>
+</ul>
+
+
+<h2>Sichtung der APT-Schlüssel</h2>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Paket aktualisieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># apt-key list</span>
+</span><span class='line'>/etc/apt/trusted.gpg
+</span><span class='line'>--------------------
+</span><span class='line'>pub   1024D/437D05B5 2004-09-12
+</span><span class='line'>uid                  Ubuntu Archive Automatic Signing Key &lt;ftpmaster@ubuntu.com&gt;
+</span><span class='line'>sub   2048g/79164387 2004-09-12
+</span><span class='line'>
+</span><span class='line'>pub   1024D/FBB75451 2004-12-30
+</span><span class='line'>uid                  Ubuntu CD Image Automatic Signing Key &lt;cdimage@ubuntu.com&gt;
+</span><span class='line'>
+</span><span class='line'>pub   4096R/C0B21F32 2012-05-11
+</span><span class='line'>uid                  Ubuntu Archive Automatic Signing Key <span class="o">(</span>2012<span class="o">)</span> &lt;ftpmaster@ubuntu.com&gt;
+</span><span class='line'>
+</span><span class='line'>pub   4096R/EFE21092 2012-05-11
+</span><span class='line'>uid                  Ubuntu CD Image Automatic Signing Key <span class="o">(</span>2012<span class="o">)</span> &lt;cdimage@ubuntu.com&gt;
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h2>Zusatzprogramme installieren und Systemaktualisierung</h2>
+
+<p>Zunächst installiere ich einige Zusatzprogramme:</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Zusatzprogramme installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install joe
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<p>Dann eine Aktualisierung des Komplettsystems gefolgt von einem Neustart:</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Systemaktualisierung </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
+</span><span class='line'>apt-get dist-upgrade
+</span><span class='line'>reboot
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h2>Mailbenutzer anlegen</h2>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Mailbenutzer anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>useradd -m dpmail
+</span><span class='line'>id dpmail
+</span><span class='line'> <span class="nv">uid</span><span class="o">=</span>1000<span class="o">(</span>dpmail<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>1000<span class="o">(</span>dpmail<span class="o">)</span> <span class="nv">groups</span><span class="o">=</span>1000<span class="o">(</span>dpmail<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h2>Exim installieren und konfigurieren</h2>
+
+<p>Exim installieren:</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Exim installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install exim4-daemon-heavy
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<p>Exim konfigurieren:</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Exim konfigurieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>dpkg-reconfigure exim4-config
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<p>Zur Durchführung der Konfiguration müssen einige Fragen beantwortet werden:</p>
+
+<ul>
+<li>General type of mail configuration:
+internet site; mail is sent and received directly using SMTP</li>
+<li>System mail name:
+daemons-point.com</li>
+<li>IP-addresses to listen on for incoming SMTP connections:
+*</li>
+<li>Other destinations for which mail is accepted:
+daemons-point.com,daspersonal.com</li>
+<li>Domains to relay mail for:
+LEER</li>
+<li>Machines to relay mail for:
+LEER</li>
+<li>Keep number of DNS-queries minimal (Dial-on-Demand)?
+No</li>
+<li>Delivery method for local mail:
+mbox format in /var/mail/</li>
+<li>Split configuration into small files?
+No</li>
+</ul>
+
+
+<p>Danach:</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Exim-Konfiguration abschliessen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>cp .../exim4.conf /etc/exim4/exim4.conf
+</span><span class='line'>chown -R Debian-exim.Debian-exim /var/log/exim4
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h2>Dateilisten</h2>
+
+<p>Diese Dateien wurden geändert:</p>
+
+<ul>
+<li>/root/.ssh/authorized_keys</li>
+<li>/etc/apt/sources.list</li>
+<li>/etc/apt/sources.list.hetzner</li>
+<li>/etc/apt/sources.list.120464</li>
+<li>/etc/exim4/exim4.conf</li>
+<li>/etc/exim4/blocked-recipients</li>
+<li>/etc/hosts</li>
+<li>/etc/hostname</li>
+<li>/home/dpmail/.ssh/authorized_keys</li>
+</ul>
+
+
+<h2>Probleme</h2>
+
+<h3>Programmaktualisierung bricht ab: WARNING: The following packages cannot be authenticated!</h3>
+
+<p>Problem:</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Programmaktualisierung reparieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install joe
+</span><span class='line'>Reading package lists... Done
+</span><span class='line'>Building dependency tree
+</span><span class='line'>Reading state information... Done
+</span><span class='line'>The following NEW packages will be installed:
+</span><span class='line'>  joe
+</span><span class='line'>0 upgraded, 1 newly installed, 0 to remove and 3 not upgraded.
+</span><span class='line'>Need to get 481 kB of archives.
+</span><span class='line'>After this operation, 1,340 kB of additional disk space will be used.
+</span><span class='line'>WARNING: The following packages cannot be authenticated!
+</span><span class='line'>  joe
+</span><span class='line'>Install these packages without verification <span class="o">[</span>y/N<span class="o">]</span>?
+</span><span class='line'>E: Some packages could not be authenticated
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<p>Korrektur:</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Programmaktualisierung reparieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /etc/apt
+</span><span class='line'>cp sources.list sources.list.hetzner
+</span><span class='line'>cp ubuntu120464:/etc/apt/sources.list sources.list
+</span><span class='line'>apt-get update
+</span><span class='line'>apt-get install joe
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-02-19T07:00:00+01:00" class="updated">Updated 19. Februar 2013</time>
+
+
+      
+
+    </p>
+    
+      <div class="sharing">
+  
+    
+      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    
+  
+  
+  
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/02/20/prercise-hardware-enablement/">Neuer Kernel für Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/15/quilt/">Patchverwaltung mit Quilt</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/14/redmine-rails-update/">Rails-2.3.17</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/12/github-downloads/">GitHub - Downloads</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/01/11/redmine-rails-update/">Rails-2.3.15</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+
+
+
+
+
+</body>
+</html>

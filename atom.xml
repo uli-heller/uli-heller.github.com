@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-02-15T19:29:34+01:00</updated>
+  <updated>2013-02-20T07:22:08+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Neuer Kernel für Ubuntu-12.04]]></title>
+<link href="http://uli-heller.github.com/2013/02/20/prercise-hardware-enablement/"/>
+<updated>2013-02-20T07:00:00+01:00</updated>
+<id>http://uli-heller.github.com/2013/02/20/prercise-hardware-enablement</id>
+
+      <content type="html"><![CDATA[<h1>Kommt ein Kernel geflogen &#8230; Hardware Enablement Stack für Ubuntu-12.04</h1>
+
+<p>Eben hab&#8217; ich mir die Zeit genommen und die
+<a href="https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes/UbuntuDesktop">Ankündigung für Ubuntu-12.04.2</a>
+ein wenig näher angeschaut. Offenbar gibt&#8217;s im Zuge des
+<a href="https://wiki.ubuntu.com/Kernel/LTSEnablementStack">LTS Enablement Stacks</a> einen
+neuen Kernel (3.5 statt 3.2). Dieser soll die Verwendung von neueren Geräten
+ermöglichen.</p>
+
+<p>Eigentlich bin ich mit dem Alt-Kernel recht zufrieden. Alle meine
+Rechner laufen - sogar der Problemfall eines AMD-basierten Samsung-Notebooks.
+Bei diesem mußte ich allerdings den Grafiktreiber selbst kompilieren, der bei
+12.04 ausgelieferte Treiber unterstützt die verbaute Radeon-Karte nicht.</p>
+
+<p>Trotzdem habe ich vor, den neuen Kernel einfach mal auszuprobieren.
+Mit etwas Glück läuft er ja genauso gut wie der alte und eventuell
+bringt der LTS Enablement Stack ja auch einen funktionierenden
+Grafiktreiber für das Samsung-Notebook mit und erspart mit so etwas Arbeit.</p>
+
+<p>Eingespielt werden die ganzen Pakete so:</p>
+
+<p><code>sh
+sudo apt-get install linux-generic-lts-quantal xserver-xorg-lts-quantal
+</code></p>
+
+<p>Da ich eine langsame Internetanbindung habe, dauert das ewig.
+Danach habe ich den Rechner einfach neu gestartet und siehe da: Alles
+funktioniert noch genauso, wie zuvor. Sogar VirtualBox läuft.</p>
+
+<p>Jetzt sammle ich noch etwas Mut, dann spiele ich&#8217;s auch auf dem
+Samsung-Notebook ein.</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/02/20/prercise-hardware-enablement/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -100,9 +145,11 @@ der fehlerhaften Anpassungen verwendet werden.</p>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">export </span><span class="nv">QUILT_PATCHES</span><span class="o">=</span>debian/patches
 </span><span class='line'>quilt push -f <span class="c"># ... eigentlich hätte ich hier einen Fehler erwartet,</span>
 </span><span class='line'><span class="c">#  stattdessen erscheint eine Meldung mit &quot;succeeded with fuzz...&quot;</span>
+</span><span class='line'><span class="c">#  Glück gehabt!</span>
 </span><span class='line'>quilt refresh
 </span><span class='line'>quilt pop -a
 </span><span class='line'>dpkg-buildpackage
