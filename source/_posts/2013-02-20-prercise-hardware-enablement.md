@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Neuer Kernel für Ubuntu-12.04"
 date: 2013-02-20 07:00
-updated: 2013-02-20 07:00
+updated: 2013-02-24 10:00
 comments: true
 categories: 
 - Linux
@@ -45,3 +45,12 @@ funktioniert noch genauso, wie zuvor. Sogar VirtualBox läuft.
 
 Jetzt sammle ich noch etwas Mut, dann spiele ich's auch auf dem 
 Samsung-Notebook ein.
+
+Nachtrag
+--------
+
+Leider gibt's jetzt doch ein paar negative Auffälligkeiten:
+
+* Nach dem "Aufwachen" aus "Bereitschaft" laufen die Lüfter auf Höchstdrehzahl
+* Starten mit dem alten 3.2-er-Kernel funktioniert nicht mehr - man sieht
+  scheinbar die Konsole mit Mauszeiger und kann keine Eingaben vornehmen
