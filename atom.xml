@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-02-27T23:35:05+01:00</updated>
+  <updated>2013-02-27T23:36:22+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -44,7 +44,7 @@ Grafiktreiber für das Samsung-Notebook mit und erspart mit so etwas Arbeit.</p>
 
 <p>Eingespielt werden die ganzen Pakete so:</p>
 
-<p><code>sh
+<p><code>
 sudo apt-get install linux-generic-lts-quantal xserver-xorg-lts-quantal
 </code></p>
 
