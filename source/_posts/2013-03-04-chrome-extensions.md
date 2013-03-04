@@ -74,3 +74,4 @@ Links:
 
 * [Download Chrome extension from other browser (for offline installation)](http://blog.gerardin.info/archives/763)
 * [Ultimate User Agent Switcher, URL sniffer](https://chrome.google.com/webstore/detail/ultimate-user-agent-switc/ljfpjnehmoiabkefmnjegmpdddgcdnpo)
+* [Chrome Extension Downloader](http://chrome-extension-downloader.com/)
