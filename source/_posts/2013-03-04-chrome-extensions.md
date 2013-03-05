@@ -40,6 +40,24 @@ offenbar separat geblockt.
 Also: Wir brauchen eine Möglichkeit, Erweiterungen für Google-Chrome
 ohne Zugriff auf Google-Play zu installieren.
 
+Verpacken und Entpacken
+-----------------------
+
+Erste Versuche laufen so:
+
+* Rechner A:
+    * Wechseln in's Erweiterungsgrundverzeichnis
+    * Verpacken einer installierten Erweiterung
+* Rechner B:
+    * Wechseln in's Erweiterungsgrundverzeichnis
+    * Entpacken einer installierten Erweiterung
+
+Leider funktioniert dies nicht. Google-Chrome auf Rechner B scheint
+zu erkennen, dass ihm eine Erweiterung untergeschoben werden soll.
+Sie wird ignoriert und gelöscht beim Start von Google-Chrome.
+
+
+
 So geht's:
 
 * Verpacken
@@ -75,3 +93,4 @@ Links:
 * [Download Chrome extension from other browser (for offline installation)](http://blog.gerardin.info/archives/763)
 * [Ultimate User Agent Switcher, URL sniffer](https://chrome.google.com/webstore/detail/ultimate-user-agent-switc/ljfpjnehmoiabkefmnjegmpdddgcdnpo)
 * [Chrome Extension Downloader](http://chrome-extension-downloader.com/)
+* [Downloading the CRX of a Chrome extension](http://thameera.wordpress.com/2011/10/29/downloading-the-crx-of-a-chrome-extension/)
