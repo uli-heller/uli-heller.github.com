@@ -40,8 +40,8 @@ offenbar separat geblockt.
 Also: Wir brauchen eine Möglichkeit, Erweiterungen für Google-Chrome
 ohne Zugriff auf Google-Play zu installieren.
 
-Verpacken und Entpacken
------------------------
+Verpacken und Entpacken - geht leider nicht
+-------------------------------------------
 
 Erste Versuche laufen so:
 
@@ -56,7 +56,14 @@ Leider funktioniert dies nicht. Google-Chrome auf Rechner B scheint
 zu erkennen, dass ihm eine Erweiterung untergeschoben werden soll.
 Sie wird ignoriert und gelöscht beim Start von Google-Chrome.
 
+Runterladen mittels Skript
+--------------------------
 
+* Ermitteln der Applikations-Id
+* `./get-crx.sh ljfpjnehmoiabkefmnjegmpdddgcdnpo`: Ultimate-User-Agent-Switcher,-URL-sniffer_v0.9.2.2.crx
+* `./get-crx.sh loljledaigphbcpfhfmgopdkppkifgno`: Lazarus:_Form_Recovery-3.0.5.crx
+
+Das Skript verwendet den Json-Parser [JSON.SH](https://github.com/dominictarr/JSON.sh/blob/master/JSON.sh)
 
 So geht's:
 
@@ -64,7 +71,7 @@ So geht's:
     1. Sichtung der Erweiterung auf Google-Play: Der letzte Teil der Url ist die
        ID der Erweiterung
         * Ultimate User Agent Switcher, URL sniffer
-        * https://chrome.google.com/webstore/detail/ultimate-user-agent-switc/lfpjnehmoiabkefmnjegmpdddgcdnpo
+        * https://chrome.google.com/webstore/detail/ultimate-user-agent-switc/ljfpjnehmoiabkefmnjegmpdddgcdnpo
         * ID=ljfpjnehmoiabkefmnjegmpdddgcdnpo
     2. Wechseln in's Erweiterungsgrundverzeichnis:
        `cd ~/.config/google-chrome/Default/Extensions`
