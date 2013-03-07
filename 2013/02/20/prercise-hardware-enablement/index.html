@@ -125,6 +125,9 @@ Rechner laufen - sogar der Problemfall eines AMD-basierten Samsung-Notebooks.
 Bei diesem mußte ich allerdings den Grafiktreiber selbst kompilieren, der bei
 12.04 ausgelieferte Treiber unterstützt die verbaute Radeon-Karte nicht.</p>
 
+<!-- more -->
+
+
 <p>Trotzdem habe ich vor, den neuen Kernel einfach mal auszuprobieren.
 Mit etwas Glück läuft er ja genauso gut wie der alte und eventuell
 bringt der LTS Enablement Stack ja auch einen funktionierenden
@@ -132,7 +135,7 @@ Grafiktreiber für das Samsung-Notebook mit und erspart mit so etwas Arbeit.</p>
 
 <p>Eingespielt werden die ganzen Pakete so:</p>
 
-<p><code>
+<p><code>sh
 sudo apt-get install linux-generic-lts-quantal xserver-xorg-lts-quantal
 </code></p>
 
@@ -148,25 +151,11 @@ Samsung-Notebook ein.</p>
 <p>Leider gibt's jetzt doch ein paar negative Auffälligkeiten:</p>
 
 <ul>
-<li>Nach dem "Aufwachen" aus "Bereitschaft" laufen die Lüfter auf Höchstdrehzahl.
-Beobachtet habe ich dies auf meinem HP-Desktop. Mein Sony-Notebook hat
-diese Probleme nicht.</li>
+<li>Nach dem "Aufwachen" aus "Bereitschaft" laufen die Lüfter auf Höchstdrehzahl</li>
 <li>Starten mit dem alten 3.2-er-Kernel funktioniert nicht mehr - man sieht
 scheinbar die Konsole mit Mauszeiger und kann keine Eingaben vornehmen</li>
 </ul>
 
-
-<p>Positiv: Ich habe mich nun getraut, das Samsung-Problem-Notebook mit der
-Aktualisierung zu versehen. Grundsätzlich läuft's damit deutlich besser:</p>
-
-<ul>
-<li>"Bereitschaft" und "Aufwachen" funktioniert tadellos</li>
-<li>Die WLAN-Karte bucht sich nun deutlich schneller in's Netzwerk ein</li>
-<li>Die Akku-Laufzeit ist deutlich länger</li>
-</ul>
-
-
-<p>Negativ bleibt nur die längere Startzeit zu erwähnen, also insgesamt alles gut!</p>
 </div>
 
 
@@ -191,7 +180,7 @@ Aktualisierung zu versehen. Grundsätzlich läuft's damit deutlich besser:</p>
 
 
   
-<time datetime="2013-02-28T23:00:00+01:00" class="updated">Updated 28. Februar 2013</time>
+<time datetime="2013-02-24T10:00:00+01:00" class="updated">Updated 24. Februar 2013</time>
 
 
 <span class="categories">
@@ -224,6 +213,8 @@ Aktualisierung zu versehen. Grundsätzlich läuft's damit deutlich besser:</p>
         <a class="basic-alignment left" href="/2013/02/15/quilt/" title="Voriger Beitrag: Patchverwaltung mit Quilt">&laquo; Patchverwaltung mit Quilt</a>
       
       
+        <a class="basic-alignment right" href="/2013/03/04/chrome-extensions/" title="Nächster Beitrag: Chrome-Erweiterungen - Teil 1/2: CRX-Dateien">Chrome-Erweiterungen - Teil 1/2: CRX-Dateien &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -244,6 +235,10 @@ Aktualisierung zu versehen. Grundsätzlich läuft's damit deutlich besser:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/03/04/chrome-extensions/">Chrome-Erweiterungen - Teil 1/2: CRX-Dateien</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/02/20/prercise-hardware-enablement/">Neuer Kernel für Ubuntu-12.04</a>
       </li>
     
@@ -257,10 +252,6 @@ Aktualisierung zu versehen. Grundsätzlich läuft's damit deutlich besser:</p>
     
       <li class="post">
         <a href="/2013/02/12/github-downloads/">GitHub - Downloads</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/01/11/redmine-rails-update/">Rails-2.3.15</a>
       </li>
     
   </ul>

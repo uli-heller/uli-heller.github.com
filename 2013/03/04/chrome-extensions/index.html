@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Chrome-Erweiterungen - Teil 1/2: CRX-Dateien - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+  <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/2013/03/04/chrome-extensions/">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  
+
+<!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<!--
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+-->
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+  
+
+   
+  <link href="/octopress-favicon.png" rel="icon">
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Java, Linux und Groovy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+
+
+
+
+
+
+
+
+
+
+
+<article class="hentry " role="article">
+  
+  <header>
+    <h1 class="entry-title">
+
+Chrome-Erweiterungen - Teil 1/2: CRX-Dateien
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-03-04T07:00:00+01:00" pubdate data-updated="true">04. März 2013</time>
+         &bull; <a rel="bookmark" href="/2013/03/04/chrome-extensions/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Offline-Installation einer Chrome-Erweiterung - Teil 1: CRX-Dateien herunterladen</h1>
+
+<p>Mein aktueller Lieblingsbrowser ist zur Zeit Google-Chrome. Dumm nur, wenn
+bei manchen Unternehmen der ausgehende Internet-Verkehr so gefiltert wird,
+dass nur manch andere Browser (beispielsweise Internet Explorer) zugelassen
+sind.</p>
+
+<!-- more -->
+
+
+<p>Ein paar Tests zeigen, dann man durch Setzen des "User-Agents" relativ
+einfach auch mit Google-Chrome arbeiten kann. Den "User-Agent" setzt man
+in Google-Chrome auf diese Weise:</p>
+
+<ul>
+<li>Tools - Entwicklertools</li>
+<li>Settings (ganz unten rechts)</li>
+<li>Overrides - User Agent
+
+<ul>
+<li>aktivieren</li>
+<li>gewünschten User-Agent auswählen</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Grundsätzlich funktioniert dies, nur muß man die Einstellungen bei
+jedem Start von Google-Chrome neu durchführen. Zum Glück gibt's ja
+Erweiterungen wie
+<a href="https://chrome.google.com/webstore/detail/ultimate-user-agent-switc/ljfpjnehmoiabkefmnjegmpdddgcdnpo">Ultimate User Agent Switcher, URL sniffer</a>,
+die die Handhabung deutlich verbessern. Leider funktioniert
+der Zugriff auf Google-Play nicht, er wird bei meinem Unternehmen
+offenbar separat geblockt.</p>
+
+<p>Also: Wir brauchen eine Möglichkeit, Erweiterungen für Google-Chrome
+ohne Zugriff auf Google-Play zu installieren.</p>
+
+<h2>Verpacken und Entpacken - geht leider nicht</h2>
+
+<p>Erste Versuche laufen so:</p>
+
+<ul>
+<li>Rechner A:
+
+<ul>
+<li>Wechseln in's Erweiterungsgrundverzeichnis</li>
+<li>Verpacken einer installierten Erweiterung</li>
+</ul>
+</li>
+<li>Rechner B:
+
+<ul>
+<li>Wechseln in's Erweiterungsgrundverzeichnis</li>
+<li>Entpacken einer installierten Erweiterung</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Leider funktioniert dies nicht. Google-Chrome auf Rechner B scheint
+zu erkennen, dass ihm eine Erweiterung untergeschoben werden soll.
+Sie wird ignoriert und gelöscht beim Start von Google-Chrome.</p>
+
+<h2>Runterladen mittels Skript</h2>
+
+<ul>
+<li>Ermitteln der Applikations-Id</li>
+<li><code>./get-crx.sh ljfpjnehmoiabkefmnjegmpdddgcdnpo</code>: Ultimate-User-Agent-Switcher,-URL-sniffer_v0.9.2.2.crx</li>
+<li><code>./get-crx.sh loljledaigphbcpfhfmgopdkppkifgno</code>: Lazarus:_Form_Recovery-3.0.5.crx</li>
+</ul>
+
+
+<p>Das Skript <code>get-crx.sh</code> verwendet intern den Json-Parser
+<a href="https://github.com/dominictarr/JSON.sh/blob/master/JSON.sh">JSON.SH</a></p>
+
+<p>Die beiden Skripte liegen hier:</p>
+
+<ul>
+<li><a href="/downloads/code/get-crx.sh">get-crx.sh</a></li>
+<li><a href="/downloads/code/JSON.sh">JSON.sh</a></li>
+</ul>
+
+
+<p>Einfach beide in einem Verzeichnis ablegen und "ausführbar machen" (bspw. mit <code>chmod +x *.sh</code>),
+dann sollten sie funktionieren. Ach ja: <a href="http://www.gnu.org/software/wget/">wget</a> sollte
+installiert sein...</p>
+
+<h2>Runterladen mittels <a href="http://chrome-extension-downloader.com/">Chrome Extension Downloader</a></h2>
+
+<p><img src="/images/chrome/chrome-extension-downloader.png" alt="ChromeExtensionDownloader" /></p>
+
+<ul>
+<li>Ermitteln der Applikations-Id</li>
+<li>Öffnen von <a href="http://chrome-extension-downloader.com/">Chrome Extension Downloader</a> im Browser</li>
+<li>Applikations-Id eingeben</li>
+<li>"Download extension"</li>
+<li>Das war's</li>
+</ul>
+
+
+<h2>Ermitteln der Applikations-Id</h2>
+
+<ul>
+<li>Browser: [Chrome Web Store]/https://chrome.google.com/webstore/category/extensions?utm_source=chrome-ntp-icon) öffnen</li>
+<li>Gewünschte Erweiterung suchen und Details anzeigen</li>
+<li>Applikations-Id ist nun in der Adresszeile sichtbar (siehe Bildchen)</li>
+</ul>
+
+
+<p><img src="/images/chrome/chrome-application-id-2.png" alt="ChromeWebShop - Applikations-Id" /></p>
+
+<h2>Links:</h2>
+
+<ul>
+<li><a href="http://blog.gerardin.info/archives/763">Download Chrome extension from other browser (for offline installation)</a></li>
+<li><a href="https://chrome.google.com/webstore/detail/ultimate-user-agent-switc/ljfpjnehmoiabkefmnjegmpdddgcdnpo">Ultimate User Agent Switcher, URL sniffer</a></li>
+<li><a href="http://chrome-extension-downloader.com/">Chrome Extension Downloader</a></li>
+<li><a href="http://thameera.wordpress.com/2011/10/29/downloading-the-crx-of-a-chrome-extension/">Downloading the CRX of a Chrome extension</a></li>
+</ul>
+
+
+<h2>Notizen:</h2>
+
+<ul>
+<li>Linux: /home/username/.config/google-chrome/Default/Extensions</li>
+<li>Mac: /Users/username/Library/Application Support/Google/Chrome/Default/Extensions</li>
+<li>Windows 7: C:\Users\username\AppData\Local\Google\Chrome\User Data\Default\Extensions</li>
+<li>Windows XP: C:\Documents and Settings\YourUserName\Local Settings\Application Data\Google\Chrome\User Data\Default</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-03-07T08:00:00+01:00" class="updated">Updated 07. März 2013</time>
+
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/chrome/'>Chrome</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>
+  
+</span>
+
+
+
+      
+
+    </p>
+    
+      <div class="sharing">
+  
+    
+      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    
+  
+  
+  
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/02/20/prercise-hardware-enablement/" title="Voriger Beitrag: Neuer Kernel für Ubuntu-12.04">&laquo; Neuer Kernel für Ubuntu-12.04</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+<section>
+  <h1>Comments</h1>
+  
+
+  
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/03/04/chrome-extensions/">Chrome-Erweiterungen - Teil 1/2: CRX-Dateien</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/20/prercise-hardware-enablement/">Neuer Kernel für Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/15/quilt/">Patchverwaltung mit Quilt</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/14/redmine-rails-update/">Rails-2.3.17</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/02/12/github-downloads/">GitHub - Downloads</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+
+
+
+
+
+</body>
+</html>
