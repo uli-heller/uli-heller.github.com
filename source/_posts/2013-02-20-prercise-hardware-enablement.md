@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Neuer Kernel für Ubuntu-12.04"
 date: 2013-02-20 07:00
-updated: 2013-02-24 10:00
+updated: 2013-02-28 23:00
 comments: true
 categories: 
 - Linux
@@ -37,7 +37,7 @@ Grafiktreiber für das Samsung-Notebook mit und erspart mit so etwas Arbeit.
 
 Eingespielt werden die ganzen Pakete so:
 
-```sh
+```
 sudo apt-get install linux-generic-lts-quantal xserver-xorg-lts-quantal 
 ```
 
@@ -53,6 +53,17 @@ Nachtrag
 
 Leider gibt's jetzt doch ein paar negative Auffälligkeiten:
 
-* Nach dem "Aufwachen" aus "Bereitschaft" laufen die Lüfter auf Höchstdrehzahl
+* Nach dem "Aufwachen" aus "Bereitschaft" laufen die Lüfter auf Höchstdrehzahl.
+  Beobachtet habe ich dies auf meinem HP-Desktop. Mein Sony-Notebook hat
+  diese Probleme nicht.
 * Starten mit dem alten 3.2-er-Kernel funktioniert nicht mehr - man sieht
   scheinbar die Konsole mit Mauszeiger und kann keine Eingaben vornehmen
+
+Positiv: Ich habe mich nun getraut, das Samsung-Problem-Notebook mit der
+Aktualisierung zu versehen. Grundsätzlich läuft's damit deutlich besser:
+
+* "Bereitschaft" und "Aufwachen" funktioniert tadellos
+* Die WLAN-Karte bucht sich nun deutlich schneller in's Netzwerk ein
+* Die Akku-Laufzeit ist deutlich länger
+
+Negativ bleibt nur die längere Startzeit zu erwähnen, also insgesamt alles gut!
