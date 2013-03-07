@@ -19,6 +19,8 @@ bei manchen Unternehmen der ausgehende Internet-Verkehr so gefiltert wird,
 dass nur manch andere Browser (beispielsweise Internet Explorer) zugelassen
 sind.
 
+<!-- more -->
+
 Ein paar Tests zeigen, dann man durch Setzen des "User-Agents" relativ
 einfach auch mit Google-Chrome arbeiten kann. Den "User-Agent" setzt man
 in Google-Chrome auf diese Weise:
@@ -65,6 +67,15 @@ Runterladen mittels Skript
 
 Das Skript `get-crx.sh` verwendet intern den Json-Parser
 [JSON.SH](https://github.com/dominictarr/JSON.sh/blob/master/JSON.sh)
+
+Die beiden Skripte liegen hier:
+
+* [get-crx.sh](/downloads/code/get-crx.sh)
+* [JSON.sh](/downloads/code/JSON.sh)
+
+Einfach beide in einem Verzeichnis ablegen und "ausführbar machen" (bspw. mit `chmod +x *.sh`),
+dann sollten sie funktionieren. Ach ja: [wget](http://www.gnu.org/software/wget/) sollte
+installiert sein...
 
 Runterladen mittels [Chrome Extension Downloader](http://chrome-extension-downloader.com/)
 ------------------------------------------------------------------------------------------
