@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-03-07T08:30:37+01:00</updated>
+  <updated>2013-03-07T21:03:33+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -103,12 +103,15 @@ Sie wird ignoriert und gelöscht beim Start von Google-Chrome.</p>
 
 <ul>
 <li><a href="http://uli-heller.github.com/downloads/code/get-crx.sh">get-crx.sh</a></li>
-<li><a href="http://uli-heller.github.com/downloads/code/JSON.sh">JSON.sh</a></li>
+<li><a href="http://uli-heller.github.com/downloads/code/JSON.sh">JSON.sh</a> (wird nicht separat benötigt)</li>
 </ul>
 
 
-<p>Einfach beide in einem Verzeichnis ablegen und &#8220;ausführbar machen&#8221; (bspw. mit <code>chmod +x *.sh</code>),
-dann sollten sie funktionieren. Ach ja: <a href="http://www.gnu.org/software/wget/">wget</a> sollte
+<p>Einfach <a href="http://uli-heller.github.com/downloads/code/get-crx.sh">get-crx.sh</a>
+in einem Verzeichnis ablegen und &#8220;ausführbar machen&#8221;
+(bspw. mit <code>chmod +x *.sh</code>),
+dann sollte es funktionieren.
+Ach ja: <a href="http://www.gnu.org/software/wget/">wget</a> muß
 installiert sein&#8230;</p>
 
 <h2>Runterladen mittels <a href="http://chrome-extension-downloader.com/">Chrome Extension Downloader</a></h2>
@@ -192,7 +195,7 @@ Grafiktreiber für das Samsung-Notebook mit und erspart mit so etwas Arbeit.</p>
 
 <p>Eingespielt werden die ganzen Pakete so:</p>
 
-<p><code>sh
+<p><code>
 sudo apt-get install linux-generic-lts-quantal xserver-xorg-lts-quantal
 </code></p>
 
@@ -208,11 +211,25 @@ Samsung-Notebook ein.</p>
 <p>Leider gibt&#8217;s jetzt doch ein paar negative Auffälligkeiten:</p>
 
 <ul>
-<li>Nach dem &#8220;Aufwachen&#8221; aus &#8220;Bereitschaft&#8221; laufen die Lüfter auf Höchstdrehzahl</li>
+<li>Nach dem &#8220;Aufwachen&#8221; aus &#8220;Bereitschaft&#8221; laufen die Lüfter auf Höchstdrehzahl.
+Beobachtet habe ich dies auf meinem HP-Desktop. Mein Sony-Notebook hat
+diese Probleme nicht.</li>
 <li>Starten mit dem alten 3.2-er-Kernel funktioniert nicht mehr - man sieht
 scheinbar die Konsole mit Mauszeiger und kann keine Eingaben vornehmen</li>
 </ul>
 
+
+<p>Positiv: Ich habe mich nun getraut, das Samsung-Problem-Notebook mit der
+Aktualisierung zu versehen. Grundsätzlich läuft&#8217;s damit deutlich besser:</p>
+
+<ul>
+<li>&#8220;Bereitschaft&#8221; und &#8220;Aufwachen&#8221; funktioniert tadellos</li>
+<li>Die WLAN-Karte bucht sich nun deutlich schneller in&#8217;s Netzwerk ein</li>
+<li>Die Akku-Laufzeit ist deutlich länger</li>
+</ul>
+
+
+<p>Negativ bleibt nur die längere Startzeit zu erwähnen, also insgesamt alles gut!</p>
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/02/20/prercise-hardware-enablement/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
