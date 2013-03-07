@@ -28,6 +28,8 @@ Rechner laufen - sogar der Problemfall eines AMD-basierten Samsung-Notebooks.
 Bei diesem mußte ich allerdings den Grafiktreiber selbst kompilieren, der bei
 12.04 ausgelieferte Treiber unterstützt die verbaute Radeon-Karte nicht.
 
+<!-- more -->
+
 Trotzdem habe ich vor, den neuen Kernel einfach mal auszuprobieren.
 Mit etwas Glück läuft er ja genauso gut wie der alte und eventuell
 bringt der LTS Enablement Stack ja auch einen funktionierenden
