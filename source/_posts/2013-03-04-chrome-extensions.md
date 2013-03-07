@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Chrome-Erweiterungen - Teil 1/2: CRX-Dateien"
 date: 2013-03-04 07:00
-updated: 2013-03-07 08:00
+updated: 2013-03-07 21:00
 comments: true
 categories: 
 - Chrome
@@ -71,10 +71,13 @@ Das Skript `get-crx.sh` verwendet intern den Json-Parser
 Die beiden Skripte liegen hier:
 
 * [get-crx.sh](/downloads/code/get-crx.sh)
-* [JSON.sh](/downloads/code/JSON.sh)
+* [JSON.sh](/downloads/code/JSON.sh) (wird nicht separat benötigt)
 
-Einfach beide in einem Verzeichnis ablegen und "ausführbar machen" (bspw. mit `chmod +x *.sh`),
-dann sollten sie funktionieren. Ach ja: [wget](http://www.gnu.org/software/wget/) sollte
+Einfach [get-crx.sh](/downloads/code/get-crx.sh)
+in einem Verzeichnis ablegen und "ausführbar machen"
+(bspw. mit `chmod +x *.sh`),
+dann sollte es funktionieren.
+Ach ja: [wget](http://www.gnu.org/software/wget/) muß
 installiert sein...
 
 Runterladen mittels [Chrome Extension Downloader](http://chrome-extension-downloader.com/)
