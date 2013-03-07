@@ -65,6 +65,8 @@ Runterladen mittels Skript
 
 Das Skript verwendet den Json-Parser [JSON.SH](https://github.com/dominictarr/JSON.sh/blob/master/JSON.sh)
 
+----
+
 So geht's:
 
 * Verpacken
