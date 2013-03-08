@@ -2,7 +2,7 @@
 layout: post
 author: Uli Heller
 published: true
-title: "Chrome-Erweiterungen - Teil 1/2: CRX-Dateien"
+title: "Chrome-Erweiterungen - Teil 1/2: CRX-Dateien herunterladen"
 date: 2013-03-04 07:00
 updated: 2013-03-07 21:00
 comments: true
