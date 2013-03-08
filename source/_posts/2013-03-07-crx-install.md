@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Chrome-Erweiterungen - Teil 2/2: CRX-Dateien einspielen"
 date: 2013-03-07 12:00
-updated: 2013-03-07 12:00
+updated: 2013-03-07 14:00
 comments: true
 categories: 
 - Chrome
@@ -16,7 +16,7 @@ Offline-Installation einer Chrome-Erweiterung - Teil 2: CRX-Dateien einspielen
 
 Hier beschreibe ich kurz, wie man CRX-Dateien in Google-Chrome einspielt.
 Die CRX-Dateien müssen zuvor heruntergeladen worden sein, siehe hierzu
-[xx]().
+[CRX-Dateien herunterladen](/2013/03/04/chrome-extensions).
 Getestet hab' ich's mit Google-Chrome 25 unter Linux.
 
 <!-- more -->
