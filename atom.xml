@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-03-07T21:03:33+01:00</updated>
+  <updated>2013-03-08T12:34:08+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -18,7 +18,54 @@
 
 
 
-<title type="html"><![CDATA[Chrome-Erweiterungen - Teil 1/2: CRX-Dateien]]></title>
+<title type="html"><![CDATA[Chrome-Erweiterungen - Teil 2/2: CRX-Dateien einspielen]]></title>
+<link href="http://uli-heller.github.com/2013/03/07/crx-install/"/>
+<updated>2013-03-07T12:00:00+01:00</updated>
+<id>http://uli-heller.github.com/2013/03/07/crx-install</id>
+
+      <content type="html"><![CDATA[<h1>Offline-Installation einer Chrome-Erweiterung - Teil 2: CRX-Dateien einspielen</h1>
+
+<p>Hier beschreibe ich kurz, wie man CRX-Dateien in Google-Chrome einspielt.
+Die CRX-Dateien müssen zuvor heruntergeladen worden sein, siehe hierzu
+<a href="">xx</a>.
+Getestet hab&#8217; ich&#8217;s mit Google-Chrome 25 unter Linux.</p>
+
+<!-- more -->
+
+
+<p>Zunächst muß in Google-Chrome das Erweiterungsfenster geöffnet werden über
+&#8220;Einstellungen&#8221; - &#8220;Tools&#8221; - &#8220;Erweiterungen&#8221;:</p>
+
+<p><img src="http://uli-heller.github.com/images/chrome/chrome-extensions-1.png" alt="Menü: Erweiterungen" /></p>
+
+<p>Nach dem Betätigen des Menüpunktes erscheint dieses Fenster:</p>
+
+<p><img src="http://uli-heller.github.com/images/chrome/chrome-extensions-2.png" alt="Erweiterungen" /></p>
+
+<p>Als nächstes: CRX-Datei in Nautilus selektieren und auf das
+Google-Chrome-Erweiterungsfenster &#8220;fallen lassen&#8221;. Am unteren Rand
+erscheint ein Bestätigungsdialog:</p>
+
+<p><img src="http://uli-heller.github.com/images/chrome/chrome-extensions-3.png" alt="Bestätigung" /></p>
+
+<p>Nachdem die Installationserlaubnis erteilt ist, wird die neue
+Erweiterung als &#8220;installiert&#8221; und &#8220;aktiviert&#8221; angezeigt:</p>
+
+<p><img src="http://uli-heller.github.com/images/chrome/chrome-extensions-4.png" alt="Aktivierte Erweiterung" /></p>
+
+<p>Bei mir gibt&#8217;s Probleme, wenn ich nun direkt noch eine weitere CRX-Datei
+einspielen möchte. Sie &#8220;landet&#8221; dann einfach nicht im Erweiterungsfenster.
+Abhilfe schafft schließen und neu öffnen des Fensters.</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/07/crx-install/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Chrome-Erweiterungen - Teil 1/2: CRX-Dateien herunterladen]]></title>
 <link href="http://uli-heller.github.com/2013/03/04/chrome-extensions/"/>
 <updated>2013-03-04T07:00:00+01:00</updated>
 <id>http://uli-heller.github.com/2013/03/04/chrome-extensions</id>
