@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-03-08T12:34:08+01:00</updated>
+  <updated>2013-03-08T14:16:34+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -27,7 +27,7 @@
 
 <p>Hier beschreibe ich kurz, wie man CRX-Dateien in Google-Chrome einspielt.
 Die CRX-Dateien müssen zuvor heruntergeladen worden sein, siehe hierzu
-<a href="">xx</a>.
+<a href="http://uli-heller.github.com/2013/03/04/chrome-extensions">CRX-Dateien herunterladen</a>.
 Getestet hab&#8217; ich&#8217;s mit Google-Chrome 25 unter Linux.</p>
 
 <!-- more -->
