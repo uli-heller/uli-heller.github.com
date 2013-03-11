@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-03-08T14:16:34+01:00</updated>
+  <updated>2013-03-11T08:37:58+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,169 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Octopress-Aktualisierung 1/2 - Grundtests]]></title>
+<link href="http://uli-heller.github.com/2013/03/11/octopress-aktualisierung/"/>
+<updated>2013-03-11T08:00:00+01:00</updated>
+<id>http://uli-heller.github.com/2013/03/11/octopress-aktualisierung</id>
+
+      <content type="html"><![CDATA[<h1>Aktualisierung meiner Octopress-Installation (1/2)</h1>
+
+<p>Vor grob 5 Monaten habe ich Octopress erstmalig aufgesetzt und seitdem die
+Finger von den Aktualisierungen gelassen. Dadurch funktionieren in &#8220;meiner&#8221; Installation
+nun gewisse Dinge nicht ganz so gut wir im Original. Beispielsweise soll die Verlinkung
+von Blog-Posts im Original über einen Methodenaufruf funktionieren, bei meiner Variante
+muß ich mir den Link mühsam zusammenklauben.</p>
+
+<p>Erstmal möchte ich testen, ob die aktualisierte Version überhaupt funktioniert. Diese Tests
+mache ich mit &#8220;master&#8221; und &#8220;source-2.1&#8221;.</p>
+
+<!-- more -->
+
+
+<h2>Aktuelle Octopress-Version runterladen</h2>
+
+<figure class='code'><figcaption><span>Octropress runterladen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git clone git://github.com/imathis/octopress.git octopress
+</span><span class='line'><span class="nb">cd </span>octopress
+</span><span class='line'>git branch -a
+</span><span class='line'>  * master
+</span><span class='line'>    remotes/origin/2.1
+</span><span class='line'>    remotes/origin/HEAD -&gt; origin/master
+</span><span class='line'>    remotes/origin/colorize
+</span><span class='line'>    remotes/origin/gh-pages
+</span><span class='line'>    remotes/origin/guard
+</span><span class='line'>    remotes/origin/linklog
+</span><span class='line'>    remotes/origin/master
+</span><span class='line'>    remotes/origin/migrator
+</span><span class='line'>    remotes/origin/refactor_with_tests
+</span><span class='line'>    remotes/origin/rubygemcli
+</span><span class='line'>    remotes/origin/site
+</span><span class='line'>    remotes/origin/site-2.1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Kurztest Octopress-2.0</h2>
+
+<figure class='code'><figcaption><span>Kurztest Octropress-2.0 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
+</span><span class='line'>gem install bundler
+</span><span class='line'>bundle install
+</span><span class='line'>rake install
+</span><span class='line'>rake generate
+</span><span class='line'>rake preview
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&#8230; danach dann im Browser den Link <a href="http://localhost:4000">http://localhost:4000</a> öffnen - es
+wird die Octopress-Grundseite angezeigt.</p>
+
+<h2>Kurztest Octopress-2.1</h2>
+
+<figure class='code'><figcaption><span>Kurztest Octropress-2.1 - Mecker wegen JavaScript runtime </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
+</span><span class='line'>git checkout 2.1
+</span><span class='line'>gem install bundler
+</span><span class='line'>bundle install
+</span><span class='line'>rake install
+</span><span class='line'>  rake aborted!
+</span><span class='line'>  Could not find a JavaScript runtime. See https://github.com/sstephenson/execjs <span class="k">for </span>a list of available runtimes.
+</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs/runtimes.rb:51:in <span class="sb">`</span>autodetect<span class="s1">&#39;</span>
+</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs.rb:5:in `&lt;module:ExecJS&gt;&#39;</span>
+</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs.rb:4:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;</span>
+</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/uglifier-1.2.6/lib/uglifier.rb:3:in `require&#39;</span>
+</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/uglifier-1.2.6/lib/uglifier.rb:3:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;</span>
+</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/lib/octopress/js_asset_manager.rb:4:in `require&#39;</span>
+</span><span class='line'>  /home/uli/tmp/o/octopress/lib/octopress/js_asset_manager.rb:4:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;</span>
+</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/lib/octopress.rb:5:in `require&#39;</span>
+</span><span class='line'>  /home/uli/tmp/o/octopress/lib/octopress.rb:5:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;</span>
+</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/Rakefile:9:in `require&#39;</span>
+</span><span class='line'>  /home/uli/tmp/o/octopress/Rakefile:9:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;</span>
+</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/bin/ruby_noexec_wrapper:14:in `eval&#39;</span>
+</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/bin/ruby_noexec_wrapper:14:in <span class="sb">`</span>&lt;main&gt;<span class="err">&#39;</span>
+</span><span class='line'>  <span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&#8230; funktioniert also nicht so richtig.</p>
+
+<p>Am einfachsten korrigiert man&#8217;s durch Anpassung vom Gemfile:</p>
+
+<figure class='code'><figcaption><span>Anpassungen am Gemfile </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/Gemfile b/Gemfile</span>
+</span><span class='line'><span class="gu">@@ -15,6 +15,7 @@</span>
+</span><span class='line'> group :development do
+</span><span class='line'>   gem &#39;tzinfo&#39;, &#39;~&gt; 0.3.35&#39;
+</span><span class='line'>   gem &#39;stitch-rb&#39;
+</span><span class='line'>   gem &#39;uglifier&#39;
+</span><span class='line'><span class="gi">+  gem &#39;therubyracer&#39;</span>
+</span><span class='line'>
+</span><span class='line'>   # Guard related
+</span><span class='line'>   gem &#39;guard&#39;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Danach dann <code>bundle install</code> und alles wird gut! Nach <code>rake install</code>, <code>rake generate</code>
+und <code>rake preview</code> kann man wie üblich
+im Browser den Link <a href="http://localhost:4000">http://localhost:4000</a> öffnen und es
+wird die Octopress-Grundseite angezeigt.</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/11/octopress-aktualisierung/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
