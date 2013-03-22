@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-03-11T08:37:58+01:00</updated>
+  <updated>2013-03-22T07:57:20+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,689 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[JMX auf Localhost]]></title>
+<link href="http://uli-heller.github.com/2013/03/21/localhost-jmx/"/>
+<updated>2013-03-21T07:00:00+01:00</updated>
+<id>http://uli-heller.github.com/2013/03/21/localhost-jmx</id>
+
+      <content type="html"><![CDATA[<h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
+
+<p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&#8217;s Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
+
+<p><img class="" src="http://uli-heller.github.com/images/java/jconsole.png"></p>
+
+<p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich - die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden - sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
+
+<p>Ziel: Wir wollen die JMX-Schnittstelle so in Betrieb nehmen, dass nur von &#8220;localhost&#8221; aus auf sie zugegriffen werden kann!</p>
+
+<!-- more -->
+
+
+<h2>JMX für Netzwerkzugriffe öffnen</h2>
+
+<p>Hier das klassische Vorgehen mittels Java-Properties:</p>
+
+<figure class='code'><figcaption><span>tomcat/bin/setenv.sh </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Djava.rmi.server.hostname=localhost&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote ${CATALINA_OPTS}&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.port=11223 ${CATALINA_OPTS}&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.authenticate=false ${CATALINA_OPTS}&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.ssl=false ${CATALINA_OPTS}&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nachteile:</p>
+
+<ul>
+<li><p>Das ist ein Scheunentor - netzwerkweit &#8220;jeder&#8221; kann nun mittels JMX auf unsere Anwendung zugreifen</p></li>
+<li><p>Absichern könnte man&#8217;s mit Firewall-Regeln, was aber zusätzliche Arbeitslast für die Firewall-Truppe bedeutet</p></li>
+<li><p>Oder man aktiviert die Authentifizierung und hängt so eine Art Benutzerverwaltung mit dran - auch doof</p></li>
+</ul>
+
+
+<p>Eine Idee ist nun, den JMX-Port nicht netzwerkweit sondern nur über &#8220;localhost&#8221; erreichbar zu machen. Praktisch bedeutet dies, dass dann nur Leute, die sich auf dem betreffenden Rechner anmelden können, Zugriff auf die JMX-Schnittstelle haben. Die oben aufgeführten Java-Properties bieten leider keine entsprechende Einschränkmöglichkeit, also muß eine andere Lösung her!</p>
+
+<h2>JMX über eine eigene RMISocketFactory freigeben</h2>
+
+<p>Die Idee für nachfolgendes Vorgehen stammt von <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a>. Grob geht&#8217;s so:</p>
+
+<ul>
+<li>Eigene RMISocketFactory erstellen und registrieren</li>
+<li>MBeanServer über die Standard-ManagementFactory &#8220;holen&#8221;</li>
+<li>MBeanServer mit der eigenen RMISocketFactory &#8220;verknüpfen&#8221; und einen JMXConnectorServer dafür erzeugen und starten</li>
+</ul>
+
+
+<p>Wenn man das richtig getan hat, dann kann man danach mittels <code>jconsole localhost:11223</code> die JCONSOLE starten. &#8220;11223&#8221; ist dabei die Portnummer, die man bei vorigem Ablauf mit verarbeitet.</p>
+
+<p>Ich habe das ganze noch in ein Servlet verpackt. Nun kann ich durch</p>
+
+<ul>
+<li><code>curl http://localhost-jmx/jmx/start</code> &#8230; die JMX-Schnittstelle &#8220;öffnen&#8221;</li>
+<li><code>curl http://localhost-jmx/jmx/stop</code> &#8230; die JMX-Schnittstelle &#8220;schließen&#8221;</li>
+</ul>
+
+
+<p>Zur Not geht das auch über einen Browser.</p>
+
+<p>Seitens des Operatings sind keinerlei Eingriffe erforderlich. Auch das lästige Setzen des Java-Properties erübrigt sich.</p>
+
+<p>Den Quelltext zu dem ganzen gibt&#8217;s auf <a href="https://github.com/uli-heller/uli-java-prototypes/tree/master/localhost-jmx">GitHub</a></p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/21/localhost-jmx/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Neue Einträge für debian/changelog]]></title>
+<link href="http://uli-heller.github.com/2013/03/21/debian-changelog/"/>
+<updated>2013-03-21T07:00:00+01:00</updated>
+<id>http://uli-heller.github.com/2013/03/21/debian-changelog</id>
+
+      <content type="html"><![CDATA[<h1>Erstellen von Debian-Paketen: Neue Einträge für debian/changelog</h1>
+
+<p>Wenn man selbst gelegentlich Debian-Pakete erstellt, so kommt man öfter in die Lage die Datei debian/changelog editieren zu müssen.</p>
+
+<!-- more -->
+
+
+<p>Die Datei selbst ist eine einfache Text-Datei und hat beispielsweise so einen Inhalt:</p>
+
+<figure class='code'><figcaption><span>Beispiel: debian/changelog </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>gexiv2 (0.3.1-0maverick1) maverick; urgency=low
+</span><span class='line'>
+</span><span class='line'>  * All debug and log messages from Exiv2 are now routed through GLib's logging functions.
+</span><span class='line'>
+</span><span class='line'> -- Jim Nelson &lt;jim@yorba.org>  Tue, 22 Mar 2011 14:46:17 -0700
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>gexiv2 (0.3.0-0maverick1) maverick; urgency=low
+</span><span class='line'>
+</span><span class='line'>  * Updated to work with Exiv2 0.21, which has an ABI change from 0.20.
+</span><span class='line'>
+</span><span class='line'> -- Jim Nelson &lt;jim@yorba.org>  Mon, 10 Jan 2011 12:18:07 -0800</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wenn man nun einen neuen Eintrag anlegen möchte, so muß man diese Dinge erzeugen:</p>
+
+<ul>
+<li>die Überschrift; hierbei darauf achten, dass die Versionsnummer hochgezählt wird!</li>
+<li>einen neuen &#8220;Bullet-Item&#8221; erzeugen</li>
+<li>die Unterschrift mit eigener Mail-Adresse und richtigem Zeitstempel</li>
+</ul>
+
+
+<p>Besonders die Sache mit dem Zeitstempel empfinde ich als lästig.</p>
+
+<p>Viel einfacher geht&#8217;s mit <code>debchange --increment</code>: Es öffnet sich direkt ein Editor mit einer Vorlage für den neuen Eintrag!</p>
+
+<figure class='code'><figcaption><span>debchange &#8211;increment </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>gexiv2 (0.3.1-0ubuntu1) precise; urgency=low
+</span><span class='line'>
+</span><span class='line'>  *
+</span><span class='line'>
+</span><span class='line'> -- Uli Heller &lt;uli.heller@daemons-point.com>  Thu, 21 Mar 2013 07:36:33 +0100
+</span><span class='line'>
+</span><span class='line'>gexiv2 (0.3.1-0maverick1) maverick; urgency=low
+</span><span class='line'>
+</span><span class='line'>  * All debug and log messages from Exiv2 are now routed through GLib's logging functions.
+</span><span class='line'>
+</span><span class='line'> -- Jim Nelson &lt;jim@yorba.org>  Tue, 22 Mar 2011 14:46:17 -0700
+</span><span class='line'>
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/21/debian-changelog/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Dovecot-2.2 - DEB-Paket erzeugen]]></title>
+<link href="http://uli-heller.github.com/2013/03/11/dovecot/"/>
+<updated>2013-03-11T09:00:00+01:00</updated>
+<id>http://uli-heller.github.com/2013/03/11/dovecot</id>
+
+      <content type="html"><![CDATA[<h1>Ubuntu-Pakete aktualisieren - Dovecot</h1>
+
+<p>Heute soll eine neue Version von Dovecot erzeugt werden.
+Grob geht&#8217;s so:</p>
+
+<ul>
+<li>Quellen der Standardversion von Ubuntu runterladen und kompilieren</li>
+<li>Aktualisieren auf die gewünschte neue Version (2.2.rc2)</li>
+<li>Neue Version kompilieren</li>
+</ul>
+
+
+<p>Mal sehen, ob&#8217;s klappt wie vorgesehen!</p>
+
+<!-- more -->
+
+
+<h2>Standardversion von Ubuntu</h2>
+
+<figure class='code'><figcaption><span>Standardversion herunterladen und bauen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Build-Verzeichnis anlegen und reinwechseln</span>
+</span><span class='line'>mkdir -p /build/dovecot
+</span><span class='line'><span class="nb">cd</span> /build/dovecot
+</span><span class='line'><span class="c"># Quellen zum Ubuntu-Paket runterladen - 2.0.19-0ubuntu2</span>
+</span><span class='line'>apt-get <span class="nb">source </span>dovecot
+</span><span class='line'><span class="c"># Abhängigkeiten nachinstallieren</span>
+</span><span class='line'>sudo apt-get build-dep dovecot
+</span><span class='line'><span class="c"># Ubuntu-Paket erzeugen</span>
+</span><span class='line'><span class="nb">cd </span>dovecot-2.0.19
+</span><span class='line'>dpkg-buildpackage
+</span><span class='line'><span class="c"># ... läuft hoffentlich ohne Probleme durch</span>
+</span><span class='line'>quilt pop -a
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Aktualisierung auf 2.2.rc2</h2>
+
+<figure class='code'><figcaption><span>Aktualisierung auf 2.2.rc2 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># In Build-Verzeichnis reinwechseln</span>
+</span><span class='line'><span class="nb">cd</span> /build/dovecot
+</span><span class='line'><span class="c"># Quellen zu Dovecot-2.2.rc1 runterladen</span>
+</span><span class='line'>wget http://syksy.dovecot.org/releases/2.2/rc/dovecot-2.2.rc2.tar.gz
+</span><span class='line'><span class="c"># Erster Versuch...</span>
+</span><span class='line'><span class="nb">cd </span>dovecot-2.0.19
+</span><span class='line'>uupdate -u ../dovecot-2.2.rc2.tar.gz
+</span><span class='line'><span class="c"># ... zeigt leider eine Fehlermeldung an:</span>
+</span><span class='line'><span class="c">#   uupdate: new version number not recognized from given filename</span>
+</span><span class='line'><span class="c">#   Please run uupdate with the -v option</span>
+</span><span class='line'><span class="c"># Also nochmal...</span>
+</span><span class='line'>uupdate -u ../dovecot-2.2.rc2.tar.gz -v 2.2.rc2
+</span><span class='line'><span class="c"># OK, keine Fehlermeldung.</span>
+</span><span class='line'><span class="c"># Wechseln in&#39;s neue Verzeichnis und dann debian/changelog anpassen</span>
+</span><span class='line'><span class="nb">cd</span> ../dovecot-2.2.rc2
+</span><span class='line'>jmacs debian/changelog <span class="c"># Details: Siehe nachfolgender DIFF</span>
+</span><span class='line'><span class="c"># Ubuntu-Paket erzeugen</span>
+</span><span class='line'>dpkg-buildpackage
+</span><span class='line'><span class="c"># Mecker wg. fix-racey-restarts.patch</span>
+</span><span class='line'><span class="c"># - Kein einziger Patch klappt</span>
+</span><span class='line'><span class="c"># - Oft erscheint &#39;Reversed (or previously applied) patch detected!  Skipping patch.&#39;</span>
+</span><span class='line'><span class="c"># -&gt; Wir blenden den Patch aus</span>
+</span><span class='line'>quilt pop -a
+</span><span class='line'>jmacs debian/patches/series <span class="c"># Details: Siehe nachfolgender DIFF</span>
+</span><span class='line'><span class="c"># ... noch ein paar Iterationen wie zuvor</span>
+</span><span class='line'>dpkg-buildpackage
+</span><span class='line'><span class="c"># Scheitert nun ganz am Ende - pigeonhole passt nicht so richtig</span>
+</span><span class='line'><span class="c"># ... wir versuchen&#39;s mit dovecot-2.1-pigeonhole-0.3.3.tar.gz</span>
+</span><span class='line'><span class="c"># ... klappt auch nicht - gleicher Fehler!</span>
+</span><span class='line'><span class="c"># ... dann halt mit dovecot-2.2-pigeonhole-tip</span>
+</span><span class='line'><span class="c"># ... klappt besser, jetzt &quot;zickt&quot; noch DRAC</span>
+</span><span class='line'><span class="c"># ... läßt sich auch leicht korrigieren</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Änderungen an debian/changelog </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u debian/changelog~ debian/changelog</span>
+</span><span class='line'><span class="gd">--- debian/changelog~    2013-03-11 09:09:19.000000000 +0100</span>
+</span><span class='line'><span class="gi">+++ debian/changelog 2013-03-11 09:11:53.435109570 +0100</span>
+</span><span class='line'><span class="gu">@@ -1,8 +1,8 @@</span>
+</span><span class='line'><span class="gd">-dovecot (1:2.2.rc2-0ubuntu1) precise; urgency=low</span>
+</span><span class='line'><span class="gi">+dovecot (1:2.2.rc2-0dp01~precise1) precise; urgency=low</span>
+</span><span class='line'>
+</span><span class='line'>   * New upstream release
+</span><span class='line'>
+</span><span class='line'><span class="gd">- -- Uli Heller &lt;uli@ubuntu1204.daemons-point.com&gt;  Mon, 11 Mar 2013 09:09:19 +0100</span>
+</span><span class='line'><span class="gi">+ -- Uli Heller &lt;uli.heller@daemons-point.com&gt;  Mon, 11 Mar 2013 09:09:19 +0100</span>
+</span><span class='line'>
+</span><span class='line'> dovecot (1:2.0.19-0ubuntu2) precise-proposed; urgency=low
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Änderungen an debian/patches/series </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u debian/patches/series~ debian/patches/series</span>
+</span><span class='line'><span class="gd">--- debian/patches/series~   2012-06-28 23:34:08.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ debian/patches/series    2013-03-11 09:18:30.167126242 +0100</span>
+</span><span class='line'><span class="gu">@@ -2,5 +2,5 @@</span>
+</span><span class='line'> dovecot-drac.patch
+</span><span class='line'> split-protocols.patch
+</span><span class='line'> fix-mail_plugin_dir-default.patch
+</span><span class='line'><span class="gd">-fix-racey-restarts.patch</span>
+</span><span class='line'><span class="gi">+#fix-racey-restarts.patch</span>
+</span><span class='line'> bug-1018579.patch
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Pigeonhole</h2>
+
+<p>Pigeonhole wird seperat von Dovecot entwickelt. Ich habe die neuen Versionen heruntergeladen von
+<a href="http://pigeonhole.dovecot.org/">http://pigeonhole.dovecot.org/</a>.</p>
+
+<p>Für die DEB-Erstellung muß dann noch ein Patch dafür erzeugt werden. Das geht am besten so:</p>
+
+<ul>
+<li>Temporäre Verzeichnisse anlegen: <code>mkdir -p tmp/a tmp/b</code></li>
+<li>Wechseln in&#8217;s Verzeichnis b: <code>cd tmp/b</code></li>
+<li>Pigeonhole auspacken: <code>gzip -cd .../dovecot-2-2-pigeonhole-b75b00760b86.tar.gz|tar xf -</code></li>
+<li>Verzeichnis umbenennen: <code>mv dove* pigeonhole</code></li>
+<li>Patch erstellen: <code>cd ..; diff -Nur a b &gt;pigeonhole.patch</code></li>
+</ul>
+
+
+<h2>Diff</h2>
+
+<figure class='code'><figcaption><span>dovecot_20_22.diff</span><a href='http://uli-heller.github.com/downloads/code/ubuntu/dovecot_20_22.diff' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/changelog dovecot-2.2.rc2/debian/changelog</span>
+</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/changelog  2012-06-28 23:38:39.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/changelog 2013-03-11 09:23:35.000000000 +0100</span>
+</span><span class='line'><span class="gu">@@ -1,3 +1,9 @@</span>
+</span><span class='line'><span class="gi">+dovecot (1:2.2.rc2-0dp01~precise1) precise; urgency=low</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+  * New upstream release</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+ -- Uli Heller &lt;uli.heller@daemons-point.com&gt;  Mon, 11 Mar 2013 09:09:19 +0100</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'> dovecot (1:2.0.19-0ubuntu2) precise-proposed; urgency=low
+</span><span class='line'>
+</span><span class='line'>   * Fix panic and core dump, cherry picked from upstream Mercurial.
+</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/patches/dovecot-drac.patch dovecot-2.2.rc2/debian/patches/dovecot-drac.patch</span>
+</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/patches/dovecot-drac.patch 2012-06-28 23:33:07.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/patches/dovecot-drac.patch    2013-03-11 11:20:48.000000000 +0100</span>
+</span><span class='line'><span class="gu">@@ -42,7 +42,7 @@</span>
+</span><span class='line'> + *   http://dovecot.org/patches/1.1/drac.c
+</span><span class='line'> + */
+</span><span class='line'> +#include &quot;lib.h&quot;
+</span><span class='line'><span class="gd">-+#include &quot;network.h&quot;</span>
+</span><span class='line'><span class="gi">++#include &quot;net.h&quot;</span>
+</span><span class='line'> +#include &quot;ioloop.h&quot;
+</span><span class='line'> +#include &quot;mail-user.h&quot;
+</span><span class='line'> +#include &quot;mail-storage-private.h&quot;
+</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/patches/fix-mail_plugin_dir-default.patch dovecot-2.2.rc2/debian/patches/fix-mail_plugin_dir-default.patch</span>
+</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/patches/fix-mail_plugin_dir-default.patch  2012-06-28 23:33:07.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/patches/fix-mail_plugin_dir-default.patch 2013-03-11 10:55:09.000000000 +0100</span>
+</span><span class='line'><span class="gu">@@ -8,11 +8,11 @@</span>
+</span><span class='line'>  doc/example-config/conf.d/10-mail.conf |    2 +-
+</span><span class='line'>  1 files changed, 1 insertions(+), 1 deletions(-)
+</span><span class='line'>
+</span><span class='line'><span class="gd">-diff --git a/doc/example-config/conf.d/10-mail.conf b/doc/example-config/conf.d/10-mail.conf</span>
+</span><span class='line'><span class="gd">-index fe5cc31..4b918ed 100644</span>
+</span><span class='line'><span class="gd">---- a/doc/example-config/conf.d/10-mail.conf</span>
+</span><span class='line'><span class="gd">-+++ b/doc/example-config/conf.d/10-mail.conf</span>
+</span><span class='line'><span class="gd">-@@ -200,7 +200,7 @@</span>
+</span><span class='line'><span class="gi">+Index: dovecot-2.2.rc2/doc/example-config/conf.d/10-mail.conf</span>
+</span><span class='line'><span class="gi">+===================================================================</span>
+</span><span class='line'><span class="gi">+--- dovecot-2.2.rc2.orig/doc/example-config/conf.d/10-mail.conf 2013-02-22 12:20:04.000000000 +0100</span>
+</span><span class='line'><span class="gi">++++ dovecot-2.2.rc2/doc/example-config/conf.d/10-mail.conf  2013-03-11 10:55:07.635357407 +0100</span>
+</span><span class='line'><span class="gi">+@@ -201,7 +201,7 @@</span>
+</span><span class='line'>  #auth_socket_path = /var/run/dovecot/auth-userdb
+</span><span class='line'>
+</span><span class='line'>  # Directory where to look up mail plugins.
+</span><span class='line'><span class="gu">@@ -21,4 +21,3 @@</span>
+</span><span class='line'>
+</span><span class='line'>  # Space separated list of plugins to load for all services. Plugins specific to
+</span><span class='line'>  # IMAP, LDA, etc. are added to this list in their own .conf files.
+</span><span class='line'><span class="gd">--- </span>
+</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/patches/pigeonhole.patch dovecot-2.2.rc2/debian/patches/pigeonhole.patch</span>
+</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/patches/pigeonhole.patch   2012-06-28 23:33:07.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/patches/pigeonhole.patch  2013-03-11 10:49:09.000000000 +0100</span>
+</span><span class='line'>{not included}
+</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/patches/series dovecot-2.2.rc2/debian/patches/series</span>
+</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/patches/series 2012-06-28 23:34:08.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/patches/series    2013-03-11 09:23:47.000000000 +0100</span>
+</span><span class='line'><span class="gu">@@ -2,5 +2,5 @@</span>
+</span><span class='line'> dovecot-drac.patch
+</span><span class='line'> split-protocols.patch
+</span><span class='line'> fix-mail_plugin_dir-default.patch
+</span><span class='line'><span class="gd">-fix-racey-restarts.patch</span>
+</span><span class='line'><span class="gd">-bug-1018579.patch</span>
+</span><span class='line'><span class="gi">+#fix-racey-restarts.patch</span>
+</span><span class='line'><span class="gi">+#bug-1018579.patch</span>
+</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/patches/split-protocols.patch dovecot-2.2.rc2/debian/patches/split-protocols.patch</span>
+</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/patches/split-protocols.patch  2012-06-28 23:33:07.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/patches/split-protocols.patch 2013-03-11 10:55:06.000000000 +0100</span>
+</span><span class='line'><span class="gu">@@ -12,11 +12,11 @@</span>
+</span><span class='line'>  src/master/master-settings.c                       |    2 +-
+</span><span class='line'>  4 files changed, 4 insertions(+), 7 deletions(-)
+</span><span class='line'>
+</span><span class='line'><span class="gd">-Index: dovecot/doc/example-config/dovecot.conf</span>
+</span><span class='line'><span class="gi">+Index: dovecot-2.2.rc2/doc/example-config/dovecot.conf</span>
+</span><span class='line'> ===================================================================
+</span><span class='line'><span class="gd">---- dovecot.orig/doc/example-config/dovecot.conf    2012-03-07 08:19:52.000000000 -0500</span>
+</span><span class='line'><span class="gd">-+++ dovecot/doc/example-config/dovecot.conf 2012-03-07 10:37:13.000000000 -0500</span>
+</span><span class='line'><span class="gd">-@@ -16,8 +16,8 @@</span>
+</span><span class='line'><span class="gi">+--- dovecot-2.2.rc2.orig/doc/example-config/dovecot.conf    2013-01-04 20:38:41.000000000 +0100</span>
+</span><span class='line'><span class="gi">++++ dovecot-2.2.rc2/doc/example-config/dovecot.conf 2013-03-11 10:54:59.779357916 +0100</span>
+</span><span class='line'><span class="gi">+@@ -20,8 +20,8 @@</span>
+</span><span class='line'>  # options. The paths listed here are for configure --prefix=/usr
+</span><span class='line'>  # --sysconfdir=/etc --localstatedir=/var
+</span><span class='line'>
+</span><span class='line'><span class="gu">@@ -27,10 +27,10 @@</span>
+</span><span class='line'>
+</span><span class='line'>  # A comma separated list of IPs or hosts where to listen in for connections.
+</span><span class='line'>  # &quot;*&quot; listens in all IPv4 interfaces, &quot;::&quot; listens in all IPv6 interfaces.
+</span><span class='line'><span class="gd">-Index: dovecot/pigeonhole/doc/example-config/conf.d/20-managesieve.conf</span>
+</span><span class='line'><span class="gi">+Index: dovecot-2.2.rc2/pigeonhole/doc/example-config/conf.d/20-managesieve.conf</span>
+</span><span class='line'> ===================================================================
+</span><span class='line'><span class="gd">---- dovecot.orig/pigeonhole/doc/example-config/conf.d/20-managesieve.conf   2012-03-07 10:37:11.000000000 -0500</span>
+</span><span class='line'><span class="gd">-+++ dovecot/pigeonhole/doc/example-config/conf.d/20-managesieve.conf    2012-03-07 10:37:13.000000000 -0500</span>
+</span><span class='line'><span class="gi">+--- dovecot-2.2.rc2.orig/pigeonhole/doc/example-config/conf.d/20-managesieve.conf   2013-03-11 10:54:57.079337564 +0100</span>
+</span><span class='line'><span class="gi">++++ dovecot-2.2.rc2/pigeonhole/doc/example-config/conf.d/20-managesieve.conf    2013-03-11 10:54:59.779357916 +0100</span>
+</span><span class='line'> @@ -2,9 +2,6 @@
+</span><span class='line'>  ## ManageSieve specific settings
+</span><span class='line'>  ##
+</span><span class='line'><span class="gu">@@ -40,12 +40,12 @@</span>
+</span><span class='line'> -
+</span><span class='line'>  # Service definitions
+</span><span class='line'>
+</span><span class='line'><span class="gd">- service managesieve-login {</span>
+</span><span class='line'><span class="gd">-Index: dovecot/src/config/all-settings.c</span>
+</span><span class='line'><span class="gi">+ #service managesieve-login {</span>
+</span><span class='line'><span class="gi">+Index: dovecot-2.2.rc2/src/config/all-settings.c</span>
+</span><span class='line'> ===================================================================
+</span><span class='line'><span class="gd">---- dovecot.orig/src/config/all-settings.c  2012-03-07 08:19:52.000000000 -0500</span>
+</span><span class='line'><span class="gd">-+++ dovecot/src/config/all-settings.c   2012-03-07 10:37:14.000000000 -0500</span>
+</span><span class='line'><span class="gd">-@@ -1764,7 +1764,7 @@</span>
+</span><span class='line'><span class="gi">+--- dovecot-2.2.rc2.orig/src/config/all-settings.c  2013-02-25 14:33:27.000000000 +0100</span>
+</span><span class='line'><span class="gi">++++ dovecot-2.2.rc2/src/config/all-settings.c   2013-03-11 10:54:59.783357912 +0100</span>
+</span><span class='line'><span class="gi">+@@ -2433,7 +2433,7 @@</span>
+</span><span class='line'>      .libexec_dir = PKG_LIBEXECDIR,
+</span><span class='line'>      .instance_name = PACKAGE,
+</span><span class='line'>      .import_environment = &quot;TZ&quot; ENV_SYSTEMD ENV_GDB,
+</span><span class='line'><span class="gu">@@ -54,11 +54,11 @@</span>
+</span><span class='line'>      .listen = &quot;*, ::&quot;,
+</span><span class='line'>      .ssl = &quot;yes:no:required&quot;,
+</span><span class='line'>      .default_internal_user = &quot;dovecot&quot;,
+</span><span class='line'><span class="gd">-Index: dovecot/src/master/master-settings.c</span>
+</span><span class='line'><span class="gi">+Index: dovecot-2.2.rc2/src/master/master-settings.c</span>
+</span><span class='line'> ===================================================================
+</span><span class='line'><span class="gd">---- dovecot.orig/src/master/master-settings.c   2012-03-07 08:19:52.000000000 -0500</span>
+</span><span class='line'><span class="gd">-+++ dovecot/src/master/master-settings.c    2012-03-07 10:37:14.000000000 -0500</span>
+</span><span class='line'><span class="gd">-@@ -213,7 +213,7 @@</span>
+</span><span class='line'><span class="gi">+--- dovecot-2.2.rc2.orig/src/master/master-settings.c   2013-02-18 05:47:18.000000000 +0100</span>
+</span><span class='line'><span class="gi">++++ dovecot-2.2.rc2/src/master/master-settings.c    2013-03-11 10:54:59.783357912 +0100</span>
+</span><span class='line'><span class="gi">+@@ -216,7 +216,7 @@</span>
+</span><span class='line'>      .libexec_dir = PKG_LIBEXECDIR,
+</span><span class='line'>      .instance_name = PACKAGE,
+</span><span class='line'>      .import_environment = &quot;TZ&quot; ENV_SYSTEMD ENV_GDB,
+</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/rules dovecot-2.2.rc2/debian/rules</span>
+</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/rules  2012-06-28 23:33:07.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/rules 2013-03-11 11:20:33.000000000 +0100</span>
+</span><span class='line'><span class="gu">@@ -47,7 +47,7 @@</span>
+</span><span class='line'>              --disable-static
+</span><span class='line'>  $(MAKE) dovecot-config
+</span><span class='line'>  # Pigeonhole
+</span><span class='line'><span class="gd">-    (cd $(PIGEONHOLE_DIR)/ &amp;&amp; \</span>
+</span><span class='line'><span class="gi">+    (cd $(PIGEONHOLE_DIR)/ &amp;&amp; sh ./autogen.sh \</span>
+</span><span class='line'>      touch stamp.h.in &amp;&amp; \
+</span><span class='line'>      $(shell dpkg-buildflags --export=configure) sh configure \
+</span><span class='line'>      --with-dovecot=../ \
+</span><span class='line'><span class="gu">@@ -105,7 +105,7 @@</span>
+</span><span class='line'>  install -m644 debian/dovecot-core.ufw.profile debian/dovecot-core/etc/ufw/applications.d/dovecot-core
+</span><span class='line'>  install -D -m 0755 -o root -g root $(CURDIR)/debian/maildirmake.dovecot $(CURDIR)/debian/dovecot-core/usr/bin/maildirmake.dovecot
+</span><span class='line'>  mv $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot-core
+</span><span class='line'><span class="gd">-    cp $(PIGEONHOLE_DIR)/ChangeLog $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot-core/pigeonhole.ChangeLog</span>
+</span><span class='line'><span class="gi">+    #cp $(PIGEONHOLE_DIR)/ChangeLog $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot-core/pigeonhole.ChangeLog</span>
+</span><span class='line'>  cp $(PIGEONHOLE_DIR)/README $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot-core/pigeonhole.README
+</span><span class='line'>  cp $(PIGEONHOLE_DIR)/NEWS $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot-core/pigeonhole.NEWS
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/11/dovecot/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       

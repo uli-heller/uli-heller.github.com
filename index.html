@@ -86,6 +86,192 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/03/21/localhost-jmx/">JMX auf Localhost</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-21T07:00:00+01:00" pubdate data-updated="true">21. März 2013</time>
+         &bull; <a rel="bookmark" href="/2013/03/21/localhost-jmx/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
+
+<p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&#8217;s Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
+
+<p><img class="" src="/images/java/jconsole.png"></p>
+
+<p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich - die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden - sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
+
+<p>Ziel: Wir wollen die JMX-Schnittstelle so in Betrieb nehmen, dass nur von &#8220;localhost&#8221; aus auf sie zugegriffen werden kann!</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/03/21/localhost-jmx/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/03/21/debian-changelog/">Neue Einträge für debian/changelog</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-21T07:00:00+01:00" pubdate data-updated="true">21. März 2013</time>
+         &bull; <a rel="bookmark" href="/2013/03/21/debian-changelog/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Erstellen von Debian-Paketen: Neue Einträge für debian/changelog</h1>
+
+<p>Wenn man selbst gelegentlich Debian-Pakete erstellt, so kommt man öfter in die Lage die Datei debian/changelog editieren zu müssen.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/03/21/debian-changelog/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/03/11/dovecot/">Dovecot-2.2 - DEB-Paket erzeugen</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-03-11T09:00:00+01:00" pubdate data-updated="true">11. März 2013</time>
+         &bull; <a rel="bookmark" href="/2013/03/11/dovecot/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Ubuntu-Pakete aktualisieren - Dovecot</h1>
+
+<p>Heute soll eine neue Version von Dovecot erzeugt werden.
+Grob geht&#8217;s so:</p>
+
+<ul>
+<li>Quellen der Standardversion von Ubuntu runterladen und kompilieren</li>
+<li>Aktualisieren auf die gewünschte neue Version (2.2.rc2)</li>
+<li>Neue Version kompilieren</li>
+</ul>
+
+
+<p>Mal sehen, ob&#8217;s klappt wie vorgesehen!</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/03/11/dovecot/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/03/11/octopress-aktualisierung/">Octopress-Aktualisierung 1/2 - Grundtests</a>
 
 </h1>
@@ -833,484 +1019,6 @@ die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/01/11/redmine-rails-update/">Rails-2.3.15</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-01-11T07:00:00+01:00" pubdate data-updated="true">11. Januar 2013</time>
-         &bull; <a rel="bookmark" href="/2013/01/11/redmine-rails-update/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Rails-Update für Redmine-1.2</h1>
-
-<h2>Einleitung</h2>
-
-<p>Auf einem etwas älteren Linux-Server betreibe ich eine fast genauso alte
-<a href="http://redmine.org">Redmine</a>-Instanz. Redmine ist eine
-<a href="http://rubyonrails.org">Rails</a>-Anwendung und
-weil ich so eine alte Version davon verwende, ist die Rails-Version anfällig
-gegen die diese Woche entdeckten kritischen
-<a href="http://weblog.rubyonrails.org/2013/1/8/Rails-3-2-11-3-1-10-3-0-19-and-2-3-15-have-been-released/">Schwachstellen</a>.</p>
-
-<p>Redmine selbst kann zur Zeit nicht auf die aktuelle Version 2.2 aktualisiert
-werden, weil ich ältere, mit der neuen Version nicht verträgliche Plugins
-verwende. Also heißt die Strategie: Redmine beibehalten, Rails aktualisieren
-auf Version 2.3.15.</p>
-
-<h2>Gems herunterladen und zum Redmine-Server übertragen</h2>
-
-<p>Der Redmine-Server hat keinen Zugang zum Internet. Deshalb müssen die Gems
-auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
-werden.</p>
-
-<figure class='code'><figcaption><span>get-2.3.15.sh</span><a href='/downloads/code/get-2.3.15.sh' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.15
-</span><span class='line'>
-</span><span class='line'>fetch<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="o">(</span>
-</span><span class='line'>  <span class="nv">GN</span><span class="o">=</span><span class="s2">&quot;$1-$2.gem&quot;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -s <span class="s2">&quot;${GN}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
-</span><span class='line'><span class="k">    </span>gem fetch <span class="s2">&quot;$1&quot;</span> -v <span class="s2">&quot;$2&quot;</span>
-</span><span class='line'>  <span class="k">fi</span>
-</span><span class='line'>  <span class="o">)</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for </span>i in actionmailer actionpack activerecord activeresource activesupport rails; <span class="k">do</span>
-</span><span class='line'><span class="k">  </span>fetch <span class="s2">&quot;${i}&quot;</span> <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'><span class="k">done</span>
-</span><span class='line'>fetch rack 1.1.3
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Die Dateien werden danach mit SCP auf den Redmine-Server übertragen.</p>
-
-<h2>Basissystem aktualisieren</h2>
-
-<figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
-</span><span class='line'>apt-get upgrade
-</span><span class='line'>apt-get dist-upgrade
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Gems einspielen</h2>
-
-<figure class='code'><figcaption><span>Gems einspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.15.gem
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Alte Gems deininstallieren</h2>
-
-<figure class='code'><figcaption><span>uninstall-2.3.11.sh</span><a href='/downloads/code/uninstall-2.3.11.sh' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.11
-</span><span class='line'>
-</span><span class='line'>gem uninstall rails -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall actionmailer -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall actionpack -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activerecord -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activeresource -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activesupport -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall rack -v 1.1.1
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2012/11/30/wsgen/">WSGEN - Wie man&#8217;s mit Interfaces macht</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2012-11-30T08:00:00+01:00" pubdate data-updated="true">30. November 2012</time>
-         &bull; <a rel="bookmark" href="/2012/11/30/wsgen/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Erzeugen einer WSDL-Datei für ein JAXWS-Webservice-Interface</h1>
-
-<h2>Vorab - unser Webservice</h2>
-
-<p>Ausgangspunkt ist dieses Interface für unseren Webservice:</p>
-
-<figure class='code'><figcaption><span>SampleWebService.java</span><a href='/downloads/code/java/wsdl/SampleWebService.java' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebMethod</span><span class="o">;</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebParam</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;sampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SampleWebService</span> <span class="o">{</span>
-</span><span class='line'>   <span class="nd">@WebMethod</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span>
-</span><span class='line'>            <span class="nd">@WebParam</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;msg&quot;</span><span class="o">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">WebParam</span><span class="o">.</span><span class="na">Mode</span><span class="o">.</span><span class="na">IN</span><span class="o">)</span> <span class="n">String</span> <span class="n">msg</span>
-</span><span class='line'>   <span class="o">);</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Zusätzlich gibt&#8217;s auch schon eine Implementierung dafür, nämlich diese:</p>
-
-<figure class='code'><figcaption><span>SampleWebServiceImpl.java</span><a href='/downloads/code/java/wsdl/SampleWebServiceImpl.java' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleWebServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleWebService</span> <span class="o">{</span>
-</span><span class='line'>   <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span><span class="n">String</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>       <span class="k">return</span> <span class="s">&quot;Echo: &quot;</span><span class="o">+</span><span class="n">msg</span><span class="o">;</span>
-</span><span class='line'>   <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Da wir nur zwei Quelldateien haben, können wir die schnell manuell durchkompilieren:</p>
-
-<figure class='code'><figcaption><span>Kompilieren der Quelldateien </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>javac SampleWebServiceImpl.java  <span class="c"># ... kompiliert beide Dateien</span>
-</span><span class='line'><span class="nv">$ </span>ls
-</span><span class='line'>SampleWebService.class      SampleWebServiceImpl.java
-</span><span class='line'>SampleWebServiceImpl.class  SampleWebService.java
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>WSGEN - das übliche Vorgehen</h2>
-
-<p>Das übliche Vorgehen basiert auf dem Tool <code>wsgen</code>, welches dem JDK beiliegt:</p>
-
-<figure class='code'><figcaption><span>Vorgehen mit WSGEN </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>wsgen -cp . SampleWebServiceImpl -wsdl -inlineSchemas
-</span><span class='line'><span class="nv">$ </span>ls
-</span><span class='line'>jaxws                   SampleWebServiceImpl.class  SampleWebService.java
-</span><span class='line'>SampleWebService.class  SampleWebServiceImpl.java   SampleWebService.wsdl
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Da haben wir sie, die WSDL-Datei mit dem Namen &#8220;SampleWebService.wsdl&#8221;.</p>
-
-<h2>WSGEN - das Problem</h2>
-
-<p>Manchmal steht nur das Interface für den Webservice zur Verfügung, also nur die Datei <a href="/downloads/code/java/wsdl/SampleWebService.java">SampleWebService.java</a>. Wenn wir versuchen, daraus eine WSDL-Datei zu erzeugen, erscheint so eine Fehlermeldung:</p>
-
-<figure class='code'><figcaption><span>WSGEN und ServiceInterface </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>wsgen -cp . SampleWebService -wsdl -inlineSchemas
-</span><span class='line'>The class <span class="s2">&quot;SampleWebService&quot;</span> is not an endpoint implementation class.
-</span><span class='line'>
-</span><span class='line'>Usage: WSGEN <span class="o">[</span>options<span class="o">]</span> &lt;SEI&gt;
-</span><span class='line'>
-</span><span class='line'>where <span class="o">[</span>options<span class="o">]</span> include:
-</span><span class='line'>  -classpath &lt;path&gt;          specify where to find input class files
-</span><span class='line'>...
-</span><span class='line'>Examples:
-</span><span class='line'>  wsgen -cp . example.Stock
-</span><span class='line'>  wsgen -cp . example.Stock -wsdl -servicename <span class="o">{</span>http://mynamespace<span class="o">}</span>MyService
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Wie&#8217;s aussieht funktioniert WSGEN also nicht mit Interface-Klassen, es wird eine Implementierungsklasse benötigt:</p>
-
-<ul>
-<li><a href="http://java.net/jira/browse/JAX_WS-817">Jira-Ticket gegen JAXWS</a></li>
-</ul>
-
-
-<h2>Ein erster Versuch mit abstrakter Klasse</h2>
-
-<p>Hier eine abstrakte Implementierungsklasse:</p>
-
-<figure class='code'><figcaption><span>AbstractSampleWebServiceImpl.java</span><a href='/downloads/code/java/wsdl/AbstractSampleWebServiceImpl.java' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
-</span><span class='line'><span class="kd">abstract</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AbstractSampleWebServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleWebService</span> <span class="o">{</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Leider klappt&#8217;s auch nicht:</p>
-
-<figure class='code'><figcaption><span>WSGEN mit abstrakter Implementierungsklasse </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>javac AbstractSampleWebServiceImpl.java
-</span><span class='line'><span class="nv">$ </span>wsgen -cp . AbstractSampleWebServiceImpl -wsdl -inlineSchemas
-</span><span class='line'>...
-</span><span class='line'>com.sun.tools.internal.ws.processor.modeler.ModelerException: modeler error: Classes annotated with @javax.jws.WebService must not be abstract. Class: AbstractSampleWebServiceImpl
-</span><span class='line'>...
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Dynamische Erstellung einer Implementierungsklasse</h2>
-
-<p>Der nächste Versuch sieht so aus:</p>
-
-<ul>
-<li>ich lade das Interface und untersuche alle seine Methoden</li>
-<li>daraus erzeuge ich den Quelltext für eine Implementierungsklasse</li>
-<li>die Implementierungsklasse kompiliere ich mit dem JavaCompiler</li>
-<li>auf die dabei erstellte .class-Datei lasse ich dann <code>wsgen</code> los</li>
-</ul>
-
-
-<p>Den Versuch habe ich in einem <a href="http://github.com/uli-heller/uli-wsgen">GITHUB-Projekt</a> plattformübergreifend umgesetzt. Er scheint grundsätzlich zu funktionieren, ich kann in meinem aktuellen Projekt auf die manuelle Erstellung von Dummy-Implementierungsklassen verzichten.</p>
-
-<p>Beispielaufruf: <code>./uli-wsgen.sh -c myproject.jar -f sample.wsdl SampleWebService</code></p>
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2012/11/27/bytecodeoutline/">ASM - BytecodeOutline-Plugin in Eclipse installieren</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-27T08:00:00+01:00" pubdate data-updated="true">27. November 2012</time>
-         &bull; <a rel="bookmark" href="/2012/11/27/bytecodeoutline/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>BytecodeOutline-Plugin für Eclipse</h1>
-
-<p>Zuerst ein paar Angaben zu meiner Systemumgebung:</p>
-
-<ul>
-<li>Ubuntu-12.04, 64bit</li>
-<li>Eclipse-jee-juno-SR1</li>
-<li><a href="http://forge.ow2.org/projects/asm/">de.loskutov.BytecodeOutline_2.4.0.jar</a></li>
-</ul>
-
-
-<p>Ich benötige das Plugin nur temporär. Es soll nicht permanent in meiner Eclipse-Umgebung verfügbar sein.</p>
-
-<h2>Neue Eclipse-Installation</h2>
-
-<figure class='code'><figcaption><span>Neue Eclipse-Installation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /opt
-</span><span class='line'>gzip -cd <span class="err">&quot;</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/eclipse/eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz |sudo tar xf -
-</span><span class='line'>sudo chown -R uli.uli eclipse
-</span><span class='line'>sudo mv eclipse eclipse-botst
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Test der neuen Eclipse-Installation</h2>
-
-<figure class='code'><figcaption><span>Test der Eclipse-Installation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>/opt/eclipse-botst/eclipse &amp;
-</span><span class='line'><span class="c"># Eclipse wird gestartet</span>
-</span><span class='line'><span class="c"># -&gt; wieder stoppen</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Einspielen des Plugins</h2>
-
-<figure class='code'><figcaption><span>Einspielen des Plugins </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Sicherstellen: Eclipse ist gestoppt</span>
-</span><span class='line'><span class="nb">cd</span> /opt/eclipse-botst
-</span><span class='line'>cp <span class="err">&quot;</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Kurztest des Plugins</h2>
-
-<ul>
-<li>Eclipse starten</li>
-<li>Java-Klasse aus einem bestehenden Eclipse-Projekt selektieren</li>
-<li>Window -> Show View -> Other -> Java -> Bytecode</li>
-</ul>
-
-
-<p><img class="" src="/images/java/eclipse/bytecode-outline.png" title="'Eclipse mit Bytecode-View'" ></p>
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Älter</a>
@@ -1327,23 +1035,23 @@ werden.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/03/21/localhost-jmx/">JMX auf Localhost</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/03/21/debian-changelog/">Neue Einträge für debian/changelog</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/03/11/dovecot/">Dovecot-2.2 - DEB-Paket erzeugen</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/03/11/octopress-aktualisierung/">Octopress-Aktualisierung 1/2 - Grundtests</a>
       </li>
     
       <li class="post">
         <a href="/2013/03/07/crx-install/">Chrome-Erweiterungen - Teil 2/2: CRX-Dateien einspielen</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/03/04/chrome-extensions/">Chrome-Erweiterungen - Teil 1/2: CRX-Dateien herunterladen</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/02/20/prercise-hardware-enablement/">Neuer Kernel für Ubuntu-12.04</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/02/15/quilt/">Patchverwaltung mit Quilt</a>
       </li>
     
   </ul>

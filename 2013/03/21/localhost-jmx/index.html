@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JMX auf Localhost - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+  <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/2013/03/21/localhost-jmx/">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  
+
+<!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<!--
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+-->
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+  
+
+   
+  <link href="/octopress-favicon.png" rel="icon">
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Java, Linux und Groovy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+
+
+
+
+
+
+
+
+
+
+
+<article class="hentry " role="article">
+  
+  <header>
+    <h1 class="entry-title">
+
+JMX auf Localhost
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-21T07:00:00+01:00" pubdate data-updated="true">21. März 2013</time>
+         &bull; <a rel="bookmark" href="/2013/03/21/localhost-jmx/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
+
+<p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für's Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
+
+<p><img class="" src="/images/java/jconsole.png"></p>
+
+<p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich - die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden - sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
+
+<p>Ziel: Wir wollen die JMX-Schnittstelle so in Betrieb nehmen, dass nur von "localhost" aus auf sie zugegriffen werden kann!</p>
+
+<!-- more -->
+
+
+<h2>JMX für Netzwerkzugriffe öffnen</h2>
+
+<p>Hier das klassische Vorgehen mittels Java-Properties:</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>tomcat/bin/setenv.sh </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Djava.rmi.server.hostname=localhost&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote ${CATALINA_OPTS}&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.port=11223 ${CATALINA_OPTS}&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.authenticate=false ${CATALINA_OPTS}&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.ssl=false ${CATALINA_OPTS}&quot;</span>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<p>Nachteile:</p>
+
+<ul>
+<li><p>Das ist ein Scheunentor - netzwerkweit "jeder" kann nun mittels JMX auf unsere Anwendung zugreifen</p></li>
+<li><p>Absichern könnte man's mit Firewall-Regeln, was aber zusätzliche Arbeitslast für die Firewall-Truppe bedeutet</p></li>
+<li><p>Oder man aktiviert die Authentifizierung und hängt so eine Art Benutzerverwaltung mit dran - auch doof</p></li>
+</ul>
+
+
+<p>Eine Idee ist nun, den JMX-Port nicht netzwerkweit sondern nur über "localhost" erreichbar zu machen. Praktisch bedeutet dies, dass dann nur Leute, die sich auf dem betreffenden Rechner anmelden können, Zugriff auf die JMX-Schnittstelle haben. Die oben aufgeführten Java-Properties bieten leider keine entsprechende Einschränkmöglichkeit, also muß eine andere Lösung her!</p>
+
+<h2>JMX über eine eigene RMISocketFactory freigeben</h2>
+
+<p>Die Idee für nachfolgendes Vorgehen stammt von <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a>. Grob geht's so:</p>
+
+<ul>
+<li>Eigene RMISocketFactory erstellen und registrieren</li>
+<li>MBeanServer über die Standard-ManagementFactory "holen"</li>
+<li>MBeanServer mit der eigenen RMISocketFactory "verknüpfen" und einen JMXConnectorServer dafür erzeugen und starten</li>
+</ul>
+
+
+<p>Wenn man das richtig getan hat, dann kann man danach mittels <code>jconsole localhost:11223</code> die JCONSOLE starten. "11223" ist dabei die Portnummer, die man bei vorigem Ablauf mit verarbeitet.</p>
+
+<p>Ich habe das ganze noch in ein Servlet verpackt. Nun kann ich durch</p>
+
+<ul>
+<li><code>curl http://localhost-jmx/jmx/start</code> ... die JMX-Schnittstelle "öffnen"</li>
+<li><code>curl http://localhost-jmx/jmx/stop</code> ... die JMX-Schnittstelle "schließen"</li>
+</ul>
+
+
+<p>Zur Not geht das auch über einen Browser.</p>
+
+<p>Seitens des Operatings sind keinerlei Eingriffe erforderlich. Auch das lästige Setzen des Java-Properties erübrigt sich.</p>
+
+<p>Den Quelltext zu dem ganzen gibt's auf <a href="https://github.com/uli-heller/uli-java-prototypes/tree/master/localhost-jmx">GitHub</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-21T07:00:00+01:00" pubdate data-updated="true">21. März 2013</time>
+
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jmx/'>JMX</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>
+  
+</span>
+
+
+
+      
+
+    </p>
+    
+      <div class="sharing">
+  
+    
+      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    
+  
+  
+  
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/03/21/debian-changelog/" title="Voriger Beitrag: Neue Einträge für debian/changelog">&laquo; Neue Einträge für debian/changelog</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+<section>
+  <h1>Comments</h1>
+  
+
+  
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/03/21/localhost-jmx/">JMX auf Localhost</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/03/21/debian-changelog/">Neue Einträge für debian/changelog</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/03/11/dovecot/">Dovecot-2.2 - DEB-Paket erzeugen</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/03/11/octopress-aktualisierung/">Octopress-Aktualisierung 1/2 - Grundtests</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/03/07/crx-install/">Chrome-Erweiterungen - Teil 2/2: CRX-Dateien einspielen</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+
+
+
+
+
+</body>
+</html>
