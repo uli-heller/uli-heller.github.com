@@ -3,7 +3,7 @@ layout: post
 author: Uli Heller
 published: true
 title: "JMX auf Localhost"
-date: 2013-03-21 07:00
+date: 2013-03-22 08:00
 comments: true
 categories:
 - Linux
@@ -55,6 +55,8 @@ Die Idee für nachfolgendes Vorgehen stammt von [StackOverflow](http://stackover
 * Eigene RMISocketFactory erstellen und registrieren
 * MBeanServer über die Standard-ManagementFactory "holen"
 * MBeanServer mit der eigenen RMISocketFactory "verknüpfen" und einen JMXConnectorServer dafür erzeugen und starten
+
+Zusätzlich zu den in der Quelle auf [StackOverflow](http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost) umgesetzten Schritte mußte ich noch das Java-Property "java.rmi.server.hostname" auf "127.0.0.1" setzen. Ohne diesen Zusatzschritt funktioniert später JCONSOLE nicht.
 
 Wenn man das richtig getan hat, dann kann man danach mittels `jconsole localhost:11223` die JCONSOLE starten. "11223" ist dabei die Portnummer, die man bei vorigem Ablauf mit verarbeitet.
 
