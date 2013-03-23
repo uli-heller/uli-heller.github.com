@@ -12,3 +12,7 @@ SublimeText3
 ------------
 * http://www.sublimetext.com/3
 * http://www.sublimetext.com/blog/articles/sublime-text-3-beta-3019
+
+JMX
+---
+http://www.javacodegeeks.com/2012/07/jmx-and-spring-part-1.html
