@@ -86,7 +86,7 @@
   <header>
     <h1 class="entry-title">
 
-<a href="/2013/03/21/localhost-jmx/">JMX auf Localhost</a>
+<a href="/2013/04/03/nginx-gpg/">NGINX: Signatur</a>
 
 </h1>
 
@@ -104,8 +104,82 @@
   
 
 
-<time datetime="2013-03-21T07:00:00+01:00" pubdate data-updated="true">21. März 2013</time>
-         &bull; <a rel="bookmark" href="/2013/03/21/localhost-jmx/">Permalink</a>
+<time datetime="2013-04-03T15:00:00+02:00" pubdate data-updated="true">03. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/03/nginx-gpg/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>NGINX: Signatur der Quelltext-Datei prüfen</h1>
+
+<ol>
+<li><p>Quelltexte herunterladen: <code>wget -O - http://nginx.org/download/nginx-1.2.8.tar.gz|gzip -cd &gt;nginx-1.2.8.tar.gz</code></p>
+
+<p>Hinweis: Dieses umständliche Vorgehen ist notwendig, weil die Version 1.2.8 aus unerfindlichen Gründen &#8220;doppelt komprimiert&#8221; ist!</p></li>
+<li><p>Signatur herunterladen: <code>wget http://nginx.org/download/nginx-1.2.8.tar.gz.asc</code></p></li>
+<li><p>Signatur prüfen: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
+
+<p>Klappt nicht: Es wird gemeckert weil der zugehörige RSA-Schlüssel fehlt</p></li>
+<li><p>Schlüssel importieren - auf eine der folgenden Arten:</p>
+
+<ul>
+<li><p>Vom Keyserver: <code>gpg --keyserver pgpkeys.mit.edu --recv-key A1C052F8</code></p></li>
+<li><p>Mittels manuellem Download: <code>wget -O - http://nginx.org/keys/mdounin.key|gzip -cd|gpg --import</code></p></li>
+</ul>
+
+
+<p>Ich hab&#8217;s auf beide Arten gemacht und dabei überprüft, dass der Schlüssel identisch ist!</p></li>
+<li><p>Erneuter Test: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
+
+<p>Klappt halbwegs!</p></li>
+</ol>
+
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/03/22/localhost-jmx/">JMX auf Localhost</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-22T08:00:00+01:00" pubdate data-updated="true">22. März 2013</time>
+         &bull; <a rel="bookmark" href="/2013/03/22/localhost-jmx/">Permalink</a>
       </p>
     
   </header>
@@ -125,7 +199,7 @@
   <footer>
     
     
-    <p><a rel="full-article" href="/2013/03/21/localhost-jmx/">Vollständiger Artikel &rarr;</a></p>
+    <p><a rel="full-article" href="/2013/03/22/localhost-jmx/">Vollständiger Artikel &rarr;</a></p>
     
   </footer>
 
@@ -901,124 +975,6 @@ werden.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/02/12/github-downloads/">GitHub - Downloads</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-02-12T08:00:00+01:00" pubdate data-updated="true">12. Februar 2013</time>
-         &bull; <a rel="bookmark" href="/2013/02/12/github-downloads/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>GitHub - Anlegen eines Download-Bereichs</h1>
-
-<p>Ende 2012 sorgte GitHub bei mir für einige Verwirrung, indem
-die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
-
-<p>Als Notbehelf verwende ich aktuell einfach einen speziellen Zweig namens
-&#8220;downloads&#8221; und lege dann die runterladbaren Dateien darin ab.</p>
-
-<h2>Download-Zweig anlegen</h2>
-
-<p>Den Download-Zweig legt man grob so an:</p>
-
-<ul>
-<li>Sicherstellen: Alle Dateien sind gespeichert in Git! (mittels: <code>git status</code>)</li>
-<li>Neuen Zweig anlegen und leeren</li>
-<li>README.txt erzeugen mit einer kurzen Beschreibung</li>
-<li>README.txt in Git abspeichern</li>
-<li>Zweig nach GitHub hochschieben</li>
-</ul>
-
-
-<figure class='code'><figcaption><span>Download-Zweig anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout master
-</span><span class='line'><span class="nv">$ </span>git status
-</span><span class='line'><span class="c"># On branch master</span>
-</span><span class='line'>nothing to commit, working directory clean
-</span><span class='line'><span class="nv">$ </span>git checkout --orphan downloads
-</span><span class='line'><span class="nv">$ </span>git rm -rf .
-</span><span class='line'><span class="nv">$ </span>jmacs README.txt <span class="c"># Enter description of the branch</span>
-</span><span class='line'><span class="nv">$ </span>git add README.txt
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Created branch: downloads&quot;</span>
-</span><span class='line'><span class="nv">$ </span>git push --set-upstream origin downloads
-</span><span class='line'><span class="nv">$ </span>git checkout master
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Dateien ablegen</h2>
-
-<figure class='code'><figcaption><span>Dateien ablegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout downloads
-</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.tar.xz .
-</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.zip .
-</span><span class='line'><span class="nv">$ </span>git add my-project-0.1-bin.tar.xz my-project-0.1-bin.zip
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Added downloads of version 0.1&quot;</span> .
-</span><span class='line'><span class="nv">$ </span>git push <span class="c"># might take some time depending on your internet connection bandwidth</span>
-</span><span class='line'><span class="nv">$ </span>git checkout master <span class="c"># switch back to master</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Älter</a>
@@ -1035,7 +991,11 @@ die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/2013/03/21/localhost-jmx/">JMX auf Localhost</a>
+        <a href="/2013/04/03/nginx-gpg/">NGINX: Signatur</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/03/22/localhost-jmx/">JMX auf Localhost</a>
       </li>
     
       <li class="post">
@@ -1048,10 +1008,6 @@ die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
     
       <li class="post">
         <a href="/2013/03/11/octopress-aktualisierung/">Octopress-Aktualisierung 1/2 - Grundtests</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/03/07/crx-install/">Chrome-Erweiterungen - Teil 2/2: CRX-Dateien einspielen</a>
       </li>
     
   </ul>

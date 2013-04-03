@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Lucid - Was ich so treibe...</title>
+  <title>NGINX: Signatur - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
   <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
 
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.comblog/categories/lucid/">
+  <link rel="canonical" href="http://uli-heller.github.com/2013/04/03/nginx-gpg/">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -37,7 +37,7 @@
   <link href="/octopress-favicon.png" rel="icon">
 </head>
 
-<body  id="archive"   >
+<body   >
   <header role="banner"><hgroup>
   <h1><a href="/">Was ich so treibe...</a></h1>
   
@@ -69,88 +69,135 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+
+
+
+
+
+
+
+
+
+
+
+<article class="hentry " role="article">
   
   <header>
-    <h1 class="entry-title">Category: Lucid</h1>
+    <h1 class="entry-title">
+
+NGINX: Signatur
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-03T15:00:00+02:00" pubdate data-updated="true">03. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/03/nginx-gpg/">Permalink</a>
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
+
+<div class="entry-content"><h1>NGINX: Signatur der Quelltext-Datei prüfen</h1>
+
+<ol>
+<li><p>Quelltexte herunterladen: <code>wget -O - http://nginx.org/download/nginx-1.2.8.tar.gz|gzip -cd &gt;nginx-1.2.8.tar.gz</code></p>
+
+<p>Hinweis: Dieses umständliche Vorgehen ist notwendig, weil die Version 1.2.8 aus unerfindlichen Gründen "doppelt komprimiert" ist!</p></li>
+<li><p>Signatur herunterladen: <code>wget http://nginx.org/download/nginx-1.2.8.tar.gz.asc</code></p></li>
+<li><p>Signatur prüfen: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
+
+<p>Klappt nicht: Es wird gemeckert weil der zugehörige RSA-Schlüssel fehlt</p></li>
+<li><p>Schlüssel importieren - auf eine der folgenden Arten:</p>
+
+<ul>
+<li><p>Vom Keyserver: <code>gpg --keyserver pgpkeys.mit.edu --recv-key A1C052F8</code></p></li>
+<li><p>Mittels manuellem Download: <code>wget -O - http://nginx.org/keys/mdounin.key|gzip -cd|gpg --import</code></p></li>
+</ul>
 
 
+<p>Ich hab's auf beide Arten gemacht und dabei überprüft, dass der Schlüssel identisch ist!</p></li>
+<li><p>Erneuter Test: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
 
-  
-  <h2>2013</h2>
-
-
-
-
-
-
-
-
-
-
-
-
-<article >
-  
-<h1 class="entry-title">
-
-<a href="/2013/02/14/redmine-rails-update/">Rails-2.3.17</a>
-
-</h1>
-
-<time datetime="2013-02-14T06:10:00+01:00" pubdate><span class='month'>Feb</span> <span class='day'>14</span> <span class='year'>2013</span></time>
-<footer>
-  
-  
-  
-  <span class="categories">Themen: <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lucid/'>Lucid</a>, <a class='category' href='/blog/categories/redmine/'>Redmine</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a></span>
-  
-</footer>
-
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<article >
-  
-<h1 class="entry-title">
-
-<a href="/2013/01/11/redmine-rails-update/">Rails-2.3.15</a>
-
-</h1>
-
-<time datetime="2013-01-11T07:00:00+01:00" pubdate><span class='month'>Jan</span> <span class='day'>11</span> <span class='year'>2013</span></time>
-<footer>
-  
-  
-  
-  <span class="categories">Themen: <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lucid/'>Lucid</a>, <a class='category' href='/blog/categories/redmine/'>Redmine</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a></span>
-  
-</footer>
-
-</article>
+<p>Klappt halbwegs!</p></li>
+</ol>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-03T15:00:00+02:00" pubdate data-updated="true">03. April 2013</time>
+
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gpg/'>GPG</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/nginx/'>NGINX</a>
+  
+</span>
+
+
+
+      
+
+    </p>
+    
+      <div class="sharing">
+  
+    
+      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    
+  
+  
+  
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/03/22/localhost-jmx/" title="Voriger Beitrag: JMX auf Localhost">&laquo; JMX auf Localhost</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
+<section>
+  <h1>Comments</h1>
+  
 
+  
+</section>
 
 </div>
 

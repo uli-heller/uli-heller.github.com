@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-03-22T07:57:20+01:00</updated>
+  <updated>2013-04-03T16:16:09+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -18,10 +18,48 @@
 
 
 
+<title type="html"><![CDATA[NGINX: Signatur]]></title>
+<link href="http://uli-heller.github.com/2013/04/03/nginx-gpg/"/>
+<updated>2013-04-03T15:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/04/03/nginx-gpg</id>
+
+      <content type="html"><![CDATA[<h1>NGINX: Signatur der Quelltext-Datei prüfen</h1>
+
+<ol>
+<li><p>Quelltexte herunterladen: <code>wget -O - http://nginx.org/download/nginx-1.2.8.tar.gz|gzip -cd &gt;nginx-1.2.8.tar.gz</code></p>
+
+<p>Hinweis: Dieses umständliche Vorgehen ist notwendig, weil die Version 1.2.8 aus unerfindlichen Gründen &#8220;doppelt komprimiert&#8221; ist!</p></li>
+<li><p>Signatur herunterladen: <code>wget http://nginx.org/download/nginx-1.2.8.tar.gz.asc</code></p></li>
+<li><p>Signatur prüfen: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
+
+<p>Klappt nicht: Es wird gemeckert weil der zugehörige RSA-Schlüssel fehlt</p></li>
+<li><p>Schlüssel importieren - auf eine der folgenden Arten:</p>
+
+<ul>
+<li><p>Vom Keyserver: <code>gpg --keyserver pgpkeys.mit.edu --recv-key A1C052F8</code></p></li>
+<li><p>Mittels manuellem Download: <code>wget -O - http://nginx.org/keys/mdounin.key|gzip -cd|gpg --import</code></p></li>
+</ul>
+
+
+<p>Ich hab&#8217;s auf beide Arten gemacht und dabei überprüft, dass der Schlüssel identisch ist!</p></li>
+<li><p>Erneuter Test: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
+
+<p>Klappt halbwegs!</p></li>
+</ol>
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/03/nginx-gpg/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
 <title type="html"><![CDATA[JMX auf Localhost]]></title>
-<link href="http://uli-heller.github.com/2013/03/21/localhost-jmx/"/>
-<updated>2013-03-21T07:00:00+01:00</updated>
-<id>http://uli-heller.github.com/2013/03/21/localhost-jmx</id>
+<link href="http://uli-heller.github.com/2013/03/22/localhost-jmx/"/>
+<updated>2013-03-22T08:00:00+01:00</updated>
+<id>http://uli-heller.github.com/2013/03/22/localhost-jmx</id>
 
       <content type="html"><![CDATA[<h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
 
@@ -75,6 +113,8 @@
 </ul>
 
 
+<p>Zusätzlich zu den in der Quelle auf <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a> umgesetzten Schritte mußte ich noch das Java-Property &#8220;java.rmi.server.hostname&#8221; auf &#8220;127.0.0.1&#8221; setzen. Ohne diesen Zusatzschritt funktioniert später JCONSOLE nicht.</p>
+
 <p>Wenn man das richtig getan hat, dann kann man danach mittels <code>jconsole localhost:11223</code> die JCONSOLE starten. &#8220;11223&#8221; ist dabei die Portnummer, die man bei vorigem Ablauf mit verarbeitet.</p>
 
 <p>Ich habe das ganze noch in ein Servlet verpackt. Nun kann ich durch</p>
@@ -90,7 +130,7 @@
 <p>Seitens des Operatings sind keinerlei Eingriffe erforderlich. Auch das lästige Setzen des Java-Properties erübrigt sich.</p>
 
 <p>Den Quelltext zu dem ganzen gibt&#8217;s auf <a href="https://github.com/uli-heller/uli-java-prototypes/tree/master/localhost-jmx">GitHub</a></p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/21/localhost-jmx/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/22/localhost-jmx/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
