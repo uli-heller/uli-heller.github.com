@@ -2,17 +2,20 @@
 layout: post
 author: Uli Heller
 published: true
-title: "NGINX: Signatur"
+title: "GPG: Signaturen"
 date: 2013-04-03 15:00
+updated: 2013-04-05 11:30
 comments: true
 categories:
 - Linux
-- NGINX
 - GPG
 ---
 
-NGINX: Signatur der Quelltext-Datei prüfen
-==========================================
+Signatur von Quelltext-Dateien prüfen
+=====================================
+
+Nginx
+-----
 
 1. Quelltexte herunterladen: `wget -O - http://nginx.org/download/nginx-1.2.8.tar.gz|gzip -cd >nginx-1.2.8.tar.gz`
 
@@ -35,3 +38,16 @@ NGINX: Signatur der Quelltext-Datei prüfen
 6. Erneuter Test: `gpg  nginx-1.2.8.tar.gz.asc`
 
    Klappt halbwegs!
+
+Subversion
+----------
+
+1. Quelltext herunterladen: `wget http://mirror.serversupportforum.de/apache/subversion/subversion-1.7.9.tar.gz`
+
+2. Signatur herunterladen: `wget http://www.apache.org/dist/subversion/subversion-1.7.9.tar.gz.asc`
+
+3. Schlüssel importieren: `wget -O - https://people.apache.org/keys/group/subversion.asc|gpg --import`
+
+4. Signatur prüfen: `gpg subversion-1.7.9.tar.gz.asc`
+
+
