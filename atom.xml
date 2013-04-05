@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-04-03T16:16:09+02:00</updated>
+  <updated>2013-04-05T11:16:37+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -18,12 +18,14 @@
 
 
 
-<title type="html"><![CDATA[NGINX: Signatur]]></title>
-<link href="http://uli-heller.github.com/2013/04/03/nginx-gpg/"/>
+<title type="html"><![CDATA[GPG: Signaturen]]></title>
+<link href="http://uli-heller.github.com/2013/04/03/gpg-signaturen/"/>
 <updated>2013-04-03T15:00:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/04/03/nginx-gpg</id>
+<id>http://uli-heller.github.com/2013/04/03/gpg-signaturen</id>
 
-      <content type="html"><![CDATA[<h1>NGINX: Signatur der Quelltext-Datei prüfen</h1>
+      <content type="html"><![CDATA[<h1>Signatur von Quelltext-Dateien prüfen</h1>
+
+<h2>Nginx</h2>
 
 <ol>
 <li><p>Quelltexte herunterladen: <code>wget -O - http://nginx.org/download/nginx-1.2.8.tar.gz|gzip -cd &gt;nginx-1.2.8.tar.gz</code></p>
@@ -47,7 +49,17 @@
 <p>Klappt halbwegs!</p></li>
 </ol>
 
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/03/nginx-gpg/">&#9875; Permalink</a></p>]]></content>
+
+<h2>Subversion</h2>
+
+<ol>
+<li><p>Quelltext herunterladen: <code>wget http://mirror.serversupportforum.de/apache/subversion/subversion-1.7.9.tar.gz</code></p></li>
+<li><p>Signatur herunterladen: <code>wget http://www.apache.org/dist/subversion/subversion-1.7.9.tar.gz.asc</code></p></li>
+<li><p>Schlüssel importieren: <code>wget -O - https://people.apache.org/keys/group/subversion.asc|gpg --import</code></p></li>
+<li><p>Signatur prüfen: <code>gpg subversion-1.7.9.tar.gz.asc</code></p></li>
+</ol>
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/03/gpg-signaturen/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>

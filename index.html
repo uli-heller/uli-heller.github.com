@@ -86,7 +86,7 @@
   <header>
     <h1 class="entry-title">
 
-<a href="/2013/04/03/nginx-gpg/">NGINX: Signatur</a>
+<a href="/2013/04/03/gpg-signaturen/">GPG: Signaturen</a>
 
 </h1>
 
@@ -104,13 +104,17 @@
   
 
 
+
+  
 <time datetime="2013-04-03T15:00:00+02:00" pubdate data-updated="true">03. April 2013</time>
-         &bull; <a rel="bookmark" href="/2013/04/03/nginx-gpg/">Permalink</a>
+         &bull; <a rel="bookmark" href="/2013/04/03/gpg-signaturen/">Permalink</a>
       </p>
     
   </header>
 
-<div class="entry-content"><h1>NGINX: Signatur der Quelltext-Datei prüfen</h1>
+<div class="entry-content"><h1>Signatur von Quelltext-Dateien prüfen</h1>
+
+<h2>Nginx</h2>
 
 <ol>
 <li><p>Quelltexte herunterladen: <code>wget -O - http://nginx.org/download/nginx-1.2.8.tar.gz|gzip -cd &gt;nginx-1.2.8.tar.gz</code></p>
@@ -132,6 +136,16 @@
 <li><p>Erneuter Test: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
 
 <p>Klappt halbwegs!</p></li>
+</ol>
+
+
+<h2>Subversion</h2>
+
+<ol>
+<li><p>Quelltext herunterladen: <code>wget http://mirror.serversupportforum.de/apache/subversion/subversion-1.7.9.tar.gz</code></p></li>
+<li><p>Signatur herunterladen: <code>wget http://www.apache.org/dist/subversion/subversion-1.7.9.tar.gz.asc</code></p></li>
+<li><p>Schlüssel importieren: <code>wget -O - https://people.apache.org/keys/group/subversion.asc|gpg --import</code></p></li>
+<li><p>Signatur prüfen: <code>gpg subversion-1.7.9.tar.gz.asc</code></p></li>
 </ol>
 
 </div>
@@ -991,7 +1005,7 @@ werden.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/2013/04/03/nginx-gpg/">NGINX: Signatur</a>
+        <a href="/2013/04/03/gpg-signaturen/">GPG: Signaturen</a>
       </li>
     
       <li class="post">
