@@ -9,10 +9,26 @@ comments: true
 categories:
 - Linux
 - GPG
+- PGP
 ---
 
-Signatur von Quelltext-Dateien prüfen
-=====================================
+GPG/PGP-Signatur von Quelltext-Dateien prüfen
+=============================================
+
+Quelltextdateien werden oftmals mit GPG/PGP-Signaturen bereitgestellt, über die die Integrität der Dateien geprüft werrden kann. Hier zeige ich exemplarisch, wie dies für Subversion und Nginx gemacht wird.
+
+<!-- more -->
+
+Subversion
+----------
+
+1. Quelltext herunterladen: `wget http://mirror.serversupportforum.de/apache/subversion/subversion-1.7.9.tar.gz`
+
+2. Signatur herunterladen: `wget http://www.apache.org/dist/subversion/subversion-1.7.9.tar.gz.asc`
+
+3. Schlüssel importieren: `wget -O - https://people.apache.org/keys/group/subversion.asc|gpg --import`
+
+4. Signatur prüfen: `gpg subversion-1.7.9.tar.gz.asc`
 
 Nginx
 -----
@@ -38,16 +54,3 @@ Nginx
 6. Erneuter Test: `gpg  nginx-1.2.8.tar.gz.asc`
 
    Klappt halbwegs!
-
-Subversion
-----------
-
-1. Quelltext herunterladen: `wget http://mirror.serversupportforum.de/apache/subversion/subversion-1.7.9.tar.gz`
-
-2. Signatur herunterladen: `wget http://www.apache.org/dist/subversion/subversion-1.7.9.tar.gz.asc`
-
-3. Schlüssel importieren: `wget -O - https://people.apache.org/keys/group/subversion.asc|gpg --import`
-
-4. Signatur prüfen: `gpg subversion-1.7.9.tar.gz.asc`
-
-
