@@ -23,3 +23,7 @@ Chardin
 -------
 https://github.com/heelhook/chardin.js
 http://heelhook.github.com/chardin.js/
+
+Octopress
+---------
+http://webdesign.tutsplus.com/tutorials/applications/getting-started-with-octopress/
