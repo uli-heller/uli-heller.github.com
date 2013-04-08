@@ -7,6 +7,8 @@ Git
 * http://rambaudpierre.fr/blog/linux/2013-01-26-git-tricks-and-tips
 * http://pcottle.github.com/learnGitBranching/
   https://github.com/pcottle/learnGitBranching/
+* http://www.darianshimy.com/blog/2013/04/04/everything-i-forget-about-git/
+* http://code.joejag.com/2013/everyday-git-aliases/
 
 SublimeText3
 ------------
@@ -16,3 +18,8 @@ SublimeText3
 JMX
 ---
 http://www.javacodegeeks.com/2012/07/jmx-and-spring-part-1.html
+
+Chardin
+-------
+https://github.com/heelhook/chardin.js
+http://heelhook.github.com/chardin.js/
