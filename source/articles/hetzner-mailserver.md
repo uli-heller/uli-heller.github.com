@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Hetzner-Mailserver"
 date: 2013-02-19 07:00
-updated: 2013-02-19 07:00
+updated: 2013-04-09 07:00
 comments: false
 ---
 
@@ -110,6 +110,65 @@ cp .../exim4.conf /etc/exim4/exim4.conf
 chown -R Debian-exim.Debian-exim /var/log/exim4
 {% endcodeblock %}
 
+VirtualBox
+----------
+
+### Grundinstallation
+
+* Zusatzpakete installieren:
+    * `apt-get install dkms` (... installiert recht viele Pakete)
+* Download-Bereich anlegen: `mkdir -p /data/downloads`
+* Runterladen: 
+    * `cd /data/downloads`
+    * `wget -c http://dlc.sun.com.edgesuite.net/virtualbox/4.2.10/virtualbox-4.2_4.2.10-84104~Ubuntu~precise_amd64.deb`
+    * `wget -c http://dlc.sun.com.edgesuite.net/virtualbox/4.2.10/Oracle_VM_VirtualBox_Extension_Pack-4.2.10-84104.vbox-extpack`
+* Installieren:
+    * `dpkg -i virtualbox-4.2_4.2.10-84104~Ubuntu~precise_amd64.deb` (... scheitert mit vielen Fehlermeldungen)
+    * `apt-get install -f` (... korrigiert die Fehler und installiert auch VirtualBox)
+* Test:
+    * `ssh -X root@hetzner-server`
+    * `VirtualBox` -> GUI öffnet sich
+* ExtPack installieren
+    * `vboxmanage extpack install Oracle_VM_VirtualBox_Extension_Pack-4.2.10-84104.vbox-extpack`
+
+### Apt-Cacher-NG
+
+* `apt-get install apt-cacher-ng`
+* Datei /etc/apt-cacher-ng/acng.conf anpassen
+    * CacheDir: /data/apt-cacher-ng
+* `mkdir /data/apt-cacher-ng`
+* `chown apt-cacher-ng.apt-cacher-ng /data/apt-cacher-ng`
+* `service apt-cacher-ng restart`
+
+### VBox-Benutzer anlegen
+
+{% codeblock VBox-Benutzer anlegen lang:sh %}
+useradd -m -G vboxusers vboxuser
+id vboxuser
+# uid=1001(vboxuser) gid=1001(vboxuser) groups=1001(vboxuser),112(vboxusers)
+mkdir /data/vboxuser
+chown vboxuser.vboxuser /data/vboxuser
+su - vboxuser
+vboxmanage setproperty machinefolder /data/vboxuser
+{% endcodeblock %}
+
+### VBoxTool
+
+* VBoxTool herunterladen und installieren
+
+  {% codeblock VBoxTool installieren lang:sh %}
+  cd /data/downloads
+  wget -c .../vboxtool_0.6-2dp01~precise1_all.deb
+  dpkg -i vboxtool_0.6-2dp01~precise1_all.deb
+  {% endcodeblock %}
+
+* VBoxTool konfigurieren
+
+    * /etc/vboxtool/vbt.conf
+
+        * `users=vboxuser`
+
+
 Dateilisten
 -----------
 
@@ -119,10 +178,12 @@ Diese Dateien wurden geändert:
 * /etc/apt/sources.list
 * /etc/apt/sources.list.hetzner
 * /etc/apt/sources.list.120464
+* /etc/apt-cacher-ng/acng.conf
 * /etc/exim4/exim4.conf
 * /etc/exim4/blocked-recipients
 * /etc/hosts
 * /etc/hostname
+* /etc/vboxtool/vbt.conf
 * /home/dpmail/.ssh/authorized_keys
 
 Probleme
