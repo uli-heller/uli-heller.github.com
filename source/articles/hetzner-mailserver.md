@@ -162,11 +162,19 @@ vboxmanage setproperty machinefolder /data/vboxuser
   dpkg -i vboxtool_0.6-2dp01~precise1_all.deb
   {% endcodeblock %}
 
+  TODO: Hostonlyif erzeugen!
+
 * VBoxTool konfigurieren
 
     * /etc/vboxtool/vbt.conf
 
         * `users=vboxuser`
+
+### Erste VM aktivieren
+
+* `sudo -u vboxuser -s -H`
+* `vboxmanage import .../Ubuntu-12.04-10.ova`
+*
 
 
 Dateilisten
