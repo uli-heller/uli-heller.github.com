@@ -130,6 +130,9 @@ VirtualBox
     * `VirtualBox` -> GUI öffnet sich
 * ExtPack installieren
     * `vboxmanage extpack install Oracle_VM_VirtualBox_Extension_Pack-4.2.10-84104.vbox-extpack`
+* Host-Only-Interfaced anlegen
+    * `vboxmanage hostonlyif create`
+    * `vboxmanage list hostonlyifs`
 
 ### Apt-Cacher-NG
 
@@ -172,10 +175,18 @@ vboxmanage setproperty machinefolder /data/vboxuser
 
 ### Erste VM aktivieren
 
+Import, Konfiguration und Start:
+
 * `sudo -u vboxuser -s -H`
 * `vboxmanage import .../Ubuntu-12.04-10.ova`
-*
+* `vboxmanage modifyvm Ubuntu-12.04-10 --vrde on --vrdeport 3389 --vrdeaddress localhost`
+* `vboxmanage modifyvm Ubuntu-12.04-10 --memory 128`
+* `vboxheadless -s Ubuntu-12.04-10`
 
+Sichtung:
+
+* `ssh -L3389:localhost:3389 daemons-point.com`
+* `rdesktop localhost:3389` -> es erscheint die Konsole der VM
 
 Dateilisten
 -----------
@@ -193,6 +204,7 @@ Diese Dateien wurden geändert:
 * /etc/hostname
 * /etc/vboxtool/vbt.conf
 * /home/dpmail/.ssh/authorized_keys
+* /home/vboxuser/.ssh/authorized_keys
 
 Probleme
 --------
