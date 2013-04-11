@@ -281,6 +281,157 @@ No</li>
 <!--end-escape-->
 
 
+<h2>VirtualBox</h2>
+
+<h3>Grundinstallation</h3>
+
+<ul>
+<li>Zusatzpakete installieren:
+
+<ul>
+<li><code>apt-get install dkms</code> (... installiert recht viele Pakete)</li>
+</ul>
+</li>
+<li>Download-Bereich anlegen: <code>mkdir -p /data/downloads</code></li>
+<li>Runterladen:
+
+<ul>
+<li><code>cd /data/downloads</code></li>
+<li><code>wget -c http://dlc.sun.com.edgesuite.net/virtualbox/4.2.10/virtualbox-4.2_4.2.10-84104~Ubuntu~precise_amd64.deb</code></li>
+<li><code>wget -c http://dlc.sun.com.edgesuite.net/virtualbox/4.2.10/Oracle_VM_VirtualBox_Extension_Pack-4.2.10-84104.vbox-extpack</code></li>
+</ul>
+</li>
+<li>Installieren:
+
+<ul>
+<li><code>dpkg -i virtualbox-4.2_4.2.10-84104~Ubuntu~precise_amd64.deb</code> (... scheitert mit vielen Fehlermeldungen)</li>
+<li><code>apt-get install -f</code> (... korrigiert die Fehler und installiert auch VirtualBox)</li>
+</ul>
+</li>
+<li>Test:
+
+<ul>
+<li><code>ssh -X root@hetzner-server</code></li>
+<li><code>VirtualBox</code> -> GUI öffnet sich</li>
+</ul>
+</li>
+<li>ExtPack installieren
+
+<ul>
+<li><code>vboxmanage extpack install Oracle_VM_VirtualBox_Extension_Pack-4.2.10-84104.vbox-extpack</code></li>
+</ul>
+</li>
+<li>Host-Only-Interfaced anlegen
+
+<ul>
+<li><code>vboxmanage hostonlyif create</code></li>
+<li><code>vboxmanage list hostonlyifs</code></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Apt-Cacher-NG</h3>
+
+<ul>
+<li><code>apt-get install apt-cacher-ng</code></li>
+<li>Datei /etc/apt-cacher-ng/acng.conf anpassen
+
+<ul>
+<li>CacheDir: /data/apt-cacher-ng</li>
+</ul>
+</li>
+<li><code>mkdir /data/apt-cacher-ng</code></li>
+<li><code>chown apt-cacher-ng.apt-cacher-ng /data/apt-cacher-ng</code></li>
+<li><code>service apt-cacher-ng restart</code></li>
+</ul>
+
+
+<h3>VBox-Benutzer anlegen</h3>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>VBox-Benutzer anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>useradd -m -G vboxusers vboxuser
+</span><span class='line'>id vboxuser
+</span><span class='line'><span class="c"># uid=1001(vboxuser) gid=1001(vboxuser) groups=1001(vboxuser),112(vboxusers)</span>
+</span><span class='line'>mkdir /data/vboxuser
+</span><span class='line'>chown vboxuser.vboxuser /data/vboxuser
+</span><span class='line'>su - vboxuser
+</span><span class='line'>vboxmanage setproperty machinefolder /data/vboxuser
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h3>VBoxTool</h3>
+
+<ul>
+<li>VBoxTool herunterladen und installieren</li>
+</ul>
+
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>VBoxTool installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /data/downloads
+</span><span class='line'>  wget -c .../vboxtool_0.6-2dp01~precise1_all.deb
+</span><span class='line'>  dpkg -i vboxtool_0.6-2dp01~precise1_all.deb
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<p>  TODO: Hostonlyif erzeugen!</p>
+
+<ul>
+<li><p>VBoxTool konfigurieren</p>
+
+<ul>
+<li><p>/etc/vboxtool/vbt.conf</p>
+
+<ul>
+<li><code>users=vboxuser</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Erste VM aktivieren</h3>
+
+<p>Import, Konfiguration und Start:</p>
+
+<ul>
+<li><code>sudo -u vboxuser -s -H</code></li>
+<li><code>vboxmanage import .../Ubuntu-12.04-10.ova</code></li>
+<li><code>vboxmanage modifyvm Ubuntu-12.04-10 --vrde on --vrdeport 3389 --vrdeaddress localhost</code></li>
+<li><code>vboxmanage modifyvm Ubuntu-12.04-10 --memory 128</code></li>
+<li><code>vboxheadless -s Ubuntu-12.04-10</code></li>
+</ul>
+
+
+<p>Sichtung:</p>
+
+<ul>
+<li><code>ssh -L3389:localhost:3389 daemons-point.com</code></li>
+<li><code>rdesktop localhost:3389</code> -> es erscheint die Konsole der VM</li>
+</ul>
+
+
 <h2>Dateilisten</h2>
 
 <p>Diese Dateien wurden geändert:</p>
@@ -290,11 +441,14 @@ No</li>
 <li>/etc/apt/sources.list</li>
 <li>/etc/apt/sources.list.hetzner</li>
 <li>/etc/apt/sources.list.120464</li>
+<li>/etc/apt-cacher-ng/acng.conf</li>
 <li>/etc/exim4/exim4.conf</li>
 <li>/etc/exim4/blocked-recipients</li>
 <li>/etc/hosts</li>
 <li>/etc/hostname</li>
+<li>/etc/vboxtool/vbt.conf</li>
 <li>/home/dpmail/.ssh/authorized_keys</li>
+<li>/home/vboxuser/.ssh/authorized_keys</li>
 </ul>
 
 
@@ -385,7 +539,7 @@ No</li>
 
 
   
-<time datetime="2013-02-19T07:00:00+01:00" class="updated">Updated 19. Februar 2013</time>
+<time datetime="2013-04-09T07:00:00+02:00" class="updated">Updated 09. April 2013</time>
 
 
       
