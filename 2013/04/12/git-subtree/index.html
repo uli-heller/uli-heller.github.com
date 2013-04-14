@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>GitHub - Downloads - Was ich so treibe...</title>
+  <title>Git Subtree (1/2) - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
   <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
 
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.com/2013/02/12/github-downloads/">
+  <link rel="canonical" href="http://uli-heller.github.com/2013/04/12/git-subtree/">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -85,7 +85,7 @@
   <header>
     <h1 class="entry-title">
 
-GitHub - Downloads
+Git Subtree (1/2)
 
 </h1>
 
@@ -103,39 +103,34 @@ GitHub - Downloads
   
 
 
-
-  
-<time datetime="2013-02-12T08:00:00+01:00" pubdate data-updated="true">12. Februar 2013</time>
-         &bull; <a rel="bookmark" href="/2013/02/12/github-downloads/">Permalink</a>
+<time datetime="2013-04-12T07:14:00+02:00" pubdate data-updated="true">12. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/12/git-subtree/">Permalink</a>
       </p>
     
   </header>
 
-<div class="entry-content"><h1>GitHub - Anlegen eines Download-Bereichs</h1>
+<div class="entry-content"><h1>Git Subtree - Neues DEB-Paket bereitstellen</h1>
 
-<p>Ende 2012 sorgte GitHub bei mir für einige Verwirrung, indem
-die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
+<h2>Einleitung</h2>
 
-<p>Als Notbehelf verwende ich aktuell einfach einen speziellen Zweig namens
-"downloads" und lege dann die runterladbaren Dateien darin ab.</p>
+<p>Kurze Erklärung: Warum will ich&#8217;s verwenden? Warum kann ich&#8217;s nicht
+direkt verwenden?</p>
 
-<h2>Download-Zweig anlegen</h2>
+<p>Leider ist <code>git subtree</code> in den von mir verwendeten Pakete standardmässig
+nicht aktiv:</p>
 
-<p>Den Download-Zweig legt man grob so an:</p>
-
-<ul>
-<li>Sicherstellen: Alle Dateien sind gespeichert in Git! (mittels: <code>git status</code>)</li>
-<li>Neuen Zweig anlegen und leeren</li>
-<li>README.txt erzeugen mit einer kurzen Beschreibung</li>
-<li>README.txt in Git abspeichern</li>
-<li>Zweig nach GitHub hochschieben</li>
-</ul>
+<figure class='code'><figcaption><span>git-subtree fehlt </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
+</span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
+</span></code></pre></td></tr></table></div></figure>
 
 
-<!--escape-->
+<p>Entweder wir aktivieren es manuell oder wir bauen neue Pakete, bei denen <code>git subtree</code> aktiviert ist.</p>
 
+<h2>Manuelles Aktivieren von Git Subtree</h2>
 
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Download-Zweig anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>git-subtree manuell installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -144,50 +139,55 @@ die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout master
-</span><span class='line'><span class="nv">$ </span>git status
-</span><span class='line'><span class="c"># On branch master</span>
-</span><span class='line'>nothing to commit, working directory clean
-</span><span class='line'><span class="nv">$ </span>git checkout --orphan downloads
-</span><span class='line'><span class="nv">$ </span>git rm -rf .
-</span><span class='line'><span class="nv">$ </span>jmacs README.txt <span class="c"># Enter description of the branch</span>
-</span><span class='line'><span class="nv">$ </span>git add README.txt
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Created branch: downloads&quot;</span>
-</span><span class='line'><span class="nv">$ </span>git push --set-upstream origin downloads
-</span><span class='line'><span class="nv">$ </span>git checkout master
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
+</span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
+</span><span class='line'><span class="nv">$ </span>sudo cp /usr/share/doc/git/contrib/subtree/git-subtree.sh /usr/lib/git-core/git-subtree
+</span><span class='line'><span class="nv">$ </span>sudo chmod +x  /usr/lib/git-core/git-subtree
+</span><span class='line'><span class="nv">$ </span>git subtree
+</span><span class='line'>usage: git subtree add   --prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
+</span><span class='line'>   or: git subtree add   --prefix<span class="o">=</span>&lt;prefix&gt; &lt;repository&gt; &lt;commit&gt;
+</span><span class='line'>   or: git subtree merge --prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
 
 
-<!--end-escape-->
+<p>Nachteil beim manuellen Aktivieren: Es gibt keine Online-Dokumentation,
+d.h. <code>git help subtree</code> läuft in&#8217;s Leere.</p>
+
+<h2>Erzeugung neuer DEB-Pakete</h2>
+
+<ul>
+<li>Ausgangspunkt: Build-Verzeichnis für Git-1.8.2.1 liegt vor, d.h. ich
+kann mit <code>dpkg-buildpackage</code> neue DEB-Pakete erzeugen</li>
+<li>Sichtung: Wie funktioniert die Einbindung von &#8220;subtree&#8221;?
+
+<ul>
+<li>Die Implementierung liegt unter contrib/subtree</li>
+<li>Eine Einspielanleitung gibt&#8217;s dort auch</li>
+<li>Diese müssen wir &#8220;eigentlich&#8221; nur noch in debian/rules einbauen
+und fertig!</li>
+</ul>
+</li>
+<li>Also: Änderungen an debian/changelog und debian/rules durchführen und
+los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
+<li>Sichtung: Ist git-subtree in den erstellten Paketen enthalten?
+
+<ul>
+<li><code>dpkg-deb -c git_1.8.2.1*deb|grep git-core/git-subtree</code></li>
+</ul>
+</li>
+</ul>
 
 
-<h2>Dateien ablegen</h2>
+<h3>Probleme</h3>
 
-<!--escape-->
+<h4>Falscher Installationspfad</h4>
 
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Dateien ablegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout downloads
-</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.tar.xz .
-</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.zip .
-</span><span class='line'><span class="nv">$ </span>git add my-project-0.1-bin.tar.xz my-project-0.1-bin.zip
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Added downloads of version 0.1&quot;</span> .
-</span><span class='line'><span class="nv">$ </span>git push <span class="c"># might take some time depending on your internet connection bandwidth</span>
-</span><span class='line'><span class="nv">$ </span>git checkout master <span class="c"># switch back to master</span>
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
-
-
+<ul>
+<li>Verwendet wird: /build/git/git-1.8.2.1/debian/git/usr/libexec/git-core</li>
+<li>Richtig wäre:  /build/git/git-1.8.2.1/debian/git/usr/lib/git-core</li>
+<li>Korrektur durch: Setzen von libexecdir in debian/rules</li>
+</ul>
 
 </div>
 
@@ -211,14 +211,12 @@ die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
   
 
 
-
-  
-<time datetime="2013-02-14T08:00:00+01:00" class="updated">Updated 14. Februar 2013</time>
+<time datetime="2013-04-12T07:14:00+02:00" pubdate data-updated="true">12. April 2013</time>
 
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/github/'>GitHub</a>
+    <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
   
 </span>
 
@@ -243,10 +241,10 @@ die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2013/01/11/redmine-rails-update/" title="Voriger Beitrag: Rails-2.3.15">&laquo; Rails-2.3.15</a>
+        <a class="basic-alignment left" href="/2013/04/03/gpg-signaturen/" title="Voriger Beitrag: GPG: Signaturen">&laquo; GPG: Signaturen</a>
       
       
-        <a class="basic-alignment right" href="/2013/02/14/redmine-rails-update/" title="Nächster Beitrag: Rails-2.3.17">Rails-2.3.17 &raquo;</a>
+        <a class="basic-alignment right" href="/2013/04/14/quilt-for-gitdeb/" title="Nächster Beitrag: Quilt für mein Debian-Paket von Git">Quilt für mein Debian-Paket von Git &raquo;</a>
       
     </p>
   </footer>
