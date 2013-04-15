@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Groovy - Was ich so treibe...</title>
+  <title>Pigeonhole für für mein Debian-Paket von Dovecot - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
   <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
 
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.comblog/categories/groovy/">
+  <link rel="canonical" href="http://uli-heller.github.com/2013/04/15/pigeonhole/">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -37,7 +37,7 @@
   <link href="/octopress-favicon.png" rel="icon">
 </head>
 
-<body  id="archive"   >
+<body   >
   <header role="banner"><hgroup>
   <h1><a href="/">Was ich so treibe...</a></h1>
   
@@ -69,56 +69,179 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+
+
+
+
+
+
+
+
+
+
+
+<article class="hentry " role="article">
   
   <header>
-    <h1 class="entry-title">Category: Groovy</h1>
-    
-  </header>
-  
-  <div id="blog-archives" class="category">
+    <h1 class="entry-title">
 
-
-
-  
-  <h2>2012</h2>
-
-
-
-
-
-
-
-
-
-
-
-
-<article >
-  
-<h1 class="entry-title">
-
-<a href="/2012/11/30/wsgen/">WSGEN - Wie man's mit Interfaces macht</a>
+Pigeonhole für für mein Debian-Paket von Dovecot
 
 </h1>
 
-<time datetime="2012-11-30T08:00:00+01:00" pubdate><span class='month'>Nov</span> <span class='day'>30</span> <span class='year'>2012</span></time>
-<footer>
-  
-  
-  
-  <span class="categories">Themen: <a class='category' href='/blog/categories/groovy/'>Groovy</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/webservice/'>Webservice</a></span>
-  
-</footer>
+    
+      <p class="meta">
+        
 
-</article>
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-15T06:00:00+02:00" pubdate data-updated="true">15. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/15/pigeonhole/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Dovecot: Einbinden von Pigeonhole</h1>
+
+<p>Mein Dovecot-Debian-Paket beinhaltet u.a. auch Pigeonhole.
+Pigeonhole wird separat zum Herunterladen angeboten, im Debian-Paket
+erscheint es aber als Patch unterhalb von debian/patches. Das ist ein
+gewisses Problem, weil man das heruntergeladene Paket dann immer erst
+in einen Patch umwandeln muß.</p>
+
+<p>Deshalb mein Ziel: Ich würde das Pigeonhole-Paket gerne möglichst
+unverändert in's Dovecot-Debian-Paket einbinden!</p>
+
+<!-- more -->
+
+
+<h2>Ausgangspunkt</h2>
+
+<p>Ausgangspunkt ist das bestehende Dovecot-Debian-Paket. Es kann mit
+<code>dpkg-buildpackage</code> neu erzeugt werden.</p>
+
+<h2>Pakete herunterladen</h2>
+
+<ul>
+<li><a href="http://dovecot.org/releases/2.2/dovecot-2.2.0.tar.gz">Dovecot-2.2.0</a></li>
+<li><a href="http://hg.rename-it.nl/dovecot-2.2-pigeonhole/archive/tip.tar.bz2">Pigeonhole für Dovecot-2.2.0</a></li>
+</ul>
+
+
+<h2>Dovecot-Debian-Paket anpassen auf neue Version</h2>
+
+<ul>
+<li><code>uupdate -u ../dovecot-2.2.0.tar.gz -v 2:2.2.0</code></li>
+<li><code>cd ../dovecot-2.2.0</code></li>
+</ul>
+
+
+<h2>Verweise auf Pigeonhole-Patch entfernen</h2>
+
+<ul>
+<li><code>cd ./dovecot-2.2.0</code></li>
+<li><code>rm debian/patches/pigeonhole.patch</code></li>
+<li><code>sed -i "s/pigeonhole.patch/#pigeonhole.patch/" debian/patches/series</code></li>
+</ul>
+
+
+<h2>Verwendung des Pigeonhole-Paketes vorbereiten</h2>
+
+<ul>
+<li><code>cp dovecot-2-2-pigeonhole-70f0b7140939.tar.bz2 dovecot_2.2.0.orig-pigeonhole.tar.bz2</code></li>
+<li><code>cd ./dovecot-2.2.0</code></li>
+<li><code>mkdir pigeonhole</code></li>
+<li><code>tar -C pigeonhole --strip-components=1 -jxf ../dovecot_2.2.0.orig-pigeonhole.tar.bz2</code></li>
+</ul>
+
+
+<h2>Paket neu erzeugen</h2>
+
+<ul>
+<li><code>cd ./dovecot-2.2.0</code></li>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="http://raphaelhertzog.com/2010/09/07/how-to-use-multiple-upstream-tarballs-in-debian-source-packages/">http://raphaelhertzog.com/2010/09/07/how-to-use-multiple-upstream-tarballs-in-debian-source-packages/</a></li>
+</ul>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-15T06:00:00+02:00" pubdate data-updated="true">15. April 2013</time>
+
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dovecot/'>Dovecot</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/packaging/'>Packaging</a>, <a class='category' href='/blog/categories/pigdeonhole/'>Pigdeonhole</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+
+      
+
+    </p>
+    
+      <div class="sharing">
+  
+    
+      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    
+  
+  
+  
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/04/14/quilt-fuer-gitdeb/" title="Voriger Beitrag: Quilt für mein Debian-Paket von Git">&laquo; Quilt für mein Debian-Paket von Git</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
+<section>
+  <h1>Comments</h1>
+  
 
+  
+</section>
 
 </div>
 

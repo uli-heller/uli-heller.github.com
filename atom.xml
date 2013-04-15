@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-04-14T12:24:38+02:00</updated>
+  <updated>2013-04-15T07:10:36+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -18,10 +18,92 @@
 
 
 
+<title type="html"><![CDATA[Pigeonhole für für mein Debian-Paket von Dovecot]]></title>
+<link href="http://uli-heller.github.com/2013/04/15/pigeonhole/"/>
+<updated>2013-04-15T06:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/04/15/pigeonhole</id>
+
+      <content type="html"><![CDATA[<h1>Dovecot: Einbinden von Pigeonhole</h1>
+
+<p>Mein Dovecot-Debian-Paket beinhaltet u.a. auch Pigeonhole.
+Pigeonhole wird separat zum Herunterladen angeboten, im Debian-Paket
+erscheint es aber als Patch unterhalb von debian/patches. Das ist ein
+gewisses Problem, weil man das heruntergeladene Paket dann immer erst
+in einen Patch umwandeln muß.</p>
+
+<p>Deshalb mein Ziel: Ich würde das Pigeonhole-Paket gerne möglichst
+unverändert in&#8217;s Dovecot-Debian-Paket einbinden!</p>
+
+<!-- more -->
+
+
+<h2>Ausgangspunkt</h2>
+
+<p>Ausgangspunkt ist das bestehende Dovecot-Debian-Paket. Es kann mit
+<code>dpkg-buildpackage</code> neu erzeugt werden.</p>
+
+<h2>Pakete herunterladen</h2>
+
+<ul>
+<li><a href="http://dovecot.org/releases/2.2/dovecot-2.2.0.tar.gz">Dovecot-2.2.0</a></li>
+<li><a href="http://hg.rename-it.nl/dovecot-2.2-pigeonhole/archive/tip.tar.bz2">Pigeonhole für Dovecot-2.2.0</a></li>
+</ul>
+
+
+<h2>Dovecot-Debian-Paket anpassen auf neue Version</h2>
+
+<ul>
+<li><code>uupdate -u ../dovecot-2.2.0.tar.gz -v 2:2.2.0</code></li>
+<li><code>cd ../dovecot-2.2.0</code></li>
+</ul>
+
+
+<h2>Verweise auf Pigeonhole-Patch entfernen</h2>
+
+<ul>
+<li><code>cd ./dovecot-2.2.0</code></li>
+<li><code>rm debian/patches/pigeonhole.patch</code></li>
+<li><code>sed -i "s/pigeonhole.patch/#pigeonhole.patch/" debian/patches/series</code></li>
+</ul>
+
+
+<h2>Verwendung des Pigeonhole-Paketes vorbereiten</h2>
+
+<ul>
+<li><code>cp dovecot-2-2-pigeonhole-70f0b7140939.tar.bz2 dovecot_2.2.0.orig-pigeonhole.tar.bz2</code></li>
+<li><code>cd ./dovecot-2.2.0</code></li>
+<li><code>mkdir pigeonhole</code></li>
+<li><code>tar -C pigeonhole --strip-components=1 -jxf ../dovecot_2.2.0.orig-pigeonhole.tar.bz2</code></li>
+</ul>
+
+
+<h2>Paket neu erzeugen</h2>
+
+<ul>
+<li><code>cd ./dovecot-2.2.0</code></li>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="http://raphaelhertzog.com/2010/09/07/how-to-use-multiple-upstream-tarballs-in-debian-source-packages/">http://raphaelhertzog.com/2010/09/07/how-to-use-multiple-upstream-tarballs-in-debian-source-packages/</a></li>
+</ul>
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/15/pigeonhole/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
 <title type="html"><![CDATA[Quilt für mein Debian-Paket von Git]]></title>
-<link href="http://uli-heller.github.com/2013/04/14/quilt-for-gitdeb/"/>
+<link href="http://uli-heller.github.com/2013/04/14/quilt-fuer-gitdeb/"/>
 <updated>2013-04-14T12:00:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/04/14/quilt-for-gitdeb</id>
+<id>http://uli-heller.github.com/2013/04/14/quilt-fuer-gitdeb</id>
 
       <content type="html"><![CDATA[<h1>Quilt: Umstellung der Patchverwaltung meines Git-Debian-Paketes auf Quilt</h1>
 
@@ -260,7 +342,7 @@ durchlaufen. Korrigiert habe ich das so:</p>
 </li>
 </ul>
 
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/14/quilt-for-gitdeb/">&#9875; Permalink</a></p>]]></content>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/14/quilt-fuer-gitdeb/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>

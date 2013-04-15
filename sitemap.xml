@@ -73,8 +73,12 @@
         <lastmod>2013-04-13T09:57:59+02:00</lastmod>
     </url>
     <url>
-        <loc>http://uli-heller.github.com/2013/04/14/quilt-for-gitdeb/</loc>
+        <loc>http://uli-heller.github.com/2013/04/14/quilt-fuer-gitdeb/</loc>
         <lastmod>2013-04-14T12:22:00+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://uli-heller.github.com/2013/04/15/pigeonhole/</loc>
+        <lastmod>2013-04-15T07:10:36+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/articles/hetzner-mailserver.html</loc>
@@ -94,7 +98,7 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/archives/</loc>
-        <lastmod>2013-04-14T12:22:00+02:00</lastmod>
+        <lastmod>2013-04-15T07:10:36+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/impressum/</loc>
@@ -102,6 +106,6 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/</loc>
-        <lastmod>2013-04-14T12:22:00+02:00</lastmod>
+        <lastmod>2013-04-15T07:10:36+02:00</lastmod>
     </url>
 </urlset>
