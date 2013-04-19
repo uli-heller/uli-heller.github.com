@@ -110,6 +110,41 @@ cp .../exim4.conf /etc/exim4/exim4.conf
 chown -R Debian-exim.Debian-exim /var/log/exim4
 {% endcodeblock %}
 
+NginX
+-----
+
+### Grundinstallation
+
+{% codeblock NginX herunterladen und installieren lang:sh %}
+cd /data/downloads
+wget -c http://83.236.132.108/dprepo/ubuntu/12.04.64/debs/nginx_1.2.8-0dp01~precise1_all.deb
+wget -c http://83.236.132.108/dprepo/ubuntu/12.04.64/debs/nginx-full_1.2.8-0dp01~precise1_amd64.deb
+wget -c http://83.236.132.108/dprepo/ubuntu/12.04.64/debs/nginx-common_1.2.8-0dp01~precise1_all.deb
+dpkg -i nginx_1.2.8-0dp01~precise1_all.deb nginx-common_1.2.8-0dp01~precise1_all.deb nginx-full_1.2.8-0dp01~precise1_amd64.deb
+apt-get install -f
+{% endcodeblock %}
+
+### NginX-Benutzer anlegen
+
+{% codeblock NginX-Benutzer anlegen lang:sh %}
+useradd -m -d /home/nginx nginx
+id nginx
+# uid=1002(nginx) gid=1002(nginx) groups=1002(nginx)
+{% endcodeblock %}
+
+### Konfiguration
+
+* `service nginx start`
+* Browser: [http://daemons-point.com](http://daemons-point.com)
+  -> zeigt die Begrüßung von NginX an
+* `mkdir /srv/www`
+* `chown nginx.nginx /srv/www`
+* `mkdir /srv/www`
+* `chown nginx.nginx /srv/www`
+* `cp /usr/share/nginx/www/index.html /srv/www`
+* `chown nginx.nginx /srv/www/index.html`
+* SSH-Konfiguration für den Benutzer anpassen
+
 VirtualBox
 ----------
 
@@ -202,9 +237,13 @@ Diese Dateien wurden geändert:
 * /etc/exim4/blocked-recipients
 * /etc/hosts
 * /etc/hostname
+* /etc/nginx/sites-available/dp
+* /etc/nginx/sites-enabled/dp
 * /etc/vboxtool/vbt.conf
 * /home/dpmail/.ssh/authorized_keys
+* /home/nginx/.ssh/authorized_keys
 * /home/vboxuser/.ssh/authorized_keys
+* /srv/www/index.html (... etc)
 
 Probleme
 --------
