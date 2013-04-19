@@ -2,7 +2,7 @@
 layout: post
 author: Uli Heller
 published: true
-title: "Pigeonhole für für mein Debian-Paket von Dovecot"
+title: "Dovecot: Aktualisierung mit Pigeonhole"
 date: 2013-04-19 06:00
 #updated: 2013-02-16 08:00
 comments: true
@@ -14,8 +14,8 @@ categories:
 - Dovecot
 ---
 
-Dovecot: Aktualisierung des Debian-Paketes
-==========================================
+Dovecot: Aktualisierung des Debian-Paketes mit Pigeonhole
+=========================================================
 
 Gestern oder heute wurde die Version 2.2.1 von Dovecot veröffentlicht.
 Natürlich habe ich gleich versucht, mein Debian-Paket zu aktualisieren:
