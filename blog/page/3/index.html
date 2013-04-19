@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>GPG: Signaturen - Was ich so treibe...</title>
+  <title>Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
   <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
 
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.com/2013/04/03/gpg-signaturen/">
+  <link rel="canonical" href="http://uli-heller.github.com/blog/page/3/">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -68,24 +68,25 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-
-
-
-
-
-
-
-
-
-
-
-<article class="hentry " role="article">
+      <div class="blog-index">
   
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
   <header>
     <h1 class="entry-title">
 
-GPG: Signaturen
+<a href="/2012/05/18/markdown/">Markdown-Testdokument</a>
 
 </h1>
 
@@ -105,123 +106,35 @@ GPG: Signaturen
 
 
   
-<time datetime="2013-04-03T15:00:00+02:00" pubdate data-updated="true">03. April 2013</time>
-         &bull; <a rel="bookmark" href="/2013/04/03/gpg-signaturen/">Permalink</a>
+<time datetime="2012-05-18T08:00:00+02:00" pubdate data-updated="true">18. Mai 2012</time>
+         &bull; <a rel="bookmark" href="/2012/05/18/markdown/">Permalink</a>
       </p>
     
   </header>
 
-<div class="entry-content"><h1>GPG/PGP-Signatur von Quelltext-Dateien prüfen</h1>
+<div class="entry-content"><h1>Markdown-Testdokument</h1>
 
-<p>Quelltextdateien werden oftmals mit GPG/PGP-Signaturen bereitgestellt, über die die Integrität der Dateien geprüft werrden kann. Hier zeige ich exemplarisch, wie dies für Subversion und Nginx gemacht wird.</p>
-
-<!-- more -->
-
-
-<h2>Subversion</h2>
-
-<ol>
-<li><p>Quelltext herunterladen: <code>wget http://mirror.serversupportforum.de/apache/subversion/subversion-1.7.9.tar.gz</code></p></li>
-<li><p>Signatur herunterladen: <code>wget http://www.apache.org/dist/subversion/subversion-1.7.9.tar.gz.asc</code></p></li>
-<li><p>Schlüssel importieren: <code>wget -O - https://people.apache.org/keys/group/subversion.asc|gpg --import</code></p></li>
-<li><p>Signatur prüfen: <code>gpg subversion-1.7.9.tar.gz.asc</code></p></li>
-</ol>
-
-
-<h2>Nginx</h2>
-
-<ol>
-<li><p>Quelltexte herunterladen: <code>wget -O - http://nginx.org/download/nginx-1.2.8.tar.gz|gzip -cd &gt;nginx-1.2.8.tar.gz</code></p>
-
-<p>Hinweis: Dieses umständliche Vorgehen ist notwendig, weil die Version 1.2.8 aus unerfindlichen Gründen "doppelt komprimiert" ist!</p></li>
-<li><p>Signatur herunterladen: <code>wget http://nginx.org/download/nginx-1.2.8.tar.gz.asc</code></p></li>
-<li><p>Signatur prüfen: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
-
-<p>Klappt nicht: Es wird gemeckert weil der zugehörige RSA-Schlüssel fehlt</p></li>
-<li><p>Schlüssel importieren - auf eine der folgenden Arten:</p>
-
-<ul>
-<li><p>Vom Keyserver: <code>gpg --keyserver pgpkeys.mit.edu --recv-key A1C052F8</code></p></li>
-<li><p>Mittels manuellem Download: <code>wget -O - http://nginx.org/keys/mdounin.key|gzip -cd|gpg --import</code></p></li>
-</ul>
-
-
-<p>Ich hab's auf beide Arten gemacht und dabei überprüft, dass der Schlüssel identisch ist!</p></li>
-<li><p>Erneuter Test: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
-
-<p>Klappt halbwegs!</p></li>
-</ol>
+<p>Dies ist mein Testdokument für Markdown. Ich packe hier einfach alle denkbaren Konstrukte in Markdown rein, damit ich nicht immer wieder neu suchen muß.</p>
 
 </div>
-
 
   <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-04-05T11:30:00+02:00" class="updated">Updated 05. April 2013</time>
-
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/gpg/'>GPG</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/pgp/'>PGP</a>
-  
-</span>
-
-
-
-      
-
-    </p>
     
-      <div class="sharing">
-  
     
-      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    <p><a rel="full-article" href="/2012/05/18/markdown/">Vollständiger Artikel &rarr;</a></p>
     
-  
-  
-  
-  
-
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/2013/03/22/localhost-jmx/" title="Voriger Beitrag: JMX auf Localhost">&laquo; JMX auf Localhost</a>
-      
-      
-        <a class="basic-alignment right" href="/2013/04/12/git-subtree/" title="Nächster Beitrag: Git Subtree (1/2)">Git Subtree (1/2) &raquo;</a>
-      
-    </p>
   </footer>
-</article>
 
-<section>
-  <h1>Comments</h1>
+
+    </article>
   
-
-  
-</section>
-
+  <div class="pagination">
+    
+    <a href="/archives/">Blog-Archiv</a>
+    
+    <a class="next" href="/blog/page/2/">Neuer &rarr;</a>
+    
+  </div>
 </div>
 
 <aside class="sidebar">

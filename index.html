@@ -86,6 +86,74 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/04/19/pigeonhole/">Dovecot: Aktualisierung mit Pigeonhole</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-19T06:00:00+02:00" pubdate data-updated="true">19. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/19/pigeonhole/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Dovecot: Aktualisierung des Debian-Paketes mit Pigeonhole</h1>
+
+<p>Gestern oder heute wurde die Version 2.2.1 von Dovecot veröffentlicht.
+Natürlich habe ich gleich versucht, mein Debian-Paket zu aktualisieren:</p>
+
+<ul>
+<li><code>cd .../dovecot-2.2.0</code></li>
+<li><code>uupdate -u ../dovecot-2.2.1.tar.gz</code></li>
+<li><code>cd ../dovecot-2.2.1</code></li>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<p>Dummerweise klappt das nicht! Pigeonhole scheint zu fehlen, so dass
+schon die Anwendung der Quilt-Patches scheitert.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/04/19/pigeonhole/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/04/15/pigeonhole/">Pigeonhole für für mein Debian-Paket von Dovecot</a>
 
 </h1>
@@ -694,67 +762,6 @@ Getestet hab&#8217; ich&#8217;s mit Google-Chrome 25 unter Linux.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/03/04/chrome-extensions/">Chrome-Erweiterungen - Teil 1/2: CRX-Dateien herunterladen</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-03-04T07:00:00+01:00" pubdate data-updated="true">04. März 2013</time>
-         &bull; <a rel="bookmark" href="/2013/03/04/chrome-extensions/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Offline-Installation einer Chrome-Erweiterung - Teil 1: CRX-Dateien herunterladen</h1>
-
-<p>Mein aktueller Lieblingsbrowser ist zur Zeit Google-Chrome. Dumm nur, wenn
-bei manchen Unternehmen der ausgehende Internet-Verkehr so gefiltert wird,
-dass nur manch andere Browser (beispielsweise Internet Explorer) zugelassen
-sind.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/03/04/chrome-extensions/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Älter</a>
@@ -771,6 +778,10 @@ sind.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/04/19/pigeonhole/">Dovecot: Aktualisierung mit Pigeonhole</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/04/15/pigeonhole/">Pigeonhole für für mein Debian-Paket von Dovecot</a>
       </li>
     
@@ -784,10 +795,6 @@ sind.</p>
     
       <li class="post">
         <a href="/2013/04/03/gpg-signaturen/">GPG: Signaturen</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/03/22/localhost-jmx/">JMX auf Localhost</a>
       </li>
     
   </ul>

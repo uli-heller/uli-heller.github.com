@@ -281,6 +281,64 @@ No</li>
 <!--end-escape-->
 
 
+<h2>NginX</h2>
+
+<h3>Grundinstallation</h3>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>NginX herunterladen und installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /data/downloads
+</span><span class='line'>wget -c http://83.236.132.108/dprepo/ubuntu/12.04.64/debs/nginx_1.2.8-0dp01~precise1_all.deb
+</span><span class='line'>wget -c http://83.236.132.108/dprepo/ubuntu/12.04.64/debs/nginx-full_1.2.8-0dp01~precise1_amd64.deb
+</span><span class='line'>wget -c http://83.236.132.108/dprepo/ubuntu/12.04.64/debs/nginx-common_1.2.8-0dp01~precise1_all.deb
+</span><span class='line'>dpkg -i nginx_1.2.8-0dp01~precise1_all.deb nginx-common_1.2.8-0dp01~precise1_all.deb nginx-full_1.2.8-0dp01~precise1_amd64.deb
+</span><span class='line'>apt-get install -f
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h3>NginX-Benutzer anlegen</h3>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>NginX-Benutzer anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>useradd -m -d /home/nginx nginx
+</span><span class='line'>id nginx
+</span><span class='line'><span class="c"># uid=1002(nginx) gid=1002(nginx) groups=1002(nginx)</span>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h3>Konfiguration</h3>
+
+<ul>
+<li><code>service nginx start</code></li>
+<li>Browser: <a href="http://daemons-point.com">http://daemons-point.com</a>
+-> zeigt die Begrüßung von NginX an</li>
+<li><code>mkdir /srv/www</code></li>
+<li><code>chown nginx.nginx /srv/www</code></li>
+<li><code>mkdir /srv/www</code></li>
+<li><code>chown nginx.nginx /srv/www</code></li>
+<li><code>cp /usr/share/nginx/www/index.html /srv/www</code></li>
+<li><code>chown nginx.nginx /srv/www/index.html</code></li>
+<li>SSH-Konfiguration für den Benutzer anpassen</li>
+</ul>
+
+
 <h2>VirtualBox</h2>
 
 <h3>Grundinstallation</h3>
@@ -446,9 +504,13 @@ No</li>
 <li>/etc/exim4/blocked-recipients</li>
 <li>/etc/hosts</li>
 <li>/etc/hostname</li>
+<li>/etc/nginx/sites-available/dp</li>
+<li>/etc/nginx/sites-enabled/dp</li>
 <li>/etc/vboxtool/vbt.conf</li>
 <li>/home/dpmail/.ssh/authorized_keys</li>
+<li>/home/nginx/.ssh/authorized_keys</li>
 <li>/home/vboxuser/.ssh/authorized_keys</li>
+<li>/srv/www/index.html (... etc)</li>
 </ul>
 
 
@@ -576,6 +638,10 @@ No</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/04/19/pigeonhole/">Dovecot: Aktualisierung mit Pigeonhole</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/04/15/pigeonhole/">Pigeonhole für für mein Debian-Paket von Dovecot</a>
       </li>
     
@@ -589,10 +655,6 @@ No</li>
     
       <li class="post">
         <a href="/2013/04/03/gpg-signaturen/">GPG: Signaturen</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/03/22/localhost-jmx/">JMX auf Localhost</a>
       </li>
     
   </ul>

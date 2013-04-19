@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-04-15T07:10:36+02:00</updated>
+  <updated>2013-04-19T07:20:12+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,97 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Dovecot: Aktualisierung mit Pigeonhole]]></title>
+<link href="http://uli-heller.github.com/2013/04/19/pigeonhole/"/>
+<updated>2013-04-19T06:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/04/19/pigeonhole</id>
+
+      <content type="html"><![CDATA[<h1>Dovecot: Aktualisierung des Debian-Paketes mit Pigeonhole</h1>
+
+<p>Gestern oder heute wurde die Version 2.2.1 von Dovecot veröffentlicht.
+Natürlich habe ich gleich versucht, mein Debian-Paket zu aktualisieren:</p>
+
+<ul>
+<li><code>cd .../dovecot-2.2.0</code></li>
+<li><code>uupdate -u ../dovecot-2.2.1.tar.gz</code></li>
+<li><code>cd ../dovecot-2.2.1</code></li>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<p>Dummerweise klappt das nicht! Pigeonhole scheint zu fehlen, so dass
+schon die Anwendung der Quilt-Patches scheitert.</p>
+
+<!-- more -->
+
+
+<p>Mein Dovecot-Debian-Paket beinhaltet u.a. auch Pigeonhole.
+Pigeonhole wird separat zum Herunterladen angeboten, im Debian-Paket
+erscheint es aber als Patch unterhalb von debian/patches. Das ist ein
+gewisses Problem, weil man das heruntergeladene Paket dann immer erst
+in einen Patch umwandeln muß.</p>
+
+<p>Deshalb mein Ziel: Ich würde das Pigeonhole-Paket gerne möglichst
+unverändert in&#8217;s Dovecot-Debian-Paket einbinden!</p>
+
+<!-- more -->
+
+
+<h2>Ausgangspunkt</h2>
+
+<p>Ausgangspunkt ist das bestehende Dovecot-Debian-Paket in der Version 2.2.0.
+Es kann mit <code>dpkg-buildpackage</code> neu erzeugt werden.</p>
+
+<p>Wir wissen, dass es eine neue Version 2.2.1 von Dovecot gibt. Die haben wir
+auch schon heruntergeladen. Von Pigeonhole gibt es keine neue Version, also
+verwenden wir die alte einfach weiter.</p>
+
+<h2>Pigeonhole vorbereiten</h2>
+
+<ul>
+<li><code>cp dovecot_2.2.0.orig-pigeonhole.tar.bz2  dovecot_2.2.1.orig-pigeonhole.tar.bz2</code></li>
+</ul>
+
+
+<h2>Dovecot vorbereiten</h2>
+
+<ul>
+<li><code>cd .../dovecot-2.2.0</code></li>
+<li><code>dpkg-buildpackage -u ../dovecot-2.2.1.tar.gz</code></li>
+<li><code>cd ../dovecot-2.2.1</code></li>
+</ul>
+
+
+<h2>Dovecot/Pigeonhole sichten</h2>
+
+<p>Prüfen: Gibt es innerhalb des Dovecot-Verzeichnisses nun ein Verzeichnis für
+Pigeonhole? -> Nein!</p>
+
+<h2>Pigeonhole auspacken und umbenennen</h2>
+
+<ul>
+<li><code>bzip2 -cd ../dovecot_2.2.1.orig-pigeonhole.tar.bz2|tar xf -</code></li>
+<li><code>mv dovecot-2-2-pigeonhole-70f0b7140939 pigeonhole</code></li>
+</ul>
+
+
+<h2>Dovecot neu erzeugen</h2>
+
+<ul>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<p>Nun klappt&#8217;s!</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/19/pigeonhole/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -3479,117 +3570,6 @@ source/archives/index.html</li>
 
 <p>&#8230; funktioniert.</p>
 <p><a rel="bookmark" href="http://uli-heller.github.com/2012/11/24/octopress/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Markdown-Testdokument]]></title>
-<link href="http://uli-heller.github.com/2012/05/18/markdown/"/>
-<updated>2012-05-18T08:00:00+02:00</updated>
-<id>http://uli-heller.github.com/2012/05/18/markdown</id>
-
-      <content type="html"><![CDATA[<h1>Markdown-Testdokument</h1>
-
-<p>Dies ist mein Testdokument für Markdown. Ich packe hier einfach alle denkbaren Konstrukte in Markdown rein, damit ich nicht immer wieder neu suchen muß.</p>
-
-<!-- more -->
-
-
-<p>Quellen:</p>
-
-<ul>
-<li><a href="http://daringfireball.net/projects/markdown/">DaringFireball</a> - (besser lesbare lokale <a href="http://uli-heller.github.com/articles/daringfireball-markdown.html">Kopie</a> davon)</li>
-</ul>
-
-
-<h2>Überschrift</h2>
-
-<h2>Noch eine Überschrift</h2>
-
-<h3>Abschnitt 1</h3>
-
-<h3>Abschnitt 2</h3>
-
-<ul>
-<li>Eine Liste
-
-<ul>
-<li>Geschachtelte Liste</li>
-</ul>
-</li>
-<li>Formatierungen
-
-<ul>
-<li><em>fett</em></li>
-<li><em>fett</em></li>
-<li><strong>fett</strong></li>
-<li><strong>fett</strong></li>
-<li>Kommando: <code>ls -l</code></li>
-</ul>
-</li>
-<li>Liste mit Code-Block:
-
-<pre><code>  cd /tmp
-  ls
-</code></pre></li>
-</ul>
-
-
-<p>Ein Bild: <img src="http://uli-heller.github.com/images/cc-by-sa-3.0_88x31.png" alt="CC-Icon" /></p>
-
-<h2>Octopress-Erweiterungen</h2>
-
-<h3>Codeblock</h3>
-
-<figure class='code'><figcaption><span>Here&#8217;s an example .rvmrc file. </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nach gegenwärtigem Kenntnisstand kann so ein Codeblock nicht Bestandteil einer Liste sein! (Octopress-2.0 und 2.1)</p>
-
-<h3>Datei</h3>
-
-<figure class='code'><figcaption><span>Beispiel.java</span><a href='http://uli-heller.github.com/downloads/code/Beispiel.java' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Beispiel</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>     <span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;Dies ist ein Beispiel&quot;</span><span class="o">;</span>
-</span><span class='line'>     <span class="k">return</span> <span class="n">s</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Bild</h3>
-
-<p><img class="" src="http://uli-heller.github.com/images/cc-by-sa-3.0_88x31.png" title="'CC-Icon'" ></p>
-
-<h2>Tests</h2>
-
-<h3>Liste mit Codeblock</h3>
-
-<ul>
-<li>Liste</li>
-<li>mit Codeblock</li>
-</ul>
-
-
-<figure class='code'><figcaption><span>Here&#8217;s an example .rvmrc file. </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2012/05/18/markdown/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>
