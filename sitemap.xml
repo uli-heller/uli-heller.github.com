@@ -91,6 +91,12 @@
         <lastmod>2013-04-21T08:27:00+02:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://uli-heller.github.com/2013/04/23/einrichten-eines-ldap-servers-unter-ubuntu-12-dot-04/
+        </loc>
+        <lastmod>2013-04-24T10:00:43+02:00</lastmod>
+    </url>
+    <url>
         <loc>http://uli-heller.github.com/articles/hetzner-mailserver.html</loc>
         <lastmod>2013-04-15T08:53:01+02:00</lastmod>
     </url>
@@ -108,7 +114,7 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/archives/</loc>
-        <lastmod>2013-04-21T08:27:00+02:00</lastmod>
+        <lastmod>2013-04-24T10:00:43+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/impressum/</loc>
@@ -116,6 +122,6 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/</loc>
-        <lastmod>2013-04-21T08:27:00+02:00</lastmod>
+        <lastmod>2013-04-24T10:00:43+02:00</lastmod>
     </url>
 </urlset>
