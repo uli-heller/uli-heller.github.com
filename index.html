@@ -202,7 +202,7 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 
 <figure class='code'><figcaption><span>LDAP-Pakete installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install slapd ldap-utils cpu
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install slapd ldap-utils cpu whois
 </span><span class='line'><span class="c"># LDAP-Administrator-Passwort: uli</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -231,15 +231,31 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 
 <h2>LDAP-Daten importieren</h2>
 
+<p>Es müssen entweder die Grunddaten importiert werden oder aber
+der Datenbestand eines anderen LDAP-Servers.</p>
+
+<h3>Grunddaten importieren</h3>
+
+<figure class='code'><figcaption><span>Grunddaten importieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
+</span><span class='line'>sudo slapadd -c -l /root/base.ldif
+</span><span class='line'>sudo service slapd start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Datenbestand importieren</h3>
+
 <p>Dieser Schritt ist optional. Er dient primär der Übernahme eines Datenbestandes
 von einem bestehenden LDAP-Server.</p>
 
 <figure class='code'><figcaption><span>LDAP-Daten importieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo /etc/init.d/slapd stop
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
 </span><span class='line'>sudo slapadd -c -l 94.out.ldif  <span class="c"># 94.out.ldif ist eine ältere LDAP-Sicherung</span>
-</span><span class='line'>sudo /etc/init.d/slapd start
+</span><span class='line'>sudo service slapd start
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -317,27 +333,40 @@ freigeschaltet werden.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>LDAP-Daten sichern und zurückspielen</h2>
+<h2>Tipps und Tricks</h2>
 
-<h3>Sichern</h3>
+<h3>LDAP-Daten sichern und zurückspielen</h3>
+
+<h4>Sichern</h4>
 
 <figure class='code'><figcaption><span>LDAP-Daten sichern </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo slapcat -l /tmp/slapcat.ldif
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Zurückspielen</h3>
+<h4>Zurückspielen</h4>
 
 <figure class='code'><figcaption><span>LDAP-Daten zurückspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo /etc/init.d/slapd stop
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
 </span><span class='line'>sudo rm -rf /var/lib/ldap/*
 </span><span class='line'>sudo slapadd -c -l /tmp/slapcat.ldif
 </span><span class='line'>sudo chown -R openldap.openldap /var/lib/ldap/*
-</span><span class='line'>sudo /etc/init.d/slapd start
+</span><span class='line'>sudo service slapd start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Neustart mit einem leeren LDAP-Bestand</h4>
+
+<figure class='code'><figcaption><span>Neustart mit leerem LDAP-Bestand </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
+</span><span class='line'>sudo rm -rf /var/lib/ldap/*
+</span><span class='line'>sudo service slapd start
 </span></code></pre></td></tr></table></div></figure>
 
 
