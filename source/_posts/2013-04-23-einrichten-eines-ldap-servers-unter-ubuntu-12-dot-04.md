@@ -2,7 +2,7 @@
 layout: post
 title: "Einrichten eines LDAP-Servers unter Ubuntu-12.04"
 date: 2013-04-23 15:38
-updated: 2013-04-24 08:00
+updated: 2013-04-26 08:00
 comments: true
 external-url: 
 categories: 
@@ -30,7 +30,7 @@ LDAP-Pakete installieren
 ------------------------
 
 {% codeblock LDAP-Pakete installieren lang:sh %}
-sudo apt-get install slapd ldap-utils cpu
+sudo apt-get install slapd ldap-utils cpu whois
 # LDAP-Administrator-Passwort: uli
 {% endcodeblock %}
 
@@ -56,13 +56,27 @@ Das Zusatzschema gibt's [hier](/downloads/code/backend_dp.ldif)
 LDAP-Daten importieren
 ----------------------
 
+Es müssen entweder die Grunddaten importiert werden oder aber
+der Datenbestand eines anderen LDAP-Servers.
+
+### Grunddaten importieren
+
+{% codeblock Grunddaten importieren lang:sh %}
+sudo service slapd stop
+sudo slapadd -c -l /root/base.ldif
+sudo service slapd start
+{% endcodeblock %}
+
+
+### Datenbestand importieren
+
 Dieser Schritt ist optional. Er dient primär der Übernahme eines Datenbestandes
 von einem bestehenden LDAP-Server.
 
 {% codeblock LDAP-Daten importieren lang:sh %}
-sudo /etc/init.d/slapd stop
+sudo service slapd stop
 sudo slapadd -c -l 94.out.ldif  # 94.out.ldif ist eine ältere LDAP-Sicherung
-sudo /etc/init.d/slapd start
+sudo service slapd start
 {% endcodeblock %}
 
 Hilfsskripte installieren
@@ -123,21 +137,31 @@ sudo ufw allow 80/tcp
 sudo ufw status
 {% endcodeblock %}
 
-LDAP-Daten sichern und zurückspielen
-------------------------------------
+Tipps und Tricks
+----------------
 
-### Sichern
+### LDAP-Daten sichern und zurückspielen
+
+#### Sichern
 
 {% codeblock LDAP-Daten sichern lang:sh %}
 sudo slapcat -l /tmp/slapcat.ldif
 {% endcodeblock %}
 
-### Zurückspielen
+#### Zurückspielen
 
 {% codeblock LDAP-Daten zurückspielen lang:sh %}
-sudo /etc/init.d/slapd stop
+sudo service slapd stop
 sudo rm -rf /var/lib/ldap/*
 sudo slapadd -c -l /tmp/slapcat.ldif
 sudo chown -R openldap.openldap /var/lib/ldap/*
-sudo /etc/init.d/slapd start
+sudo service slapd start
+{% endcodeblock %}
+
+#### Neustart mit einem leeren LDAP-Bestand
+
+{% codeblock Neustart mit leerem LDAP-Bestand lang:sh %}
+sudo service slapd stop
+sudo rm -rf /var/lib/ldap/*
+sudo service slapd start
 {% endcodeblock %}
