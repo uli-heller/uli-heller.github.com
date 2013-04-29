@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Neuer Kernel für Ubuntu-12.04"
 date: 2013-02-20 07:00
-updated: 2013-04-12 07:30
+updated: 2013-04-29 07:30
 comments: true
 categories: 
 - Linux
@@ -55,7 +55,8 @@ Leider gibt's jetzt doch ein paar negative Auffälligkeiten:
 
 * Nach dem "Aufwachen" aus "Bereitschaft" laufen die Lüfter auf Höchstdrehzahl.
   Beobachtet habe ich dies auf meinem HP-Desktop. Auch mit der Kernel-Version
-  3.5.0-27 von April 2013 existiert das Problem noch. Mein Sony-Notebook hat
+  3.5.0-27 von April 2013 existiert das Problem noch. Eine Aktualisierung
+  des BIOS bringt auch keine Besserung. Mein Sony-Notebook hat
   dieses Problem nicht.
 * Starten mit dem alten 3.2-er-Kernel funktioniert nicht mehr - man sieht
   scheinbar die Konsole mit Mauszeiger und kann keine Eingaben vornehmen
