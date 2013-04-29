@@ -2,6 +2,14 @@ SSH
 ---
 * http://www.tecmint.com/use-pam_tally2-to-lock-and-unlock-ssh-failed-login-attempts/
 
+FIREWALL
+--------
+* FERM - http://blog.tincho.org/posts/Setting_up_my_server:_netfilter/
+
+SELINUX
+-------
+* http://blog.bodhizazen.net/linux/selinux-and-confined-users/
+
 NginX - Apache
 --------------
 * http://unhandledexpression.com/2013/01/25/5-easy-tips-to-accelerate-ssl/
