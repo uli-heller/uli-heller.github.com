@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-04-26T09:20:40+02:00</updated>
+  <updated>2013-04-29T08:13:30+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -1948,7 +1948,8 @@ Samsung-Notebook ein.</p>
 <ul>
 <li>Nach dem &#8220;Aufwachen&#8221; aus &#8220;Bereitschaft&#8221; laufen die Lüfter auf Höchstdrehzahl.
 Beobachtet habe ich dies auf meinem HP-Desktop. Auch mit der Kernel-Version
-3.5.0-27 von April 2013 existiert das Problem noch. Mein Sony-Notebook hat
+3.5.0-27 von April 2013 existiert das Problem noch. Eine Aktualisierung
+des BIOS bringt auch keine Besserung. Mein Sony-Notebook hat
 dieses Problem nicht.</li>
 <li>Starten mit dem alten 3.2-er-Kernel funktioniert nicht mehr - man sieht
 scheinbar die Konsole mit Mauszeiger und kann keine Eingaben vornehmen</li>
