@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Probleme mit MySQL: start: Job failed to start - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+  <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  
+
+<!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<!--
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+-->
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+  
+
+   
+  <link href="/octopress-favicon.png" rel="icon">
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Java, Linux und Groovy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+
+
+
+
+
+
+
+
+
+
+
+<article class="hentry " role="article">
+  
+  <header>
+    <h1 class="entry-title">
+
+Probleme mit MySQL: start: Job failed to start
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-01T06:31:00+02:00" pubdate data-updated="true">01. Mai 2013</time>
+         &bull; <a rel="bookmark" href="/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Auf einem meiner Rechner habe ich gestern diverse Updates eingespielt mit</p>
+
+<ul>
+<li><code>apt-get update</code></li>
+<li><code>apt-get upgrade</code></li>
+<li><code>apt-get dist-upgrade</code></li>
+</ul>
+
+
+<p>Dabei wurde auch MySQL aktualisiert. Leider läßt es sich anschließend nicht
+mehr starten. Es erscheint die Fehlermeldung &#8220;start: Job failed to start&#8221;.</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><figcaption><span>Fehlermeldung beim Start von MySQL </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>service mysql start
+</span><span class='line'>  start: Job failed to start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Eine Sichtung der Log-Dateien unter /var/log liefert leider auch keine
+brauchbaren Informationen:</p>
+
+<figure class='code'><figcaption><span>Sichtung der Log-Dateien </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /var/log
+</span><span class='line'>ls -ltra
+</span><span class='line'>  -rw-rw-r--  1 root      utmp  15744 2013-05-01 06:28 wtmp
+</span><span class='line'>  -rw-rw-r--  1 root      utmp 292292 2013-05-01 06:28 lastlog
+</span><span class='line'>  -rw-r-----  1 syslog    adm   93910 2013-05-01 06:40 auth.log
+</span><span class='line'>  -rw-r-----  1 syslog    adm   17682 2013-05-01 06:47 syslog
+</span><span class='line'>  -rw-r-----  1 syslog    adm  142088 2013-05-01 06:47 messages
+</span><span class='line'>  -rw-r-----  1 syslog    adm   78161 2013-05-01 06:47 kern.log
+</span><span class='line'>  -rw-r-----  1 syslog    adm    5394 2013-05-01 06:47 daemon.log
+</span><span class='line'><span class="c"># daemon.log: mysql pre-start process (2168) terminated with status 1</span>
+</span><span class='line'><span class="c"># kern.log: type=1505 audit(1367383657.073:19):  operation=&quot;profile_replace&quot; pid=2170 name=&quot;/usr/sbin/mysqld&quot;</span>
+</span><span class='line'><span class="c"># messages: type=1505 audit(1367383657.073:19):  operation=&quot;profile_replace&quot; pid=2170 name=&quot;/usr/sbin/mysqld&quot;</span>
+</span><span class='line'><span class="c"># syslog:</span>
+</span><span class='line'><span class="c">#   type=1505 audit(1367383657.073:19):  operation=&quot;profile_replace&quot; pid=2170 name=&quot;/usr/sbin/mysqld&quot;</span>
+</span><span class='line'><span class="c">#    mysql pre-start process (2168) terminated with status 1</span>
+</span><span class='line'><span class="c"># auth.log: ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Logging von Upstart aktivieren</h2>
+
+<p>Im <a href="http://upstart.ubuntu.com/cookbook/#initctl-log-priority">Kochbuch für Upstart</a>
+steht, wie man das Logging für Upstart aktiviert:</p>
+
+<ul>
+<li><code>initctl log-priority  # Ausgabe: message</code></li>
+<li><code>initctl log-priority debug</code></li>
+<li><code>service mysql start</code></li>
+</ul>
+
+
+<p>Danach stehen deutlich mehr Informationen in den Log-Dateien. Leider betreffen
+diese mehr die Arbeitsweise vom Upstart-Init-Daemon als die der zu startenden
+Services.</p>
+
+<p>Also: Logging für Upstart wieder deaktivieren:</p>
+
+<ul>
+<li><code>initctl log-priority message</code></li>
+</ul>
+
+
+<h2>Logging für ein Upstart-Skript aktivieren</h2>
+
+<p>Im  <a href="http://upstart.ubuntu.com/cookbook/#obtaining-a-log-of-a-script-section">Kochbuch für Upstart</a>
+steht, wie man Logs für die Upstart-Skripte erzeugt. Die Idee ist, dem Ansatz
+&#8220;Log Script Section Output to Syslog&#8221; zu folgen:</p>
+
+<figure class='code'><figcaption><span>Auszug aus dem Upstart-Kochbuch - Skriptausgabe loggen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>script
+</span><span class='line'>  <span class="nb">exec</span> &gt;/dev/kmsg 2&gt;&amp;1
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;this data will be sent to the system log&quot;</span>
+</span><span class='line'>end script
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Zunächst müssen wir die Konfigurationsdatei für den MySQL-Upstart-Service
+finden: /etc/init/mysql.conf. Eine Sichtung liefert:</p>
+
+<ul>
+<li>Es gibt ein &#8220;pre-start script&#8221;</li>
+<li>In den Fehlermeldungen war die Rede von &#8220;pre-start process&#8221;</li>
+<li>Also: Wir schauen uns den &#8220;pre-start&#8221;-Teil näher an</li>
+</ul>
+
+
+<p>Dieser Teil sieht so aus:</p>
+
+<figure class='code'><figcaption><span>/etc/init/mysql.conf - pre-start </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>pre-start script
+</span><span class='line'>    <span class="c">#Sanity checks</span>
+</span><span class='line'>    <span class="o">[</span> -r <span class="nv">$HOME</span>/my.cnf <span class="o">]</span>
+</span><span class='line'>    <span class="o">[</span> -d /var/run/mysqld <span class="o">]</span> <span class="o">||</span> install -m 755 -o mysql -g root -d /var/run/mysqld
+</span><span class='line'>    <span class="c"># Load AppArmor profile</span>
+</span><span class='line'>    <span class="k">if </span>aa-status --enabled 2&gt;/dev/null; <span class="k">then</span>
+</span><span class='line'><span class="k">        </span>apparmor_parser -r /etc/apparmor.d/usr.sbin.mysqld <span class="o">||</span> <span class="nb">true</span>
+</span><span class='line'><span class="nb">    </span><span class="k">fi</span>
+</span><span class='line'><span class="k">    </span><span class="nv">LC_ALL</span><span class="o">=</span>C <span class="nv">BLOCKSIZE</span><span class="o">=</span> df --portability /var/lib/mysql/. | tail -n 1 | awk <span class="s1">&#39;{ exit ($4&lt;4096) }&#39;</span>
+</span><span class='line'>end script
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Es fällt auf, dass der freie Speicherplatz auf /var/lib/mysql/. geprüft wird.
+Möglicherweise ist also auch einfach diese Partition voll gelaufen!</p>
+
+<h2>Sichtung und Bereinigung der Partition /var</h2>
+
+<figure class='code'><figcaption><span>Sichtung und Bereinigung der Partiton /var </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>df /var
+</span><span class='line'>  /dev/mapper/systemvg-varlv  376807    354385      2966 100% /var
+</span><span class='line'>apt-get clean
+</span><span class='line'>df /var
+</span><span class='line'>  /dev/mapper/systemvg-varlv  376807    202839    154512  57% /var
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nun kann man MySQL wieder normal starten!</p>
+
+<figure class='code'><figcaption><span>Normaler Start von MySQL </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>service mysql start
+</span><span class='line'>  mysql start/running, process 1589
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="http://upstart.ubuntu.com/cookbook">Kochbuch für Upstart</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-01T06:31:00+02:00" pubdate data-updated="true">01. Mai 2013</time>
+
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lucid/'>Lucid</a>, <a class='category' href='/blog/categories/mysql/'>MySQL</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+
+      
+
+    </p>
+    
+      <div class="sharing">
+  
+    
+      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    
+  
+  
+  
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/04/25/cinnamon-1-dot-7-4-auf-ubuntu-12-dot-04/" title="Voriger Beitrag: Cinnamon-1.7.4 auf Ubuntu-12.04">&laquo; Cinnamon-1.7.4 auf Ubuntu-12.04</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+<section>
+  <h1>Comments</h1>
+  
+
+  
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/">Probleme mit MySQL: start: Job failed to start</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/25/cinnamon-1-dot-7-4-auf-ubuntu-12-dot-04/">Cinnamon-1.7.4 auf Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/23/einrichten-eines-ldap-servers-unter-ubuntu-12-dot-04/">Einrichten eines LDAP-Servers unter Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/21/herunterladen-des-https-server-zertifikats/">Herunterladen des HTTPS-Server-Zertifikats</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/04/19/pigeonhole/">Dovecot: Aktualisierung mit Pigeonhole</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+
+
+
+
+
+</body>
+</html>
