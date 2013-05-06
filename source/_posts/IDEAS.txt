@@ -39,3 +39,23 @@ http://heelhook.github.com/chardin.js/
 Octopress
 ---------
 http://webdesign.tutsplus.com/tutorials/applications/getting-started-with-octopress/
+
+SH
+--
+* http://www.etalabs.net/sh_tricks.html
+  * quote () { printf %s\\n "$1" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/'/" ; }
+  * save () {
+      for i do printf %s\\n "$i" | sed "s/'/'\\\\''/g;1s/^/'/;\$s/\$/' \\\\/" ; done
+      echo " "
+    }
+  * myarray=$(save "$@")
+    set -- foo bar baz boo
+    eval "set -- $myarray"
+
+* https://github.com/makefu/array
+
+CHROME
+------
+* http://dev.hubspot.com/blog/bulletproof-demos
+  chrome --args --record-mode
+  chrome --args --playback-mode
