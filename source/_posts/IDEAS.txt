@@ -51,7 +51,7 @@ SH
   * myarray=$(save "$@")
     set -- foo bar baz boo
     eval "set -- $myarray"
-
+* http://www.seanius.net/blog/2009/03/saving-and-restoring-positional-params/
 * https://github.com/makefu/array
 
 CHROME
