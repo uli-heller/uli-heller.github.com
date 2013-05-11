@@ -119,24 +119,33 @@ Probleme mit MySQL: start: Job failed to start
 
 
 <p>Dabei wurde auch MySQL aktualisiert. Leider läßt es sich anschließend nicht
-mehr starten. Es erscheint die Fehlermeldung &#8220;start: Job failed to start&#8221;.</p>
+mehr starten. Es erscheint die Fehlermeldung "start: Job failed to start".</p>
 
 <!-- more -->
 
 
 
 
-<figure class='code'><figcaption><span>Fehlermeldung beim Start von MySQL </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Fehlermeldung beim Start von MySQL </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>service mysql start
 </span><span class='line'>  start: Job failed to start
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
 
 
 <p>Eine Sichtung der Log-Dateien unter /var/log liefert leider auch keine
 brauchbaren Informationen:</p>
 
-<figure class='code'><figcaption><span>Sichtung der Log-Dateien </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Sichtung der Log-Dateien </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -168,7 +177,10 @@ brauchbaren Informationen:</p>
 </span><span class='line'><span class="c">#   type=1505 audit(1367383657.073:19):  operation=&quot;profile_replace&quot; pid=2170 name=&quot;/usr/sbin/mysqld&quot;</span>
 </span><span class='line'><span class="c">#    mysql pre-start process (2168) terminated with status 1</span>
 </span><span class='line'><span class="c"># auth.log: ...</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
 
 
 <h2>Logging von Upstart aktivieren</h2>
@@ -198,9 +210,12 @@ Services.</p>
 
 <p>Im  <a href="http://upstart.ubuntu.com/cookbook/#obtaining-a-log-of-a-script-section">Kochbuch für Upstart</a>
 steht, wie man Logs für die Upstart-Skripte erzeugt. Die Idee ist, dem Ansatz
-&#8220;Log Script Section Output to Syslog&#8221; zu folgen:</p>
+"Log Script Section Output to Syslog" zu folgen:</p>
 
-<figure class='code'><figcaption><span>Auszug aus dem Upstart-Kochbuch - Skriptausgabe loggen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Auszug aus dem Upstart-Kochbuch - Skriptausgabe loggen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -208,22 +223,28 @@ steht, wie man Logs für die Upstart-Skripte erzeugt. Die Idee ist, dem Ansatz
 </span><span class='line'>  <span class="nb">exec</span> &gt;/dev/kmsg 2&gt;&amp;1
 </span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;this data will be sent to the system log&quot;</span>
 </span><span class='line'>end script
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
 
 
 <p>Zunächst müssen wir die Konfigurationsdatei für den MySQL-Upstart-Service
 finden: /etc/init/mysql.conf. Eine Sichtung liefert:</p>
 
 <ul>
-<li>Es gibt ein &#8220;pre-start script&#8221;</li>
-<li>In den Fehlermeldungen war die Rede von &#8220;pre-start process&#8221;</li>
-<li>Also: Wir schauen uns den &#8220;pre-start&#8221;-Teil näher an</li>
+<li>Es gibt ein "pre-start script"</li>
+<li>In den Fehlermeldungen war die Rede von "pre-start process"</li>
+<li>Also: Wir schauen uns den "pre-start"-Teil näher an</li>
 </ul>
 
 
 <p>Dieser Teil sieht so aus:</p>
 
-<figure class='code'><figcaption><span>/etc/init/mysql.conf - pre-start </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>/etc/init/mysql.conf - pre-start </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -243,7 +264,10 @@ finden: /etc/init/mysql.conf. Eine Sichtung liefert:</p>
 </span><span class='line'><span class="nb">    </span><span class="k">fi</span>
 </span><span class='line'><span class="k">    </span><span class="nv">LC_ALL</span><span class="o">=</span>C <span class="nv">BLOCKSIZE</span><span class="o">=</span> df --portability /var/lib/mysql/. | tail -n 1 | awk <span class="s1">&#39;{ exit ($4&lt;4096) }&#39;</span>
 </span><span class='line'>end script
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
 
 
 <p>Es fällt auf, dass der freie Speicherplatz auf /var/lib/mysql/. geprüft wird.
@@ -251,7 +275,10 @@ Möglicherweise ist also auch einfach diese Partition voll gelaufen!</p>
 
 <h2>Sichtung und Bereinigung der Partition /var</h2>
 
-<figure class='code'><figcaption><span>Sichtung und Bereinigung der Partiton /var </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Sichtung und Bereinigung der Partiton /var </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -261,16 +288,25 @@ Möglicherweise ist also auch einfach diese Partition voll gelaufen!</p>
 </span><span class='line'>apt-get clean
 </span><span class='line'>df /var
 </span><span class='line'>  /dev/mapper/systemvg-varlv  376807    202839    154512  57% /var
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
 
 
 <p>Nun kann man MySQL wieder normal starten!</p>
 
-<figure class='code'><figcaption><span>Normaler Start von MySQL </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Normaler Start von MySQL </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>service mysql start
 </span><span class='line'>  mysql start/running, process 1589
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
 
 
 <h2>Links</h2>
@@ -334,6 +370,8 @@ Möglicherweise ist also auch einfach diese Partition voll gelaufen!</p>
         <a class="basic-alignment left" href="/2013/04/25/cinnamon-1-dot-7-4-auf-ubuntu-12-dot-04/" title="Voriger Beitrag: Cinnamon-1.7.4 auf Ubuntu-12.04">&laquo; Cinnamon-1.7.4 auf Ubuntu-12.04</a>
       
       
+        <a class="basic-alignment right" href="/2013/05/11/grub-reboot/" title="Nächster Beitrag: GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs">GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -354,6 +392,10 @@ Möglicherweise ist also auch einfach diese Partition voll gelaufen!</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/05/11/grub-reboot/">GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/">Probleme mit MySQL: start: Job failed to start</a>
       </li>
     
@@ -367,10 +409,6 @@ Möglicherweise ist also auch einfach diese Partition voll gelaufen!</p>
     
       <li class="post">
         <a href="/2013/04/21/herunterladen-des-https-server-zertifikats/">Herunterladen des HTTPS-Server-Zertifikats</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/04/19/pigeonhole/">Dovecot: Aktualisierung mit Pigeonhole</a>
       </li>
     
   </ul>

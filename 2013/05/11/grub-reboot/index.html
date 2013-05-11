@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Markdown-Testdokument - Was ich so treibe...</title>
+  <title>GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
   <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
 
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.com/2012/05/18/markdown/">
+  <link rel="canonical" href="http://uli-heller.github.com/2013/05/11/grub-reboot/">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -85,7 +85,7 @@
   <header>
     <h1 class="entry-title">
 
-Markdown-Testdokument
+GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs
 
 </h1>
 
@@ -103,129 +103,100 @@ Markdown-Testdokument
   
 
 
-
-  
-<time datetime="2012-05-18T08:00:00+02:00" pubdate data-updated="true">18. Mai 2012</time>
-         &bull; <a rel="bookmark" href="/2012/05/18/markdown/">Permalink</a>
+<time datetime="2013-05-11T06:31:00+02:00" pubdate data-updated="true">11. Mai 2013</time>
+         &bull; <a rel="bookmark" href="/2013/05/11/grub-reboot/">Permalink</a>
       </p>
     
   </header>
 
-<div class="entry-content"><h1>Markdown-Testdokument</h1>
+<div class="entry-content"><p>Üblicherweise starte ich meine diversen VMs einfach mit <code>sudo reboot</code>
+neu. Dabei wird dann der Standard-Eintrag im Grub-Menü selektiert und
+das betreffende Betriebssystem hochgefahren.</p>
 
-<p>Dies ist mein Testdokument für Markdown. Ich packe hier einfach alle denkbaren Konstrukte in Markdown rein, damit ich nicht immer wieder neu suchen muß.</p>
+<p>Manchmal möchte ich aber einen anderen Eintrag aktivieren und ein
+alternatives Betriebssystem oder einen anderen Linux-Kernel starten.
+Das Verfahren habe ich mir von <a href="http://michael-prokop.at/blog/2013/05/10/how-to-get-grub-reboot-working/">Michael Prokop's Blog</a> 'geklaut'.</p>
 
 <!-- more -->
 
 
-<p>Quellen:</p>
-
-<ul>
-<li><a href="http://daringfireball.net/projects/markdown/">DaringFireball</a> - (besser lesbare lokale <a href="/articles/daringfireball-markdown.html">Kopie</a> davon)</li>
-</ul>
-
-
-<h2>Überschrift</h2>
-
-<h2>Noch eine Überschrift</h2>
-
-<h3>Abschnitt 1</h3>
-
-<h3>Abschnitt 2</h3>
-
-<ul>
-<li>Eine Liste
-
-<ul>
-<li>Geschachtelte Liste</li>
-</ul>
-</li>
-<li>Formatierungen
-
-<ul>
-<li><em>fett</em></li>
-<li><em>fett</em></li>
-<li><strong>fett</strong></li>
-<li><strong>fett</strong></li>
-<li>Kommando: <code>ls -l</code></li>
-</ul>
-</li>
-<li>Liste mit Code-Block:
-
-<pre><code>  cd /tmp
-  ls
-</code></pre></li>
-</ul>
-
-
-<p>Ein Bild: <img src="/images/cc-by-sa-3.0_88x31.png" alt="CC-Icon" /></p>
-
-<h2>Octopress-Erweiterungen</h2>
-
-<h3>Codeblock</h3>
+<h2>Sichten: Welche Menüeinträge gibt es?</h2>
 
 <!--escape-->
 
 
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Here's an example .rvmrc file. </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Liste der Menüeinträge in Grub </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># grep &quot;^menuentry&quot; /boot/grub/grub.cfg</span>
+</span><span class='line'>menuentry <span class="s1">&#39;Ubuntu, with Linux 3.2.0-36-virtual&#39;</span> --class ubuntu --class gnu-linux --class gnu --class os <span class="o">{</span>
+</span><span class='line'>menuentry <span class="s1">&#39;Ubuntu, with Linux 3.2.0-36-virtual (recovery mode)&#39;</span> --class ubuntu --class gnu-linux --class gnu --class os <span class="o">{</span>
+</span><span class='line'>menuentry <span class="s2">&quot;Memory test (memtest86+)&quot;</span> <span class="o">{</span>
+</span><span class='line'>menuentry <span class="s2">&quot;Memory test (memtest86+, serial console 115200)&quot;</span> <span class="o">{</span>
 </span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
 <!--end-escape-->
 
 
-<p>Nach gegenwärtigem Kenntnisstand kann so ein Codeblock nicht Bestandteil einer Liste sein! (Octopress-2.0 und 2.1)</p>
-
-<h3>Datei</h3>
+<h2>Umstellen des Standard-Boot-Eintrages</h2>
 
 <!--escape-->
 
 
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Beispiel.java</span><a href='/downloads/code/Beispiel.java' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Umstellen der Standard-Boot-Eintrages </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Beispiel</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>     <span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;Dies ist ein Beispiel&quot;</span><span class="o">;</span>
-</span><span class='line'>     <span class="k">return</span> <span class="n">s</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># grep GRUB_DEFAULT /etc/default/grub</span>
+</span><span class='line'><span class="nv">GRUB_DEFAULT</span><span class="o">=</span>0
+</span><span class='line'><span class="c"># sed -i &#39;s/^GRUB_DEFAULT.*/GRUB_DEFAULT=saved/&#39; /etc/default/grub</span>
+</span><span class='line'><span class="c"># grep GRUB_DEFAULT /etc/default/grub</span>
+</span><span class='line'><span class="nv">GRUB_DEFAULT</span><span class="o">=</span>saved
+</span><span class='line'><span class="c"># update-grub</span>
+</span><span class='line'>Generating grub.cfg ...
+</span><span class='line'>Found linux image: /boot/vmlinuz-3.2.0-36-virtual
+</span><span class='line'>Found initrd image: /boot/initrd.img-3.2.0-36-virtual
+</span><span class='line'>Found memtest86+ image: /memtest86+.bin
+</span><span class='line'><span class="k">done</span>
 </span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
 <!--end-escape-->
 
 
-<h3>Bild</h3>
+<h2>Neustart eines anderen Eintrages</h2>
 
-<p><img class="" src="/images/cc-by-sa-3.0_88x31.png" title="'CC-Icon'" ></p>
-
-<h2>Tests</h2>
-
-<h3>Liste mit Codeblock</h3>
-
-<ul>
-<li>Liste</li>
-<li>mit Codeblock</li>
-</ul>
-
+<p>Ich möchte den Eintrag "Memory test (memtest86+)"
+starten, das ist der dritte Eintrag im Boot-Menü:</p>
 
 <!--escape-->
 
 
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Here's an example .rvmrc file. </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Neustart mit dem dritten Standard-Boot-Eintrag </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># grub-reboot 2</span>
+</span><span class='line'><span class="c"># reboot</span>
 </span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
 <!--end-escape-->
 
 
+<p>Nun wird der dritte Eintrag gestartet, der blaue Bildschirm von
+"Memory Test" erscheint.</p>
 
+<p>Beim nächsten Neustart wird dann wieder der ursprüngliche Boot-Eintrag
+geladen.</p>
 </div>
 
 
@@ -248,14 +219,12 @@ Markdown-Testdokument
   
 
 
-
-  
-<time datetime="2012-11-27T07:00:00+01:00" class="updated">Updated 27. November 2012</time>
+<time datetime="2013-05-11T06:31:00+02:00" pubdate data-updated="true">11. Mai 2013</time>
 
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/blog/'>Blog</a>, <a class='category' href='/blog/categories/markdown/'>Markdown</a>, <a class='category' href='/blog/categories/octopress/'>Octopress</a>
+    <a class='category' href='/blog/categories/grub/'>Grub</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
   
 </span>
 
@@ -280,8 +249,8 @@ Markdown-Testdokument
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/" title="Voriger Beitrag: Probleme mit MySQL: start: Job failed to start">&laquo; Probleme mit MySQL: start: Job failed to start</a>
       
-        <a class="basic-alignment right" href="/2012/11/24/octopress/" title="Nächster Beitrag: Octopress-Installation">Octopress-Installation &raquo;</a>
       
     </p>
   </footer>
