@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-05-11T08:29:35+02:00</updated>
+  <updated>2013-05-12T10:39:00+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,257 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Ubuntu-Debian-Pakete mit LXC erzeugen]]></title>
+<link href="http://uli-heller.github.com/2013/05/12/lxc-ubuntu-build/"/>
+<updated>2013-05-12T10:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/05/12/lxc-ubuntu-build</id>
+
+      <content type="html"><![CDATA[<h2>Installation von LXC</h2>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install lxc</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Container-Partition /lxc</h2>
+
+<h3>Partition anlegen</h3>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo lvcreate -n lxclv -L10G datavg
+</span><span class='line'>sudo mkfs.btrfs /dev/datavg/lxclv</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Partition einbinden</h3>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo -s
+</span><span class='line'>mkdir /lxc
+</span><span class='line'>echo "/dev/datavg/lxclv /lxc btrfs defaults 0 3" >>/etc/fstab
+</span><span class='line'>mount /lxc
+</span><span class='line'>rmdir /var/lib/lxc
+</span><span class='line'>ln -s /lxc/lib /var/lib/lxc
+</span><span class='line'>rm -rf /var/cache/lxc
+</span><span class='line'>ln -s /lxc/cache /var/cache/lxc</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Verwendung vom lokalen Apt-Cacher-Ng</h2>
+
+<p>Datei /etc/default/lxc editieren:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&#8230; funktioniert nicht, es werden viele Pakete als &#8220;nicht verifizierbar&#8221; ausgewiesen.</p>
+
+<h2>Erstellen von Containern</h2>
+
+<h3>12.04, 32bit</h3>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-32-build -- -r precise -a i386</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Das Komando liefert typischerweise Ausgaben dieser Art:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r precise -a i386
+</span><span class='line'>[sudo] password for uli: 
+</span><span class='line'>
+</span><span class='line'>No config file specified, using the default config
+</span><span class='line'>debootstrap ist /usr/sbin/debootstrap
+</span><span class='line'>Checking cache download in /var/cache/lxc/precise/rootfs-i386 ... 
+</span><span class='line'>Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs ... 
+</span><span class='line'>Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs ...
+</span><span class='line'>
+</span><span class='line'>##
+</span><span class='line'># The default user is 'ubuntu' with password 'ubuntu'!
+</span><span class='line'># Use the 'sudo' command to run tasks as root in the container.
+</span><span class='line'>##
+</span><span class='line'>
+</span><span class='line'>'ubuntu' template installed
+</span><span class='line'>'ubuntu1204-32' created</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>12.04, 64bit</h3>
+
+<p>64-bit Container können nur erstellt werden, wenn das Basissystem auch ein 64-bit-System ist!</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-64-build -- -r precise -a amd64</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Arbeit mit Containern</h2>
+
+<ul>
+<li>Anmelden
+
+<ul>
+<li>Benutzer: &#8220;ubuntu&#8221;</li>
+<li>Kennwort: &#8220;ubuntu&#8221;</li>
+</ul>
+</li>
+<li>Netzwerk
+
+<ul>
+<li>IP-Adressen: Aus dem Adressbereich 10.0.3/24</li>
+<li>NAT: Funktioniert - @ping google.com@</li>
+<li>SSH vom Host in den Container: Funktioniert - @ssh ubuntu@10.0.3.250@</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Anpassung der Container</h2>
+
+<h3>Verwenden des Apt-Cache-Ng vom Host-System</h3>
+
+<p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>Acquire::http::Proxy "http://10.0.3.1:3142";</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Installation von JOE/JMACS</h3>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install joe</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Aktualisierung auf den neuesten Stand</h3>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get upgrade
+</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Build-Tools einspielen</h2>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install build-essential fakeroot dpkg-dev devscripts
+</span><span class='line'>sudo apt-get install autotools-dev debhelper pkg-config
+</span><span class='line'>sudo apt-get install dh-autoreconf
+</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>GPG-Schlüssel übernehmen</h2>
+
+<p>Auf dem bestehenden Build-System wird der GPG-Schlüssel exportiert:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>gpg --export-secret-keys >gpg.keys</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Auf dem neuen LXC-Build-System wird der GPG-Schlüssel importiert:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>gpg --import &lt;gpg.keys</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Durchführen eines Builds</h2>
+
+<h3>libseccomp</h3>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'># Kopieren der nachfolgenden Dateien:
+</span><span class='line'>#  libseccomp_0.1.0-1dp01~precise2.debian.tar.gz
+</span><span class='line'>#  libseccomp_0.1.0-1dp01~precise2.dsc 
+</span><span class='line'>#  libseccomp_0.1.0.orig.tar.gz
+</span><span class='line'>dpkg-source -x  libseccomp_0.1.0-1dp01~precise2.dsc
+</span><span class='line'>cd libseccomp-0.1.0
+</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>lxc</h3>
+
+<p>&#8230; läuft analog zu &#8220;libseccomp&#8221;</p>
+
+<h2>Sichern und Rückspielen von Containern</h2>
+
+<h3>Sichern</h3>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>cd /lxc
+</span><span class='line'>sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Rückspielen</h3>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>cd /lxc
+</span><span class='line'>sudo tar -xvjpf /backups/lxc/20121119.tar.bz2</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Probleme</h2>
+
+<h3>Offene Punkte</h3>
+
+<h4>Wie sorgt man dafür, dass ein Container nur über ein Host-Only-Netzwerk erreichbar ist?</h4>
+
+<h3>Erledigte Punkte</h3>
+
+<h4>Verwendung des Apt-Cacher-Ng durch einen Container</h4>
+
+<p>&#8230; geht wie üblich durch /etc/apt/apt.conf.d/01proxy innerhalb des Containers</p>
+
+<h4>Wie übernimmt man einen Container auf ein anderes System?</h4>
+
+<p>&#8230; durch Sichern und Rückspielen.</p>
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://help.ubuntu.com/12.04/serverguide/lxc.html">Ubuntu 12.04 Server Guide</a></li>
+</ul>
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/05/12/lxc-ubuntu-build/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -2552,86 +2803,6 @@ werden.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/02/14/redmine-rails-update/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[GitHub - Downloads]]></title>
-<link href="http://uli-heller.github.com/2013/02/12/github-downloads/"/>
-<updated>2013-02-12T08:00:00+01:00</updated>
-<id>http://uli-heller.github.com/2013/02/12/github-downloads</id>
-
-      <content type="html"><![CDATA[<h1>GitHub - Anlegen eines Download-Bereichs</h1>
-
-<p>Ende 2012 sorgte GitHub bei mir für einige Verwirrung, indem
-die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
-
-<p>Als Notbehelf verwende ich aktuell einfach einen speziellen Zweig namens
-&#8220;downloads&#8221; und lege dann die runterladbaren Dateien darin ab.</p>
-
-<h2>Download-Zweig anlegen</h2>
-
-<p>Den Download-Zweig legt man grob so an:</p>
-
-<ul>
-<li>Sicherstellen: Alle Dateien sind gespeichert in Git! (mittels: <code>git status</code>)</li>
-<li>Neuen Zweig anlegen und leeren</li>
-<li>README.txt erzeugen mit einer kurzen Beschreibung</li>
-<li>README.txt in Git abspeichern</li>
-<li>Zweig nach GitHub hochschieben</li>
-</ul>
-
-
-<figure class='code'><figcaption><span>Download-Zweig anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout master
-</span><span class='line'><span class="nv">$ </span>git status
-</span><span class='line'><span class="c"># On branch master</span>
-</span><span class='line'>nothing to commit, working directory clean
-</span><span class='line'><span class="nv">$ </span>git checkout --orphan downloads
-</span><span class='line'><span class="nv">$ </span>git rm -rf .
-</span><span class='line'><span class="nv">$ </span>jmacs README.txt <span class="c"># Enter description of the branch</span>
-</span><span class='line'><span class="nv">$ </span>git add README.txt
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Created branch: downloads&quot;</span>
-</span><span class='line'><span class="nv">$ </span>git push --set-upstream origin downloads
-</span><span class='line'><span class="nv">$ </span>git checkout master
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Dateien ablegen</h2>
-
-<figure class='code'><figcaption><span>Dateien ablegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout downloads
-</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.tar.xz .
-</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.zip .
-</span><span class='line'><span class="nv">$ </span>git add my-project-0.1-bin.tar.xz my-project-0.1-bin.zip
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Added downloads of version 0.1&quot;</span> .
-</span><span class='line'><span class="nv">$ </span>git push <span class="c"># might take some time depending on your internet connection bandwidth</span>
-</span><span class='line'><span class="nv">$ </span>git checkout master <span class="c"># switch back to master</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/02/12/github-downloads/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>

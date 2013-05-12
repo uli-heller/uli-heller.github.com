@@ -86,6 +86,124 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/02/12/github-downloads/">GitHub - Downloads</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-02-12T08:00:00+01:00" pubdate data-updated="true">12. Februar 2013</time>
+         &bull; <a rel="bookmark" href="/2013/02/12/github-downloads/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>GitHub - Anlegen eines Download-Bereichs</h1>
+
+<p>Ende 2012 sorgte GitHub bei mir für einige Verwirrung, indem
+die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
+
+<p>Als Notbehelf verwende ich aktuell einfach einen speziellen Zweig namens
+&#8220;downloads&#8221; und lege dann die runterladbaren Dateien darin ab.</p>
+
+<h2>Download-Zweig anlegen</h2>
+
+<p>Den Download-Zweig legt man grob so an:</p>
+
+<ul>
+<li>Sicherstellen: Alle Dateien sind gespeichert in Git! (mittels: <code>git status</code>)</li>
+<li>Neuen Zweig anlegen und leeren</li>
+<li>README.txt erzeugen mit einer kurzen Beschreibung</li>
+<li>README.txt in Git abspeichern</li>
+<li>Zweig nach GitHub hochschieben</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Download-Zweig anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout master
+</span><span class='line'><span class="nv">$ </span>git status
+</span><span class='line'><span class="c"># On branch master</span>
+</span><span class='line'>nothing to commit, working directory clean
+</span><span class='line'><span class="nv">$ </span>git checkout --orphan downloads
+</span><span class='line'><span class="nv">$ </span>git rm -rf .
+</span><span class='line'><span class="nv">$ </span>jmacs README.txt <span class="c"># Enter description of the branch</span>
+</span><span class='line'><span class="nv">$ </span>git add README.txt
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Created branch: downloads&quot;</span>
+</span><span class='line'><span class="nv">$ </span>git push --set-upstream origin downloads
+</span><span class='line'><span class="nv">$ </span>git checkout master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Dateien ablegen</h2>
+
+<figure class='code'><figcaption><span>Dateien ablegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout downloads
+</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.tar.xz .
+</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.zip .
+</span><span class='line'><span class="nv">$ </span>git add my-project-0.1-bin.tar.xz my-project-0.1-bin.zip
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Added downloads of version 0.1&quot;</span> .
+</span><span class='line'><span class="nv">$ </span>git push <span class="c"># might take some time depending on your internet connection bandwidth</span>
+</span><span class='line'><span class="nv">$ </span>git checkout master <span class="c"># switch back to master</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/01/11/redmine-rails-update/">Rails-2.3.15</a>
 
 </h1>
@@ -1804,6 +1922,10 @@ source/archives/index.html</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/05/12/lxc-ubuntu-build/">Ubuntu-Debian-Pakete mit LXC erzeugen</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/05/11/grub-reboot/">GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs</a>
       </li>
     
@@ -1817,10 +1939,6 @@ source/archives/index.html</li>
     
       <li class="post">
         <a href="/2013/04/23/einrichten-eines-ldap-servers-unter-ubuntu-12-dot-04/">Einrichten eines LDAP-Servers unter Ubuntu-12.04</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/04/21/herunterladen-des-https-server-zertifikats/">Herunterladen des HTTPS-Server-Zertifikats</a>
       </li>
     
   </ul>
