@@ -107,7 +107,7 @@ Arbeit mit Containern
 Anpassung der Container
 -----------------------
 
-### Verwenden des Apt-Cache-Ng vom Host-System
+### Verwenden des Apt-Cacher-Ng vom Host-System
 
 Erstellen von /etc/apt/apt.conf.d/01proxy:
 
