@@ -103,6 +103,8 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
   
 
 
+
+  
 <time datetime="2013-05-12T10:00:00+02:00" pubdate data-updated="true">12. Mai 2013</time>
          &bull; <a rel="bookmark" href="/2013/05/12/lxc-ubuntu-build/">Permalink</a>
       </p>
@@ -114,7 +116,7 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
 <!--escape-->
 
 
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Installation von LXC </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install lxc</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
@@ -122,6 +124,11 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
 
 
 <h2>Container-Partition /lxc</h2>
+
+<p>Dieser Abschnitt kann optional ausgeführt werden.
+Voraussetzung ist, dass es eine Volume Group namens "datavg"
+gibt und dass diese über mindestens 10 GB freien Speicherplatz
+verfügt.</p>
 
 <h3>Partition anlegen</h3>
 
@@ -163,9 +170,14 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
 <!--end-escape-->
 
 
-<h2>Verwendung vom lokalen Apt-Cacher-Ng</h2>
 
-<p>Datei /etc/default/lxc editieren:</p>
+
+<!--
+Verwendung vom lokalen Apt-Cacher-Ng
+------------------------------------
+
+Datei /etc/default/lxc editieren:
+
 
 <!--escape-->
 
@@ -177,7 +189,8 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
 <!--end-escape-->
 
 
-<p>... funktioniert nicht, es werden viele Pakete als "nicht verifizierbar" ausgewiesen.</p>
+<p>... funktioniert nicht, es werden viele Pakete als "nicht verifizierbar" ausgewiesen.
+--></p>
 
 <h2>Erstellen von Containern</h2>
 
@@ -279,8 +292,9 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
 <!--escape-->
 
 
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>Acquire::http::Proxy "http://10.0.3.1:3142";</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>/etc/apt/apt.conf.d/01proxy </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">Acquire</span><span class="p">::</span><span class="n">http</span><span class="p">::</span><span class="n">Proxy</span> <span class="s">&quot;http://10.0.3.1:3142&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
 <!--end-escape-->
@@ -293,6 +307,37 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
 
 <div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install joe</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h3>Paketquellen ergänzen um Source-Repositories</h3>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>/etc/apt/sources.list </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u sources.list.orig sources.list</span>
+</span><span class='line'><span class="gd">--- sources.list.orig    2012-09-30 09:41:15.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ sources.list 2013-05-12 18:27:29.615640758 +0200</span>
+</span><span class='line'><span class="gu">@@ -1,3 +1,6 @@</span>
+</span><span class='line'> deb http://archive.ubuntu.com/ubuntu precise main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src http://archive.ubuntu.com/ubuntu precise main restricted universe multiverse</span>
+</span><span class='line'> deb http://archive.ubuntu.com/ubuntu precise-updates main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src http://archive.ubuntu.com/ubuntu precise-updates main restricted universe multiverse</span>
+</span><span class='line'> deb http://security.ubuntu.com/ubuntu precise-security main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src http://security.ubuntu.com/ubuntu precise-security main restricted universe multiverse</span>
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
 <!--end-escape-->
@@ -336,12 +381,15 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
 
 <h2>GPG-Schlüssel übernehmen</h2>
 
+<p>Dieser Abschnitt ist optional. Er wird nur benötigt, um signierte
+DEB-Pakete zu erzeugen!</p>
+
 <p>Auf dem bestehenden Build-System wird der GPG-Schlüssel exportiert:</p>
 
 <!--escape-->
 
 
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>GPG-Schlüssel exportieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='plain'><span class='line'>gpg --export-secret-keys >gpg.keys</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
@@ -353,7 +401,7 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
 <!--escape-->
 
 
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>GPG-Schlüssel importieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='plain'><span class='line'>gpg --import &lt;gpg.keys</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
@@ -361,6 +409,28 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
 
 
 <h2>Durchführen eines Builds</h2>
+
+<h3>nginx</h3>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>mkdir nginx
+</span><span class='line'>cd nginx
+</span><span class='line'>apt-get source nginx
+</span><span class='line'>sudo apt-get build-dep nginx
+</span><span class='line'>cd nginx-1.1.19
+</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
 
 <h3>libseccomp</h3>
 
@@ -464,7 +534,9 @@ Ubuntu-Debian-Pakete mit LXC erzeugen
   
 
 
-<time datetime="2013-05-12T10:00:00+02:00" pubdate data-updated="true">12. Mai 2013</time>
+
+  
+<time datetime="2013-05-12T19:00:00+02:00" class="updated">Updated 12. Mai 2013</time>
 
 
 <span class="categories">
