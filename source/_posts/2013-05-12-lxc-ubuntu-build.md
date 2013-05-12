@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Ubuntu-Debian-Pakete mit LXC erzeugen"
 date: 2013-05-12 10:00
-#updated: 2013-01-10 07:30
+updated: 2013-05-12 19:00
 comments: true
 categories: 
 - Linux
@@ -17,12 +17,17 @@ categories:
 Installation von LXC
 --------------------
 
-{% codeblock %}
+{% codeblock Installation von LXC %}
 sudo apt-get install lxc
 {% endcodeblock %}
 
 Container-Partition /lxc
 ------------------------
+
+Dieser Abschnitt kann optional ausgeführt werden.
+Voraussetzung ist, dass es eine Volume Group namens "datavg"
+gibt und dass diese über mindestens 10 GB freien Speicherplatz
+verfügt.
 
 ### Partition anlegen
 
@@ -44,6 +49,7 @@ rm -rf /var/cache/lxc
 ln -s /lxc/cache /var/cache/lxc
 {% endcodeblock %}
 
+<!--
 Verwendung vom lokalen Apt-Cacher-Ng
 ------------------------------------
 
@@ -54,6 +60,7 @@ MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"
 {% endcodeblock %}
 
 ... funktioniert nicht, es werden viele Pakete als "nicht verifizierbar" ausgewiesen.
+-->
 
 Erstellen von Containern
 ------------------------
@@ -111,7 +118,7 @@ Anpassung der Container
 
 Erstellen von /etc/apt/apt.conf.d/01proxy:
 
-{% codeblock %}
+{% codeblock /etc/apt/apt.conf.d/01proxy %}
 Acquire::http::Proxy "http://10.0.3.1:3142";
 {% endcodeblock %}
 
@@ -119,6 +126,21 @@ Acquire::http::Proxy "http://10.0.3.1:3142";
 
 {% codeblock %}
 sudo apt-get install joe
+{% endcodeblock %}
+
+### Paketquellen ergänzen um Source-Repositories
+
+{% codeblock /etc/apt/sources.list lang:diff %}
+diff -u sources.list.orig sources.list
+--- sources.list.orig	2012-09-30 09:41:15.000000000 +0200
++++ sources.list	2013-05-12 18:27:29.615640758 +0200
+@@ -1,3 +1,6 @@
+ deb http://archive.ubuntu.com/ubuntu precise main restricted universe multiverse
++deb-src http://archive.ubuntu.com/ubuntu precise main restricted universe multiverse
+ deb http://archive.ubuntu.com/ubuntu precise-updates main restricted universe multiverse
++deb-src http://archive.ubuntu.com/ubuntu precise-updates main restricted universe multiverse
+ deb http://security.ubuntu.com/ubuntu precise-security main restricted universe multiverse
++deb-src http://security.ubuntu.com/ubuntu precise-security main restricted universe multiverse
 {% endcodeblock %}
 
 ### Aktualisierung auf den neuesten Stand
@@ -143,20 +165,34 @@ sudo apt-get clean
 GPG-Schlüssel übernehmen
 ------------------------
 
+Dieser Abschnitt ist optional. Er wird nur benötigt, um signierte
+DEB-Pakete zu erzeugen!
+
 Auf dem bestehenden Build-System wird der GPG-Schlüssel exportiert:
 
-{% codeblock %}
+{% codeblock GPG-Schlüssel exportieren %}
 gpg --export-secret-keys >gpg.keys
 {% endcodeblock %}
 
 Auf dem neuen LXC-Build-System wird der GPG-Schlüssel importiert:
 
-{% codeblock %}
+{% codeblock GPG-Schlüssel importieren %}
 gpg --import <gpg.keys
 {% endcodeblock %}
 
 Durchführen eines Builds
 ------------------------
+
+### nginx
+
+{% codeblock %}
+mkdir nginx
+cd nginx
+apt-get source nginx
+sudo apt-get build-dep nginx
+cd nginx-1.1.19
+dpkg-buildpackage
+{% endcodeblock %}
 
 ### libseccomp
 
