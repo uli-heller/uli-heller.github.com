@@ -40,7 +40,20 @@ OpenVPN starten
 ---------------
 
 {% codeblock OpenVPN starten %}
-$ openvpn ~/openvpn/uheller.ovpn
+$ sudo openvpn ~/openvpn/uheller.ovpn
 Enter Auth Username: uheller
 Enter Auth Password: xxxx
 {% endcodeblock %}
+
+<!--
+Proxy konfigurieren
+-------------------
+
+* Proxy-Host: proxy.mymhp.net
+* Proxy-Port: 8080
+-->
+
+Webmailer öffnen
+----------------
+
+<https://10.157.1.20/owa>, dann anmelden mit "uheller"/"xxxx".
