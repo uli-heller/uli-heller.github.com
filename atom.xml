@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-05-12T19:01:13+02:00</updated>
+  <updated>2013-05-16T19:07:52+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,59 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[JBoss Application Server 7 unter Ubuntu nutzen]]></title>
+<link href="http://uli-heller.github.com/2013/05/16/jboss-7.1.1/"/>
+<updated>2013-05-16T19:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/05/16/jboss-7.1.1</id>
+
+      <content type="html"><![CDATA[<h2>Installation und Kurztest von JBoss AS</h2>
+
+<ul>
+<li>Paket von http://www.jboss.org/jbossas/downloads herunterladen,
+einspielen und starten:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Einspielen und Starten von JBossAS </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># jboss-as-7.1.1.Final.tar.gz heruntergeladen nach ~/Downloads</span>
+</span><span class='line'><span class="nb">cd</span> /opt
+</span><span class='line'>gzip -cd ~/Downloads/jboss-as-7.1.1.Final.tar.gz |sudo tar xf -
+</span><span class='line'><span class="c"># ... es darf keine Fehlermeldung erscheinen!</span>
+</span><span class='line'>sudo chown -R uli.uli jboss-as-7.1.1.Final
+</span><span class='line'><span class="nb">cd  </span>jboss-as-7.1.1.Final
+</span><span class='line'>./bin/standalone.sh
+</span><span class='line'><span class="c"># ... muß ohne Fehlermeldung starten</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Test mit <a href="https://localhost:8080">https://localhost:8080</a>: Es muß grob &#8220;Welcome to AS 7&#8221;
+angezeigt werden.</li>
+</ul>
+
+
+<h2>Probleme</h2>
+
+<ul>
+<li>Keine, auch nicht mit JDK6</li>
+</ul>
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/05/16/jboss-7.1.1/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -2745,120 +2798,6 @@ der fehlerhaften Anpassungen verwendet werden.</p>
 
 
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/02/15/quilt/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Rails-2.3.17]]></title>
-<link href="http://uli-heller.github.com/2013/02/14/redmine-rails-update/"/>
-<updated>2013-02-14T06:10:00+01:00</updated>
-<id>http://uli-heller.github.com/2013/02/14/redmine-rails-update</id>
-
-      <content type="html"><![CDATA[<h1>Rails-Update für Redmine-1.2</h1>
-
-<p>Leider ist schon wieder eine <a href="http://www.heise.de/security/meldung/Neues-Sicherheits-Update-fuer-Ruby-on-Rails-1802557.html">Sicherheitslücke</a> in Rails
-entdeckt worden.</p>
-
-<p>Analog zur Aktualisierung auf 2.3.15 erfolgt nun die auf 2.3.17:</p>
-
-<ul>
-<li>Gems runterladen und auf Redmine-Rechner kopieren</li>
-<li>Betriebssystem aktualisieren</li>
-<li>Gems einspielen</li>
-<li>Alte Gems löschen</li>
-</ul>
-
-
-<h2>Gems herunterladen und zum Redmine-Server übertragen</h2>
-
-<p>Der Redmine-Server hat keinen Zugang zum Internet. Deshalb müssen die Gems
-auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
-werden.</p>
-
-<figure class='code'><figcaption><span>get-2.3.17.sh</span><a href='http://uli-heller.github.com/downloads/code/get-2.3.17.sh' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.17
-</span><span class='line'>
-</span><span class='line'>fetch<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="o">(</span>
-</span><span class='line'>  <span class="nv">GN</span><span class="o">=</span><span class="s2">&quot;$1-$2.gem&quot;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -s <span class="s2">&quot;${GN}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
-</span><span class='line'><span class="k">    </span>gem fetch <span class="s2">&quot;$1&quot;</span> -v <span class="s2">&quot;$2&quot;</span>
-</span><span class='line'>  <span class="k">fi</span>
-</span><span class='line'>  <span class="o">)</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for </span>i in actionmailer actionpack activerecord activeresource activesupport rails; <span class="k">do</span>
-</span><span class='line'><span class="k">  </span>fetch <span class="s2">&quot;${i}&quot;</span> <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'><span class="k">done</span>
-</span><span class='line'>fetch rack 1.1.3
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Die Dateien werden danach mit SCP auf den Redmine-Server übertragen.</p>
-
-<h2>Basissystem aktualisieren</h2>
-
-<figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
-</span><span class='line'>apt-get upgrade
-</span><span class='line'>apt-get dist-upgrade
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Gems einspielen</h2>
-
-<figure class='code'><figcaption><span>Gems einspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.17.gem
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Alte Gems deininstallieren</h2>
-
-<figure class='code'><figcaption><span>uninstall-2.3.15.sh</span><a href='http://uli-heller.github.com/downloads/code/uninstall-2.3.15.sh' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.15
-</span><span class='line'>
-</span><span class='line'>gem uninstall rails -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall actionmailer -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall actionpack -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activerecord -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activeresource -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activesupport -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'><span class="c">#gem uninstall rack -v 1.1.1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/02/14/redmine-rails-update/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>
