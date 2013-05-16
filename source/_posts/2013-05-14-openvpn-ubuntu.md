@@ -1,10 +1,10 @@
 ---
 layout: post
 author: Uli Heller
-published: false
+published: true
 title: "OpenVPN unter Ubuntu nutzen"
 date: 2013-05-14 06:00
-#updated: 2013-05-12 19:00
+updated: 2013-05-16 20:00
 comments: true
 categories: 
 - Linux
@@ -45,15 +45,19 @@ Enter Auth Username: uheller
 Enter Auth Password: xxxx
 {% endcodeblock %}
 
-<!--
-Proxy konfigurieren
--------------------
+VPN-Rechner nutzen
+------------------
 
-* Proxy-Host: proxy.mymhp.net
-* Proxy-Port: 8080
--->
+Das Hauptproblem ist nun die Namensauflösung.
+Meine VPN-Gegenstelle nennt mir keinen NameServer, also
+muß ich
 
-Webmailer öffnen
-----------------
+* entweder immer via IP-Adresse "arbeiten"
+* oder die Hosts selbst bei mir in /etc/hosts eintragen
 
-<https://10.157.1.20/owa>, dann anmelden mit "uheller"/"xxxx".
+Zunächst verfolge ich mal den ersten Ansatz:
+
+* <https://10.157.1.20/owa> ... öffnet den Webmailer,
+  hier kann ich mich anmelden mit "uheller"/"xxxx".
+
+SUPER!
