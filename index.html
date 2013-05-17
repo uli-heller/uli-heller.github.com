@@ -86,6 +86,69 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/05/17/markdown-pdf/">Markdown nach PDF wandeln</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-17T21:00:00+02:00" pubdate data-updated="true">17. Mai 2013</time>
+         &bull; <a rel="bookmark" href="/2013/05/17/markdown-pdf/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Hier kurz eine Beschreibung, wie man Markdown nach PDF
+konvertieren kann auf Basis von</p>
+
+<ul>
+<li>Kramdown</li>
+<li>Gimli</li>
+<li>Context</li>
+<li>Pandoc</li>
+</ul>
+
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/05/17/markdown-pdf/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/05/16/jboss-7.1.1/">JBoss Application Server 7 unter Ubuntu nutzen</a>
 
 </h1>
@@ -149,114 +212,6 @@ angezeigt werden.</li>
 <li>Keine, auch nicht mit JDK6</li>
 </ul>
 
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/05/14/openvpn-ubuntu/">OpenVPN unter Ubuntu nutzen</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-05-14T06:00:00+02:00" pubdate data-updated="true">14. Mai 2013</time>
-         &bull; <a rel="bookmark" href="/2013/05/14/openvpn-ubuntu/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h2>Installation von OpenVPN</h2>
-
-<figure class='code'><figcaption><span>Installation von OpenVPN </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install openvpn</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Konfigurationsdateien von OpenVPN einspielen</h2>
-
-<figure class='code'><figcaption><span>Konfigurationsdateien von OpenVPN einspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>mkdir ~/openvpn
-</span><span class='line'>unzip -d ~/openvpn uheller.zip</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Es werden Dateien wie diese abgelegt:</p>
-
-<ul>
-<li>openvpn/2E76.crt</li>
-<li>openvpn/2E76.key</li>
-<li>openvpn/ca.crt</li>
-<li>openvpn/ta.key</li>
-<li>openvpn/uheller.ovpn</li>
-</ul>
-
-
-<h2>OpenVPN starten</h2>
-
-<figure class='code'><figcaption><span>OpenVPN starten </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo openvpn ~/openvpn/uheller.ovpn
-</span><span class='line'>Enter Auth Username: uheller
-</span><span class='line'>Enter Auth Password: xxxx</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>VPN-Rechner nutzen</h2>
-
-<p>Das Hauptproblem ist nun die Namensauflösung.
-Meine VPN-Gegenstelle nennt mir keinen NameServer, also
-muß ich</p>
-
-<ul>
-<li>entweder immer via IP-Adresse &#8220;arbeiten&#8221;</li>
-<li>oder die Hosts selbst bei mir in /etc/hosts eintragen</li>
-</ul>
-
-
-<p>Zunächst verfolge ich mal den ersten Ansatz:</p>
-
-<ul>
-<li><a href="https://10.157.1.20/owa">https://10.157.1.20/owa</a> &#8230; öffnet den Webmailer,
-hier kann ich mich anmelden mit &#8220;uheller&#8221;/&#8221;xxxx&#8221;.</li>
-</ul>
-
-
-<p>SUPER!</p>
 </div>
 
   <footer>
@@ -1260,11 +1215,11 @@ unverändert in&#8217;s Dovecot-Debian-Paket einbinden!</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/2013/05/16/jboss-7.1.1/">JBoss Application Server 7 unter Ubuntu nutzen</a>
+        <a href="/2013/05/17/markdown-pdf/">Markdown nach PDF wandeln</a>
       </li>
     
       <li class="post">
-        <a href="/2013/05/14/openvpn-ubuntu/">OpenVPN unter Ubuntu nutzen</a>
+        <a href="/2013/05/16/jboss-7.1.1/">JBoss Application Server 7 unter Ubuntu nutzen</a>
       </li>
     
       <li class="post">
