@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-05-17T21:43:50+02:00</updated>
+  <updated>2013-06-01T18:16:51+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,75 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Abhängigkeiten für Debian-Paketbau installieren]]></title>
+<link href="http://uli-heller.github.com/2013/06/01/build-dependencies/"/>
+<updated>2013-06-01T17:30:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/06/01/build-dependencies</id>
+
+      <content type="html"><![CDATA[<p>Normalerweise spiele ich alle zum Bau eines Debian-Paketes notwendigen
+Programme ein mittels <code>sudo apt-get build-dep {paketname}</code>. Blöderweise
+geht das nicht, wenn das zu bauende Paket nicht aus einem
+Repository &#8220;geladen&#8221; werden soll, so zum Beispiel wenn ich nur die
+Quelltexte und die DSC-Datei des Paketes vorliegen habe.</p>
+
+<p>Nachfolgend beschreibe ich am Beispiel von MUFFIN, wie man die Pakete
+dennoch ohne allzuviel Tipparbeit installieren kann.</p>
+
+<!-- more -->
+
+
+<h2>Quelltexte herunterladen</h2>
+
+<p>Beispielsweise von <a href="https://github.com/linuxmint/muffin/archive/1.8.2.tar.gz">https://github.com/linuxmint/muffin/archive/1.8.2.tar.gz</a></p>
+
+<h2>Quelltexte entpacken</h2>
+
+<ul>
+<li><code>gzip -cd muffin-1.8.2.tar.gz|tar xf -</code></li>
+<li><code>cd muffin-1.8.2</code></li>
+</ul>
+
+
+<h2>Abhängigkeiten anzeigen</h2>
+
+<ul>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<p>&#8230; liefert eine Ausgabe der Art:</p>
+
+<p><code>
+...
+dpkg-checkbuilddeps: Unmet build dependencies: debhelper (&gt;= 8) dh-autoreconf intltool (&gt;= 0.34.90) libgtk-3-dev (&gt;= 3.0.8-1~) libcanberra-gtk3-dev gobject-introspection (&gt;= 0.9.12-5~) libgirepository1.0-dev (&gt;= 0.9.12) libjson-glib-dev (&gt;= 0.13.2-1~) libclutter-1.0-dev (&gt;= 1.7.5) libpango1.0-dev (&gt;= 1.2.0) libgconf2-dev (&gt;= 2.6.1-2) libglib2.0-dev (&gt;= 2.6.0) libstartup-notification0-dev (&gt;= 0.7) libxcomposite-dev (&gt;= 1:0.2) libxfixes-dev libxrender-dev libxdamage-dev libxcursor-dev libxinerama-dev libxext-dev libxrandr-dev gnome-doc-utils (&gt;= 0.8) gnome-pkg-tools (&gt;= 0.10) gsettings-desktop-schemas-dev (&gt;= 3.3.0)
+</code></p>
+
+<h2>Abhängigkeiten installieren</h2>
+
+<pre><code>dpkg-checkbuilddeps 2&gt;&amp;1 \
+| sed                    \
+  -e "s/^.*: //"         \
+  -e "s/([^(]*)//g"      \
+|sudo xargs apt-get install -y
+</code></pre>
+
+<h2>Paket bauen</h2>
+
+<ul>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<p>&#8230; läuft nun durch!</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/01/build-dependencies/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -209,6 +278,76 @@ angezeigt werden.</li>
 </ul>
 
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/05/16/jboss-7.1.1/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[OpenVPN unter Ubuntu nutzen]]></title>
+<link href="http://uli-heller.github.com/2013/05/14/openvpn-ubuntu/"/>
+<updated>2013-05-14T06:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/05/14/openvpn-ubuntu</id>
+
+      <content type="html"><![CDATA[<h2>Installation von OpenVPN</h2>
+
+<figure class='code'><figcaption><span>Installation von OpenVPN </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install openvpn</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Konfigurationsdateien von OpenVPN einspielen</h2>
+
+<figure class='code'><figcaption><span>Konfigurationsdateien von OpenVPN einspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>mkdir ~/openvpn
+</span><span class='line'>unzip -d ~/openvpn uheller.zip</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Es werden Dateien wie diese abgelegt:</p>
+
+<ul>
+<li>openvpn/2E76.crt</li>
+<li>openvpn/2E76.key</li>
+<li>openvpn/ca.crt</li>
+<li>openvpn/ta.key</li>
+<li>openvpn/uheller.ovpn</li>
+</ul>
+
+
+<h2>OpenVPN starten</h2>
+
+<figure class='code'><figcaption><span>OpenVPN starten </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo openvpn ~/openvpn/uheller.ovpn
+</span><span class='line'>Enter Auth Username: uheller
+</span><span class='line'>Enter Auth Password: xxxx</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>VPN-Rechner nutzen</h2>
+
+<p>Das Hauptproblem ist nun die Namensauflösung.
+Meine VPN-Gegenstelle nennt mir keinen NameServer, also
+muß ich</p>
+
+<ul>
+<li>entweder immer via IP-Adresse &#8220;arbeiten&#8221;</li>
+<li>oder die Hosts selbst bei mir in /etc/hosts eintragen</li>
+</ul>
+
+
+<p>Zunächst verfolge ich mal den ersten Ansatz:</p>
+
+<ul>
+<li><a href="https://10.157.1.20/owa">https://10.157.1.20/owa</a> &#8230; öffnet den Webmailer,
+hier kann ich mich anmelden mit &#8220;uheller&#8221;/&#8221;xxxx&#8221;.</li>
+</ul>
+
+
+<p>SUPER!</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/05/14/openvpn-ubuntu/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -2519,229 +2658,6 @@ Erweiterung als &#8220;installiert&#8221; und &#8220;aktiviert&#8221; angezeigt:
 einspielen möchte. Sie &#8220;landet&#8221; dann einfach nicht im Erweiterungsfenster.
 Abhilfe schafft schließen und neu öffnen des Fensters.</p>
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/07/crx-install/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Chrome-Erweiterungen - Teil 1/2: CRX-Dateien herunterladen]]></title>
-<link href="http://uli-heller.github.com/2013/03/04/chrome-extensions/"/>
-<updated>2013-03-04T07:00:00+01:00</updated>
-<id>http://uli-heller.github.com/2013/03/04/chrome-extensions</id>
-
-      <content type="html"><![CDATA[<h1>Offline-Installation einer Chrome-Erweiterung - Teil 1: CRX-Dateien herunterladen</h1>
-
-<p>Mein aktueller Lieblingsbrowser ist zur Zeit Google-Chrome. Dumm nur, wenn
-bei manchen Unternehmen der ausgehende Internet-Verkehr so gefiltert wird,
-dass nur manch andere Browser (beispielsweise Internet Explorer) zugelassen
-sind.</p>
-
-<!-- more -->
-
-
-<p>Ein paar Tests zeigen, dann man durch Setzen des &#8220;User-Agents&#8221; relativ
-einfach auch mit Google-Chrome arbeiten kann. Den &#8220;User-Agent&#8221; setzt man
-in Google-Chrome auf diese Weise:</p>
-
-<ul>
-<li>Tools - Entwicklertools</li>
-<li>Settings (ganz unten rechts)</li>
-<li>Overrides - User Agent
-
-<ul>
-<li>aktivieren</li>
-<li>gewünschten User-Agent auswählen</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Grundsätzlich funktioniert dies, nur muß man die Einstellungen bei
-jedem Start von Google-Chrome neu durchführen. Zum Glück gibt&#8217;s ja
-Erweiterungen wie
-<a href="https://chrome.google.com/webstore/detail/ultimate-user-agent-switc/ljfpjnehmoiabkefmnjegmpdddgcdnpo">Ultimate User Agent Switcher, URL sniffer</a>,
-die die Handhabung deutlich verbessern. Leider funktioniert
-der Zugriff auf Google-Play nicht, er wird bei meinem Unternehmen
-offenbar separat geblockt.</p>
-
-<p>Also: Wir brauchen eine Möglichkeit, Erweiterungen für Google-Chrome
-ohne Zugriff auf Google-Play zu installieren.</p>
-
-<h2>Verpacken und Entpacken - geht leider nicht</h2>
-
-<p>Erste Versuche laufen so:</p>
-
-<ul>
-<li>Rechner A:
-
-<ul>
-<li>Wechseln in&#8217;s Erweiterungsgrundverzeichnis</li>
-<li>Verpacken einer installierten Erweiterung</li>
-</ul>
-</li>
-<li>Rechner B:
-
-<ul>
-<li>Wechseln in&#8217;s Erweiterungsgrundverzeichnis</li>
-<li>Entpacken einer installierten Erweiterung</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Leider funktioniert dies nicht. Google-Chrome auf Rechner B scheint
-zu erkennen, dass ihm eine Erweiterung untergeschoben werden soll.
-Sie wird ignoriert und gelöscht beim Start von Google-Chrome.</p>
-
-<h2>Runterladen mittels Skript</h2>
-
-<ul>
-<li>Ermitteln der Applikations-Id</li>
-<li><code>./get-crx.sh ljfpjnehmoiabkefmnjegmpdddgcdnpo</code>: Ultimate-User-Agent-Switcher,-URL-sniffer_v0.9.2.2.crx</li>
-<li><code>./get-crx.sh loljledaigphbcpfhfmgopdkppkifgno</code>: Lazarus:_Form_Recovery-3.0.5.crx</li>
-</ul>
-
-
-<p>Das Skript <code>get-crx.sh</code> verwendet intern den Json-Parser
-<a href="https://github.com/dominictarr/JSON.sh/blob/master/JSON.sh">JSON.SH</a></p>
-
-<p>Die beiden Skripte liegen hier:</p>
-
-<ul>
-<li><a href="http://uli-heller.github.com/downloads/code/get-crx.sh">get-crx.sh</a></li>
-<li><a href="http://uli-heller.github.com/downloads/code/JSON.sh">JSON.sh</a> (wird nicht separat benötigt)</li>
-</ul>
-
-
-<p>Einfach <a href="http://uli-heller.github.com/downloads/code/get-crx.sh">get-crx.sh</a>
-in einem Verzeichnis ablegen und &#8220;ausführbar machen&#8221;
-(bspw. mit <code>chmod +x *.sh</code>),
-dann sollte es funktionieren.
-Ach ja: <a href="http://www.gnu.org/software/wget/">wget</a> muß
-installiert sein&#8230;</p>
-
-<h2>Runterladen mittels <a href="http://chrome-extension-downloader.com/">Chrome Extension Downloader</a></h2>
-
-<p><img src="http://uli-heller.github.com/images/chrome/chrome-extension-downloader.png" alt="ChromeExtensionDownloader" /></p>
-
-<ul>
-<li>Ermitteln der Applikations-Id</li>
-<li>Öffnen von <a href="http://chrome-extension-downloader.com/">Chrome Extension Downloader</a> im Browser</li>
-<li>Applikations-Id eingeben</li>
-<li>&#8220;Download extension&#8221;</li>
-<li>Das war&#8217;s</li>
-</ul>
-
-
-<h2>Ermitteln der Applikations-Id</h2>
-
-<ul>
-<li>Browser: [Chrome Web Store]/https://chrome.google.com/webstore/category/extensions?utm_source=chrome-ntp-icon) öffnen</li>
-<li>Gewünschte Erweiterung suchen und Details anzeigen</li>
-<li>Applikations-Id ist nun in der Adresszeile sichtbar (siehe Bildchen)</li>
-</ul>
-
-
-<p><img src="http://uli-heller.github.com/images/chrome/chrome-application-id-2.png" alt="ChromeWebShop - Applikations-Id" /></p>
-
-<h2>Links:</h2>
-
-<ul>
-<li><a href="http://blog.gerardin.info/archives/763">Download Chrome extension from other browser (for offline installation)</a></li>
-<li><a href="https://chrome.google.com/webstore/detail/ultimate-user-agent-switc/ljfpjnehmoiabkefmnjegmpdddgcdnpo">Ultimate User Agent Switcher, URL sniffer</a></li>
-<li><a href="http://chrome-extension-downloader.com/">Chrome Extension Downloader</a></li>
-<li><a href="http://thameera.wordpress.com/2011/10/29/downloading-the-crx-of-a-chrome-extension/">Downloading the CRX of a Chrome extension</a></li>
-</ul>
-
-
-<h2>Notizen:</h2>
-
-<ul>
-<li>Linux: /home/username/.config/google-chrome/Default/Extensions</li>
-<li>Mac: /Users/username/Library/Application Support/Google/Chrome/Default/Extensions</li>
-<li>Windows 7: C:\Users\username\AppData\Local\Google\Chrome\User Data\Default\Extensions</li>
-<li>Windows XP: C:\Documents and Settings\YourUserName\Local Settings\Application Data\Google\Chrome\User Data\Default</li>
-</ul>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/04/chrome-extensions/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Neuer Kernel für Ubuntu-12.04]]></title>
-<link href="http://uli-heller.github.com/2013/02/20/prercise-hardware-enablement/"/>
-<updated>2013-02-20T07:00:00+01:00</updated>
-<id>http://uli-heller.github.com/2013/02/20/prercise-hardware-enablement</id>
-
-      <content type="html"><![CDATA[<h1>Kommt ein Kernel geflogen &#8230; Hardware Enablement Stack für Ubuntu-12.04</h1>
-
-<p>Eben hab&#8217; ich mir die Zeit genommen und die
-<a href="https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes/UbuntuDesktop">Ankündigung für Ubuntu-12.04.2</a>
-ein wenig näher angeschaut. Offenbar gibt&#8217;s im Zuge des
-<a href="https://wiki.ubuntu.com/Kernel/LTSEnablementStack">LTS Enablement Stacks</a> einen
-neuen Kernel (3.5 statt 3.2). Dieser soll die Verwendung von neueren Geräten
-ermöglichen.</p>
-
-<p>Eigentlich bin ich mit dem Alt-Kernel recht zufrieden. Alle meine
-Rechner laufen - sogar der Problemfall eines AMD-basierten Samsung-Notebooks.
-Bei diesem mußte ich allerdings den Grafiktreiber selbst kompilieren, der bei
-12.04 ausgelieferte Treiber unterstützt die verbaute Radeon-Karte nicht.</p>
-
-<!-- more -->
-
-
-<p>Trotzdem habe ich vor, den neuen Kernel einfach mal auszuprobieren.
-Mit etwas Glück läuft er ja genauso gut wie der alte und eventuell
-bringt der LTS Enablement Stack ja auch einen funktionierenden
-Grafiktreiber für das Samsung-Notebook mit und erspart mit so etwas Arbeit.</p>
-
-<p>Eingespielt werden die ganzen Pakete so:</p>
-
-<p><code>
-sudo apt-get install linux-generic-lts-quantal xserver-xorg-lts-quantal
-</code></p>
-
-<p>Da ich eine langsame Internetanbindung habe, dauert das ewig.
-Danach habe ich den Rechner einfach neu gestartet und siehe da: Alles
-funktioniert noch genauso, wie zuvor. Sogar VirtualBox läuft.</p>
-
-<p>Jetzt sammle ich noch etwas Mut, dann spiele ich&#8217;s auch auf dem
-Samsung-Notebook ein.</p>
-
-<h2>Nachtrag</h2>
-
-<p>Leider gibt&#8217;s jetzt doch ein paar negative Auffälligkeiten:</p>
-
-<ul>
-<li>Nach dem &#8220;Aufwachen&#8221; aus &#8220;Bereitschaft&#8221; laufen die Lüfter auf Höchstdrehzahl.
-Beobachtet habe ich dies auf meinem HP-Desktop. Auch mit der Kernel-Version
-3.5.0-27 von April 2013 existiert das Problem noch. Eine Aktualisierung
-des BIOS bringt auch keine Besserung. Mein Sony-Notebook hat
-dieses Problem nicht.</li>
-<li>Starten mit dem alten 3.2-er-Kernel funktioniert nicht mehr - man sieht
-scheinbar die Konsole mit Mauszeiger und kann keine Eingaben vornehmen</li>
-</ul>
-
-
-<p>Positiv: Ich habe mich nun getraut, das Samsung-Problem-Notebook mit der
-Aktualisierung zu versehen. Grundsätzlich läuft&#8217;s damit deutlich besser:</p>
-
-<ul>
-<li>&#8220;Bereitschaft&#8221; und &#8220;Aufwachen&#8221; funktioniert tadellos</li>
-<li>Die WLAN-Karte bucht sich nun deutlich schneller in&#8217;s Netzwerk ein</li>
-<li>Die Akku-Laufzeit ist deutlich länger</li>
-</ul>
-
-
-<p>Negativ bleibt nur die längere Startzeit zu erwähnen, also insgesamt alles gut!</p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/02/20/prercise-hardware-enablement/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>

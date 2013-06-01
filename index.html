@@ -86,6 +86,67 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/06/01/build-dependencies/">Abhängigkeiten für Debian-Paketbau installieren</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-01T17:30:00+02:00" pubdate data-updated="true">01. Juni 2013</time>
+         &bull; <a rel="bookmark" href="/2013/06/01/build-dependencies/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Normalerweise spiele ich alle zum Bau eines Debian-Paketes notwendigen
+Programme ein mittels <code>sudo apt-get build-dep {paketname}</code>. Blöderweise
+geht das nicht, wenn das zu bauende Paket nicht aus einem
+Repository &#8220;geladen&#8221; werden soll, so zum Beispiel wenn ich nur die
+Quelltexte und die DSC-Datei des Paketes vorliegen habe.</p>
+
+<p>Nachfolgend beschreibe ich am Beispiel von MUFFIN, wie man die Pakete
+dennoch ohne allzuviel Tipparbeit installieren kann.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/06/01/build-dependencies/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/05/17/markdown-pdf/">Markdown nach PDF wandeln</a>
 
 </h1>
@@ -212,6 +273,114 @@ angezeigt werden.</li>
 <li>Keine, auch nicht mit JDK6</li>
 </ul>
 
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/05/14/openvpn-ubuntu/">OpenVPN unter Ubuntu nutzen</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-05-14T06:00:00+02:00" pubdate data-updated="true">14. Mai 2013</time>
+         &bull; <a rel="bookmark" href="/2013/05/14/openvpn-ubuntu/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h2>Installation von OpenVPN</h2>
+
+<figure class='code'><figcaption><span>Installation von OpenVPN </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install openvpn</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Konfigurationsdateien von OpenVPN einspielen</h2>
+
+<figure class='code'><figcaption><span>Konfigurationsdateien von OpenVPN einspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>mkdir ~/openvpn
+</span><span class='line'>unzip -d ~/openvpn uheller.zip</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Es werden Dateien wie diese abgelegt:</p>
+
+<ul>
+<li>openvpn/2E76.crt</li>
+<li>openvpn/2E76.key</li>
+<li>openvpn/ca.crt</li>
+<li>openvpn/ta.key</li>
+<li>openvpn/uheller.ovpn</li>
+</ul>
+
+
+<h2>OpenVPN starten</h2>
+
+<figure class='code'><figcaption><span>OpenVPN starten </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo openvpn ~/openvpn/uheller.ovpn
+</span><span class='line'>Enter Auth Username: uheller
+</span><span class='line'>Enter Auth Password: xxxx</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>VPN-Rechner nutzen</h2>
+
+<p>Das Hauptproblem ist nun die Namensauflösung.
+Meine VPN-Gegenstelle nennt mir keinen NameServer, also
+muß ich</p>
+
+<ul>
+<li>entweder immer via IP-Adresse &#8220;arbeiten&#8221;</li>
+<li>oder die Hosts selbst bei mir in /etc/hosts eintragen</li>
+</ul>
+
+
+<p>Zunächst verfolge ich mal den ersten Ansatz:</p>
+
+<ul>
+<li><a href="https://10.157.1.20/owa">https://10.157.1.20/owa</a> &#8230; öffnet den Webmailer,
+hier kann ich mich anmelden mit &#8220;uheller&#8221;/&#8221;xxxx&#8221;.</li>
+</ul>
+
+
+<p>SUPER!</p>
 </div>
 
   <footer>
@@ -1068,137 +1237,6 @@ freigeschaltet werden.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/04/19/pigeonhole/">Dovecot: Aktualisierung mit Pigeonhole</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-19T06:00:00+02:00" pubdate data-updated="true">19. April 2013</time>
-         &bull; <a rel="bookmark" href="/2013/04/19/pigeonhole/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Dovecot: Aktualisierung des Debian-Paketes mit Pigeonhole</h1>
-
-<p>Gestern oder heute wurde die Version 2.2.1 von Dovecot veröffentlicht.
-Natürlich habe ich gleich versucht, mein Debian-Paket zu aktualisieren:</p>
-
-<ul>
-<li><code>cd .../dovecot-2.2.0</code></li>
-<li><code>uupdate -u ../dovecot-2.2.1.tar.gz</code></li>
-<li><code>cd ../dovecot-2.2.1</code></li>
-<li><code>dpkg-buildpackage</code></li>
-</ul>
-
-
-<p>Dummerweise klappt das nicht! Pigeonhole scheint zu fehlen, so dass
-schon die Anwendung der Quilt-Patches scheitert.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/04/19/pigeonhole/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/04/15/pigeonhole/">Pigeonhole für für mein Debian-Paket von Dovecot</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-15T06:00:00+02:00" pubdate data-updated="true">15. April 2013</time>
-         &bull; <a rel="bookmark" href="/2013/04/15/pigeonhole/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Dovecot: Einbinden von Pigeonhole</h1>
-
-<p>Mein Dovecot-Debian-Paket beinhaltet u.a. auch Pigeonhole.
-Pigeonhole wird separat zum Herunterladen angeboten, im Debian-Paket
-erscheint es aber als Patch unterhalb von debian/patches. Das ist ein
-gewisses Problem, weil man das heruntergeladene Paket dann immer erst
-in einen Patch umwandeln muß.</p>
-
-<p>Deshalb mein Ziel: Ich würde das Pigeonhole-Paket gerne möglichst
-unverändert in&#8217;s Dovecot-Debian-Paket einbinden!</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/04/15/pigeonhole/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Älter</a>
@@ -1215,6 +1253,10 @@ unverändert in&#8217;s Dovecot-Debian-Paket einbinden!</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/06/01/build-dependencies/">Abhängigkeiten für Debian-Paketbau installieren</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/05/17/markdown-pdf/">Markdown nach PDF wandeln</a>
       </li>
     
@@ -1223,15 +1265,11 @@ unverändert in&#8217;s Dovecot-Debian-Paket einbinden!</p>
       </li>
     
       <li class="post">
+        <a href="/2013/05/14/openvpn-ubuntu/">OpenVPN unter Ubuntu nutzen</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/05/12/lxc-ubuntu-build/">Ubuntu-Debian-Pakete mit LXC erzeugen</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/05/11/grub-reboot/">GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/">Probleme mit MySQL: start: Job failed to start</a>
       </li>
     
   </ul>
