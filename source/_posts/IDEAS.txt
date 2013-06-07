@@ -62,6 +62,12 @@ SH
 * http://www.seanius.net/blog/2009/03/saving-and-restoring-positional-params/
 * https://github.com/makefu/array
 
+WEBAPPS
+-------
+* http://www.skillshared.blogspot.de/2013/06/online-server-console-viewer-with-ajax.html
+  * https://sites.google.com/site/semboost/console-viewer.war
+  * https://sites.google.com/site/semboost/console-viewer.zip
+
 CHROME
 ------
 * http://dev.hubspot.com/blog/bulletproof-demos
