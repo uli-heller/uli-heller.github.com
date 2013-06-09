@@ -1,7 +1,7 @@
 ---
 layout: post
 author: Uli Heller
-published: false
+published: true
 title: "LXC"
 date: 2012-11-25 10:49
 updated: 2013-01-10 07:30
