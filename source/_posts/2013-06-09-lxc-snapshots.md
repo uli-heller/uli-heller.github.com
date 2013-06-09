@@ -64,7 +64,7 @@ Nicht vergessen: Änderung an "lxc-clone" wieder rückgängig machen!
 Zunächst lege ich ein BTRFS-Subvolume für "rootfs" an und
 befülle es mit dem alten Inhalt:
 
-    $ cd /lxc
+    $ cd /var/lib/lxc
     $ sudo mv lib/my-lxc-container/rootfs lib/my-lxc-container/rootfs.saved
     $ sudo btrfs subvolume create lib/my-lxc-container/rootfs
     Create subvolume 'lib/my-lxc-container/rootfs'
@@ -98,7 +98,7 @@ erledigt:
 
 {% codeblock lang:sh %}
 #!/bin/sh
-for rootfs in /lxc/lib/*/rootfs >/dev/null 2>&1; do
+for rootfs in /var/lib/lxc/*/rootfs >/dev/null 2>&1; do
   sudo btrfs subvolume list "${rootfs}" || {  
     sudo mv "${rootfs}" "${rootfs}.saved" \
     && sudo btrfs subvolume create "${rootfs}" \
