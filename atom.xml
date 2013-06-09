@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-06-09T10:02:45+02:00</updated>
+  <updated>2013-06-09T12:09:36+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -78,7 +78,7 @@ ERROR: '/var/lib/lxc/my-lxc-container/rootfs' is not a subvolume
 <p>Zunächst lege ich ein BTRFS-Subvolume für &#8220;rootfs&#8221; an und
 befülle es mit dem alten Inhalt:</p>
 
-<pre><code>$ cd /lxc
+<pre><code>$ cd /var/lib/lxc
 $ sudo mv lib/my-lxc-container/rootfs lib/my-lxc-container/rootfs.saved
 $ sudo btrfs subvolume create lib/my-lxc-container/rootfs
 Create subvolume 'lib/my-lxc-container/rootfs'
@@ -123,7 +123,7 @@ erledigt:</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="k">for </span>rootfs in /lxc/lib/*/rootfs &gt;/dev/null 2&gt;&amp;1; <span class="k">do</span>
+</span><span class='line'><span class="k">for </span>rootfs in /var/lib/lxc/*/rootfs &gt;/dev/null 2&gt;&amp;1; <span class="k">do</span>
 </span><span class='line'><span class="k">  </span>sudo btrfs subvolume list <span class="s2">&quot;${rootfs}&quot;</span> <span class="o">||</span> <span class="o">{</span>
 </span><span class='line'>    sudo mv <span class="s2">&quot;${rootfs}&quot;</span> <span class="s2">&quot;${rootfs}.saved&quot;</span> <span class="se">\</span>
 </span><span class='line'>    <span class="o">&amp;&amp;</span> sudo btrfs subvolume create <span class="s2">&quot;${rootfs}&quot;</span> <span class="se">\</span>
