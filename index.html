@@ -86,6 +86,71 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/06/09/lxc-snapshots/">LXC: Schnelles Clonen mit BTRFS-Snapshots</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-09T10:00:00+02:00" pubdate data-updated="true">09. Juni 2013</time>
+         &bull; <a rel="bookmark" href="/2013/06/09/lxc-snapshots/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Seit einiger Zeit verwende ich LXC als Ergänzung zu VirtualBox.
+Meine LXC-Installation läuft unter BTRFS, so dass der Einsatz von
+<code>lxc-clone ... -s</code> zum schnellen und resourcensparenden Clonen
+von LXC-Containern eigentlich kein Problem sein sollte. Leider bricht
+das aber immer ab mit der Meldung &#8220;cannot snapshot a directory&#8221;:</p>
+
+<pre><code>$ sudo lxc-clone -o my-lxc-container -n cloned-lxc-container -s
+Tweaking configuration
+Copying rootfs...
+lxc-clone: cannot snapshot a directory
+lxc-clone: aborted
+</code></pre>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/06/09/lxc-snapshots/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/06/01/build-dependencies/">Abhängigkeiten für Debian-Paketbau installieren</a>
 
 </h1>
@@ -1171,72 +1236,6 @@ freigeschaltet werden.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/04/21/herunterladen-des-https-server-zertifikats/">Herunterladen des HTTPS-Server-Zertifikats</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-21T08:20:00+02:00" pubdate data-updated="true">21. April 2013</time>
-         &bull; <a rel="bookmark" href="/2013/04/21/herunterladen-des-https-server-zertifikats/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Herunterladen des HTTPS-Server-Zertifikats über die Kommandozeile</h1>
-
-<p>Den Trick habe ich von einem <a href="http://eclipsesource.com/blogs/2013/04/19/installing-eclipse-plug-ins-from-an-update-site-with-a-self-signed-certificate/">EclipseSource-Blog</a>:</p>
-
-<figure class='code'><figcaption><span>Herunterladen eines Server-Zertifikats </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> -n <span class="se">\</span>
-</span><span class='line'>| openssl s_client -connect HOST:PORTNUMBER <span class="se">\</span>
-</span><span class='line'>| sed -ne <span class="s1">&#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39;</span> <span class="se">\</span>
-</span><span class='line'>&gt; my-custom-cert.cert
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Prima, das erspart mir künftig einiges an Rumklickerei im Browser.</p>
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Älter</a>
@@ -1253,6 +1252,10 @@ freigeschaltet werden.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/06/09/lxc-snapshots/">LXC: Schnelles Clonen mit BTRFS-Snapshots</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/06/01/build-dependencies/">Abhängigkeiten für Debian-Paketbau installieren</a>
       </li>
     
@@ -1266,10 +1269,6 @@ freigeschaltet werden.</p>
     
       <li class="post">
         <a href="/2013/05/14/openvpn-ubuntu/">OpenVPN unter Ubuntu nutzen</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/05/12/lxc-ubuntu-build/">Ubuntu-Debian-Pakete mit LXC erzeugen</a>
       </li>
     
   </ul>

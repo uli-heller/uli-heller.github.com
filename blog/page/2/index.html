@@ -86,6 +86,72 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/04/21/herunterladen-des-https-server-zertifikats/">Herunterladen des HTTPS-Server-Zertifikats</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-21T08:20:00+02:00" pubdate data-updated="true">21. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/21/herunterladen-des-https-server-zertifikats/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Herunterladen des HTTPS-Server-Zertifikats über die Kommandozeile</h1>
+
+<p>Den Trick habe ich von einem <a href="http://eclipsesource.com/blogs/2013/04/19/installing-eclipse-plug-ins-from-an-update-site-with-a-self-signed-certificate/">EclipseSource-Blog</a>:</p>
+
+<figure class='code'><figcaption><span>Herunterladen eines Server-Zertifikats </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> -n <span class="se">\</span>
+</span><span class='line'>| openssl s_client -connect HOST:PORTNUMBER <span class="se">\</span>
+</span><span class='line'>| sed -ne <span class="s1">&#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39;</span> <span class="se">\</span>
+</span><span class='line'>&gt; my-custom-cert.cert
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Prima, das erspart mir künftig einiges an Rumklickerei im Browser.</p>
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/04/19/pigeonhole/">Dovecot: Aktualisierung mit Pigeonhole</a>
 
 </h1>
@@ -701,67 +767,6 @@ mache ich mit &#8220;master&#8221; und &#8220;source-2.1&#8221;.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/03/07/crx-install/">Chrome-Erweiterungen - Teil 2/2: CRX-Dateien einspielen</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-03-07T12:00:00+01:00" pubdate data-updated="true">07. März 2013</time>
-         &bull; <a rel="bookmark" href="/2013/03/07/crx-install/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Offline-Installation einer Chrome-Erweiterung - Teil 2: CRX-Dateien einspielen</h1>
-
-<p>Hier beschreibe ich kurz, wie man CRX-Dateien in Google-Chrome einspielt.
-Die CRX-Dateien müssen zuvor heruntergeladen worden sein, siehe hierzu
-<a href="/2013/03/04/chrome-extensions">CRX-Dateien herunterladen</a>.
-Getestet hab&#8217; ich&#8217;s mit Google-Chrome 25 unter Linux.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/03/07/crx-install/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Älter</a>
@@ -780,6 +785,10 @@ Getestet hab&#8217; ich&#8217;s mit Google-Chrome 25 unter Linux.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/06/09/lxc-snapshots/">LXC: Schnelles Clonen mit BTRFS-Snapshots</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/06/01/build-dependencies/">Abhängigkeiten für Debian-Paketbau installieren</a>
       </li>
     
@@ -793,10 +802,6 @@ Getestet hab&#8217; ich&#8217;s mit Google-Chrome 25 unter Linux.</p>
     
       <li class="post">
         <a href="/2013/05/14/openvpn-ubuntu/">OpenVPN unter Ubuntu nutzen</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/05/12/lxc-ubuntu-build/">Ubuntu-Debian-Pakete mit LXC erzeugen</a>
       </li>
     
   </ul>
