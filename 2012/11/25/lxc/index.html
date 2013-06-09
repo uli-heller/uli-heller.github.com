@@ -157,6 +157,10 @@ Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs ...</code>
 
 <code>'ubuntu' template installed
 'ubuntu1204-32' created</code></pre>
+<h3>13.04, 64bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1304-64 -- -r raring -a amd64</code></pre>
+<h3>13.04, 32bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1304-32 -- -r raring -a i386</code></pre>
 <h3>10.04, 32bit</h3>
 <pre><code>sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r lucid -a i386</code></pre>
 <h2>Arbeit mit Containern</h2>
