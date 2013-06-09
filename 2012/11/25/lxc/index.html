@@ -115,6 +115,14 @@ LXC
 <h2>Installation</h2>
 <pre><code>sudo apt-get install lxc</code></pre>
 <h2>Container-Partition /lxc</h2>
+<p>Dieser Teil ist optional. Man kann ihn auch einfach weglassen, dann<br />
+werden die <span class="caps">LXC</span>-Container eben unterhalb von /var angelegt. Das setzt<br />
+dann natürlich voraus, dass dort noch genügend freier Platz vorhanden ist<br />
+- etwa 10GB sollten für den Anfang reichen. Prüfen kann man das mit<br />
+<code>df -h /var</code>.</p>
+<p>Die nachfolgende Beschreibung geht davon aus, dass das System mit <span class="caps">LVM</span><br />
+partitioniert ist und dass eine VolumeGroup namens &#8220;datavg&#8221; vorhanden<br />
+ist.</p>
 <h3>Partition anlegen</h3>
 <pre><code>sudo lvcreate -n lxclv -L10G datavg
 sudo mkfs.btrfs /dev/datavg/lxclv</code></pre>
@@ -127,10 +135,6 @@ rmdir /var/lib/lxc
 ln -s /lxc/lib /var/lib/lxc
 rm -rf /var/cache/lxc
 ln -s /lxc/cache /var/cache/lxc</code></pre>
-<h2>Verwendung vom lokalen Apt-Cacher-Ng</h2>
-<p>Datei /etc/default/lxc editieren:</p>
-<pre><code>MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"</code></pre>
-<p>&#8230; funktioniert nicht, es werden viele Pakete als &#8220;nicht verifizierbar&#8221; ausgewiesen.</p>
 <h2>Erstellen von Containern</h2>
 <h3>12.04, 64bit</h3>
 <p>64-bit Container können nur erstellt werden, wenn das Basissystem auch ein 64-bit-System ist!</p>
@@ -217,7 +221,7 @@ sudo tar -xvjpf /backups/lxc/20121119.tar.bz2</code></pre>
 
 
   
-<time datetime="2013-01-10T07:30:00+01:00" class="updated">Updated 10. Januar 2013</time>
+<time datetime="2013-06-09T14:00:00+02:00" class="updated">Updated 09. Juni 2013</time>
 
 
 <span class="categories">
