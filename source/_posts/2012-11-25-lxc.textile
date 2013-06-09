@@ -76,6 +76,14 @@ Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs ...
 'ubuntu' template installed
 'ubuntu1204-32' created
 
+h3. 13.04, 64bit
+
+bc. sudo lxc-create -t ubuntu -n ubuntu1304-64 -- -r raring -a amd64
+
+h3. 13.04, 32bit
+
+bc. sudo lxc-create -t ubuntu -n ubuntu1304-32 -- -r raring -a i386
+
 h3. 10.04, 32bit
 
 bc. sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r lucid -a i386
