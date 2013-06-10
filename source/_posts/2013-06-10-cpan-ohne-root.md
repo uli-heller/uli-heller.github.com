@@ -16,8 +16,10 @@ categories:
     sudo apt-get install perl-modules
     sudo apt-get install liblocal-lib-perl
     sudo apt-get install make
+    sudo apt-get install build-essential
     cpan
 
+{% codeblock Grundeinrichtung von CPAN %}
 Sorry, we have to rerun the configuration dialog for CPAN.pm due to
 some missing parameters. Configuration will be written to
  <</home/ubuntu/.cpan/CPAN/MyConfig.pm>>
@@ -137,29 +139,16 @@ cpan shell -- CPAN exploration and modules installation (v1.960001)
 Enter 'h' for help.
 
 cpan[1]> quit
+{% endcodeblock %}
 
-----
+## Moose installieren
 
-ubuntu@cpantest:~$ . .bashrc
-ubuntu@cpantest:~$ cpan
-Terminal does not support AddHistory.
-
-cpan shell -- CPAN exploration and modules installation (v1.960001)
-Enter 'h' for help.
-
-cpan[1]> install Moose
-
+{% codeblock Moose installieren mit CPAN lang:sh %}
+$ cpan install Moose
 ...
-make: *** [xs/Attribute.o] Error 127
+Installing /home/ubuntu/perl5/man/man3/Moose::Manual::Classes.3pm
+Installing /home/ubuntu/perl5/bin/moose-outdated
+Appending installation info to /home/ubuntu/perl5/lib/perl5/i686-linux-gnu-thread-multi-64int/perllocal.pod
   ETHER/Moose-2.0802.tar.gz
-  /usr/bin/make -- NOT OK
-Running make test
-  Can't test without successful make
-Running make install
-  Make had returned bad status, install seems impossible
-Failed during this command:
- DOY/Package-Stash-XS-0.26.tar.gz             : make NO
- DROLSKY/Class-Load-XS-0.06.tar.gz            : make NO
- FLORA/Sub-Name-0.05.tar.gz                   : make NO
- ETHER/Moose-2.0802.tar.gz                    : make NO
-
+  /usr/bin/make install  -- OK
+{% endcodeblock %}
