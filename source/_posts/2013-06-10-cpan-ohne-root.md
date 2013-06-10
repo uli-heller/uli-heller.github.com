@@ -150,3 +150,16 @@ Enter 'h' for help.
 cpan[1]> install Moose
 
 ...
+make: *** [xs/Attribute.o] Error 127
+  ETHER/Moose-2.0802.tar.gz
+  /usr/bin/make -- NOT OK
+Running make test
+  Can't test without successful make
+Running make install
+  Make had returned bad status, install seems impossible
+Failed during this command:
+ DOY/Package-Stash-XS-0.26.tar.gz             : make NO
+ DROLSKY/Class-Load-XS-0.06.tar.gz            : make NO
+ FLORA/Sub-Name-0.05.tar.gz                   : make NO
+ ETHER/Moose-2.0802.tar.gz                    : make NO
+
