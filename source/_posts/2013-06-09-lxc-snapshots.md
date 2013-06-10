@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "LXC: Schnelles Clonen mit BTRFS-Snapshots"
 date: 2013-06-09 10:00
-#updated: 2013-01-10 07:30
+updated: 2013-06-10 17:30
 comments: true
 categories: 
 - Linux
@@ -98,8 +98,8 @@ erledigt:
 
 {% codeblock lang:sh %}
 #!/bin/sh
-for rootfs in /var/lib/lxc/*/rootfs >/dev/null 2>&1; do
-  sudo btrfs subvolume list "${rootfs}" || {  
+for rootfs in /var/lib/lxc/*/rootfs; do
+  sudo btrfs subvolume list "${rootfs}" >/dev/null 2>&1 || {  
     sudo mv "${rootfs}" "${rootfs}.saved" \
     && sudo btrfs subvolume create "${rootfs}" \
     && sudo mv "${rootfs}.saved"/* "${rootfs}" \
