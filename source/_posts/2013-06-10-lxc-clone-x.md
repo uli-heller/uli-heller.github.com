@@ -20,7 +20,7 @@ fast keine Resourcen.
 
 Beim Rum-Clonen bin ich über einen blöden Fehler gestolpert:
 Man kann keinen Container clonen, der "x" heißt. Der Vorgang
-bricht ab mit der Meldung ...
+bricht ab mit der Meldung "ERROR: can't access to '/var/lib/lyc/x'".
 
 <!-- more -->
 
