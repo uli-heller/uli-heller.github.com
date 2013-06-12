@@ -86,6 +86,256 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2012/11/27/bytecodeoutline/">ASM - BytecodeOutline-Plugin in Eclipse installieren</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-27T08:00:00+01:00" pubdate data-updated="true">27. November 2012</time>
+         &bull; <a rel="bookmark" href="/2012/11/27/bytecodeoutline/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>BytecodeOutline-Plugin für Eclipse</h1>
+
+<p>Zuerst ein paar Angaben zu meiner Systemumgebung:</p>
+
+<ul>
+<li>Ubuntu-12.04, 64bit</li>
+<li>Eclipse-jee-juno-SR1</li>
+<li><a href="http://forge.ow2.org/projects/asm/">de.loskutov.BytecodeOutline_2.4.0.jar</a></li>
+</ul>
+
+
+<p>Ich benötige das Plugin nur temporär. Es soll nicht permanent in meiner Eclipse-Umgebung verfügbar sein.</p>
+
+<h2>Neue Eclipse-Installation</h2>
+
+<figure class='code'><figcaption><span>Neue Eclipse-Installation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /opt
+</span><span class='line'>gzip -cd <span class="err">&quot;</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/eclipse/eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz |sudo tar xf -
+</span><span class='line'>sudo chown -R uli.uli eclipse
+</span><span class='line'>sudo mv eclipse eclipse-botst
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Test der neuen Eclipse-Installation</h2>
+
+<figure class='code'><figcaption><span>Test der Eclipse-Installation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/opt/eclipse-botst/eclipse &amp;
+</span><span class='line'><span class="c"># Eclipse wird gestartet</span>
+</span><span class='line'><span class="c"># -&gt; wieder stoppen</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Einspielen des Plugins</h2>
+
+<figure class='code'><figcaption><span>Einspielen des Plugins </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Sicherstellen: Eclipse ist gestoppt</span>
+</span><span class='line'><span class="nb">cd</span> /opt/eclipse-botst
+</span><span class='line'>cp <span class="err">&quot;</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Kurztest des Plugins</h2>
+
+<ul>
+<li>Eclipse starten</li>
+<li>Java-Klasse aus einem bestehenden Eclipse-Projekt selektieren</li>
+<li>Window -> Show View -> Other -> Java -> Bytecode</li>
+</ul>
+
+
+<p><img class="" src="/images/java/eclipse/bytecode-outline.png" title="'Eclipse mit Bytecode-View'" ></p>
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2012/11/25/lxc/">LXC</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-11-25T10:49:00+01:00" pubdate data-updated="true">25. November 2012</time>
+         &bull; <a rel="bookmark" href="/2012/11/25/lxc/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1><span class="caps">LXC</span></h1>
+<h2>Installation</h2>
+<pre><code>sudo apt-get install lxc</code></pre>
+<h2>Container-Partition /lxc</h2>
+<p>Dieser Teil ist optional. Man kann ihn auch einfach weglassen, dann<br />
+werden die <span class="caps">LXC</span>-Container eben unterhalb von /var angelegt. Das setzt<br />
+dann natürlich voraus, dass dort noch genügend freier Platz vorhanden ist<br />
+- etwa 10GB sollten für den Anfang reichen. Prüfen kann man das mit<br />
+<code>df -h /var</code>.</p>
+<p>Die nachfolgende Beschreibung geht davon aus, dass das System mit <span class="caps">LVM</span><br />
+partitioniert ist und dass eine VolumeGroup namens &#8220;datavg&#8221; vorhanden<br />
+ist.</p>
+<h3>Partition anlegen</h3>
+<pre><code>sudo lvcreate -n lxclv -L10G datavg
+sudo mkfs.btrfs /dev/datavg/lxclv</code></pre>
+<h3>Partition einbinden</h3>
+<pre><code>sudo -s
+mkdir /lxc
+echo "/dev/datavg/lxclv /lxc btrfs defaults 0 3" &gt;&gt;/etc/fstab
+mount /lxc
+rmdir /var/lib/lxc
+ln -s /lxc/lib /var/lib/lxc
+rm -rf /var/cache/lxc
+ln -s /lxc/cache /var/cache/lxc</code></pre>
+<h2>Erstellen von Containern</h2>
+<h3>12.04, 64bit</h3>
+<p>64-bit Container können nur erstellt werden, wenn das Basissystem auch ein 64-bit-System ist!</p>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1204-64 -- -r precise -a amd64</code></pre>
+<h3>12.04, 32bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r precise -a i386</code></pre>
+<pre><code>uli@uli-hp-ssd:~/Downloads/virtualbox$ sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r precise -a i386
+[sudo] password for uli: </code>
+
+<code>No config file specified, using the default config
+debootstrap ist /usr/sbin/debootstrap
+Checking cache download in /var/cache/lxc/precise/rootfs-i386 ... 
+Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs ... 
+Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs ...</code>
+
+<code>##
+# The default user is 'ubuntu' with password 'ubuntu'!
+# Use the 'sudo' command to run tasks as root in the container.
+##</code>
+
+<code>'ubuntu' template installed
+'ubuntu1204-32' created</code></pre>
+<h3>13.04, 64bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1304-64 -- -r raring -a amd64</code></pre>
+<h3>13.04, 32bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1304-32 -- -r raring -a i386</code></pre>
+<h3>10.04, 32bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r lucid -a i386</code></pre>
+<h2>Arbeit mit Containern</h2>
+<ul>
+	<li>Anmelden
+	<ul>
+		<li>Benutzer: &#8220;ubuntu&#8221;</li>
+		<li>Kennwort: &#8220;ubuntu&#8221;</li>
+	</ul></li>
+	<li>Netzwerk
+	<ul>
+		<li>IP-Adressen: Aus dem Adressbereich 10.0.3/24</li>
+		<li><span class="caps">NAT</span>: Funktioniert &#8211; <code>ping google.com</code></li>
+		<li><span class="caps">SSH</span> vom Host in den Container: Funktioniert &#8211; <code>ssh ubuntu</code>10.0.3.250@</li>
+	</ul></li>
+</ul>
+<h2>Anpassung der Container</h2>
+<h3>Verwenden des Apt-Cache-Ng vom Host-System</h3>
+<p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
+<pre><code>Acquire::http::Proxy "http://10.0.3.1:3142";</code></pre>
+<h3>Installation von <span class="caps">JOE</span>/<span class="caps">JMACS</span></h3>
+<pre><code>sudo apt-get install joe</code></pre>
+<h2>Sichern und Rückspielen von Containern</h2>
+<h3>Sichern</h3>
+<pre><code>cd /lxc
+sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .</code></pre>
+<h3>Rückspielen</h3>
+<pre><code>cd /lxc
+sudo tar -xvjpf /backups/lxc/20121119.tar.bz2</code></pre>
+<h2>Probleme</h2>
+<h3>Offene Punkte</h3>
+<h4>Wie sorgt man dafür, dass ein Container nur über ein Host-Only-Netzwerk erreichbar ist?</h4>
+<h3>Erledigte Punkte</h3>
+<h4>Verwendung des Apt-Cacher-Ng durch einen Container</h4>
+<p>&#8230; geht wie üblich durch /etc/apt/apt.conf.d/01proxy innerhalb des Containers</p>
+<h4>Wie übernimmt man einen Container auf ein anderes System?</h4>
+<p>&#8230; durch Sichern und Rückspielen.</p>
+<h2>Links</h2>
+<ul>
+	<li>Ubuntu 12.04 Server Guide: https://help.ubuntu.com/12.04/serverguide/lxc.html</li>
+</ul></div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2012/11/24/octopress-21/">Octopress-2.1</a>
 
 </h1>
@@ -1326,6 +1576,14 @@ source/archives/index.html</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/06/10/lxc-clone-x/">LXC: Clonen eines Containers mit Namen &#8216;x&#8217;</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/06/10/cpan-ohne-root/">Perl: CPAN ohne Root</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/06/09/lxc-snapshots/">LXC: Schnelles Clonen mit BTRFS-Snapshots</a>
       </li>
     
@@ -1335,14 +1593,6 @@ source/archives/index.html</li>
     
       <li class="post">
         <a href="/2013/05/17/markdown-pdf/">Markdown nach PDF wandeln</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/05/16/jboss-7.1.1/">JBoss Application Server 7 unter Ubuntu nutzen</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/05/14/openvpn-ubuntu/">OpenVPN unter Ubuntu nutzen</a>
       </li>
     
   </ul>

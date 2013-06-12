@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-06-09T14:17:23+02:00</updated>
+  <updated>2013-06-12T06:20:36+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,366 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[LXC: Clonen eines Containers mit Namen 'x']]></title>
+<link href="http://uli-heller.github.com/2013/06/10/lxc-clone-x/"/>
+<updated>2013-06-10T17:40:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/06/10/lxc-clone-x</id>
+
+      <content type="html"><![CDATA[<p>Seit ich BTRFS-Subvolumes und -Snapshots zum Clonen von
+LXC-Containern verwende, erzeuge ich viel mehr dieser
+Clones - es geht einfach <em>sehr</em> schnell und verbraucht
+fast keine Resourcen.</p>
+
+<p>Beim Rum-Clonen bin ich über einen blöden Fehler gestolpert:
+Man kann keinen Container clonen, der &#8220;x&#8221; heißt. Der Vorgang
+bricht ab mit der Meldung &#8220;ERROR: can&#8217;t access to &#8216;/var/lib/lyc/x&#8217;&#8221;.</p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u /usr/bin/lxc-clone~ /usr/bin/lxc-clone</span>
+</span><span class='line'><span class="gd">--- lxc-clone~   2013-06-01 16:16:01.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ lxc-clone    2013-06-10 17:46:19.520162107 +0200</span>
+</span><span class='line'><span class="gu">@@ -193,7 +193,7 @@</span>
+</span><span class='line'>
+</span><span class='line'> echo &quot;Copying rootfs...&quot;
+</span><span class='line'> oldroot=`grep lxc.rootfs $lxc_path/$lxc_orig/config | awk -F&#39;[= \t]+&#39; &#39;{ print $2 }&#39;`
+</span><span class='line'><span class="gd">-rootfs=`echo $oldroot |sed &quot;s/$lxc_orig/$lxc_new/&quot;`</span>
+</span><span class='line'><span class="gi">+rootfs=`echo $oldroot |sed &quot;s@$lxc_path/$lxc_orig@$lxc_path/$lxc_new@&quot;`</span>
+</span><span class='line'>
+</span><span class='line'> container_running=True
+</span><span class='line'> lxc-info -n $lxc_orig --state-is RUNNING || container_running=False
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/10/lxc-clone-x/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Perl: CPAN ohne Root]]></title>
+<link href="http://uli-heller.github.com/2013/06/10/cpan-ohne-root/"/>
+<updated>2013-06-10T06:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/06/10/cpan-ohne-root</id>
+
+      <content type="html"><![CDATA[<p>Manchmal möchte man Perl-Module auf einem Rechner installieren,
+ohne dass man Root-Rechte dafür hat - oder umgekehrt: Man
+möchte Leuten ermöglichen, auf einem Rechner mit Perl-Modulen
+rumzuspielen, für den sie keinen Root-Zugriff haben. Die nachfolgende
+Beschreibung bezieht sich auf Ubuntu-12.04.</p>
+
+<!-- more -->
+
+
+<h2>Vorbereitung: Diverse Pakete installieren</h2>
+
+<p>Für diesen Abschnitt wird &#8220;root&#8221;-Zugriff benötigt!</p>
+
+<pre><code>sudo apt-get install perl-modules
+sudo apt-get install liblocal-lib-perl
+sudo apt-get install make
+sudo apt-get install build-essential
+</code></pre>
+
+<h2>Grundeinrichtung von CPAN</h2>
+
+<p>Für die Grundeinrichtung von CPAN wird als &#8220;normaler&#8221; Benutzer
+das Kommando <code>cpan</code> ausgeführt. Bei der Ersteinrichtung werden
+viele Fragen gestellt, die man am besten einfach &#8220;Abnickt&#8221;.
+Wenn was schief läuft: <code>rm -rf ~/.cpan</code> und erneut starten!</p>
+
+<p>Hier das Konsolen-Log der Grundeinrichtung:</p>
+
+<figure class='code'><figcaption><span>Grundeinrichtung von CPAN </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>Sorry, we have to rerun the configuration dialog for CPAN.pm due to
+</span><span class='line'>some missing parameters. Configuration will be written to
+</span><span class='line'> &lt;&lt;/home/ubuntu/.cpan/CPAN/MyConfig.pm>>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>CPAN.pm requires configuration, but most of it can be done automatically.
+</span><span class='line'>If you answer 'no' below, you will enter an interactive dialog for each
+</span><span class='line'>configuration option instead.
+</span><span class='line'>
+</span><span class='line'>Would you like to configure as much as possible automatically? [yes] 
+</span><span class='line'>
+</span><span class='line'> &lt;install_help>
+</span><span class='line'>
+</span><span class='line'>Warning: You do not have write permission for Perl library directories.
+</span><span class='line'>
+</span><span class='line'>To install modules, you need to configure a local Perl library directory or
+</span><span class='line'>escalate your privileges.  CPAN can help you by bootstrapping the local::lib
+</span><span class='line'>module or by configuring itself to use 'sudo' (if available).  You may also
+</span><span class='line'>resolve this problem manually if you need to customize your setup.
+</span><span class='line'>
+</span><span class='line'>What approach do you want?  (Choose 'local::lib', 'sudo' or 'manual')
+</span><span class='line'> [local::lib] 
+</span><span class='line'>
+</span><span class='line'>ALERT: 'make' is an essential tool for building perl Modules.
+</span><span class='line'>Please make sure you have 'make' (or some equivalent) working.
+</span><span class='line'>
+</span><span class='line'>Autoconfigured everything but 'urllist'.
+</span><span class='line'>
+</span><span class='line'>Now you need to choose your CPAN mirror sites.  You can let me
+</span><span class='line'>pick mirrors for you, you can select them from a list or you
+</span><span class='line'>can enter them by hand.
+</span><span class='line'>
+</span><span class='line'>Would you like me to automatically choose some CPAN mirror
+</span><span class='line'>sites for you? (This means connecting to the Internet) [yes] 
+</span><span class='line'>
+</span><span class='line'>Trying to fetch a mirror list from the Internet
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://www.perl.org/CPAN/MIRRORED.BY
+</span><span class='line'>
+</span><span class='line'>Looking for CPAN mirrors near you (please be patient)
+</span><span class='line'>.................................. done!
+</span><span class='line'>
+</span><span class='line'>New urllist
+</span><span class='line'>  http://httpupdate37.cpanel.net/CPAN/
+</span><span class='line'>  http://cpan.mirrors.uk2.net/
+</span><span class='line'>  http://ftp.spbu.ru/CPAN/
+</span><span class='line'>
+</span><span class='line'>Autoconfiguration complete.
+</span><span class='line'>
+</span><span class='line'>Attempting to bootstrap local::lib...
+</span><span class='line'>
+</span><span class='line'>Writing /home/ubuntu/.cpan/CPAN/MyConfig.pm for bootstrap...
+</span><span class='line'>commit: wrote '/home/ubuntu/.cpan/CPAN/MyConfig.pm'
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://httpupdate37.cpanel.net/CPAN/authors/01mailrc.txt.gz
+</span><span class='line'>Going to read '/home/ubuntu/.cpan/sources/authors/01mailrc.txt.gz'
+</span><span class='line'>............................................................................DONE
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://httpupdate37.cpanel.net/CPAN/modules/02packages.details.txt.gz
+</span><span class='line'>Going to read '/home/ubuntu/.cpan/sources/modules/02packages.details.txt.gz'
+</span><span class='line'>  Database was generated on Mon, 10 Jun 2013 03:53:02 GMT
+</span><span class='line'>  HTTP::Date not available
+</span><span class='line'>..............
+</span><span class='line'>  New CPAN.pm version (v2.00) available.
+</span><span class='line'>  [Currently running version is v1.960001]
+</span><span class='line'>  You might want to try
+</span><span class='line'>    install CPAN
+</span><span class='line'>    reload cpan
+</span><span class='line'>  to both upgrade CPAN.pm and run the new version without leaving
+</span><span class='line'>  the current session.
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>..............................................................DONE
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://httpupdate37.cpanel.net/CPAN/modules/03modlist.data.gz
+</span><span class='line'>Going to read '/home/ubuntu/.cpan/sources/modules/03modlist.data.gz'
+</span><span class='line'>............................................................................DONE
+</span><span class='line'>Going to write /home/ubuntu/.cpan/Metadata
+</span><span class='line'>Running make for E/ET/ETHER/local-lib-1.008010.tar.gz
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/local-lib-1.008010.tar.gz
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/CHECKSUMS
+</span><span class='line'>Checksum for /home/ubuntu/.cpan/sources/authors/id/E/ET/ETHER/local-lib-1.008010.tar.gz ok
+</span><span class='line'>---- Unsatisfied dependencies detected during ----
+</span><span class='line'>----      ETHER/local-lib-1.008010.tar.gz     ----
+</span><span class='line'>    ExtUtils::MakeMaker [build_requires]
+</span><span class='line'>Running make test
+</span><span class='line'>  Make had some problems, won't test
+</span><span class='line'>  Delayed until after prerequisites
+</span><span class='line'>Running make install
+</span><span class='line'>  Make had some problems, won't install
+</span><span class='line'>  Delayed until after prerequisites
+</span><span class='line'>Tried to deactivate inactive local::lib '/home/ubuntu/perl5'
+</span><span class='line'>
+</span><span class='line'>local::lib is installed. You must now add the following environment variables
+</span><span class='line'>to your shell configuration files (or registry, if you are on Windows) and
+</span><span class='line'>then restart your command line shell and CPAN before installing modules:
+</span><span class='line'>
+</span><span class='line'>Use of uninitialized value $deactivating in numeric eq (==) at /usr/share/perl5/local/lib.pm line 354.
+</span><span class='line'>Use of uninitialized value $deactivating in numeric eq (==) at /usr/share/perl5/local/lib.pm line 356.
+</span><span class='line'>Use of uninitialized value $interpolate in numeric eq (==) at /usr/share/perl5/local/lib.pm line 366.
+</span><span class='line'>export PERL_LOCAL_LIB_ROOT="/home/ubuntu/perl5";
+</span><span class='line'>export PERL_MB_OPT="--install_base /home/ubuntu/perl5";
+</span><span class='line'>export PERL_MM_OPT="INSTALL_BASE=/home/ubuntu/perl5";
+</span><span class='line'>export PERL5LIB="/home/ubuntu/perl5/lib/perl5/i686-linux-gnu-thread-multi-64int:/home/ubuntu/perl5/lib/perl5";
+</span><span class='line'>export PATH="/home/ubuntu/perl5/bin:$PATH";
+</span><span class='line'>
+</span><span class='line'>Would you like me to append that to /home/ubuntu/.bashrc now? [yes] 
+</span><span class='line'>
+</span><span class='line'>commit: wrote '/home/ubuntu/.cpan/CPAN/MyConfig.pm'
+</span><span class='line'>
+</span><span class='line'>You can re-run configuration any time with 'o conf init' in the CPAN shell
+</span><span class='line'>Terminal does not support AddHistory.
+</span><span class='line'>
+</span><span class='line'>cpan shell -- CPAN exploration and modules installation (v1.960001)
+</span><span class='line'>Enter 'h' for help.
+</span><span class='line'>
+</span><span class='line'>cpan[1]> quit</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Moose installieren</h2>
+
+<p>Nun installiere ich das Perl-Modul Moose via CPAN. Läuft ohne Probleme durch!</p>
+
+<figure class='code'><figcaption><span>Moose installieren mit CPAN </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>cpan install Moose
+</span><span class='line'>...
+</span><span class='line'>Installing /home/ubuntu/perl5/man/man3/Moose::Manual::Classes.3pm
+</span><span class='line'>Installing /home/ubuntu/perl5/bin/moose-outdated
+</span><span class='line'>Appending installation info to /home/ubuntu/perl5/lib/perl5/i686-linux-gnu-thread-multi-64int/perllocal.pod
+</span><span class='line'>  ETHER/Moose-2.0802.tar.gz
+</span><span class='line'>  /usr/bin/make install  -- OK
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/10/cpan-ohne-root/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -123,8 +483,8 @@ erledigt:</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="k">for </span>rootfs in /var/lib/lxc/*/rootfs &gt;/dev/null 2&gt;&amp;1; <span class="k">do</span>
-</span><span class='line'><span class="k">  </span>sudo btrfs subvolume list <span class="s2">&quot;${rootfs}&quot;</span> <span class="o">||</span> <span class="o">{</span>
+</span><span class='line'><span class="k">for </span>rootfs in /var/lib/lxc/*/rootfs; <span class="k">do</span>
+</span><span class='line'><span class="k">  </span>sudo btrfs subvolume list <span class="s2">&quot;${rootfs}&quot;</span> &gt;/dev/null 2&gt;&amp;1 <span class="o">||</span> <span class="o">{</span>
 </span><span class='line'>    sudo mv <span class="s2">&quot;${rootfs}&quot;</span> <span class="s2">&quot;${rootfs}.saved&quot;</span> <span class="se">\</span>
 </span><span class='line'>    <span class="o">&amp;&amp;</span> sudo btrfs subvolume create <span class="s2">&quot;${rootfs}&quot;</span> <span class="se">\</span>
 </span><span class='line'>    <span class="o">&amp;&amp;</span> sudo mv <span class="s2">&quot;${rootfs}.saved&quot;</span>/* <span class="s2">&quot;${rootfs}&quot;</span> <span class="se">\</span>
@@ -2063,680 +2423,6 @@ los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
 
 
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/21/debian-changelog/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Dovecot-2.2 - DEB-Paket erzeugen]]></title>
-<link href="http://uli-heller.github.com/2013/03/11/dovecot/"/>
-<updated>2013-03-11T09:00:00+01:00</updated>
-<id>http://uli-heller.github.com/2013/03/11/dovecot</id>
-
-      <content type="html"><![CDATA[<h1>Ubuntu-Pakete aktualisieren - Dovecot</h1>
-
-<p>Heute soll eine neue Version von Dovecot erzeugt werden.
-Grob geht&#8217;s so:</p>
-
-<ul>
-<li>Quellen der Standardversion von Ubuntu runterladen und kompilieren</li>
-<li>Aktualisieren auf die gewünschte neue Version (2.2.rc2)</li>
-<li>Neue Version kompilieren</li>
-</ul>
-
-
-<p>Mal sehen, ob&#8217;s klappt wie vorgesehen!</p>
-
-<!-- more -->
-
-
-<h2>Standardversion von Ubuntu</h2>
-
-<figure class='code'><figcaption><span>Standardversion herunterladen und bauen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Build-Verzeichnis anlegen und reinwechseln</span>
-</span><span class='line'>mkdir -p /build/dovecot
-</span><span class='line'><span class="nb">cd</span> /build/dovecot
-</span><span class='line'><span class="c"># Quellen zum Ubuntu-Paket runterladen - 2.0.19-0ubuntu2</span>
-</span><span class='line'>apt-get <span class="nb">source </span>dovecot
-</span><span class='line'><span class="c"># Abhängigkeiten nachinstallieren</span>
-</span><span class='line'>sudo apt-get build-dep dovecot
-</span><span class='line'><span class="c"># Ubuntu-Paket erzeugen</span>
-</span><span class='line'><span class="nb">cd </span>dovecot-2.0.19
-</span><span class='line'>dpkg-buildpackage
-</span><span class='line'><span class="c"># ... läuft hoffentlich ohne Probleme durch</span>
-</span><span class='line'>quilt pop -a
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Aktualisierung auf 2.2.rc2</h2>
-
-<figure class='code'><figcaption><span>Aktualisierung auf 2.2.rc2 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># In Build-Verzeichnis reinwechseln</span>
-</span><span class='line'><span class="nb">cd</span> /build/dovecot
-</span><span class='line'><span class="c"># Quellen zu Dovecot-2.2.rc1 runterladen</span>
-</span><span class='line'>wget http://syksy.dovecot.org/releases/2.2/rc/dovecot-2.2.rc2.tar.gz
-</span><span class='line'><span class="c"># Erster Versuch...</span>
-</span><span class='line'><span class="nb">cd </span>dovecot-2.0.19
-</span><span class='line'>uupdate -u ../dovecot-2.2.rc2.tar.gz
-</span><span class='line'><span class="c"># ... zeigt leider eine Fehlermeldung an:</span>
-</span><span class='line'><span class="c">#   uupdate: new version number not recognized from given filename</span>
-</span><span class='line'><span class="c">#   Please run uupdate with the -v option</span>
-</span><span class='line'><span class="c"># Also nochmal...</span>
-</span><span class='line'>uupdate -u ../dovecot-2.2.rc2.tar.gz -v 2.2.rc2
-</span><span class='line'><span class="c"># OK, keine Fehlermeldung.</span>
-</span><span class='line'><span class="c"># Wechseln in&#39;s neue Verzeichnis und dann debian/changelog anpassen</span>
-</span><span class='line'><span class="nb">cd</span> ../dovecot-2.2.rc2
-</span><span class='line'>jmacs debian/changelog <span class="c"># Details: Siehe nachfolgender DIFF</span>
-</span><span class='line'><span class="c"># Ubuntu-Paket erzeugen</span>
-</span><span class='line'>dpkg-buildpackage
-</span><span class='line'><span class="c"># Mecker wg. fix-racey-restarts.patch</span>
-</span><span class='line'><span class="c"># - Kein einziger Patch klappt</span>
-</span><span class='line'><span class="c"># - Oft erscheint &#39;Reversed (or previously applied) patch detected!  Skipping patch.&#39;</span>
-</span><span class='line'><span class="c"># -&gt; Wir blenden den Patch aus</span>
-</span><span class='line'>quilt pop -a
-</span><span class='line'>jmacs debian/patches/series <span class="c"># Details: Siehe nachfolgender DIFF</span>
-</span><span class='line'><span class="c"># ... noch ein paar Iterationen wie zuvor</span>
-</span><span class='line'>dpkg-buildpackage
-</span><span class='line'><span class="c"># Scheitert nun ganz am Ende - pigeonhole passt nicht so richtig</span>
-</span><span class='line'><span class="c"># ... wir versuchen&#39;s mit dovecot-2.1-pigeonhole-0.3.3.tar.gz</span>
-</span><span class='line'><span class="c"># ... klappt auch nicht - gleicher Fehler!</span>
-</span><span class='line'><span class="c"># ... dann halt mit dovecot-2.2-pigeonhole-tip</span>
-</span><span class='line'><span class="c"># ... klappt besser, jetzt &quot;zickt&quot; noch DRAC</span>
-</span><span class='line'><span class="c"># ... läßt sich auch leicht korrigieren</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>Änderungen an debian/changelog </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u debian/changelog~ debian/changelog</span>
-</span><span class='line'><span class="gd">--- debian/changelog~    2013-03-11 09:09:19.000000000 +0100</span>
-</span><span class='line'><span class="gi">+++ debian/changelog 2013-03-11 09:11:53.435109570 +0100</span>
-</span><span class='line'><span class="gu">@@ -1,8 +1,8 @@</span>
-</span><span class='line'><span class="gd">-dovecot (1:2.2.rc2-0ubuntu1) precise; urgency=low</span>
-</span><span class='line'><span class="gi">+dovecot (1:2.2.rc2-0dp01~precise1) precise; urgency=low</span>
-</span><span class='line'>
-</span><span class='line'>   * New upstream release
-</span><span class='line'>
-</span><span class='line'><span class="gd">- -- Uli Heller &lt;uli@ubuntu1204.daemons-point.com&gt;  Mon, 11 Mar 2013 09:09:19 +0100</span>
-</span><span class='line'><span class="gi">+ -- Uli Heller &lt;uli.heller@daemons-point.com&gt;  Mon, 11 Mar 2013 09:09:19 +0100</span>
-</span><span class='line'>
-</span><span class='line'> dovecot (1:2.0.19-0ubuntu2) precise-proposed; urgency=low
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>Änderungen an debian/patches/series </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u debian/patches/series~ debian/patches/series</span>
-</span><span class='line'><span class="gd">--- debian/patches/series~   2012-06-28 23:34:08.000000000 +0200</span>
-</span><span class='line'><span class="gi">+++ debian/patches/series    2013-03-11 09:18:30.167126242 +0100</span>
-</span><span class='line'><span class="gu">@@ -2,5 +2,5 @@</span>
-</span><span class='line'> dovecot-drac.patch
-</span><span class='line'> split-protocols.patch
-</span><span class='line'> fix-mail_plugin_dir-default.patch
-</span><span class='line'><span class="gd">-fix-racey-restarts.patch</span>
-</span><span class='line'><span class="gi">+#fix-racey-restarts.patch</span>
-</span><span class='line'> bug-1018579.patch
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Pigeonhole</h2>
-
-<p>Pigeonhole wird seperat von Dovecot entwickelt. Ich habe die neuen Versionen heruntergeladen von
-<a href="http://pigeonhole.dovecot.org/">http://pigeonhole.dovecot.org/</a>.</p>
-
-<p>Für die DEB-Erstellung muß dann noch ein Patch dafür erzeugt werden. Das geht am besten so:</p>
-
-<ul>
-<li>Temporäre Verzeichnisse anlegen: <code>mkdir -p tmp/a tmp/b</code></li>
-<li>Wechseln in&#8217;s Verzeichnis b: <code>cd tmp/b</code></li>
-<li>Pigeonhole auspacken: <code>gzip -cd .../dovecot-2-2-pigeonhole-b75b00760b86.tar.gz|tar xf -</code></li>
-<li>Verzeichnis umbenennen: <code>mv dove* pigeonhole</code></li>
-<li>Patch erstellen: <code>cd ..; diff -Nur a b &gt;pigeonhole.patch</code></li>
-</ul>
-
-
-<h2>Diff</h2>
-
-<figure class='code'><figcaption><span>dovecot_20_22.diff</span><a href='http://uli-heller.github.com/downloads/code/ubuntu/dovecot_20_22.diff' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/changelog dovecot-2.2.rc2/debian/changelog</span>
-</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/changelog  2012-06-28 23:38:39.000000000 +0200</span>
-</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/changelog 2013-03-11 09:23:35.000000000 +0100</span>
-</span><span class='line'><span class="gu">@@ -1,3 +1,9 @@</span>
-</span><span class='line'><span class="gi">+dovecot (1:2.2.rc2-0dp01~precise1) precise; urgency=low</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+  * New upstream release</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+ -- Uli Heller &lt;uli.heller@daemons-point.com&gt;  Mon, 11 Mar 2013 09:09:19 +0100</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'> dovecot (1:2.0.19-0ubuntu2) precise-proposed; urgency=low
-</span><span class='line'>
-</span><span class='line'>   * Fix panic and core dump, cherry picked from upstream Mercurial.
-</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/patches/dovecot-drac.patch dovecot-2.2.rc2/debian/patches/dovecot-drac.patch</span>
-</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/patches/dovecot-drac.patch 2012-06-28 23:33:07.000000000 +0200</span>
-</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/patches/dovecot-drac.patch    2013-03-11 11:20:48.000000000 +0100</span>
-</span><span class='line'><span class="gu">@@ -42,7 +42,7 @@</span>
-</span><span class='line'> + *   http://dovecot.org/patches/1.1/drac.c
-</span><span class='line'> + */
-</span><span class='line'> +#include &quot;lib.h&quot;
-</span><span class='line'><span class="gd">-+#include &quot;network.h&quot;</span>
-</span><span class='line'><span class="gi">++#include &quot;net.h&quot;</span>
-</span><span class='line'> +#include &quot;ioloop.h&quot;
-</span><span class='line'> +#include &quot;mail-user.h&quot;
-</span><span class='line'> +#include &quot;mail-storage-private.h&quot;
-</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/patches/fix-mail_plugin_dir-default.patch dovecot-2.2.rc2/debian/patches/fix-mail_plugin_dir-default.patch</span>
-</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/patches/fix-mail_plugin_dir-default.patch  2012-06-28 23:33:07.000000000 +0200</span>
-</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/patches/fix-mail_plugin_dir-default.patch 2013-03-11 10:55:09.000000000 +0100</span>
-</span><span class='line'><span class="gu">@@ -8,11 +8,11 @@</span>
-</span><span class='line'>  doc/example-config/conf.d/10-mail.conf |    2 +-
-</span><span class='line'>  1 files changed, 1 insertions(+), 1 deletions(-)
-</span><span class='line'>
-</span><span class='line'><span class="gd">-diff --git a/doc/example-config/conf.d/10-mail.conf b/doc/example-config/conf.d/10-mail.conf</span>
-</span><span class='line'><span class="gd">-index fe5cc31..4b918ed 100644</span>
-</span><span class='line'><span class="gd">---- a/doc/example-config/conf.d/10-mail.conf</span>
-</span><span class='line'><span class="gd">-+++ b/doc/example-config/conf.d/10-mail.conf</span>
-</span><span class='line'><span class="gd">-@@ -200,7 +200,7 @@</span>
-</span><span class='line'><span class="gi">+Index: dovecot-2.2.rc2/doc/example-config/conf.d/10-mail.conf</span>
-</span><span class='line'><span class="gi">+===================================================================</span>
-</span><span class='line'><span class="gi">+--- dovecot-2.2.rc2.orig/doc/example-config/conf.d/10-mail.conf 2013-02-22 12:20:04.000000000 +0100</span>
-</span><span class='line'><span class="gi">++++ dovecot-2.2.rc2/doc/example-config/conf.d/10-mail.conf  2013-03-11 10:55:07.635357407 +0100</span>
-</span><span class='line'><span class="gi">+@@ -201,7 +201,7 @@</span>
-</span><span class='line'>  #auth_socket_path = /var/run/dovecot/auth-userdb
-</span><span class='line'>
-</span><span class='line'>  # Directory where to look up mail plugins.
-</span><span class='line'><span class="gu">@@ -21,4 +21,3 @@</span>
-</span><span class='line'>
-</span><span class='line'>  # Space separated list of plugins to load for all services. Plugins specific to
-</span><span class='line'>  # IMAP, LDA, etc. are added to this list in their own .conf files.
-</span><span class='line'><span class="gd">--- </span>
-</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/patches/pigeonhole.patch dovecot-2.2.rc2/debian/patches/pigeonhole.patch</span>
-</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/patches/pigeonhole.patch   2012-06-28 23:33:07.000000000 +0200</span>
-</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/patches/pigeonhole.patch  2013-03-11 10:49:09.000000000 +0100</span>
-</span><span class='line'>{not included}
-</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/patches/series dovecot-2.2.rc2/debian/patches/series</span>
-</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/patches/series 2012-06-28 23:34:08.000000000 +0200</span>
-</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/patches/series    2013-03-11 09:23:47.000000000 +0100</span>
-</span><span class='line'><span class="gu">@@ -2,5 +2,5 @@</span>
-</span><span class='line'> dovecot-drac.patch
-</span><span class='line'> split-protocols.patch
-</span><span class='line'> fix-mail_plugin_dir-default.patch
-</span><span class='line'><span class="gd">-fix-racey-restarts.patch</span>
-</span><span class='line'><span class="gd">-bug-1018579.patch</span>
-</span><span class='line'><span class="gi">+#fix-racey-restarts.patch</span>
-</span><span class='line'><span class="gi">+#bug-1018579.patch</span>
-</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/patches/split-protocols.patch dovecot-2.2.rc2/debian/patches/split-protocols.patch</span>
-</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/patches/split-protocols.patch  2012-06-28 23:33:07.000000000 +0200</span>
-</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/patches/split-protocols.patch 2013-03-11 10:55:06.000000000 +0100</span>
-</span><span class='line'><span class="gu">@@ -12,11 +12,11 @@</span>
-</span><span class='line'>  src/master/master-settings.c                       |    2 +-
-</span><span class='line'>  4 files changed, 4 insertions(+), 7 deletions(-)
-</span><span class='line'>
-</span><span class='line'><span class="gd">-Index: dovecot/doc/example-config/dovecot.conf</span>
-</span><span class='line'><span class="gi">+Index: dovecot-2.2.rc2/doc/example-config/dovecot.conf</span>
-</span><span class='line'> ===================================================================
-</span><span class='line'><span class="gd">---- dovecot.orig/doc/example-config/dovecot.conf    2012-03-07 08:19:52.000000000 -0500</span>
-</span><span class='line'><span class="gd">-+++ dovecot/doc/example-config/dovecot.conf 2012-03-07 10:37:13.000000000 -0500</span>
-</span><span class='line'><span class="gd">-@@ -16,8 +16,8 @@</span>
-</span><span class='line'><span class="gi">+--- dovecot-2.2.rc2.orig/doc/example-config/dovecot.conf    2013-01-04 20:38:41.000000000 +0100</span>
-</span><span class='line'><span class="gi">++++ dovecot-2.2.rc2/doc/example-config/dovecot.conf 2013-03-11 10:54:59.779357916 +0100</span>
-</span><span class='line'><span class="gi">+@@ -20,8 +20,8 @@</span>
-</span><span class='line'>  # options. The paths listed here are for configure --prefix=/usr
-</span><span class='line'>  # --sysconfdir=/etc --localstatedir=/var
-</span><span class='line'>
-</span><span class='line'><span class="gu">@@ -27,10 +27,10 @@</span>
-</span><span class='line'>
-</span><span class='line'>  # A comma separated list of IPs or hosts where to listen in for connections.
-</span><span class='line'>  # &quot;*&quot; listens in all IPv4 interfaces, &quot;::&quot; listens in all IPv6 interfaces.
-</span><span class='line'><span class="gd">-Index: dovecot/pigeonhole/doc/example-config/conf.d/20-managesieve.conf</span>
-</span><span class='line'><span class="gi">+Index: dovecot-2.2.rc2/pigeonhole/doc/example-config/conf.d/20-managesieve.conf</span>
-</span><span class='line'> ===================================================================
-</span><span class='line'><span class="gd">---- dovecot.orig/pigeonhole/doc/example-config/conf.d/20-managesieve.conf   2012-03-07 10:37:11.000000000 -0500</span>
-</span><span class='line'><span class="gd">-+++ dovecot/pigeonhole/doc/example-config/conf.d/20-managesieve.conf    2012-03-07 10:37:13.000000000 -0500</span>
-</span><span class='line'><span class="gi">+--- dovecot-2.2.rc2.orig/pigeonhole/doc/example-config/conf.d/20-managesieve.conf   2013-03-11 10:54:57.079337564 +0100</span>
-</span><span class='line'><span class="gi">++++ dovecot-2.2.rc2/pigeonhole/doc/example-config/conf.d/20-managesieve.conf    2013-03-11 10:54:59.779357916 +0100</span>
-</span><span class='line'> @@ -2,9 +2,6 @@
-</span><span class='line'>  ## ManageSieve specific settings
-</span><span class='line'>  ##
-</span><span class='line'><span class="gu">@@ -40,12 +40,12 @@</span>
-</span><span class='line'> -
-</span><span class='line'>  # Service definitions
-</span><span class='line'>
-</span><span class='line'><span class="gd">- service managesieve-login {</span>
-</span><span class='line'><span class="gd">-Index: dovecot/src/config/all-settings.c</span>
-</span><span class='line'><span class="gi">+ #service managesieve-login {</span>
-</span><span class='line'><span class="gi">+Index: dovecot-2.2.rc2/src/config/all-settings.c</span>
-</span><span class='line'> ===================================================================
-</span><span class='line'><span class="gd">---- dovecot.orig/src/config/all-settings.c  2012-03-07 08:19:52.000000000 -0500</span>
-</span><span class='line'><span class="gd">-+++ dovecot/src/config/all-settings.c   2012-03-07 10:37:14.000000000 -0500</span>
-</span><span class='line'><span class="gd">-@@ -1764,7 +1764,7 @@</span>
-</span><span class='line'><span class="gi">+--- dovecot-2.2.rc2.orig/src/config/all-settings.c  2013-02-25 14:33:27.000000000 +0100</span>
-</span><span class='line'><span class="gi">++++ dovecot-2.2.rc2/src/config/all-settings.c   2013-03-11 10:54:59.783357912 +0100</span>
-</span><span class='line'><span class="gi">+@@ -2433,7 +2433,7 @@</span>
-</span><span class='line'>      .libexec_dir = PKG_LIBEXECDIR,
-</span><span class='line'>      .instance_name = PACKAGE,
-</span><span class='line'>      .import_environment = &quot;TZ&quot; ENV_SYSTEMD ENV_GDB,
-</span><span class='line'><span class="gu">@@ -54,11 +54,11 @@</span>
-</span><span class='line'>      .listen = &quot;*, ::&quot;,
-</span><span class='line'>      .ssl = &quot;yes:no:required&quot;,
-</span><span class='line'>      .default_internal_user = &quot;dovecot&quot;,
-</span><span class='line'><span class="gd">-Index: dovecot/src/master/master-settings.c</span>
-</span><span class='line'><span class="gi">+Index: dovecot-2.2.rc2/src/master/master-settings.c</span>
-</span><span class='line'> ===================================================================
-</span><span class='line'><span class="gd">---- dovecot.orig/src/master/master-settings.c   2012-03-07 08:19:52.000000000 -0500</span>
-</span><span class='line'><span class="gd">-+++ dovecot/src/master/master-settings.c    2012-03-07 10:37:14.000000000 -0500</span>
-</span><span class='line'><span class="gd">-@@ -213,7 +213,7 @@</span>
-</span><span class='line'><span class="gi">+--- dovecot-2.2.rc2.orig/src/master/master-settings.c   2013-02-18 05:47:18.000000000 +0100</span>
-</span><span class='line'><span class="gi">++++ dovecot-2.2.rc2/src/master/master-settings.c    2013-03-11 10:54:59.783357912 +0100</span>
-</span><span class='line'><span class="gi">+@@ -216,7 +216,7 @@</span>
-</span><span class='line'>      .libexec_dir = PKG_LIBEXECDIR,
-</span><span class='line'>      .instance_name = PACKAGE,
-</span><span class='line'>      .import_environment = &quot;TZ&quot; ENV_SYSTEMD ENV_GDB,
-</span><span class='line'><span class="gh">diff -Nur dovecot-2.0.19/debian/rules dovecot-2.2.rc2/debian/rules</span>
-</span><span class='line'><span class="gd">--- dovecot-2.0.19/debian/rules  2012-06-28 23:33:07.000000000 +0200</span>
-</span><span class='line'><span class="gi">+++ dovecot-2.2.rc2/debian/rules 2013-03-11 11:20:33.000000000 +0100</span>
-</span><span class='line'><span class="gu">@@ -47,7 +47,7 @@</span>
-</span><span class='line'>              --disable-static
-</span><span class='line'>  $(MAKE) dovecot-config
-</span><span class='line'>  # Pigeonhole
-</span><span class='line'><span class="gd">-    (cd $(PIGEONHOLE_DIR)/ &amp;&amp; \</span>
-</span><span class='line'><span class="gi">+    (cd $(PIGEONHOLE_DIR)/ &amp;&amp; sh ./autogen.sh \</span>
-</span><span class='line'>      touch stamp.h.in &amp;&amp; \
-</span><span class='line'>      $(shell dpkg-buildflags --export=configure) sh configure \
-</span><span class='line'>      --with-dovecot=../ \
-</span><span class='line'><span class="gu">@@ -105,7 +105,7 @@</span>
-</span><span class='line'>  install -m644 debian/dovecot-core.ufw.profile debian/dovecot-core/etc/ufw/applications.d/dovecot-core
-</span><span class='line'>  install -D -m 0755 -o root -g root $(CURDIR)/debian/maildirmake.dovecot $(CURDIR)/debian/dovecot-core/usr/bin/maildirmake.dovecot
-</span><span class='line'>  mv $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot-core
-</span><span class='line'><span class="gd">-    cp $(PIGEONHOLE_DIR)/ChangeLog $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot-core/pigeonhole.ChangeLog</span>
-</span><span class='line'><span class="gi">+    #cp $(PIGEONHOLE_DIR)/ChangeLog $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot-core/pigeonhole.ChangeLog</span>
-</span><span class='line'>  cp $(PIGEONHOLE_DIR)/README $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot-core/pigeonhole.README
-</span><span class='line'>  cp $(PIGEONHOLE_DIR)/NEWS $(CURDIR)/debian/dovecot-core/usr/share/doc/dovecot-core/pigeonhole.NEWS
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/11/dovecot/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Octopress-Aktualisierung 1/2 - Grundtests]]></title>
-<link href="http://uli-heller.github.com/2013/03/11/octopress-aktualisierung/"/>
-<updated>2013-03-11T08:00:00+01:00</updated>
-<id>http://uli-heller.github.com/2013/03/11/octopress-aktualisierung</id>
-
-      <content type="html"><![CDATA[<h1>Aktualisierung meiner Octopress-Installation (1/2)</h1>
-
-<p>Vor grob 5 Monaten habe ich Octopress erstmalig aufgesetzt und seitdem die
-Finger von den Aktualisierungen gelassen. Dadurch funktionieren in &#8220;meiner&#8221; Installation
-nun gewisse Dinge nicht ganz so gut wir im Original. Beispielsweise soll die Verlinkung
-von Blog-Posts im Original über einen Methodenaufruf funktionieren, bei meiner Variante
-muß ich mir den Link mühsam zusammenklauben.</p>
-
-<p>Erstmal möchte ich testen, ob die aktualisierte Version überhaupt funktioniert. Diese Tests
-mache ich mit &#8220;master&#8221; und &#8220;source-2.1&#8221;.</p>
-
-<!-- more -->
-
-
-<h2>Aktuelle Octopress-Version runterladen</h2>
-
-<figure class='code'><figcaption><span>Octropress runterladen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>git clone git://github.com/imathis/octopress.git octopress
-</span><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>git branch -a
-</span><span class='line'>  * master
-</span><span class='line'>    remotes/origin/2.1
-</span><span class='line'>    remotes/origin/HEAD -&gt; origin/master
-</span><span class='line'>    remotes/origin/colorize
-</span><span class='line'>    remotes/origin/gh-pages
-</span><span class='line'>    remotes/origin/guard
-</span><span class='line'>    remotes/origin/linklog
-</span><span class='line'>    remotes/origin/master
-</span><span class='line'>    remotes/origin/migrator
-</span><span class='line'>    remotes/origin/refactor_with_tests
-</span><span class='line'>    remotes/origin/rubygemcli
-</span><span class='line'>    remotes/origin/site
-</span><span class='line'>    remotes/origin/site-2.1
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Kurztest Octopress-2.0</h2>
-
-<figure class='code'><figcaption><span>Kurztest Octropress-2.0 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>gem install bundler
-</span><span class='line'>bundle install
-</span><span class='line'>rake install
-</span><span class='line'>rake generate
-</span><span class='line'>rake preview
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>&#8230; danach dann im Browser den Link <a href="http://localhost:4000">http://localhost:4000</a> öffnen - es
-wird die Octopress-Grundseite angezeigt.</p>
-
-<h2>Kurztest Octopress-2.1</h2>
-
-<figure class='code'><figcaption><span>Kurztest Octropress-2.1 - Mecker wegen JavaScript runtime </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>git checkout 2.1
-</span><span class='line'>gem install bundler
-</span><span class='line'>bundle install
-</span><span class='line'>rake install
-</span><span class='line'>  rake aborted!
-</span><span class='line'>  Could not find a JavaScript runtime. See https://github.com/sstephenson/execjs <span class="k">for </span>a list of available runtimes.
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs/runtimes.rb:51:in <span class="sb">`</span>autodetect<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs.rb:5:in `&lt;module:ExecJS&gt;&#39;</span>
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs.rb:4:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/uglifier-1.2.6/lib/uglifier.rb:3:in `require&#39;</span>
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/uglifier-1.2.6/lib/uglifier.rb:3:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/lib/octopress/js_asset_manager.rb:4:in `require&#39;</span>
-</span><span class='line'>  /home/uli/tmp/o/octopress/lib/octopress/js_asset_manager.rb:4:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/lib/octopress.rb:5:in `require&#39;</span>
-</span><span class='line'>  /home/uli/tmp/o/octopress/lib/octopress.rb:5:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/Rakefile:9:in `require&#39;</span>
-</span><span class='line'>  /home/uli/tmp/o/octopress/Rakefile:9:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/bin/ruby_noexec_wrapper:14:in `eval&#39;</span>
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/bin/ruby_noexec_wrapper:14:in <span class="sb">`</span>&lt;main&gt;<span class="err">&#39;</span>
-</span><span class='line'>  <span class="o">(</span>See full trace by running task with --trace<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>&#8230; funktioniert also nicht so richtig.</p>
-
-<p>Am einfachsten korrigiert man&#8217;s durch Anpassung vom Gemfile:</p>
-
-<figure class='code'><figcaption><span>Anpassungen am Gemfile </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/Gemfile b/Gemfile</span>
-</span><span class='line'><span class="gu">@@ -15,6 +15,7 @@</span>
-</span><span class='line'> group :development do
-</span><span class='line'>   gem &#39;tzinfo&#39;, &#39;~&gt; 0.3.35&#39;
-</span><span class='line'>   gem &#39;stitch-rb&#39;
-</span><span class='line'>   gem &#39;uglifier&#39;
-</span><span class='line'><span class="gi">+  gem &#39;therubyracer&#39;</span>
-</span><span class='line'>
-</span><span class='line'>   # Guard related
-</span><span class='line'>   gem &#39;guard&#39;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Danach dann <code>bundle install</code> und alles wird gut! Nach <code>rake install</code>, <code>rake generate</code>
-und <code>rake preview</code> kann man wie üblich
-im Browser den Link <a href="http://localhost:4000">http://localhost:4000</a> öffnen und es
-wird die Octopress-Grundseite angezeigt.</p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/11/octopress-aktualisierung/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>

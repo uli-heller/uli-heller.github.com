@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Lxc - Was ich so treibe...</title>
+  <title>LXC: Clonen eines Containers mit Namen 'x' - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
   <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
 
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.comblog/categories/lxc/">
+  <link rel="canonical" href="http://uli-heller.github.com/2013/06/10/lxc-clone-x/">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -37,7 +37,7 @@
   <link href="/octopress-favicon.png" rel="icon">
 </head>
 
-<body  id="archive"   >
+<body   >
   <header role="banner"><hgroup>
   <h1><a href="/">Was ich so treibe...</a></h1>
   
@@ -69,155 +69,159 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+
+
+
+
+
+
+
+
+
+
+
+<article class="hentry " role="article">
   
   <header>
-    <h1 class="entry-title">Category: Lxc</h1>
+    <h1 class="entry-title">
+
+LXC: Clonen eines Containers mit Namen 'x'
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T17:40:00+02:00" pubdate data-updated="true">10. Juni 2013</time>
+         &bull; <a rel="bookmark" href="/2013/06/10/lxc-clone-x/">Permalink</a>
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
+<div class="entry-content"><p>Seit ich BTRFS-Subvolumes und -Snapshots zum Clonen von
+LXC-Containern verwende, erzeuge ich viel mehr dieser
+Clones - es geht einfach <em>sehr</em> schnell und verbraucht
+fast keine Resourcen.</p>
 
+<p>Beim Rum-Clonen bin ich über einen blöden Fehler gestolpert:
+Man kann keinen Container clonen, der "x" heißt. Der Vorgang
+bricht ab mit der Meldung "ERROR: can't access to '/var/lib/lyc/x'".</p>
 
-  
-  <h2>2013</h2>
+<!-- more -->
 
 
 
 
+<!--escape-->
 
 
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u /usr/bin/lxc-clone~ /usr/bin/lxc-clone</span>
+</span><span class='line'><span class="gd">--- lxc-clone~   2013-06-01 16:16:01.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ lxc-clone    2013-06-10 17:46:19.520162107 +0200</span>
+</span><span class='line'><span class="gu">@@ -193,7 +193,7 @@</span>
+</span><span class='line'>
+</span><span class='line'> echo &quot;Copying rootfs...&quot;
+</span><span class='line'> oldroot=`grep lxc.rootfs $lxc_path/$lxc_orig/config | awk -F&#39;[= \t]+&#39; &#39;{ print $2 }&#39;`
+</span><span class='line'><span class="gd">-rootfs=`echo $oldroot |sed &quot;s/$lxc_orig/$lxc_new/&quot;`</span>
+</span><span class='line'><span class="gi">+rootfs=`echo $oldroot |sed &quot;s@$lxc_path/$lxc_orig@$lxc_path/$lxc_new@&quot;`</span>
+</span><span class='line'>
+</span><span class='line'> container_running=True
+</span><span class='line'> lxc-info -n $lxc_orig --state-is RUNNING || container_running=False
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
+<!--end-escape-->
 
 
-
-
-<article >
-  
-<h1 class="entry-title">
-
-<a href="/2013/06/10/lxc-clone-x/">LXC: Clonen eines Containers mit Namen 'x'</a>
-
-</h1>
-
-<time datetime="2013-06-10T17:40:00+02:00" pubdate><span class='month'>Jun</span> <span class='day'>10</span> <span class='year'>2013</span></time>
-<footer>
-  
-  
-  
-  <span class="categories">Themen: <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lxc/'>Lxc</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a></span>
-  
-</footer>
-
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<article >
-  
-<h1 class="entry-title">
-
-<a href="/2013/06/09/lxc-snapshots/">LXC: Schnelles Clonen mit BTRFS-Snapshots</a>
-
-</h1>
-
-<time datetime="2013-06-09T10:00:00+02:00" pubdate><span class='month'>Jun</span> <span class='day'>09</span> <span class='year'>2013</span></time>
-<footer>
-  
-  
-  
-  <span class="categories">Themen: <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lxc/'>Lxc</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a></span>
-  
-</footer>
-
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<article >
-  
-<h1 class="entry-title">
-
-<a href="/2013/05/12/lxc-ubuntu-build/">Ubuntu-Debian-Pakete mit LXC erzeugen</a>
-
-</h1>
-
-<time datetime="2013-05-12T10:00:00+02:00" pubdate><span class='month'>Mai</span> <span class='day'>12</span> <span class='year'>2013</span></time>
-<footer>
-  
-  
-  
-  <span class="categories">Themen: <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lxc/'>Lxc</a>, <a class='category' href='/blog/categories/pakete/'>Pakete</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a></span>
-  
-</footer>
-
-</article>
-
-
-
-  
-  <h2>2012</h2>
-
-
-
-
-
-
-
-
-
-
-
-
-<article >
-  
-<h1 class="entry-title">
-
-<a href="/2012/11/25/lxc/">LXC</a>
-
-</h1>
-
-<time datetime="2012-11-25T10:49:00+01:00" pubdate><span class='month'>Nov</span> <span class='day'>25</span> <span class='year'>2012</span></time>
-<footer>
-  
-  
-  
-  <span class="categories">Themen: <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lxc/'>Lxc</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a></span>
-  
-</footer>
-
-</article>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T17:40:00+02:00" pubdate data-updated="true">10. Juni 2013</time>
+
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lxc/'>Lxc</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+
+      
+
+    </p>
+    
+      <div class="sharing">
+  
+    
+      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    
+  
+  
+  
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/06/10/cpan-ohne-root/" title="Voriger Beitrag: Perl: CPAN ohne Root">&laquo; Perl: CPAN ohne Root</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
+<section>
+  <h1>Comments</h1>
+  
 
+  
+</section>
 
 </div>
 
