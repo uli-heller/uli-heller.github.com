@@ -13,11 +13,31 @@ categories:
 - Perl
 ---
 
+Manchmal möchte man Perl-Module auf einem Rechner installieren,
+ohne dass man Root-Rechte dafür hat - oder umgekehrt: Man
+möchte Leuten ermöglichen, auf einem Rechner mit Perl-Modulen
+rumzuspielen, für den sie keinen Root-Zugriff haben. Die nachfolgende
+Beschreibung bezieht sich auf Ubuntu-12.04.
+
+<!-- more -->
+
+## Vorbereitung: Diverse Pakete installieren
+
+Für diesen Abschnitt wird "root"-Zugriff benötigt!
+
     sudo apt-get install perl-modules
     sudo apt-get install liblocal-lib-perl
     sudo apt-get install make
     sudo apt-get install build-essential
-    cpan
+
+## Grundeinrichtung von CPAN
+
+Für die Grundeinrichtung von CPAN wird als "normaler" Benutzer
+das Kommando `cpan` ausgeführt. Bei der Ersteinrichtung werden
+viele Fragen gestellt, die man am besten einfach "Abnickt".
+Wenn was schief läuft: `rm -rf ~/.cpan` und erneut starten!
+
+Hier das Konsolen-Log der Grundeinrichtung:
 
 {% codeblock Grundeinrichtung von CPAN %}
 Sorry, we have to rerun the configuration dialog for CPAN.pm due to
@@ -142,6 +162,8 @@ cpan[1]> quit
 {% endcodeblock %}
 
 ## Moose installieren
+
+Nun installiere ich das Perl-Modul Moose via CPAN. Läuft ohne Probleme durch!
 
 {% codeblock Moose installieren mit CPAN lang:sh %}
 $ cpan install Moose
