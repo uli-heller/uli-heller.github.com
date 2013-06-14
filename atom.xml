@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-06-12T06:20:36+02:00</updated>
+  <updated>2013-06-14T07:29:07+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -496,6 +496,69 @@ erledigt:</p>
 
 
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/09/lxc-snapshots/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Ubuntu-12.04 mit 3.8-er-Kernel]]></title>
+<link href="http://uli-heller.github.com/2013/06/01/precise-mit-linux38/"/>
+<updated>2013-06-01T17:30:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/06/01/precise-mit-linux38</id>
+
+      <content type="html"><![CDATA[<p>Heute habe ich den Drang verspürt, den Raring-Kernel - also Linux-3.8 - auf
+mein Precise-System zu installieren.</p>
+
+<!--more -->
+
+
+<p>Zuvor hatte ich
+dan Hardware-Enablement-Stack für 12.04 installiert
+und damit schon den 3.5-er-Kernel verwendet und auch
+den neueren XServer. Details dazu stehen hier:
+<a href="http://uli-heller.github.com/2013/02/20/precise-hardware-enablement/">Neuer Kernel für Ubuntu-12.04</a>.</p>
+
+<p>Das Einspielen des Kernels geht ganz einfach. Nach dem Einspielen
+muß man seinen Rechner neu starten, damit der neue Kernel auch
+verwendet wird:</p>
+
+<figure class='code'><figcaption><span>Einspielen des Raring-Kernels </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo apt-get install linux-generic-lts-raring
+</span><span class='line'>...
+</span><span class='line'>Error! Could not locate dkms.conf file.
+</span><span class='line'>File:  does not exist.
+</span><span class='line'>...
+</span><span class='line'><span class="nv">$ </span>reboot
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wie oben angedeutet erschien bei mir u.a. eine Fehlermeldung bzgl. &#8220;dkms.conf&#8221;.
+Die habe ich einfach ignoriert und noch keinen Fehler festgestellt (auch nicht
+mit &#8220;VirtualBox&#8221; und anderen Dingen, die Kernel-Module benötigen).</p>
+
+<p>Nachdem der neue Kernel gut funktioniert, lösche ich nun die alten Kernels:</p>
+
+<figure class='code'><figcaption><span>Entfernen der Alt-Kernel </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get purge linux-generic
+</span><span class='line'>sudo apt-get purge linux-generic-lts-quantal
+</span><span class='line'>dpkg --get-selections <span class="s2">&quot;linux*-3.2*&quot;</span>|cut -f1|xargs sudo apt-get purge -y
+</span><span class='line'>dpkg --get-selections <span class="s2">&quot;linux*-3.5*&quot;</span>|cut -f1|xargs sudo apt-get purge -y
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/01/precise-mit-linux38/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
     <entry>
@@ -2332,97 +2395,6 @@ los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
 
 <p>Den Quelltext zu dem ganzen gibt&#8217;s auf <a href="https://github.com/uli-heller/uli-java-prototypes/tree/master/localhost-jmx">GitHub</a></p>
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/22/localhost-jmx/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Neue Einträge für debian/changelog]]></title>
-<link href="http://uli-heller.github.com/2013/03/21/debian-changelog/"/>
-<updated>2013-03-21T07:00:00+01:00</updated>
-<id>http://uli-heller.github.com/2013/03/21/debian-changelog</id>
-
-      <content type="html"><![CDATA[<h1>Erstellen von Debian-Paketen: Neue Einträge für debian/changelog</h1>
-
-<p>Wenn man selbst gelegentlich Debian-Pakete erstellt, so kommt man öfter in die Lage die Datei debian/changelog editieren zu müssen.</p>
-
-<!-- more -->
-
-
-<p>Die Datei selbst ist eine einfache Text-Datei und hat beispielsweise so einen Inhalt:</p>
-
-<figure class='code'><figcaption><span>Beispiel: debian/changelog </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>gexiv2 (0.3.1-0maverick1) maverick; urgency=low
-</span><span class='line'>
-</span><span class='line'>  * All debug and log messages from Exiv2 are now routed through GLib's logging functions.
-</span><span class='line'>
-</span><span class='line'> -- Jim Nelson &lt;jim@yorba.org>  Tue, 22 Mar 2011 14:46:17 -0700
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>gexiv2 (0.3.0-0maverick1) maverick; urgency=low
-</span><span class='line'>
-</span><span class='line'>  * Updated to work with Exiv2 0.21, which has an ABI change from 0.20.
-</span><span class='line'>
-</span><span class='line'> -- Jim Nelson &lt;jim@yorba.org>  Mon, 10 Jan 2011 12:18:07 -0800</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Wenn man nun einen neuen Eintrag anlegen möchte, so muß man diese Dinge erzeugen:</p>
-
-<ul>
-<li>die Überschrift; hierbei darauf achten, dass die Versionsnummer hochgezählt wird!</li>
-<li>einen neuen &#8220;Bullet-Item&#8221; erzeugen</li>
-<li>die Unterschrift mit eigener Mail-Adresse und richtigem Zeitstempel</li>
-</ul>
-
-
-<p>Besonders die Sache mit dem Zeitstempel empfinde ich als lästig.</p>
-
-<p>Viel einfacher geht&#8217;s mit <code>debchange --increment</code>: Es öffnet sich direkt ein Editor mit einer Vorlage für den neuen Eintrag!</p>
-
-<figure class='code'><figcaption><span>debchange &#8211;increment </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>gexiv2 (0.3.1-0ubuntu1) precise; urgency=low
-</span><span class='line'>
-</span><span class='line'>  *
-</span><span class='line'>
-</span><span class='line'> -- Uli Heller &lt;uli.heller@daemons-point.com>  Thu, 21 Mar 2013 07:36:33 +0100
-</span><span class='line'>
-</span><span class='line'>gexiv2 (0.3.1-0maverick1) maverick; urgency=low
-</span><span class='line'>
-</span><span class='line'>  * All debug and log messages from Exiv2 are now routed through GLib's logging functions.
-</span><span class='line'>
-</span><span class='line'> -- Jim Nelson &lt;jim@yorba.org>  Tue, 22 Mar 2011 14:46:17 -0700
-</span><span class='line'>
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/21/debian-changelog/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>
