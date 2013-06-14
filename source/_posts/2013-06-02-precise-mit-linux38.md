@@ -49,3 +49,29 @@ sudo apt-get purge linux-generic-lts-quantal
 dpkg --get-selections "linux*-3.2*"|cut -f1|xargs sudo apt-get purge -y
 dpkg --get-selections "linux*-3.5*"|cut -f1|xargs sudo apt-get purge -y
 {% endcodeblock %}
+
+## Fehlermeldung bzgl. dkms.conf
+
+Die oben genannte Fehlermeldung erscheint auch bei späteren Aktualisierungen
+des Kernels. Dennoch scheint nach der Aktualisierung alles zu funktionieren,
+auch VirtualBox-VMs können gestartet werden.
+
+Die Fehlermeldung erscheint auch beim Neukompilieren der Kernel-Module
+von VirtualBox:
+
+{% codeblock Neukompilieren der Kernel-Module von VirtualBox lang:sh %}
+$ sudo /etc/init.d/vboxdrv setup
+ * Stopping VirtualBox kernel modules                                    [ OK ] 
+ * Uninstalling old VirtualBox DKMS kernel modules                              Error! Could not locate dkms.conf file.
+File:  does not exist.
+                                                                         [ OK ]
+ * Trying to register the VirtualBox kernel modules using DKMS           [ OK ] 
+ * Starting VirtualBox kernel modules                                    [ OK ] 
+{% endcodeblock %}
+
+Folgende Dinge habe ich ausprobiert, um das Problem zu lösen:
+
+* `sudo apt-get install --reinstall dkms` ... keine Besserung
+* `sudo dpkg -i virtualbox-4.2_4.2.12-84980~Ubuntu~precise_amd64.deb` ... keine Besserung
+* `sudo apt-get purge dkms; sudo apt-get install dkms` ... keine Besserung
+* `sudo rm -rf /var/lib/dkms/vboxhost/4.2.*` ... danach klappt's wieder ohne Fehlermeldung (siehe <http://8thstring.blogspot.fr/2012/01/error-could-not-locate-dkmsconf-file.html>)
