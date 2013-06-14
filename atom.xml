@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-06-14T10:02:09+02:00</updated>
+  <updated>2013-06-14T14:10:01+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,268 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[WLAN-Konfiguration beim Ubuntu-Server]]></title>
+<link href="http://uli-heller.github.com/2013/06/14/ubuntu-server-wlan/"/>
+<updated>2013-06-14T12:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/06/14/ubuntu-server-wlan</id>
+
+      <content type="html"><![CDATA[<p>Meinen alten EEEPC würde ich gerne als DHCP-Server weiterverwenden.
+Also: Ubuntu-12.04-Server drauf und los geht&#8217;s. Dumm nur:
+Aktuell ist unklar, wie ich die WLAN-Konfiguration hinbekomme.
+Auf Desktop-Systemen macht man das ja mit dem NetworkManager,
+was auf dem Server ohne graphische Benutzerschnittstelle schwierig ist.</p>
+
+<!-- more -->
+
+
+<h2>Vorbereitungen</h2>
+
+<p>Auf dem EEEPC habe ich diese Grundinstallation vorgenommen:</p>
+
+<ul>
+<li>Ubuntu-12.04.2 Server, 32 bit</li>
+<li>Raring-Kernel</li>
+<li>Alle Aktualisierungen vom heutigen Tage (2013-06-14)</li>
+</ul>
+
+
+<h2>Grundtests</h2>
+
+<p>Die Grundtests habe ich von hier: <a href="http://ubuntuforums.org/showthread.php?t=1094204">http://ubuntuforums.org/showthread.php?t=1094204</a></p>
+
+<figure class='code'><figcaption><span>Grundtests </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo -s
+</span><span class='line'># ifconfig wlan0 up
+</span><span class='line'># iwlist scan
+</span><span class='line'>wlan0     Scan completed :
+</span><span class='line'>          Cell 01 - Address: 00:3f:c6:3c:dd:a2
+</span><span class='line'>                    Channel:1
+</span><span class='line'>                    Frequency:2.412 GHz (Channel 1)
+</span><span class='line'>                    Quality=37/70  Signal level=-73 dBm  
+</span><span class='line'>                    Encryption key:on
+</span><span class='line'>                    ESSID:"SiegfriedUndRoy"
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Konfiguration als WLAN-Client</h2>
+
+<p>Die Konfiguration habe ich hierher:
+<a href="http://ubuntuforums.org/showthread.php?t=2007475">http://ubuntuforums.org/showthread.php?t=2007475</a>.
+Sie ist gegenüber der Vorlage leicht abgewandelt.</p>
+
+<figure class='code'><figcaption><span>/etc/network/interfaces </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>...
+</span><span class='line'>auto wlan0
+</span><span class='line'>iface wlan0 inet dhcp
+</span><span class='line'>  wpa-ssid SiegfriedUndRoy
+</span><span class='line'>  wpa-psk  SharpTiger</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hierbei muß nach &#8220;wpa-ssid&#8221; der Name des zu verwendenden Funknetzwerkes
+eingetragen werden und bei &#8220;wpa-psk&#8221; das dabei zu verwendende Kennwort.
+Bevor Fragen aufkommen: &#8220;SiegfriedUndRoy&#8221; und &#8220;SharpTiger&#8221; sind erfundene
+Werte.</p>
+
+<p>Nun muß nur noch das WLAN-Interface aktiviert werden.</p>
+
+<figure class='code'><figcaption><span>WLAN-Interface aktivieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># ifdown wlan0 # Fehlermeldung ignorieren</span>
+</span><span class='line'><span class="c"># ifup wlan0   # Hier darf keine Fehlermeldung erscheinen</span>
+</span><span class='line'>ssh stop/waiting
+</span><span class='line'>ssh start/running, process 1202
+</span><span class='line'><span class="c"># ifconfig wlan0</span>
+</span><span class='line'>wlan0     Link encap:Ethernet  HWaddr 00:3f:c6:3c:dd:a2
+</span><span class='line'>          inet addr:192.168.178.27  Bcast:192.168.178.255  Mask:255.255.255.0
+</span><span class='line'>          inet6 addr: fe80::215:afff:fe88:ab6d/64 Scope:Link
+</span><span class='line'>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+</span><span class='line'>          RX packets:696 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>          TX packets:496 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>          collisions:0 txqueuelen:1000
+</span><span class='line'>          RX bytes:526709 <span class="o">(</span>526.7 KB<span class="o">)</span>  TX bytes:66404 <span class="o">(</span>66.4 KB<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wichtig ist, dass bei &#8220;inet addr:&#8221; eine IP-Adresse ähnlich der bei
+mir angezeigten 192.168.178.27 steht. Wie&#8217;s aussieht funktioniert&#8217;s schon!</p>
+
+<h2>Konfiguration als Access-Point</h2>
+
+<p>Grob gehe ich nach dieser Anleitung vor: <a href="http://wiki.ubuntuusers.de/WLAN_Router">http://wiki.ubuntuusers.de/WLAN_Router</a></p>
+
+<h3>Zusatzpakete installieren</h3>
+
+<figure class='code'><figcaption><span>Zusatzpakete installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo apt-get install -y hostapd dnsmasq
+</span><span class='line'>Paketlisten werden gelesen... Fertig
+</span><span class='line'>Abhängigkeitsbaum wird aufgebaut
+</span><span class='line'>Statusinformationen werden eingelesen... Fertig
+</span><span class='line'>Die folgenden Pakete wurden automatisch installiert und werden nicht mehr benötigt:
+</span><span class='line'>  crda wireless-regdb
+</span><span class='line'>Verwenden Sie »apt-get autoremove«, um sie zu entfernen.
+</span><span class='line'>Die folgenden zusätzlichen Pakete werden installiert:
+</span><span class='line'>  dnsmasq-base libnetfilter-conntrack3
+</span><span class='line'>Die folgenden NEUEN Pakete werden installiert:
+</span><span class='line'>  dnsmasq dnsmasq-base hostapd libnetfilter-conntrack3
+</span><span class='line'>...
+</span><span class='line'>hostapd <span class="o">(</span>1:0.7.3-4ubuntu1<span class="o">)</span> wird eingerichtet ...
+</span><span class='line'>Trigger für libc-bin werden verarbeitet ...
+</span><span class='line'>ldconfig deferred processing now taking place
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Konfiguration von hostapd</h3>
+
+<p>Zunächst muß die Datei /etc/default/hostapd
+wie folgt modifiziert werden:</p>
+
+<figure class='code'><figcaption><span>/etc/default/hostapd </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'># diff -u /etc/default/hostapd.orig /etc/default/hostapd
+</span><span class='line'><span class="gd">--- hostapd.orig 2013-06-14 13:26:20.390584872 +0200</span>
+</span><span class='line'><span class="gi">+++ hostapd  2013-06-14 13:27:14.698854220 +0200</span>
+</span><span class='line'><span class="gu">@@ -7,7 +7,8 @@</span>
+</span><span class='line'> # file and hostapd will be started during system boot. An example configuration
+</span><span class='line'> # file can be found at /usr/share/doc/hostapd/examples/hostapd.conf.gz
+</span><span class='line'> #
+</span><span class='line'><span class="gd">-#DAEMON_CONF=&quot;&quot;</span>
+</span><span class='line'><span class="gi">+DAEMON_CONF=&quot;/etc/hostapd.conf&quot;</span>
+</span><span class='line'><span class="gi">+RUN_DAEMON=yes</span>
+</span><span class='line'>
+</span><span class='line'> # Additional daemon options to be appended to hostapd command:-
+</span><span class='line'> #    -d   show more debug messages (-dd for even more)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dann brauchen wir zusätzlich noch die Konfigurationsdatei
+/etc/hostapd.conf. Das Grundgerüst habe ich von hier:
+<a href="http://wiki.ubuntuusers.de/WLAN_Router">http://wiki.ubuntuusers.de/WLAN_Router</a></p>
+
+<p>Liquid error: undefined method `match&#8217; for nil:NilClass</p>
+
+<h3>Konfiguration der Netzwerkschnittstelle</h3>
+
+<figure class='code'><figcaption><span>/etc/network/interfaces </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>...
+</span><span class='line'>auto wlan0
+</span><span class='line'>iface wlan0 inet static
+</span><span class='line'>  address 192.168.3.1
+</span><span class='line'>  netmask 255.255.255.0
+</span><span class='line'>  broadcast 192.168.3.255
+</span><span class='line'>
+</span><span class='line'># hostap und dnsmasq neu starten
+</span><span class='line'>up /etc/init.d/hostapd restart
+</span><span class='line'>up /etc/init.d/dnsmasq restart</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Konfiguration von dnsmasq</h3>
+
+<figure class='code'><figcaption><span>/etc/dnsmasq.conf </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'># diff -u /etc/dnsmasq.conf.orig /etc/dnsmasq.conf
+</span><span class='line'><span class="gd">--- /etc/dnsmasq.conf.orig   2013-06-14 13:57:34.856639712 +0200</span>
+</span><span class='line'><span class="gi">+++ /etc/dnsmasq.conf    2013-06-14 13:58:18.400855636 +0200</span>
+</span><span class='line'><span class="gu">@@ -142,7 +142,7 @@</span>
+</span><span class='line'> # a lease time. If you have more than one network, you will need to
+</span><span class='line'> # repeat this for each network on which you want to supply DHCP
+</span><span class='line'> # service.
+</span><span class='line'><span class="gd">-#dhcp-range=192.168.0.50,192.168.0.150,12h</span>
+</span><span class='line'><span class="gi">+dhcp-range=192.168.3.50,192.168.3.150,12h</span>
+</span><span class='line'>
+</span><span class='line'> # This is an example of a DHCP range where the netmask is given. This
+</span><span class='line'> # is needed for networks we reach the dnsmasq DHCP server via a relay
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Test</h3>
+
+<p>Nach der Konfiguration erfolgt ein Neustart mit <code>sudo reboot</code>. Danach
+kann man sich am WLAN &#8220;HaeberleUndPfleiderer&#8221; mit
+dem Kennwort &#8220;ScharfesTigerle&#8221; anmelden.</p>
+
+<ul>
+<li>IP-Adresse: <code>ifconfig wlan0</code> - 192.168.3.115</li>
+<li>SSH-Zugriff: <code>ssh 192.168.3.1</code> - klappt</li>
+</ul>
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/14/ubuntu-server-wlan/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -2346,89 +2608,6 @@ los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
 </ol>
 
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/03/gpg-signaturen/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[JMX auf Localhost]]></title>
-<link href="http://uli-heller.github.com/2013/03/22/localhost-jmx/"/>
-<updated>2013-03-22T08:00:00+01:00</updated>
-<id>http://uli-heller.github.com/2013/03/22/localhost-jmx</id>
-
-      <content type="html"><![CDATA[<h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
-
-<p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&#8217;s Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
-
-<p><img class="" src="http://uli-heller.github.com/images/java/jconsole.png"></p>
-
-<p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich - die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden - sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
-
-<p>Ziel: Wir wollen die JMX-Schnittstelle so in Betrieb nehmen, dass nur von &#8220;localhost&#8221; aus auf sie zugegriffen werden kann!</p>
-
-<!-- more -->
-
-
-<h2>JMX für Netzwerkzugriffe öffnen</h2>
-
-<p>Hier das klassische Vorgehen mittels Java-Properties:</p>
-
-<figure class='code'><figcaption><span>tomcat/bin/setenv.sh </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Djava.rmi.server.hostname=localhost&quot;</span>
-</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote ${CATALINA_OPTS}&quot;</span>
-</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.port=11223 ${CATALINA_OPTS}&quot;</span>
-</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.authenticate=false ${CATALINA_OPTS}&quot;</span>
-</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.ssl=false ${CATALINA_OPTS}&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nachteile:</p>
-
-<ul>
-<li><p>Das ist ein Scheunentor - netzwerkweit &#8220;jeder&#8221; kann nun mittels JMX auf unsere Anwendung zugreifen</p></li>
-<li><p>Absichern könnte man&#8217;s mit Firewall-Regeln, was aber zusätzliche Arbeitslast für die Firewall-Truppe bedeutet</p></li>
-<li><p>Oder man aktiviert die Authentifizierung und hängt so eine Art Benutzerverwaltung mit dran - auch doof</p></li>
-</ul>
-
-
-<p>Eine Idee ist nun, den JMX-Port nicht netzwerkweit sondern nur über &#8220;localhost&#8221; erreichbar zu machen. Praktisch bedeutet dies, dass dann nur Leute, die sich auf dem betreffenden Rechner anmelden können, Zugriff auf die JMX-Schnittstelle haben. Die oben aufgeführten Java-Properties bieten leider keine entsprechende Einschränkmöglichkeit, also muß eine andere Lösung her!</p>
-
-<h2>JMX über eine eigene RMISocketFactory freigeben</h2>
-
-<p>Die Idee für nachfolgendes Vorgehen stammt von <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a>. Grob geht&#8217;s so:</p>
-
-<ul>
-<li>Eigene RMISocketFactory erstellen und registrieren</li>
-<li>MBeanServer über die Standard-ManagementFactory &#8220;holen&#8221;</li>
-<li>MBeanServer mit der eigenen RMISocketFactory &#8220;verknüpfen&#8221; und einen JMXConnectorServer dafür erzeugen und starten</li>
-</ul>
-
-
-<p>Zusätzlich zu den in der Quelle auf <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a> umgesetzten Schritte mußte ich noch das Java-Property &#8220;java.rmi.server.hostname&#8221; auf &#8220;127.0.0.1&#8221; setzen. Ohne diesen Zusatzschritt funktioniert später JCONSOLE nicht.</p>
-
-<p>Wenn man das richtig getan hat, dann kann man danach mittels <code>jconsole localhost:11223</code> die JCONSOLE starten. &#8220;11223&#8221; ist dabei die Portnummer, die man bei vorigem Ablauf mit verarbeitet.</p>
-
-<p>Ich habe das ganze noch in ein Servlet verpackt. Nun kann ich durch</p>
-
-<ul>
-<li><code>curl http://localhost-jmx/jmx/start</code> &#8230; die JMX-Schnittstelle &#8220;öffnen&#8221;</li>
-<li><code>curl http://localhost-jmx/jmx/stop</code> &#8230; die JMX-Schnittstelle &#8220;schließen&#8221;</li>
-</ul>
-
-
-<p>Zur Not geht das auch über einen Browser.</p>
-
-<p>Seitens des Operatings sind keinerlei Eingriffe erforderlich. Auch das lästige Setzen des Java-Properties erübrigt sich.</p>
-
-<p>Den Quelltext zu dem ganzen gibt&#8217;s auf <a href="https://github.com/uli-heller/uli-java-prototypes/tree/master/localhost-jmx">GitHub</a></p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/03/22/localhost-jmx/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>

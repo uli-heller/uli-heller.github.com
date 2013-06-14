@@ -86,6 +86,66 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/05/11/grub-reboot/">GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-11T06:31:00+02:00" pubdate data-updated="true">11. Mai 2013</time>
+         &bull; <a rel="bookmark" href="/2013/05/11/grub-reboot/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Üblicherweise starte ich meine diversen VMs einfach mit <code>sudo reboot</code>
+neu. Dabei wird dann der Standard-Eintrag im Grub-Menü selektiert und
+das betreffende Betriebssystem hochgefahren.</p>
+
+<p>Manchmal möchte ich aber einen anderen Eintrag aktivieren und ein
+alternatives Betriebssystem oder einen anderen Linux-Kernel starten.
+Das Verfahren habe ich mir von <a href="http://michael-prokop.at/blog/2013/05/10/how-to-get-grub-reboot-working/">Michael Prokop&#8217;s Blog</a> &#8216;geklaut&#8217;.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/05/11/grub-reboot/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/">Probleme mit MySQL: start: Job failed to start</a>
 
 </h1>
@@ -893,68 +953,6 @@ los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/03/22/localhost-jmx/">JMX auf Localhost</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-22T08:00:00+01:00" pubdate data-updated="true">22. März 2013</time>
-         &bull; <a rel="bookmark" href="/2013/03/22/localhost-jmx/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
-
-<p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&#8217;s Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
-
-<p><img class="" src="/images/java/jconsole.png"></p>
-
-<p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich - die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden - sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
-
-<p>Ziel: Wir wollen die JMX-Schnittstelle so in Betrieb nehmen, dass nur von &#8220;localhost&#8221; aus auf sie zugegriffen werden kann!</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/03/22/localhost-jmx/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Älter</a>
@@ -973,6 +971,10 @@ los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/06/14/ubuntu-server-wlan/">WLAN-Konfiguration beim Ubuntu-Server</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/06/10/lxc-clone-x/">LXC: Clonen eines Containers mit Namen &#8216;x&#8217;</a>
       </li>
     
@@ -986,10 +988,6 @@ los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
     
       <li class="post">
         <a href="/2013/06/01/precise-mit-linux38/">Ubuntu-12.04 mit 3.8-er-Kernel</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/06/01/build-dependencies/">Abhängigkeiten für Debian-Paketbau installieren</a>
       </li>
     
   </ul>
