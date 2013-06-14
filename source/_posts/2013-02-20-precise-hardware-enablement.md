@@ -62,6 +62,7 @@ Leider gibt's jetzt doch ein paar negative Auffälligkeiten:
     * 3.5.0-32 vom Juni 2013 bringt auch keine Besserung
     * 3.5.0-34 vom Juni 2013 bringt auch keine Besserung
     * 3.8.0-23 vom Juni 2013 bringt auch keine Besserung (da funktioniert nach dem Aufwachen der X-Server nicht mehr)
+    * 3.8.0-25 vom Juni 2013 bringt auch keine Besserung (da funktioniert nach dem Aufwachen der X-Server nicht mehr)
 
 * Starten mit dem alten 3.2-er-Kernel funktioniert nicht mehr - man sieht
   scheinbar die Konsole mit Mauszeiger und kann keine Eingaben vornehmen
