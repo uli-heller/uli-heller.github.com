@@ -42,7 +42,7 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/2013/02/20/precise-hardware-enablement/</loc>
-        <lastmod>2013-06-14T07:10:18+02:00</lastmod>
+        <lastmod>2013-06-14T09:44:49+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/2013/03/04/chrome-extensions/</loc>
@@ -138,7 +138,7 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/2013/06/01/precise-mit-linux38/</loc>
-        <lastmod>2013-06-14T07:29:06+02:00</lastmod>
+        <lastmod>2013-06-14T10:02:08+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/2013/06/09/lxc-snapshots/</loc>
@@ -170,14 +170,18 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/archives/</loc>
-        <lastmod>2013-06-14T07:29:06+02:00</lastmod>
+        <lastmod>2013-06-14T10:02:08+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/impressum/</loc>
-        <lastmod>2013-06-01T18:13:02+02:00</lastmod>
+        <lastmod>2013-06-14T07:54:35+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/</loc>
-        <lastmod>2013-06-14T07:29:06+02:00</lastmod>
+        <lastmod>2013-06-14T10:02:08+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://uli-heller.github.com/about/</loc>
+        <lastmod>2013-06-14T09:32:05+02:00</lastmod>
     </url>
 </urlset>
