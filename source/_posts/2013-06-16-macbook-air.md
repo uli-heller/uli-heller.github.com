@@ -52,6 +52,13 @@ Bildschirm bleibt nach dem Grub-Menü einfach schwarz.
 Über den Zwischenschritt "recovery mode" läßt sich der Desktop
 aber normal starten.
 
+Im Desktop fällt auf:
+
+* die "Kleiner-Größer-Pipe-Taste" funktioniert nicht. Sie verhält
+  sich wie die "Kreis-Dächlein-Taste" links neben der "1"
+* die Funktionstasten zur Änderung der Helligkeit, ... funktionieren
+  nicht
+
 Da der WLAN-Adapter nicht funktioniert, kann ich aber
 
 * keine Updates einspielen
