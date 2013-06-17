@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Ubuntu auf einem Macbook Air"
 date: 2013-06-16 12:00
-#updated: 2013-06-14 19:00
+updated: 2013-06-17 06:00
 comments: true
 categories: 
 - Linux
