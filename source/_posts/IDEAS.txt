@@ -71,6 +71,9 @@ WEBAPPS
   * http://codepen.io/christian-fei/pen/BJily
   * http://christian-fei.com/tutorials/simple-vertical-timeline-with-css/#9
   * https://github.com/christian-fei/christian-fei.github.com
+* Embedded Jetty War mit Gradle
+  * http://fernandorubbo.blogspot.com.br/2013/06/embedded-war-using-gradle.html
+  * https://docs.google.com/file/d/0B70OhasM5Q2rbXFUNER4Mk1vWXc/edit?usp=sharing
 
 CHROME
 ------
