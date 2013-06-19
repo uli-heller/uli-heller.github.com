@@ -2,7 +2,7 @@
 layout: post
 author: Uli Heller
 published: true
-title: "Ubuntu auf einem Macbook Air"
+title: "Ubuntu auf einem Macbook Air 2013"
 date: 2013-06-16 12:00
 updated: 2013-06-17 06:00
 comments: true
