@@ -76,6 +76,8 @@ WEBAPPS
 * Embedded Jetty War mit Gradle
   * http://fernandorubbo.blogspot.com.br/2013/06/embedded-war-using-gradle.html
   * https://docs.google.com/file/d/0B70OhasM5Q2rbXFUNER4Mk1vWXc/edit?usp=sharing
+* share.js
+  * http://sharejs.org/
 
 CHROME
 ------
