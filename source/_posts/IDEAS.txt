@@ -21,6 +21,8 @@ Git
   https://github.com/pcottle/learnGitBranching/
 * http://www.darianshimy.com/blog/2013/04/04/everything-i-forget-about-git/
 * http://code.joejag.com/2013/everyday-git-aliases/
+* Deploy via GIT
+  * https://coderwall.com/p/xczkaq?&p=1&q=
 
 SublimeText3
 ------------
