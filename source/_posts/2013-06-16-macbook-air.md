@@ -2,9 +2,9 @@
 layout: post
 author: Uli Heller
 published: true
-title: "Ubuntu auf einem Macbook Air"
+title: "Ubuntu auf einem Macbook Air - erste Eindrücke"
 date: 2013-06-16 12:00
-updated: 2013-06-17 06:00
+updated: 2013-06-24 06:00
 comments: true
 categories: 
 - Linux
@@ -54,8 +54,8 @@ aber normal starten.
 
 Im Desktop fällt auf:
 
-* die "Kleiner-Größer-Pipe-Taste" funktioniert nicht. Sie verhält
-  sich wie die "Kreis-Dächlein-Taste" links neben der "1"
+* die "Kleiner-Größer-Pipe-Taste" ist vertauscht mit der
+  "Kreis-Dächlein-Taste" links neben der "1".
 * die Funktionstasten zur Änderung der Helligkeit, ... funktionieren
   nicht
 
