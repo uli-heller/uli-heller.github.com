@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Ubuntu auf einem Macbook Air 2013"
 date: 2013-06-24 05:00
-#updated: 2013-06-24 06:00
+updated: 2013-06-25 06:00
 comments: true
 categories: 
 - Linux
@@ -52,7 +52,7 @@ dass
 Zur Durchführung der Aktualisierung benötigt man eine Verbindung in's
 Internet. Zunächst habe ich mit USB-WLAN-Karten rumgespielt:
 
-* TP-Link 274 ... hat auch nach längeren Experimenten nicht funktioniert
+* TP-Link TL-WN275N ... hat auch nach längeren Experimenten nicht funktioniert
 * ISY ... hat sofort funktioniert, aber nach ein paar Minuten dann den
   Geist aufgegeben - jetzt funktioniert er auch an anderen Rechnern nicht mehr
 
@@ -67,27 +67,44 @@ mir nicht funktioniert.
 
 ### Herunterladen der Quelldateien für "bcmwl-kernel-sources" von Saucy
 
-XXXX
+Hier der [Link](https://launchpad.net/ubuntu/+source/bcmwl/6.30.223.30+bdcom-0ubuntu2) zum Herunterladen. Es müssen 3 Dateien geladen werden:
+
+* *.tar.gz
+* *.diff.gz
+* *.dsc
 
 ### Erzeugen des DEB-Paketes
 
-XXXX
+* `sudo apt-get build-dep bcmwl`
+* `dpkg-source -x bcmwl*dsc`
+* `cd bcmwl*bdcom`
+* `dpkg-buildpackage`
 
 ### Einspielen des DEB-Paketes
 
-Das DEB-Paket habe ich eingespielt mit `dpkg -i XXXX`. Die Installation blieb
-hängen bei XXXX, also habe ich sie abgebrochen mit Strg-C.
+Das DEB-Paket habe ich eingespielt mit `dpkg -i bcmwl-kernel-source_6.30.223.30+bdcom-0ubuntu2_amd64.deb`. Die Installation blieb
+hängen bei "DKMS: install completed", also habe ich sie abgebrochen mit Strg-C.
 
 Zur Sicherheit habe ich noch folgende Kommandos "nachgeschoben":
 
-* `sudo update-initfamfs -u`
+* `sudo update-initramfs -u`
 * `sudo update-grub2`
 
 Dann ein Neustart des Rechners, danach wird der WLAN-Adapter erkannt und
 kann konfiguriert werden.
 
+Hinweis: Beim zweiten Installieren hat's ohne Hänger geklappt.
+
 ## Probleme
 
 ### Systemstart mit "linux-generic-lts-raring" klappt nicht
 
-### Normaler Systemstart klappt nicht - "recovery" ist angesagt
+### Normaler Systemstart klappt nicht - "Wiederherstellungsmodus" ist angesagt
+
+### Installation von bcmwl-kernel-source_6.30.223.30+bdcom-0ubuntu2_amd64.deb bleibt hängen
+
+* Abbrechen mit Strg-C
+* `sudo update-initramfs -u`
+* `sudo update-grub2`
+
+### WLAN ist erst nach einer Minute betriebsbereit
