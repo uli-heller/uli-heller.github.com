@@ -21,6 +21,8 @@ Git
   https://github.com/pcottle/learnGitBranching/
 * http://www.darianshimy.com/blog/2013/04/04/everything-i-forget-about-git/
 * http://code.joejag.com/2013/everyday-git-aliases/
+* Deploy via GIT
+  * https://coderwall.com/p/xczkaq?&p=1&q=
 
 SublimeText3
 ------------
@@ -47,6 +49,8 @@ Octopress
     * http://dillinger.io/# ... online markdown editor, nodejs, mit
     * https://github.com/adam-p/markdown-here
       ... Integration in Chrome, Firefox, Thunderbird
+* Improve octopress
+    * http://www.narga.net/improve-octopress-advanced-tweaks-tips/
 
 SH
 --
@@ -74,6 +78,8 @@ WEBAPPS
 * Embedded Jetty War mit Gradle
   * http://fernandorubbo.blogspot.com.br/2013/06/embedded-war-using-gradle.html
   * https://docs.google.com/file/d/0B70OhasM5Q2rbXFUNER4Mk1vWXc/edit?usp=sharing
+* share.js
+  * http://sharejs.org/
 
 CHROME
 ------
