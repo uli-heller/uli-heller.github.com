@@ -23,7 +23,7 @@ mein Weg zu einem "richtig" funktionierenden System.
 ## Erstellung eines Installationsmediums
 
 Einfach das Mac-Iso von "Ubuntu-12.04.2, 64bit für Mac"
-auf einen USB-Stick schreiben mittels @dd@.
+auf einen USB-Stick schreiben mittels `dd`.
 
 ## Anschließen der Test-Platte
 

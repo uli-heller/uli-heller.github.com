@@ -49,6 +49,8 @@ Octopress
     * http://dillinger.io/# ... online markdown editor, nodejs, mit
     * https://github.com/adam-p/markdown-here
       ... Integration in Chrome, Firefox, Thunderbird
+    * Markdown-Editor - CuteMarkEd
+      http://cloose.github.io/CuteMarkEd/
 * Improve octopress
     * http://www.narga.net/improve-octopress-advanced-tweaks-tips/
 
