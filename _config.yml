@@ -109,3 +109,16 @@ google_analytics_tracking_id:
 
 # Facebook Like
 facebook_like: false
+
+mini_magick:
+    centos_thumbnail:
+      source: images/galleries/centos
+      destination: images/galleries/centos/thumbs
+      commands:
+        - thumbnail: "140x140^"
+        - crop: "140x140-0x0"
+    centos_medium:
+      source: images/galleries/centos
+      destination: images/galleries/centos/medium
+      commands:
+        - resize: "600x400"
