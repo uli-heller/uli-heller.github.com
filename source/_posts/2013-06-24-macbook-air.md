@@ -138,3 +138,14 @@ Die wohl bessere Lösung ist das Umstellen auf Textmodus.
 * `sudo update-grub2`
 
 ### WLAN ist erst nach einer Minute betriebsbereit
+
+Dieses Problem habe ich bislang erst einmal beobachtet. Irgendwo
+habe ich auch schonmal eine Lösung entdeckt. Wenn's häufiger auftritt,
+dann beschreibe ich die Korrektur hier.
+
+### Vertauschte Tasten
+
+Diese Tasten sind vertauscht:
+
+* "Kleiner-Größer-Pipe" - links neben dem "Y"
+* "Dächlein-Kreis" - links neben der "1"
