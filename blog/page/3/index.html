@@ -86,6 +86,388 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/04/19/pigeonhole/">Dovecot: Aktualisierung mit Pigeonhole</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-19T06:00:00+02:00" pubdate data-updated="true">19. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/19/pigeonhole/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Dovecot: Aktualisierung des Debian-Paketes mit Pigeonhole</h1>
+
+<p>Gestern oder heute wurde die Version 2.2.1 von Dovecot veröffentlicht.
+Natürlich habe ich gleich versucht, mein Debian-Paket zu aktualisieren:</p>
+
+<ul>
+<li><code>cd .../dovecot-2.2.0</code></li>
+<li><code>uupdate -u ../dovecot-2.2.1.tar.gz</code></li>
+<li><code>cd ../dovecot-2.2.1</code></li>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<p>Dummerweise klappt das nicht! Pigeonhole scheint zu fehlen, so dass
+schon die Anwendung der Quilt-Patches scheitert.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/04/19/pigeonhole/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/04/15/pigeonhole/">Pigeonhole für für mein Debian-Paket von Dovecot</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-15T06:00:00+02:00" pubdate data-updated="true">15. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/15/pigeonhole/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Dovecot: Einbinden von Pigeonhole</h1>
+
+<p>Mein Dovecot-Debian-Paket beinhaltet u.a. auch Pigeonhole.
+Pigeonhole wird separat zum Herunterladen angeboten, im Debian-Paket
+erscheint es aber als Patch unterhalb von debian/patches. Das ist ein
+gewisses Problem, weil man das heruntergeladene Paket dann immer erst
+in einen Patch umwandeln muß.</p>
+
+<p>Deshalb mein Ziel: Ich würde das Pigeonhole-Paket gerne möglichst
+unverändert in&#8217;s Dovecot-Debian-Paket einbinden!</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/04/15/pigeonhole/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/04/14/quilt-fuer-gitdeb/">Quilt für mein Debian-Paket von Git</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-14T12:00:00+02:00" pubdate data-updated="true">14. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/14/quilt-fuer-gitdeb/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Quilt: Umstellung der Patchverwaltung meines Git-Debian-Paketes auf Quilt</h1>
+
+<p>Mein Git-Debian-Paket verwendet bislang keine vernünftige Patchverwaltung.
+Stattdessen werden bei der Erzeugung des Paketes einfach alle Patches
+unterhalb von debian/diff der Reihe nach angewandt. Blöderweise fallen so
+gescheiterte Patchanwendungen nicht auf, außerdem werden im Source-Paket
+teilweise Original-Dateien modifiziert - vermutlich weil einige Patches
+nicht sauber zurückgerollt werden.</p>
+
+<p>Also: Ich will Quilt haben!</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/04/14/quilt-fuer-gitdeb/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/04/12/git-subtree/">Git Subtree (1/2)</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-12T07:14:00+02:00" pubdate data-updated="true">12. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/12/git-subtree/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Git Subtree - Neues DEB-Paket bereitstellen</h1>
+
+<h2>Einleitung</h2>
+
+<p>Kurze Erklärung: Warum will ich&#8217;s verwenden? Warum kann ich&#8217;s nicht
+direkt verwenden?</p>
+
+<p>Leider ist <code>git subtree</code> in den von mir verwendeten Pakete standardmässig
+nicht aktiv:</p>
+
+<figure class='code'><figcaption><span>git-subtree fehlt </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
+</span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Entweder wir aktivieren es manuell oder wir bauen neue Pakete, bei denen <code>git subtree</code> aktiviert ist.</p>
+
+<h2>Manuelles Aktivieren von Git Subtree</h2>
+
+<figure class='code'><figcaption><span>git-subtree manuell installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
+</span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
+</span><span class='line'><span class="nv">$ </span>sudo cp /usr/share/doc/git/contrib/subtree/git-subtree.sh /usr/lib/git-core/git-subtree
+</span><span class='line'><span class="nv">$ </span>sudo chmod +x  /usr/lib/git-core/git-subtree
+</span><span class='line'><span class="nv">$ </span>git subtree
+</span><span class='line'>usage: git subtree add   --prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
+</span><span class='line'>   or: git subtree add   --prefix<span class="o">=</span>&lt;prefix&gt; &lt;repository&gt; &lt;commit&gt;
+</span><span class='line'>   or: git subtree merge --prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nachteil beim manuellen Aktivieren: Es gibt keine Online-Dokumentation,
+d.h. <code>git help subtree</code> läuft in&#8217;s Leere.</p>
+
+<h2>Erzeugung neuer DEB-Pakete</h2>
+
+<ul>
+<li>Ausgangspunkt: Build-Verzeichnis für Git-1.8.2.1 liegt vor, d.h. ich
+kann mit <code>dpkg-buildpackage</code> neue DEB-Pakete erzeugen</li>
+<li>Sichtung: Wie funktioniert die Einbindung von &#8220;subtree&#8221;?
+
+<ul>
+<li>Die Implementierung liegt unter contrib/subtree</li>
+<li>Eine Einspielanleitung gibt&#8217;s dort auch</li>
+<li>Diese müssen wir &#8220;eigentlich&#8221; nur noch in debian/rules einbauen
+und fertig!</li>
+</ul>
+</li>
+<li>Also: Änderungen an debian/changelog und debian/rules durchführen und
+los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
+<li>Sichtung: Ist git-subtree in den erstellten Paketen enthalten?
+
+<ul>
+<li><code>dpkg-deb -c git_1.8.2.1*deb|grep git-core/git-subtree</code></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Probleme</h3>
+
+<h4>Falscher Installationspfad</h4>
+
+<ul>
+<li>Verwendet wird: /build/git/git-1.8.2.1/debian/git/usr/libexec/git-core</li>
+<li>Richtig wäre:  /build/git/git-1.8.2.1/debian/git/usr/lib/git-core</li>
+<li>Korrektur durch: Setzen von libexecdir in debian/rules</li>
+</ul>
+
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/04/03/gpg-signaturen/">GPG: Signaturen</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-04-03T15:00:00+02:00" pubdate data-updated="true">03. April 2013</time>
+         &bull; <a rel="bookmark" href="/2013/04/03/gpg-signaturen/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>GPG/PGP-Signatur von Quelltext-Dateien prüfen</h1>
+
+<p>Quelltextdateien werden oftmals mit GPG/PGP-Signaturen bereitgestellt, über die die Integrität der Dateien geprüft werrden kann. Hier zeige ich exemplarisch, wie dies für Subversion und Nginx gemacht wird.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/04/03/gpg-signaturen/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/03/22/localhost-jmx/">JMX auf Localhost</a>
 
 </h1>
@@ -380,645 +762,6 @@ Getestet hab&#8217; ich&#8217;s mit Google-Chrome 25 unter Linux.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/03/04/chrome-extensions/">Chrome-Erweiterungen - Teil 1/2: CRX-Dateien herunterladen</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-03-04T07:00:00+01:00" pubdate data-updated="true">04. März 2013</time>
-         &bull; <a rel="bookmark" href="/2013/03/04/chrome-extensions/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Offline-Installation einer Chrome-Erweiterung - Teil 1: CRX-Dateien herunterladen</h1>
-
-<p>Mein aktueller Lieblingsbrowser ist zur Zeit Google-Chrome. Dumm nur, wenn
-bei manchen Unternehmen der ausgehende Internet-Verkehr so gefiltert wird,
-dass nur manch andere Browser (beispielsweise Internet Explorer) zugelassen
-sind.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/03/04/chrome-extensions/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/02/20/precise-hardware-enablement/">Neuer Kernel für Ubuntu-12.04</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-02-20T07:00:00+01:00" pubdate data-updated="true">20. Februar 2013</time>
-         &bull; <a rel="bookmark" href="/2013/02/20/precise-hardware-enablement/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Kommt ein Kernel geflogen &#8230; Hardware Enablement Stack für Ubuntu-12.04</h1>
-
-<p>Eben hab&#8217; ich mir die Zeit genommen und die
-<a href="https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes/UbuntuDesktop">Ankündigung für Ubuntu-12.04.2</a>
-ein wenig näher angeschaut. Offenbar gibt&#8217;s im Zuge des
-<a href="https://wiki.ubuntu.com/Kernel/LTSEnablementStack">LTS Enablement Stacks</a> einen
-neuen Kernel (3.5 statt 3.2). Dieser soll die Verwendung von neueren Geräten
-ermöglichen.</p>
-
-<p>Eigentlich bin ich mit dem Alt-Kernel recht zufrieden. Alle meine
-Rechner laufen - sogar der Problemfall eines AMD-basierten Samsung-Notebooks.
-Bei diesem mußte ich allerdings den Grafiktreiber selbst kompilieren, der bei
-12.04 ausgelieferte Treiber unterstützt die verbaute Radeon-Karte nicht.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/02/20/precise-hardware-enablement/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/02/15/quilt/">Patchverwaltung mit Quilt</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-02-15T18:00:00+01:00" pubdate data-updated="true">15. Februar 2013</time>
-         &bull; <a rel="bookmark" href="/2013/02/15/quilt/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Ubuntu-Pakete aktualisieren - Patchverwaltung mit Quilt</h1>
-
-<p>Heute hatte ich die Idee, eine neue Version von NGINX zu erzeugen.
-Grob sollte es nach diesem Muster klappen:</p>
-
-<figure class='code'><figcaption><span>Paket aktualisieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Quellen zum Ubuntu-Paket runterladen</span>
-</span><span class='line'>apt-get <span class="nb">source </span>nginx
-</span><span class='line'><span class="c"># Aktuelle Nginx-Quellen runterladen</span>
-</span><span class='line'>wget -c http://nginx.org/download/nginx-1.2.7.tar.gz
-</span><span class='line'><span class="c"># Paket aktualisieren</span>
-</span><span class='line'><span class="nb">cd </span>nginx-1.1.19
-</span><span class='line'>uupdate -u ../nginx-1.2.7.tar.gz
-</span><span class='line'><span class="nb">cd</span> ..
-</span><span class='line'><span class="c"># Paket neu erzeugen</span>
-</span><span class='line'><span class="nb">cd </span>nginx-1.2.7
-</span><span class='line'>dpkg-buildpackage
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Danach sollten die neuen Paketdateien bereit zur Installation sein.</p>
-
-<h2>Fatales Problem</h2>
-
-<p>Leider klappt&#8217;s nicht, es gibt fatale Fehlermeldungen:</p>
-
-<figure class='code'><figcaption><span>Fatale Fehler bei der Paketerzeugung </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli@ubuntu-120464:/build/nginx/nginx-1.2.7<span class="nv">$ </span>dpkg-buildpackage
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2 -fstack-protector --param<span class="o">=</span>ssp-buffer-size<span class="o">=</span>4 -Wformat -Wformat-security
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CPPFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -D_FORTIFY_SOURCE<span class="o">=</span>2
-</span><span class='line'>...
-</span><span class='line'> dpkg-source -b nginx-1.2.7
-</span><span class='line'>dpkg-source: Information: Quellformat »3.0 <span class="o">(</span>quilt<span class="o">)</span>« wird verwendet
-</span><span class='line'>dpkg-source: Information: nginx wird unter Benutzung des existierenden ./nginx_1.2.7.orig.tar.gz gebaut
-</span><span class='line'>patching file src/http/modules/perl/Makefile.PL
-</span><span class='line'>Hunk <span class="c">#2 FAILED at 14.</span>
-</span><span class='line'>1 out of 2 hunks FAILED -- saving rejects to file src/http/modules/perl/Makefile.PL.rej
-</span><span class='line'>dpkg-source: Fehler: Fehler-Exitstatus von <span class="nv">LC_ALL</span><span class="o">=</span>C patch -t -F 0 -N -p1 -u -V never -g0 -E -b -B .pc/perl-use-dpkg-buildflags.patch/ &lt; nginx-1.2.7.orig.OjasVr/debian/patches/perl-use-dpkg-buildflags.patch war 1
-</span><span class='line'>dpkg-buildpackage: Fehler: Fehler-Exitstatus von dpkg-source -b nginx-1.2.7 war 2
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Korrektur</h2>
-
-<p>In der Fehlermeldung erkennt man den Hinweis auf das Werkzeug QUILT.
-Dieses verwaltet die Anpassungsdateien (patches) und kann auch zur Korrektur
-der fehlerhaften Anpassungen verwendet werden.</p>
-
-<p>Hier der Korrekturablauf:</p>
-
-<figure class='code'><figcaption><span>Patch aktualisieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">export </span><span class="nv">QUILT_PATCHES</span><span class="o">=</span>debian/patches
-</span><span class='line'>quilt push -f <span class="c"># ... eigentlich hätte ich hier einen Fehler erwartet,</span>
-</span><span class='line'><span class="c">#  stattdessen erscheint eine Meldung mit &quot;succeeded with fuzz...&quot;</span>
-</span><span class='line'><span class="c">#  Glück gehabt!</span>
-</span><span class='line'>quilt refresh
-</span><span class='line'>quilt pop -a
-</span><span class='line'>dpkg-buildpackage
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nun läuft die Erzeugung durch, DEB-Dateien werden erstellt.</p>
-
-<h2>Notizen</h2>
-
-<h3>Diverse Befehle</h3>
-
-<ul>
-<li><code>sudo apt-get install devscripts</code></li>
-<li><code>sudo apt-get build-dep nginx</code></li>
-</ul>
-
-
-<h3>Protokoll</h3>
-
-<figure class='code'><figcaption><span>Protokoll: Fehler und Korrektur </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>dpkg-buildpackage
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2 -fstack-protector --param<span class="o">=</span>ssp-buffer-size<span class="o">=</span>4 -Wformat -Wformat-security
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CPPFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -D_FORTIFY_SOURCE<span class="o">=</span>2
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CXXFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2 -fstack-protector --param<span class="o">=</span>ssp-buffer-size<span class="o">=</span>4 -Wformat -Wformat-security
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>FFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>LDFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -Wl,-Bsymbolic-functions -Wl,-z,relro
-</span><span class='line'>dpkg-buildpackage: <span class="nb">source </span>package nginx
-</span><span class='line'>dpkg-buildpackage: <span class="nb">source </span>version 1.2.7-0dp01~precise1
-</span><span class='line'>dpkg-buildpackage: <span class="nb">source </span>changed by Uli Heller &lt;uli.heller@daemons-point.com&gt;
-</span><span class='line'>dpkg-buildpackage: host architecture i386
-</span><span class='line'> dpkg-source --before-build nginx-1.2.7
-</span><span class='line'> fakeroot debian/rules clean
-</span><span class='line'>dh_testdir
-</span><span class='line'>dh_testroot
-</span><span class='line'>rm -f build-stamp
-</span><span class='line'>rm -f config.sub config.guess
-</span><span class='line'>dh_clean
-</span><span class='line'>rm -rf /build/nginx/nginx-1.2.7/debian/modules/naxsi
-</span><span class='line'>rm -rf /build/nginx/nginx-1.2.7/debian/build-*
-</span><span class='line'> dpkg-source -b nginx-1.2.7
-</span><span class='line'>dpkg-source: info: using <span class="nb">source </span>format <span class="sb">`</span>3.0 <span class="o">(</span>quilt<span class="o">)</span><span class="err">&#39;</span>
-</span><span class='line'>dpkg-source: info: building nginx using existing ./nginx_1.2.7.orig.tar.gz
-</span><span class='line'>patching file src/http/modules/perl/Makefile.PL
-</span><span class='line'>Hunk <span class="c">#2 FAILED at 14.</span>
-</span><span class='line'>1 out of 2 hunks FAILED -- saving rejects to file src/http/modules/perl/Makefile.PL.rej
-</span><span class='line'>dpkg-source: error: <span class="nv">LC_ALL</span><span class="o">=</span>C patch -t -F 0 -N -p1 -u -V never -g0 -E -b -B .pc/perl-use-dpkg-buildflags.patch/ &lt; nginx-1.2.7.orig.G94ZuW/debian/patches/perl-use-dpkg-buildflags.patch gave error <span class="nb">exit </span>status 1
-</span><span class='line'>dpkg-buildpackage: error: dpkg-source -b nginx-1.2.7 gave error <span class="nb">exit </span>status 2
-</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span><span class="nb">export </span><span class="nv">QUILT_PATCHES</span><span class="o">=</span>debian/patches
-</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>quilt push -f
-</span><span class='line'>Applying patch perl-use-dpkg-buildflags.patch
-</span><span class='line'>patching file src/http/modules/perl/Makefile.PL
-</span><span class='line'>Hunk <span class="c">#2 succeeded at 14 with fuzz 1.</span>
-</span><span class='line'>
-</span><span class='line'>Now at patch perl-use-dpkg-buildflags.patch
-</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>quilt refresh
-</span><span class='line'>Refreshed patch perl-use-dpkg-buildflags.patch
-</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>quilt pop -a
-</span><span class='line'>Removing patch perl-use-dpkg-buildflags.patch
-</span><span class='line'>Restoring src/http/modules/perl/Makefile.PL
-</span><span class='line'>
-</span><span class='line'>No patches applied
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/02/14/redmine-rails-update/">Rails-2.3.17</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-02-14T06:10:00+01:00" pubdate data-updated="true">14. Februar 2013</time>
-         &bull; <a rel="bookmark" href="/2013/02/14/redmine-rails-update/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Rails-Update für Redmine-1.2</h1>
-
-<p>Leider ist schon wieder eine <a href="http://www.heise.de/security/meldung/Neues-Sicherheits-Update-fuer-Ruby-on-Rails-1802557.html">Sicherheitslücke</a> in Rails
-entdeckt worden.</p>
-
-<p>Analog zur Aktualisierung auf 2.3.15 erfolgt nun die auf 2.3.17:</p>
-
-<ul>
-<li>Gems runterladen und auf Redmine-Rechner kopieren</li>
-<li>Betriebssystem aktualisieren</li>
-<li>Gems einspielen</li>
-<li>Alte Gems löschen</li>
-</ul>
-
-
-<h2>Gems herunterladen und zum Redmine-Server übertragen</h2>
-
-<p>Der Redmine-Server hat keinen Zugang zum Internet. Deshalb müssen die Gems
-auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
-werden.</p>
-
-<figure class='code'><figcaption><span>get-2.3.17.sh</span><a href='/downloads/code/get-2.3.17.sh' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.17
-</span><span class='line'>
-</span><span class='line'>fetch<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="o">(</span>
-</span><span class='line'>  <span class="nv">GN</span><span class="o">=</span><span class="s2">&quot;$1-$2.gem&quot;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -s <span class="s2">&quot;${GN}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
-</span><span class='line'><span class="k">    </span>gem fetch <span class="s2">&quot;$1&quot;</span> -v <span class="s2">&quot;$2&quot;</span>
-</span><span class='line'>  <span class="k">fi</span>
-</span><span class='line'>  <span class="o">)</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for </span>i in actionmailer actionpack activerecord activeresource activesupport rails; <span class="k">do</span>
-</span><span class='line'><span class="k">  </span>fetch <span class="s2">&quot;${i}&quot;</span> <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'><span class="k">done</span>
-</span><span class='line'>fetch rack 1.1.3
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Die Dateien werden danach mit SCP auf den Redmine-Server übertragen.</p>
-
-<h2>Basissystem aktualisieren</h2>
-
-<figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
-</span><span class='line'>apt-get upgrade
-</span><span class='line'>apt-get dist-upgrade
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Gems einspielen</h2>
-
-<figure class='code'><figcaption><span>Gems einspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.17.gem
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Alte Gems deininstallieren</h2>
-
-<figure class='code'><figcaption><span>uninstall-2.3.15.sh</span><a href='/downloads/code/uninstall-2.3.15.sh' title='Download code'> download</a></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.15
-</span><span class='line'>
-</span><span class='line'>gem uninstall rails -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall actionmailer -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall actionpack -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activerecord -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activeresource -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activesupport -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'><span class="c">#gem uninstall rack -v 1.1.1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/02/12/github-downloads/">GitHub - Downloads</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-02-12T08:00:00+01:00" pubdate data-updated="true">12. Februar 2013</time>
-         &bull; <a rel="bookmark" href="/2013/02/12/github-downloads/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>GitHub - Anlegen eines Download-Bereichs</h1>
-
-<p>Ende 2012 sorgte GitHub bei mir für einige Verwirrung, indem
-die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
-
-<p>Als Notbehelf verwende ich aktuell einfach einen speziellen Zweig namens
-&#8220;downloads&#8221; und lege dann die runterladbaren Dateien darin ab.</p>
-
-<h2>Download-Zweig anlegen</h2>
-
-<p>Den Download-Zweig legt man grob so an:</p>
-
-<ul>
-<li>Sicherstellen: Alle Dateien sind gespeichert in Git! (mittels: <code>git status</code>)</li>
-<li>Neuen Zweig anlegen und leeren</li>
-<li>README.txt erzeugen mit einer kurzen Beschreibung</li>
-<li>README.txt in Git abspeichern</li>
-<li>Zweig nach GitHub hochschieben</li>
-</ul>
-
-
-<figure class='code'><figcaption><span>Download-Zweig anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout master
-</span><span class='line'><span class="nv">$ </span>git status
-</span><span class='line'><span class="c"># On branch master</span>
-</span><span class='line'>nothing to commit, working directory clean
-</span><span class='line'><span class="nv">$ </span>git checkout --orphan downloads
-</span><span class='line'><span class="nv">$ </span>git rm -rf .
-</span><span class='line'><span class="nv">$ </span>jmacs README.txt <span class="c"># Enter description of the branch</span>
-</span><span class='line'><span class="nv">$ </span>git add README.txt
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Created branch: downloads&quot;</span>
-</span><span class='line'><span class="nv">$ </span>git push --set-upstream origin downloads
-</span><span class='line'><span class="nv">$ </span>git checkout master
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Dateien ablegen</h2>
-
-<figure class='code'><figcaption><span>Dateien ablegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout downloads
-</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.tar.xz .
-</span><span class='line'><span class="nv">$ </span>cp .../my-project-0.1-bin.zip .
-</span><span class='line'><span class="nv">$ </span>git add my-project-0.1-bin.tar.xz my-project-0.1-bin.zip
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Added downloads of version 0.1&quot;</span> .
-</span><span class='line'><span class="nv">$ </span>git push <span class="c"># might take some time depending on your internet connection bandwidth</span>
-</span><span class='line'><span class="nv">$ </span>git checkout master <span class="c"># switch back to master</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Älter</a>
@@ -1037,23 +780,23 @@ die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/2013/06/14/ubuntu-server-wlan/">WLAN-Konfiguration beim Ubuntu-Server</a>
+        <a href="/2013/06/27/centos/">Experimente mit CentOS-6.4</a>
       </li>
     
       <li class="post">
-        <a href="/2013/06/10/lxc-clone-x/">LXC: Clonen eines Containers mit Namen &#8216;x&#8217;</a>
+        <a href="/2013/06/26/gallery/">Gallerie - Installation von CentOS-6.4 in einer VM</a>
       </li>
     
       <li class="post">
-        <a href="/2013/06/10/cpan-ohne-root/">Perl: CPAN ohne Root</a>
+        <a href="/2013/06/24/macbook-air/">Ubuntu auf einem Macbook Air 2013</a>
       </li>
     
       <li class="post">
-        <a href="/2013/06/09/lxc-snapshots/">LXC: Schnelles Clonen mit BTRFS-Snapshots</a>
+        <a href="/2013/06/19/tl-wn725n/">150Mbps Wireless N Nano USB Adapter TP-Link TL-WN725N</a>
       </li>
     
       <li class="post">
-        <a href="/2013/06/01/precise-mit-linux38/">Ubuntu-12.04 mit 3.8-er-Kernel</a>
+        <a href="/2013/06/16/macbook-air/">Ubuntu auf einem Macbook Air - erste Eindrücke</a>
       </li>
     
   </ul>

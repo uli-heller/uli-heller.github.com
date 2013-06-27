@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-06-14T14:10:01+02:00</updated>
+  <updated>2013-06-27T06:54:23+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,621 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Experimente mit CentOS-6.4]]></title>
+<link href="http://uli-heller.github.com/2013/06/27/centos/"/>
+<updated>2013-06-27T08:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/06/27/centos</id>
+
+      <content type="html"><![CDATA[<p>Heute habe ich mir vorgenommen, ein paar Experimente mit CentOS
+durchzuführen. CentOS ist eine Linux-Distribution, die den Anspruch
+hat, weitgehend kompatibel zu RedHat Enterprise Linux (RHEL) ist.
+Meine Hoffnung ist, dass sich die Erkenntnisse, die ich heute sammle,
+auch in einem anstehenden Kundenprojekt anwenden lassen, bei dem RHEL
+zum Einsatz kommen wird.</p>
+
+<!-- more -->
+
+
+<h2>Grundinstallation</h2>
+
+<p><a href="http://uli-heller.github.com/images/centos">Foto-Gallerie</a></p>
+
+<h2>Netzwerk konfigurieren</h2>
+
+<p>Hierzu muß die Datei /etc/sysconfig/network-scripts/ifcfg-eth0
+angepasst werden:</p>
+
+<figure class='code'><figcaption><span>/etc/sysconfig/network-scripts/ifcfg-eth0 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">- ONBOOT=no</span>
+</span><span class='line'><span class="gi">+ ONBOOT=yes</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nach einem Reboot oder nach <code>/etc/init.d/network restart</code>
+ wird die Schnittstelle dann automatisch konfiguriert
+via DHCP. Mit <code>ifconfig eth0</code> kann man auch die IP-Adresse abfragen.</p>
+
+<h2>Aktualisierungen einspielen</h2>
+
+<p>Nachdem das Netzwerk konfiguriert ist, können mit <code>yum update</code>
+die Aktualisierungen eingespielt werden.</p>
+
+<h2>Zusatzpakete einspielen</h2>
+
+<h3>EPEL</h3>
+
+<ul>
+<li>Sichten von <a href="http://dl.fedoraproject.org/pub/epel/6/i386">http://dl.fedoraproject.org/pub/epel/6/i386</a></li>
+<li>Neueste Version von EPEL identifizieren: epel-release-6-8.noarch.rpm</li>
+<li>EPEL runterladen: <code>curl http://dl.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm &gt;epel-release-6-8.noarch.rpm</code></li>
+<li>EPEL installieren: <code>rpm -Uvh epel-release-6-8.noarch.rpm</code></li>
+</ul>
+
+
+<h3>Zusatzpakete</h3>
+
+<figure class='code'><figcaption><span>Zusatzpakete einspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>yum install openssh-clients
+</span><span class='line'>yum install joe
+</span><span class='line'>yum install httpd # apache httpd 2.2.15</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Sichtung von Apache HTTPD</h2>
+
+<h3>Version</h3>
+
+<p>Schon bei der Einspielung der Zusatzpakete wurde klar, dass vom
+Apache HTTPD die Version 2.2.15 verfügbar ist - ist also eine etwas ältere
+Version.</p>
+
+<h3>Module</h3>
+
+<p>Nun interessieren noch die verfügbaren Erweiterungsmodule. Diese liegen
+unter /etc/httpd/modules:</p>
+
+<ul>
+<li>mod_actions.so</li>
+<li>mod_alias.so</li>
+<li>mod_asis.so</li>
+<li>mod_auth_basic.so</li>
+<li>mod_auth_digest.so</li>
+<li>mod_authn_alias.so</li>
+<li>mod_authn_anon.so</li>
+<li>mod_authn_dbd.so</li>
+<li>mod_authn_dbm.so</li>
+<li>mod_authn_default.so</li>
+<li>mod_authn_file.so</li>
+<li>mod_authnz_ldap.so</li>
+<li>mod_authz_dbm.so</li>
+<li>mod_authz_default.so</li>
+<li>mod_authz_groupfile.so</li>
+<li>mod_authz_host.so</li>
+<li>mod_authz_owner.so</li>
+<li>mod_authz_user.so</li>
+<li>mod_autoindex.so</li>
+<li>mod_cache.so</li>
+<li>mod_cern_meta.so</li>
+<li>mod_cgid.so</li>
+<li>mod_cgi.so</li>
+<li>mod_dav_fs.so</li>
+<li>mod_dav.so</li>
+<li>mod_dbd.so</li>
+<li>mod_deflate.so</li>
+<li>mod_dir.so</li>
+<li>mod_disk_cache.so</li>
+<li>mod_dumpio.so</li>
+<li>mod_env.so</li>
+<li>mod_expires.so</li>
+<li>mod_ext_filter.so</li>
+<li>mod_filter.so</li>
+<li>mod_headers.so</li>
+<li>mod_ident.so</li>
+<li>mod_include.so</li>
+<li>mod_info.so</li>
+<li>mod_ldap.so</li>
+<li>mod_log_config.so</li>
+<li>mod_log_forensic.so</li>
+<li>mod_logio.so</li>
+<li>mod_mime_magic.so</li>
+<li>mod_mime.so</li>
+<li>mod_negotiation.so</li>
+<li>mod_proxy_ajp.so</li>
+<li>mod_proxy_balancer.so</li>
+<li>mod_proxy_connect.so</li>
+<li>mod_proxy_ftp.so</li>
+<li>mod_proxy_http.so</li>
+<li>mod_proxy_scgi.so</li>
+<li>mod_proxy.so</li>
+<li>mod_reqtimeout.so</li>
+<li>mod_rewrite.so</li>
+<li>mod_setenvif.so</li>
+<li>mod_speling.so</li>
+<li>mod_status.so</li>
+<li>mod_substitute.so</li>
+<li>mod_suexec.so</li>
+<li>mod_unique_id.so</li>
+<li>mod_userdir.so</li>
+<li>mod_usertrack.so</li>
+<li>mod_version.so</li>
+<li>mod_vhost_alias.so</li>
+</ul>
+
+
+<h3>Automatischer Start</h3>
+
+<figure class='code'><figcaption><span>Automatischer Start </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># chkconfig | grep httpd</span>
+</span><span class='line'>httpd             0:off   1:off   2:off   3:off   4:off   5:off   6:off
+</span><span class='line'><span class="c"># chkconfig httpd on</span>
+</span><span class='line'><span class="c"># chkconfig | grep httpd</span>
+</span><span class='line'>httpd             0:off   1:off   2:on    3:on    4:on    5:on    6:off
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Danach: Reboot und Test, ob der Prozess &#8220;httpd&#8221; läuft.</p>
+
+<h3>Firewall öffnen</h3>
+
+<figure class='code'><figcaption><span>/etc/sysconfig/iptables </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">--- iptables~   2013-06-26 08:07:03.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ iptables 2013-06-26 09:34:09.638267508 +0200</span>
+</span><span class='line'><span class="gu">@@ -8,6 +8,8 @@</span>
+</span><span class='line'> -A INPUT -p icmp -j ACCEPT
+</span><span class='line'> -A INPUT -i lo -j ACCEPT
+</span><span class='line'> -A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+</span><span class='line'><span class="gi">+-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT</span>
+</span><span class='line'><span class="gi">+-A INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT</span>
+</span><span class='line'> -A INPUT -j REJECT --reject-with icmp-host-prohibited
+</span><span class='line'> -A FORWARD -j REJECT --reject-with icmp-host-prohibited
+</span><span class='line'> COMMIT
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Danach dann Neustart der Firewall mit <code>/etc/init.d/iptables restart</code>.
+Jetzt sollte man im Browser die Begrüßungsseite sehen können:
+<a href="http://192.168.56.101">http://192.168.56.101</a>.</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/27/centos/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Gallerie - Installation von CentOS-6.4 in einer VM]]></title>
+<link href="http://uli-heller.github.com/2013/06/26/gallery/"/>
+<updated>2013-06-26T08:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/06/26/gallery</id>
+
+      <content type="html"><![CDATA[<p>Die nachfolgende Gallerie zeigt, wie ich CentOS-6.4 in einer
+VM installiert habe.</p>
+
+<p><a href="http://uli-heller.github.com/images/galleries/centos/001-new-vm.png" rel="shadowbox" title="001-new-vm"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/001-new-vm.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/002-new-vm.png" rel="shadowbox" title="002-new-vm"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/002-new-vm.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/003-new-vm.png" rel="shadowbox" title="003-new-vm"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/003-new-vm.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/004-new-vm-harddisk.png" rel="shadowbox" title="004-new-vm-harddisk"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/004-new-vm-harddisk.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/005-new-vm-harddisk.png" rel="shadowbox" title="005-new-vm-harddisk"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/005-new-vm-harddisk.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/006-new-vm-harddisk.png" rel="shadowbox" title="006-new-vm-harddisk"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/006-new-vm-harddisk.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/007-vm.png" rel="shadowbox" title="007-vm"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/007-vm.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/008-vm-boot-dvd.png" rel="shadowbox" title="008-vm-boot-dvd"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/008-vm-boot-dvd.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/009-boot-dvd.png" rel="shadowbox" title="009-boot-dvd"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/009-boot-dvd.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/010-booting-from-dvd.png" rel="shadowbox" title="010-booting-from-dvd"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/010-booting-from-dvd.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/011-skip-check.png" rel="shadowbox" title="011-skip-check"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/011-skip-check.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/012-welcome.png" rel="shadowbox" title="012-welcome"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/012-welcome.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/013-language.png" rel="shadowbox" title="013-language"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/013-language.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/014-keyboard.png" rel="shadowbox" title="014-keyboard"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/014-keyboard.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/015-init-hd.png" rel="shadowbox" title="015-init-hd"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/015-init-hd.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/016-timezone.png" rel="shadowbox" title="016-timezone"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/016-timezone.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/017-root.png" rel="shadowbox" title="017-root"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/017-root.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/018-root-is-too-short.png" rel="shadowbox" title="018-root-is-too-short"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/018-root-is-too-short.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/019-rootroot.png" rel="shadowbox" title="019-rootroot"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/019-rootroot.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/020-use-anyway.png" rel="shadowbox" title="020-use-anyway"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/020-use-anyway.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/021-partitioning.png" rel="shadowbox" title="021-partitioning"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/021-partitioning.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/022-write-to-disk.png" rel="shadowbox" title="022-write-to-disk"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/022-write-to-disk.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/023-installing.png" rel="shadowbox" title="023-installing"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/023-installing.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/024-booting.png" rel="shadowbox" title="024-booting"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/024-booting.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/025-login.png" rel="shadowbox" title="025-login"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/025-login.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/026-root-rootroot.png" rel="shadowbox" title="026-root-rootroot"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/026-root-rootroot.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/027-network.png" rel="shadowbox" title="027-network"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/027-network.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/028-yum-update.png" rel="shadowbox" title="028-yum-update"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/028-yum-update.png" /></a>
+<a href="http://uli-heller.github.com/images/galleries/centos/029-yum-update.png" rel="shadowbox" title="029-yum-update"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/029-yum-update.png" /></a></p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/26/gallery/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Ubuntu auf einem Macbook Air 2013]]></title>
+<link href="http://uli-heller.github.com/2013/06/24/macbook-air/"/>
+<updated>2013-06-24T05:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/06/24/macbook-air</id>
+
+      <content type="html"><![CDATA[<p>Bedingt durch die Probleme mit meinem Samsung-Notebook habe ich
+mir nun ein Macbook Air 2013 11 Zoll gegönnt. Erste Eindrücke habe
+ich mit Live-CDs und Ad-Hoc-Installationen gesammelt. Hier nun
+mein Weg zu einem &#8220;richtig&#8221; funktionierenden System.</p>
+
+<!-- more -->
+
+
+<h2>Erstellung eines Installationsmediums</h2>
+
+<p>Einfach das Mac-Iso von &#8220;Ubuntu-12.04.2, 64bit für Mac&#8221;
+auf einen USB-Stick schreiben mittels <code>dd</code>.</p>
+
+<h2>Anschließen der Test-Platte</h2>
+
+<p>Für die Installationstests habe ich eine externe USB-Festplatte
+angeschlossen. Es handelt sich dabei um eine etwas ältere SSD in
+einem USB3-Festplattengehäuse.</p>
+
+<h2>Starten der Installation</h2>
+
+<p>Den Stick an&#8217;s Macbook anschließen und beim Neustart die &#8220;Alt&#8221;-Taste
+gedrückt halten. Es erscheint eine Auswahl, bei der ich den Punkt
+&#8220;Windows&#8221; mit dem stilisierten USB-Medium angewählt habe. Danach startet
+das Installationsmedium wie gewohnt.</p>
+
+<h2>Durchführen der Installation</h2>
+
+<p>Die Installation läuft problemlos durch. Ich habe einfach darauf geachtet,
+dass</p>
+
+<ul>
+<li>die Installation die externe Platte als Ziel hat</li>
+<li>der Boot-Block von GRUB in den MasterBootRecord der externen Platte
+geschrieben wird</li>
+</ul>
+
+
+<h2>Durchführen der Aktualisierung</h2>
+
+<p>Zur Durchführung der Aktualisierung benötigt man eine Verbindung in&#8217;s
+Internet. Zunächst habe ich mit USB-WLAN-Karten rumgespielt:</p>
+
+<ul>
+<li>TP-Link TL-WN275N &#8230; hat auch nach längeren Experimenten nicht funktioniert</li>
+<li>ISY &#8230; hat sofort funktioniert, aber nach ein paar Minuten dann den
+Geist aufgegeben - jetzt funktioniert er auch an anderen Rechnern nicht mehr</li>
+</ul>
+
+
+<p>Dann bin ich auf einen USB-2-Ethernet-Adapter ausgewichen. Damit klappt&#8217;s
+ohne Probleme.</p>
+
+<h2>Inbetriebnahme des WLAN-Adapters</h2>
+
+<p>Mein Hauptproblem mit dem Macbook Air 2013 war der WLAN-Adapter.
+Die Standard-Varianten wie &#8220;Zusätzliche Treiber laden&#8221; haben bei
+mir nicht funktioniert.</p>
+
+<h3>Herunterladen der Quelldateien für &#8220;bcmwl-kernel-sources&#8221; von Saucy</h3>
+
+<p>Hier der <a href="https://launchpad.net/ubuntu/+source/bcmwl/6.30.223.30+bdcom-0ubuntu2">Link</a> zum Herunterladen. Es müssen 3 Dateien geladen werden:</p>
+
+<ul>
+<li>*.tar.gz</li>
+<li>*.diff.gz</li>
+<li>*.dsc</li>
+</ul>
+
+
+<h3>Erzeugen des DEB-Paketes</h3>
+
+<ul>
+<li><code>sudo apt-get build-dep bcmwl</code></li>
+<li><code>dpkg-source -x bcmwl*dsc</code></li>
+<li><code>cd bcmwl*bdcom</code></li>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<h3>Einspielen des DEB-Paketes</h3>
+
+<p>Das DEB-Paket habe ich eingespielt mit <code>dpkg -i bcmwl-kernel-source_6.30.223.30+bdcom-0ubuntu2_amd64.deb</code>. Die Installation blieb
+hängen bei &#8220;DKMS: install completed&#8221;, also habe ich sie abgebrochen mit Strg-C.</p>
+
+<p>Zur Sicherheit habe ich noch folgende Kommandos &#8220;nachgeschoben&#8221;:</p>
+
+<ul>
+<li><code>sudo update-initramfs -u</code></li>
+<li><code>sudo update-grub2</code></li>
+</ul>
+
+
+<p>Dann ein Neustart des Rechners, danach wird der WLAN-Adapter erkannt und
+kann konfiguriert werden.</p>
+
+<p>Hinweis: Beim zweiten Installieren hat&#8217;s ohne Hänger geklappt.</p>
+
+<h2>Probleme</h2>
+
+<h3>Systemstart mit &#8220;linux-generic-lts-raring&#8221; klappt nicht</h3>
+
+<p>Mit dem Kernel &#8220;linux-generic-lts-raring&#8221; habe ich beobachtet,
+dass der Start nicht klappt. Der Rechner bleibt hängen bei
+&#8220;Initiale Ramdisk wird geladen&#8230;&#8221;.</p>
+
+<p>Diesen Hänger habe ich auch einmal mit &#8220;linux-generic-lts-quantal&#8221;
+beobachtet.
+Danach habe ich den Raring-Kernel nochmal ausprobiert und
+er hat problemlos funktioniert.</p>
+
+<p>Eventuell liegt&#8217;s auch an der externen USB-Platte, die ich
+aktuell für meine Tests verwende. Der Start ist eh&#8217; etwas langsam
+- üblicherweise sieht man die ersten beiden Startzeilen ja kaum,
+bei mir verharrt der Boot-Vorgang hierbei aber grob 2 Sekunden.</p>
+
+<h3>Normaler Systemstart klappt nicht - &#8220;Wiederherstellungsmodus&#8221; ist angesagt</h3>
+
+<p>Der normale Systemstart funktioniert nicht,
+der Rechner bleibt mit schwarzem Bildschirm hängen.</p>
+
+<h4>Wiederherstellungsmodus</h4>
+
+<p>Die Auswahl des Wiederherstellungsmodus mit anschließendem &#8220;RESUME&#8221;
+funktioniert.</p>
+
+<h4>Textmodus</h4>
+
+<p>Die wohl bessere Lösung ist das Umstellen auf Textmodus.</p>
+
+<ul>
+<li>/etc/default/grub editieren - Zeile mit &#8220;#GRUB_TERMINAL=console&#8221; bearbeiten, genauer: Raute &#8216;#&#8217; entfernen</li>
+<li>`sudo update-grub2&#8217; ausführen</li>
+<li><code>sudo reboot</code> - Neustart sollte nun klappen</li>
+</ul>
+
+
+<h3>Installation von bcmwl-kernel-source_6.30.223.30+bdcom-0ubuntu2_amd64.deb bleibt hängen</h3>
+
+<ul>
+<li>Abbrechen mit Strg-C</li>
+<li><code>sudo update-initramfs -u</code></li>
+<li><code>sudo update-grub2</code></li>
+</ul>
+
+
+<h3>WLAN ist erst nach einer Minute betriebsbereit</h3>
+
+<p>Dieses Problem habe ich bislang erst einmal beobachtet. Irgendwo
+habe ich auch schonmal eine Lösung entdeckt. Wenn&#8217;s häufiger auftritt,
+dann beschreibe ich die Korrektur hier.</p>
+
+<h3>Vertauschte Tasten</h3>
+
+<p>Diese Tasten sind vertauscht:</p>
+
+<ul>
+<li>&#8220;Kleiner-Größer-Pipe&#8221; - links neben dem &#8220;Y&#8221;</li>
+<li>&#8220;Dächlein-Kreis&#8221; - links neben der &#8220;1&#8221;</li>
+</ul>
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/24/macbook-air/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[150Mbps Wireless N Nano USB Adapter TP-Link TL-WN725N]]></title>
+<link href="http://uli-heller.github.com/2013/06/19/tl-wn725n/"/>
+<updated>2013-06-19T12:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/06/19/tl-wn725n</id>
+
+      <content type="html"><![CDATA[<p>Da bei meinem Macbook Air 2013 das WLAN nicht funktioniert, habe ich
+mir einen Nano-USB-Adapter gekauft und plane, damit die Zeit zu überbrücken
+bis ein Treiber für den internen WLAN-Adapter verfügbar ist. Leider
+funktioniert der USB-Adapter erstmal auch nicht.</p>
+
+<!-- more -->
+
+
+<h2>Einstecken und Sichten</h2>
+
+<p>Einfaches Einstecken und Sichten bringt leider keinen sonderlich tollen
+Erfolg.</p>
+
+<ul>
+<li><code>ifconfig -a</code> &#8230; zeigt keine neue Schnittstelle an</li>
+<li><code>tail /var/log/syslog</code> &#8230; ist auch wenig aussagekräftig</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>/var/log/syslog </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>Jun 19 06:54:46 . usb 2-1.2: new high-speed USB device number 5 using ehci-pci
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: New USB device found, idVendor=0bda, idProduct=8179
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: New USB device strings: Mfr=1, Product=2, SerialNumJur=3
+</span><span class='line'>Jun 19 06:54.46 . usb 2-1.2: Product: 802.11n NIC
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: Manufacturer: Realtek
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: SerialNumber: 00E04C0001</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Zusätzliche Treiber</h2>
+
+<p>Der nächste Versuch: &#8220;Zusätzliche Treiber&#8221; bei den Systemeinstellungen.
+Leider wird auch bei eingestecktem Adapter kein zusätzlicher Treiber angezeigt.</p>
+
+<h2>Bestehendes Kernel-Modul r8192u_usb</h2>
+
+<p>Sichtung der geladenen und der verfügbaren Kernel-Module. Ich &#8220;weiß&#8221;, dass
+die RALINK-Module üblicherweise mit &#8220;r8&#8221; im Namen beginnen:</p>
+
+<ul>
+<li>`lsmod|grep r8&#8217; &#8230; r8169</li>
+<li><p><code>cd /lib/modules; find . -name "r8*"</code></p>
+
+<pre><code>./3.8.0-25-generic/kernel/drivers/mtd/nand/r852.ko
+./3.8.0-25-generic/kernel/drivers/net/ethernet/realtek/r8169.ko
+./3.8.0-25-generic/kernel/drivers/usb/gadget/r8a66597-udc.ko
+./3.8.0-25-generic/kernel/drivers/usb/host/r8a66597-hcd.ko
+./3.8.0-25-generic/kernel/drivers/staging/rtl8192e/rtl8192e/r8192e_pci.ko
+./3.8.0-25-generic/kernel/drivers/staging/rtl8187se/r8187se.ko
+./3.8.0-25-generic/kernel/drivers/staging/rtl8192u/r8192u_usb.ko
+./3.8.0-25-generic/kernel/drivers/staging/rtl8712/r8712u.ko
+</code></pre></li>
+</ul>
+
+
+<p>Hiervon sieht der &#8220;r8192u_usb.ko&#8221; am vielversprechendsten aus.
+Ich lade ihn manuell mit <code>sudo modprobe r8192u_usb</code>. Leider bringt
+das keine Verbesserung, der WLAN-Adapter bleibt &#8220;unsichtbar&#8221; - auch
+nach erneutem Aus- und Einstecken.</p>
+
+<h2>Bestehendes Kernel-Modul rtl8192cu</h2>
+
+<p>Keine Besserung.</p>
+
+<h2>Bestehendes Kernel-Modul rtl8150</h2>
+
+<p>Keine Besserung.</p>
+
+<h2>Treiber von der Realtek-Webseite</h2>
+
+<ul>
+<li><a href="http://www.r-statistics.com/2011/11/edimax-ew-7811un-usb-wireless-connecting-to-a-network-on-ubuntu-11-10/">Anleitung</a></li>
+<li><a href="http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&amp;PNid=48&amp;PFid=48&amp;Level=5&amp;Conn=4&amp;DownTypeID=3&amp;GetDown=false&amp;Downloads=true#2742">Realtek</a></li>
+<li>Datei: RTL8192xC_USB_linux_v3.4.4_4749.20121105.zip</li>
+</ul>
+
+
+<p>Die Kompilierung bricht unter dem 3.8-er-Kernel ab mit Fehlermeldungen.</p>
+
+<h2>Treiber von GitHub</h2>
+
+<ul>
+<li><a href="http://forum.ubuntuusers.de/topic/problem-mit-usb-adapter-tp-link-tl-wn725n-v2/#post-5536902">Anleitung</a></li>
+</ul>
+
+
+<p>Die Kompilierung bricht unter dem 3.8-er-Kernel ab mit Fehlermeldungen. Diese Fehlermeldungen kann man noch umgehen, indem man die Quelltexte leicht variiert. Leider kann das frisch erzeugte Modul anschließend nicht geladen werden wegen unaufgelöster Referenzen (&#8220;daemonize&#8221; und &#8220;kernel_thread&#8221;).</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/19/tl-wn725n/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Ubuntu auf einem Macbook Air - erste Eindrücke]]></title>
+<link href="http://uli-heller.github.com/2013/06/16/macbook-air/"/>
+<updated>2013-06-16T12:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/06/16/macbook-air</id>
+
+      <content type="html"><![CDATA[<p>Bedingt durch die Probleme mit meinem Samsung-Notebook habe ich
+mir nun ein Macbook Air 2013 11 Zoll gegönnt.</p>
+
+<!-- more -->
+
+
+<h2>Ubuntu-12.04.2 Live CD auf Macbook Air 2011</h2>
+
+<p>Einfach das Mac-Iso auf einen USB-Stick schreiben mittels @dd@,
+den Stick an&#8217;s Macbook anschließen und beim Neustart die &#8220;Alt&#8221;-Taste
+gedrückt halten.</p>
+
+<p>Das Macbook startet völlig problemlos. Alles scheint zu funktionieren,
+sogar die WLAN-Karte.</p>
+
+<h2>Ubuntu-12.04.2 Live CD auf Macbook Air 2013</h2>
+
+<p>Vorgehen wie zuvor. Bereits beim Start fällt auf, dass der &#8220;Splash-Screen&#8221;
+mit dem Ubuntu-Logo nur in Textdarstellung erscheint. WLAN funktioniert
+nicht und beim Versuch, den proprietären Treiber zu aktivieren stürzt der
+Kernel ab.</p>
+
+<h2>Ubuntu-13.04 Live CD auf Macbook Air 2013</h2>
+
+<p>Vorgehen wie zuvor, nur mit der 13.04-CD. Der Start sieht wesentlich besser
+aus - eigentlich genauso, wie bei 12.04.2 mit dem alten Macbook Air. Der
+&#8220;Splash Screen&#8221; erscheint in graphischer Form.</p>
+
+<p>Leider funktioniert die WLAN-Karte im Live-CD-Modus nicht. Der proprietäre
+Treiber wird auch nicht zum Nachladen angeboten.</p>
+
+<h2>Ubuntu-12.04.2 Test-Installation auf Macbook Air 2013</h2>
+
+<p>Die Test-Installation verläuft weitgehend problemlos.
+Der Start des installierten Systems funktioniert aber erstmal nicht, der
+Bildschirm bleibt nach dem Grub-Menü einfach schwarz.
+Über den Zwischenschritt &#8220;recovery mode&#8221; läßt sich der Desktop
+aber normal starten.</p>
+
+<p>Im Desktop fällt auf:</p>
+
+<ul>
+<li>die &#8220;Kleiner-Größer-Pipe-Taste&#8221; ist vertauscht mit der
+&#8220;Kreis-Dächlein-Taste&#8221; links neben der &#8220;1&#8221;.</li>
+<li>die Funktionstasten zur Änderung der Helligkeit, &#8230; funktionieren
+nicht</li>
+</ul>
+
+
+<p>Da der WLAN-Adapter nicht funktioniert, kann ich aber</p>
+
+<ul>
+<li>keine Updates einspielen</li>
+<li>keine proprietären Treiber installieren</li>
+</ul>
+
+
+<p>Bin also erstmal &#8220;ausgebremst&#8221;.</p>
+
+<h2>Ubuntu-12.04.2 Test-Installation auf Macbook Air 2011</h2>
+
+<p>Hierfür habe ich einfach die Test-Installation vom Macbook Air 2013
+genommen und an das ältere Macbook Air drangestöpselt.</p>
+
+<ul>
+<li>Der Start ist ähnlich wie beim 2013-er-Modell: Bildschirm bleibt schwarz</li>
+<li><p>Recovery-Mode: Bleibt hängen mit</p>
+
+<pre><code>Loading Linux 3.5.0-23-generic ...
+Loading initial ramdisk
+</code></pre></li>
+</ul>
+
+
+<p>Die Laufwerkslampe blinkt dabei permanent. Nachdem sich in 15 Minuten keine
+Änderung getan hat, habe ich den Boot-Vorgang abgebrochen.</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/16/macbook-air/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -2035,579 +2650,6 @@ freigeschaltet werden.</p>
 
 <p>Prima, das erspart mir künftig einiges an Rumklickerei im Browser.</p>
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/21/herunterladen-des-https-server-zertifikats/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Dovecot: Aktualisierung mit Pigeonhole]]></title>
-<link href="http://uli-heller.github.com/2013/04/19/pigeonhole/"/>
-<updated>2013-04-19T06:00:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/04/19/pigeonhole</id>
-
-      <content type="html"><![CDATA[<h1>Dovecot: Aktualisierung des Debian-Paketes mit Pigeonhole</h1>
-
-<p>Gestern oder heute wurde die Version 2.2.1 von Dovecot veröffentlicht.
-Natürlich habe ich gleich versucht, mein Debian-Paket zu aktualisieren:</p>
-
-<ul>
-<li><code>cd .../dovecot-2.2.0</code></li>
-<li><code>uupdate -u ../dovecot-2.2.1.tar.gz</code></li>
-<li><code>cd ../dovecot-2.2.1</code></li>
-<li><code>dpkg-buildpackage</code></li>
-</ul>
-
-
-<p>Dummerweise klappt das nicht! Pigeonhole scheint zu fehlen, so dass
-schon die Anwendung der Quilt-Patches scheitert.</p>
-
-<!-- more -->
-
-
-<p>Mein Dovecot-Debian-Paket beinhaltet u.a. auch Pigeonhole.
-Pigeonhole wird separat zum Herunterladen angeboten, im Debian-Paket
-erscheint es aber als Patch unterhalb von debian/patches. Das ist ein
-gewisses Problem, weil man das heruntergeladene Paket dann immer erst
-in einen Patch umwandeln muß.</p>
-
-<p>Deshalb mein Ziel: Ich würde das Pigeonhole-Paket gerne möglichst
-unverändert in&#8217;s Dovecot-Debian-Paket einbinden!</p>
-
-<!-- more -->
-
-
-<h2>Ausgangspunkt</h2>
-
-<p>Ausgangspunkt ist das bestehende Dovecot-Debian-Paket in der Version 2.2.0.
-Es kann mit <code>dpkg-buildpackage</code> neu erzeugt werden.</p>
-
-<p>Wir wissen, dass es eine neue Version 2.2.1 von Dovecot gibt. Die haben wir
-auch schon heruntergeladen. Von Pigeonhole gibt es keine neue Version, also
-verwenden wir die alte einfach weiter.</p>
-
-<h2>Pigeonhole vorbereiten</h2>
-
-<ul>
-<li><code>cp dovecot_2.2.0.orig-pigeonhole.tar.bz2  dovecot_2.2.1.orig-pigeonhole.tar.bz2</code></li>
-</ul>
-
-
-<h2>Dovecot vorbereiten</h2>
-
-<ul>
-<li><code>cd .../dovecot-2.2.0</code></li>
-<li><code>dpkg-buildpackage -u ../dovecot-2.2.1.tar.gz</code></li>
-<li><code>cd ../dovecot-2.2.1</code></li>
-</ul>
-
-
-<h2>Dovecot/Pigeonhole sichten</h2>
-
-<p>Prüfen: Gibt es innerhalb des Dovecot-Verzeichnisses nun ein Verzeichnis für
-Pigeonhole? -> Nein!</p>
-
-<h2>Pigeonhole auspacken und umbenennen</h2>
-
-<ul>
-<li><code>bzip2 -cd ../dovecot_2.2.1.orig-pigeonhole.tar.bz2|tar xf -</code></li>
-<li><code>mv dovecot-2-2-pigeonhole-70f0b7140939 pigeonhole</code></li>
-</ul>
-
-
-<h2>Dovecot neu erzeugen</h2>
-
-<ul>
-<li><code>dpkg-buildpackage</code></li>
-</ul>
-
-
-<p>Nun klappt&#8217;s!</p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/19/pigeonhole/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Pigeonhole für für mein Debian-Paket von Dovecot]]></title>
-<link href="http://uli-heller.github.com/2013/04/15/pigeonhole/"/>
-<updated>2013-04-15T06:00:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/04/15/pigeonhole</id>
-
-      <content type="html"><![CDATA[<h1>Dovecot: Einbinden von Pigeonhole</h1>
-
-<p>Mein Dovecot-Debian-Paket beinhaltet u.a. auch Pigeonhole.
-Pigeonhole wird separat zum Herunterladen angeboten, im Debian-Paket
-erscheint es aber als Patch unterhalb von debian/patches. Das ist ein
-gewisses Problem, weil man das heruntergeladene Paket dann immer erst
-in einen Patch umwandeln muß.</p>
-
-<p>Deshalb mein Ziel: Ich würde das Pigeonhole-Paket gerne möglichst
-unverändert in&#8217;s Dovecot-Debian-Paket einbinden!</p>
-
-<!-- more -->
-
-
-<h2>Ausgangspunkt</h2>
-
-<p>Ausgangspunkt ist das bestehende Dovecot-Debian-Paket. Es kann mit
-<code>dpkg-buildpackage</code> neu erzeugt werden.</p>
-
-<h2>Pakete herunterladen</h2>
-
-<ul>
-<li><a href="http://dovecot.org/releases/2.2/dovecot-2.2.0.tar.gz">Dovecot-2.2.0</a></li>
-<li><a href="http://hg.rename-it.nl/dovecot-2.2-pigeonhole/archive/tip.tar.bz2">Pigeonhole für Dovecot-2.2.0</a></li>
-</ul>
-
-
-<h2>Dovecot-Debian-Paket anpassen auf neue Version</h2>
-
-<ul>
-<li><code>uupdate -u ../dovecot-2.2.0.tar.gz -v 2:2.2.0</code></li>
-<li><code>cd ../dovecot-2.2.0</code></li>
-</ul>
-
-
-<h2>Verweise auf Pigeonhole-Patch entfernen</h2>
-
-<ul>
-<li><code>cd ./dovecot-2.2.0</code></li>
-<li><code>rm debian/patches/pigeonhole.patch</code></li>
-<li><code>sed -i "s/pigeonhole.patch/#pigeonhole.patch/" debian/patches/series</code></li>
-</ul>
-
-
-<h2>Verwendung des Pigeonhole-Paketes vorbereiten</h2>
-
-<ul>
-<li><code>cp dovecot-2-2-pigeonhole-70f0b7140939.tar.bz2 dovecot_2.2.0.orig-pigeonhole.tar.bz2</code></li>
-<li><code>cd ./dovecot-2.2.0</code></li>
-<li><code>mkdir pigeonhole</code></li>
-<li><code>tar -C pigeonhole --strip-components=1 -jxf ../dovecot_2.2.0.orig-pigeonhole.tar.bz2</code></li>
-</ul>
-
-
-<h2>Paket neu erzeugen</h2>
-
-<ul>
-<li><code>cd ./dovecot-2.2.0</code></li>
-<li><code>dpkg-buildpackage</code></li>
-</ul>
-
-
-<h2>Links</h2>
-
-<ul>
-<li><a href="http://raphaelhertzog.com/2010/09/07/how-to-use-multiple-upstream-tarballs-in-debian-source-packages/">http://raphaelhertzog.com/2010/09/07/how-to-use-multiple-upstream-tarballs-in-debian-source-packages/</a></li>
-</ul>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/15/pigeonhole/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Quilt für mein Debian-Paket von Git]]></title>
-<link href="http://uli-heller.github.com/2013/04/14/quilt-fuer-gitdeb/"/>
-<updated>2013-04-14T12:00:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/04/14/quilt-fuer-gitdeb</id>
-
-      <content type="html"><![CDATA[<h1>Quilt: Umstellung der Patchverwaltung meines Git-Debian-Paketes auf Quilt</h1>
-
-<p>Mein Git-Debian-Paket verwendet bislang keine vernünftige Patchverwaltung.
-Stattdessen werden bei der Erzeugung des Paketes einfach alle Patches
-unterhalb von debian/diff der Reihe nach angewandt. Blöderweise fallen so
-gescheiterte Patchanwendungen nicht auf, außerdem werden im Source-Paket
-teilweise Original-Dateien modifiziert - vermutlich weil einige Patches
-nicht sauber zurückgerollt werden.</p>
-
-<p>Also: Ich will Quilt haben!</p>
-
-<!-- more -->
-
-
-<h2>Sichtung des Debian-Paketes von Subversion</h2>
-
-<ul>
-<li>Patches liegen unter debian/patches und nicht unter debian/diff</li>
-<li>Es gibt eine Datei namens debian/patches/series, die alle Patches auflistet</li>
-<li>In debian/rules sind einige Änderungen vorzunehmen</li>
-</ul>
-
-
-<p>Die ersten beiden Punkte sind schnell erledigt:</p>
-
-<ul>
-<li><code>mv debian/diff debian/patches</code></li>
-<li><code>cd debian/patches; (ls|grep -v series) &gt;series</code></li>
-</ul>
-
-
-<p>Bleibt noch die Anpassung von debian/rules!</p>
-
-<h2>Anpassungen an &#8220;debian/rules&#8221;</h2>
-
-<p>An der Datei &#8220;debian/rules&#8221; müssen qualitativ diese Änderungen vorgenommen
-werden:</p>
-
-<ul>
-<li>Einbinden der Datei /usr/share/quilt/quilt.make</li>
-<li>Ziele &#8220;patch&#8221; und &#8220;patch-stamp&#8221; entfernen</li>
-<li>Ziele &#8220;debian/stamp-autogen&#8221; und &#8220;debian/stamp-configure&#8221; neu aufnehmen
-Bei &#8220;debian/stamp-configure&#8221; wird ein Verweis auf &#8220;patches&#8221; angelegt</li>
-<li>Verweise auf &#8220;patch-stamp&#8221; ersetzen durch &#8220;$(QUILT_STAMPFN)&#8221;</li>
-<li>Im Ziel &#8220;clean&#8221; diese Änderungen vornehmen:
-
-<ul>
-<li>Neue Abhängigkeit zu &#8220;unpatch&#8221; festlegen</li>
-<li>Neuer Aufruf: dh_testdir</li>
-<li>Neuer Aufruf: dh_clean</li>
-<li>Verweis auf &#8220;patches&#8221; löschen</li>
-<li>Manuelle Logik zum Zurücknehmen der Patches entfernen</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Die Änderungen sind im nachfolgenden DIFF zusammengefasst.</p>
-
-<figure class='code'><figcaption><span>Anpassungen an debian/rules </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">--- ../git-1.8.2.1_ok/debian/rules  2013-04-13 19:55:00.061153212 +0200</span>
-</span><span class='line'><span class="gi">+++ debian/rules 2013-04-14 09:36:24.782564149 +0200</span>
-</span><span class='line'><span class="gu">@@ -37,19 +37,30 @@</span>
-</span><span class='line'> TMP =$(shell pwd)/tmp
-</span><span class='line'> GIT =$(shell pwd)/debian/git
-</span><span class='line'>
-</span><span class='line'><span class="gd">-patch: deb-checkdir patch-stamp</span>
-</span><span class='line'><span class="gd">-patch-stamp:</span>
-</span><span class='line'><span class="gd">-    cp gitk-git/gitk gitk-git/gitk.uli.orig</span>
-</span><span class='line'><span class="gd">-    for i in `ls -1 debian/diff/*.diff debian/diff/*.patch \</span>
-</span><span class='line'><span class="gd">-        2&gt;/dev/null || :`; do \</span>
-</span><span class='line'><span class="gd">-      patch -p1 -N -r- &lt;$$i || test $$? = 1 || exit 1; \</span>
-</span><span class='line'><span class="gd">-    done</span>
-</span><span class='line'><span class="gd">-    touch patch-stamp</span>
-</span><span class='line'><span class="gi">+include /usr/share/quilt/quilt.make</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+debian/stamp-autogen:   $(QUILT_STAMPFN)</span>
-</span><span class='line'><span class="gi">+    $(DONT_BE_ROOT)</span>
-</span><span class='line'><span class="gi">+    ./autogen.sh</span>
-</span><span class='line'><span class="gi">+    touch $@</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+debian/stamp-configure: $(QUILT_STAMPFN) debian/stamp-autogen</span>
-</span><span class='line'><span class="gi">+    dh_testdir</span>
-</span><span class='line'><span class="gi">+    test -e patches || ln -s debian/patches patches</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+#patch: deb-checkdir patch-stamp</span>
-</span><span class='line'><span class="gi">+#patch-stamp:</span>
-</span><span class='line'><span class="gi">+#   cp gitk-git/gitk gitk-git/gitk.uli.orig</span>
-</span><span class='line'><span class="gi">+#   for i in `ls -1 debian/diff/*.diff debian/diff/*.patch \</span>
-</span><span class='line'><span class="gi">+#       2&gt;/dev/null || :`; do \</span>
-</span><span class='line'><span class="gi">+#     patch -p1 -N -r- &lt;$$i || test $$? = 1 || exit 1; \</span>
-</span><span class='line'><span class="gi">+#   done</span>
-</span><span class='line'><span class="gi">+#   touch patch-stamp</span>
-</span><span class='line'>
-</span><span class='line'> build: build-arch build-indep
-</span><span class='line'>
-</span><span class='line'> build-arch: deb-checkdir build-arch-stamp
-</span><span class='line'><span class="gd">-build-arch-stamp: patch-stamp</span>
-</span><span class='line'><span class="gi">+build-arch-stamp: $(QUILT_STAMPFN)</span>
-</span><span class='line'>  -$(CC) -v
-</span><span class='line'>  DESTDIR=&#39;$(GIT)&#39; $(MAKE) all $(OPTS)
-</span><span class='line'>  cd contrib/subtree; DESTDIR=&#39;$(GIT)&#39; $(MAKE) all $(OPTS)
-</span><span class='line'><span class="gu">@@ -66,7 +77,7 @@</span>
-</span><span class='line'>  touch build-arch-stamp
-</span><span class='line'>
-</span><span class='line'> build-indep: deb-checkdir build-indep-stamp
-</span><span class='line'><span class="gd">-build-indep-stamp: patch-stamp build-arch-stamp</span>
-</span><span class='line'><span class="gi">+build-indep-stamp: $(QUILT_STAMPFN) build-arch-stamp</span>
-</span><span class='line'>  : &#39;Work around bug #478524&#39;
-</span><span class='line'>  set -e; if test &#39;$(BUILD_DOCS)&#39; = 1; \
-</span><span class='line'>  then \
-</span><span class='line'><span class="gu">@@ -74,14 +85,17 @@</span>
-</span><span class='line'>  fi
-</span><span class='line'>  touch build-indep-stamp
-</span><span class='line'>
-</span><span class='line'><span class="gd">-clean: deb-checkdir</span>
-</span><span class='line'><span class="gi">+clean: deb-checkdir unpatch</span>
-</span><span class='line'><span class="gi">+    dh_testdir</span>
-</span><span class='line'><span class="gi">+    dh_clean</span>
-</span><span class='line'><span class="gi">+    $(RM) patches   </span>
-</span><span class='line'>  $(MAKE) clean $(OPTS)
-</span><span class='line'>  cd contrib/subtree; $(MAKE) clean $(OPTS)
-</span><span class='line'><span class="gd">-    ! test -e patch-stamp || \</span>
-</span><span class='line'><span class="gd">-      for i in `ls -1r debian/diff/*.diff debian/diff/*.patch \</span>
-</span><span class='line'><span class="gd">-          2&gt;/dev/null || :`; do \</span>
-</span><span class='line'><span class="gd">-        patch -p1 -NR -r- &lt;$$i || test $$? = 1 || exit 1; \</span>
-</span><span class='line'><span class="gd">-      done</span>
-</span><span class='line'><span class="gi">+#   ! test -e patch-stamp || \</span>
-</span><span class='line'><span class="gi">+#     for i in `ls -1r debian/diff/*.diff debian/diff/*.patch \</span>
-</span><span class='line'><span class="gi">+#         2&gt;/dev/null || :`; do \</span>
-</span><span class='line'><span class="gi">+#       patch -p1 -NR -r- &lt;$$i || test $$? = 1 || exit 1; \</span>
-</span><span class='line'><span class="gi">+#     done</span>
-</span><span class='line'>  rm -rf &#39;$(TMP)&#39;
-</span><span class='line'>  rm -f patch-stamp build-arch-stamp build-indep-stamp
-</span><span class='line'>  rm -rf &#39;$(GIT)&#39; &#39;$(GIT)&#39;-doc &#39;$(GIT)&#39;-arch &#39;$(GIT)&#39;-cvs
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Neuerzeugung des Paketes</h2>
-
-<p>Nun kann versucht werden, das Paket neu zu erzeugen mit <code>dpkg-buildpackage</code>.
-Erwartungsgemäß scheitert die Erzeugung, weil einige Patches nicht sauber
-durchlaufen. Korrigiert habe ich das so:</p>
-
-<ul>
-<li>In &#8220;debian/patches/series&#8221; folgende Patches deaktiviert:
-
-<ul>
-<li>0005-gitk-use-symbolic-font-names-sans-and-monospace-when-.diff</li>
-<li>0006-gitk-Skip-over-AUTHOR-COMMIT_DATE-when-searching-all-.diff</li>
-</ul>
-</li>
-<li>Bei allen übrigen Patches:
-
-<ul>
-<li><code>quilt push -f</code></li>
-<li><code>quilt refresh</code></li>
-<li><code>dpkg-buildpackage</code></li>
-<li>&#8230; so oft wiederholen, bis es durchläuft</li>
-</ul>
-</li>
-</ul>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/14/quilt-fuer-gitdeb/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Git Subtree (1/2)]]></title>
-<link href="http://uli-heller.github.com/2013/04/12/git-subtree/"/>
-<updated>2013-04-12T07:14:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/04/12/git-subtree</id>
-
-      <content type="html"><![CDATA[<h1>Git Subtree - Neues DEB-Paket bereitstellen</h1>
-
-<h2>Einleitung</h2>
-
-<p>Kurze Erklärung: Warum will ich&#8217;s verwenden? Warum kann ich&#8217;s nicht
-direkt verwenden?</p>
-
-<p>Leider ist <code>git subtree</code> in den von mir verwendeten Pakete standardmässig
-nicht aktiv:</p>
-
-<figure class='code'><figcaption><span>git-subtree fehlt </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
-</span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Entweder wir aktivieren es manuell oder wir bauen neue Pakete, bei denen <code>git subtree</code> aktiviert ist.</p>
-
-<h2>Manuelles Aktivieren von Git Subtree</h2>
-
-<figure class='code'><figcaption><span>git-subtree manuell installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
-</span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
-</span><span class='line'><span class="nv">$ </span>sudo cp /usr/share/doc/git/contrib/subtree/git-subtree.sh /usr/lib/git-core/git-subtree
-</span><span class='line'><span class="nv">$ </span>sudo chmod +x  /usr/lib/git-core/git-subtree
-</span><span class='line'><span class="nv">$ </span>git subtree
-</span><span class='line'>usage: git subtree add   --prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
-</span><span class='line'>   or: git subtree add   --prefix<span class="o">=</span>&lt;prefix&gt; &lt;repository&gt; &lt;commit&gt;
-</span><span class='line'>   or: git subtree merge --prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
-</span><span class='line'>...
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nachteil beim manuellen Aktivieren: Es gibt keine Online-Dokumentation,
-d.h. <code>git help subtree</code> läuft in&#8217;s Leere.</p>
-
-<h2>Erzeugung neuer DEB-Pakete</h2>
-
-<ul>
-<li>Ausgangspunkt: Build-Verzeichnis für Git-1.8.2.1 liegt vor, d.h. ich
-kann mit <code>dpkg-buildpackage</code> neue DEB-Pakete erzeugen</li>
-<li>Sichtung: Wie funktioniert die Einbindung von &#8220;subtree&#8221;?
-
-<ul>
-<li>Die Implementierung liegt unter contrib/subtree</li>
-<li>Eine Einspielanleitung gibt&#8217;s dort auch</li>
-<li>Diese müssen wir &#8220;eigentlich&#8221; nur noch in debian/rules einbauen
-und fertig!</li>
-</ul>
-</li>
-<li>Also: Änderungen an debian/changelog und debian/rules durchführen und
-los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
-<li>Sichtung: Ist git-subtree in den erstellten Paketen enthalten?
-
-<ul>
-<li><code>dpkg-deb -c git_1.8.2.1*deb|grep git-core/git-subtree</code></li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Probleme</h3>
-
-<h4>Falscher Installationspfad</h4>
-
-<ul>
-<li>Verwendet wird: /build/git/git-1.8.2.1/debian/git/usr/libexec/git-core</li>
-<li>Richtig wäre:  /build/git/git-1.8.2.1/debian/git/usr/lib/git-core</li>
-<li>Korrektur durch: Setzen von libexecdir in debian/rules</li>
-</ul>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/12/git-subtree/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[GPG: Signaturen]]></title>
-<link href="http://uli-heller.github.com/2013/04/03/gpg-signaturen/"/>
-<updated>2013-04-03T15:00:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/04/03/gpg-signaturen</id>
-
-      <content type="html"><![CDATA[<h1>GPG/PGP-Signatur von Quelltext-Dateien prüfen</h1>
-
-<p>Quelltextdateien werden oftmals mit GPG/PGP-Signaturen bereitgestellt, über die die Integrität der Dateien geprüft werrden kann. Hier zeige ich exemplarisch, wie dies für Subversion und Nginx gemacht wird.</p>
-
-<!-- more -->
-
-
-<h2>Subversion</h2>
-
-<ol>
-<li><p>Quelltext herunterladen: <code>wget http://mirror.serversupportforum.de/apache/subversion/subversion-1.7.9.tar.gz</code></p></li>
-<li><p>Signatur herunterladen: <code>wget http://www.apache.org/dist/subversion/subversion-1.7.9.tar.gz.asc</code></p></li>
-<li><p>Schlüssel importieren: <code>wget -O - https://people.apache.org/keys/group/subversion.asc|gpg --import</code></p></li>
-<li><p>Signatur prüfen: <code>gpg subversion-1.7.9.tar.gz.asc</code></p></li>
-</ol>
-
-
-<h2>Nginx</h2>
-
-<ol>
-<li><p>Quelltexte herunterladen: <code>wget -O - http://nginx.org/download/nginx-1.2.8.tar.gz|gzip -cd &gt;nginx-1.2.8.tar.gz</code></p>
-
-<p>Hinweis: Dieses umständliche Vorgehen ist notwendig, weil die Version 1.2.8 aus unerfindlichen Gründen &#8220;doppelt komprimiert&#8221; ist!</p></li>
-<li><p>Signatur herunterladen: <code>wget http://nginx.org/download/nginx-1.2.8.tar.gz.asc</code></p></li>
-<li><p>Signatur prüfen: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
-
-<p>Klappt nicht: Es wird gemeckert weil der zugehörige RSA-Schlüssel fehlt</p></li>
-<li><p>Schlüssel importieren - auf eine der folgenden Arten:</p>
-
-<ul>
-<li><p>Vom Keyserver: <code>gpg --keyserver pgpkeys.mit.edu --recv-key A1C052F8</code></p></li>
-<li><p>Mittels manuellem Download: <code>wget -O - http://nginx.org/keys/mdounin.key|gzip -cd|gpg --import</code></p></li>
-</ul>
-
-
-<p>Ich hab&#8217;s auf beide Arten gemacht und dabei überprüft, dass der Schlüssel identisch ist!</p></li>
-<li><p>Erneuter Test: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
-
-<p>Klappt halbwegs!</p></li>
-</ol>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/03/gpg-signaturen/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>
