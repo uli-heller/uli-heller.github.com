@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Ubuntu auf einem Macbook Air 2013"
 date: 2013-06-24 05:00
-updated: 2013-06-25 06:00
+updated: 2013-06-27 06:00
 comments: true
 categories: 
 - Linux
@@ -99,7 +99,37 @@ Hinweis: Beim zweiten Installieren hat's ohne Hänger geklappt.
 
 ### Systemstart mit "linux-generic-lts-raring" klappt nicht
 
+Mit dem Kernel "linux-generic-lts-raring" habe ich beobachtet,
+dass der Start nicht klappt. Der Rechner bleibt hängen bei
+"Initiale Ramdisk wird geladen...".
+
+Diesen Hänger habe ich auch einmal mit "linux-generic-lts-quantal"
+beobachtet.
+Danach habe ich den Raring-Kernel nochmal ausprobiert und
+er hat problemlos funktioniert.
+
+Eventuell liegt's auch an der externen USB-Platte, die ich
+aktuell für meine Tests verwende. Der Start ist eh' etwas langsam
+- üblicherweise sieht man die ersten beiden Startzeilen ja kaum,
+bei mir verharrt der Boot-Vorgang hierbei aber grob 2 Sekunden.
+
 ### Normaler Systemstart klappt nicht - "Wiederherstellungsmodus" ist angesagt
+
+Der normale Systemstart funktioniert nicht,
+der Rechner bleibt mit schwarzem Bildschirm hängen.
+
+#### Wiederherstellungsmodus
+
+Die Auswahl des Wiederherstellungsmodus mit anschließendem "RESUME"
+funktioniert.
+
+#### Textmodus
+
+Die wohl bessere Lösung ist das Umstellen auf Textmodus.
+
+* /etc/default/grub editieren - Zeile mit "#GRUB_TERMINAL=console" bearbeiten, genauer: Raute '#' entfernen
+* `sudo update-grub2' ausführen
+* `sudo reboot` - Neustart sollte nun klappen
 
 ### Installation von bcmwl-kernel-source_6.30.223.30+bdcom-0ubuntu2_amd64.deb bleibt hängen
 
