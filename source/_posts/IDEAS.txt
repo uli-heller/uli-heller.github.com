@@ -88,3 +88,10 @@ CHROME
 * http://dev.hubspot.com/blog/bulletproof-demos
   chrome --args --record-mode
   chrome --args --playback-mode
+
+WINDOWS
+-------
+* Kitty (=Weiterentwicklung von Putty)
+  http://www.9bis.net/kitty/?page=Welcome&zone=en
+* http://www.mremoteng.org/
+* http://www.ericvb.com/archives/the-best-tabbed-ssh-solution-in-windows-7
