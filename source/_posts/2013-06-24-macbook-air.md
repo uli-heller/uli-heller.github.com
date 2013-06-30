@@ -149,3 +149,10 @@ Diese Tasten sind vertauscht:
 
 * "Kleiner-Größer-Pipe" - links neben dem "Y"
 * "Dächlein-Kreis" - links neben der "1"
+
+Ich habe einige Hinweise gefunden, wie man das korrigieren kann:
+
+* <http://wiki.ubuntuusers.de/Apple_Computer/Einrichtung> ... scheint veraltet zu sein
+* [http://help.ubuntu.com/.../AppleKeyboard](https://help.ubuntu.com/community/AppleKeyboard#Correcting_swapped_keys_and_wrong_keymaps_for_international_.28non-US.29_keyboards) ... funktioniert bei mir nicht, weil "hid_apple" nicht existiert
+* <http://forum.ubuntuusers.de/topic/macbook-und-vertauscht-rechte-maustaste-ueber-/#post-2780335> ... hat geklappt, korrigiert's aber wahrscheinlich nur im X-Desktop und nicht in der Konsole und im Anmeldeschirm
+
