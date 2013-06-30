@@ -128,7 +128,7 @@ funktioniert.
 Die wohl bessere Lösung ist das Umstellen auf Textmodus.
 
 * /etc/default/grub editieren - Zeile mit "#GRUB_TERMINAL=console" bearbeiten, genauer: Raute '#' entfernen
-* `sudo update-grub2' ausführen
+* `sudo update-grub2` ausführen
 * `sudo reboot` - Neustart sollte nun klappen
 
 ### Installation von bcmwl-kernel-source_6.30.223.30+bdcom-0ubuntu2_amd64.deb bleibt hängen
@@ -153,6 +153,6 @@ Diese Tasten sind vertauscht:
 Ich habe einige Hinweise gefunden, wie man das korrigieren kann:
 
 * <http://wiki.ubuntuusers.de/Apple_Computer/Einrichtung> ... scheint veraltet zu sein
-* [http://help.ubuntu.com/.../AppleKeyboard](https://help.ubuntu.com/community/AppleKeyboard#Correcting_swapped_keys_and_wrong_keymaps_for_international_.28non-US.29_keyboards) ... funktioniert bei mir nicht, weil "hid_apple" nicht existiert
+* [https://help.ubuntu.com/.../AppleKeyboard](https://help.ubuntu.com/community/AppleKeyboard#Correcting_swapped_keys_and_wrong_keymaps_for_international_.28non-US.29_keyboards) ... funktioniert bei mir nicht, weil "hid_apple" nicht existiert
 * <http://forum.ubuntuusers.de/topic/macbook-und-vertauscht-rechte-maustaste-ueber-/#post-2780335> ... hat geklappt, korrigiert's aber wahrscheinlich nur im X-Desktop und nicht in der Konsole und im Anmeldeschirm
 
