@@ -86,6 +86,520 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2012/11/24/octopress-21/">Octopress-2.1</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-11-24T10:49:00+01:00" pubdate data-updated="true">24. November 2012</time>
+         &bull; <a rel="bookmark" href="/2012/11/24/octopress-21/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Meine Tests mit Octopress-2.1</h1>
+
+<p>Ausgangspunkt ist meine &#8220;normale&#8221; Octopress-Installation:</p>
+
+<figure class='code'><figcaption><span>Normale Octopress-Installation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span>git branch -a
+</span><span class='line'>  master
+</span><span class='line'>* <span class="nb">source</span>
+</span><span class='line'><span class="nb">  </span>remotes/octopress/2.1
+</span><span class='line'>  remotes/octopress/gh-pages
+</span><span class='line'>  remotes/octopress/linklog
+</span><span class='line'>  remotes/octopress/master
+</span><span class='line'>  remotes/octopress/refactor_with_tests
+</span><span class='line'>  remotes/octopress/rubygemcli
+</span><span class='line'>  remotes/octopress/site
+</span><span class='line'>  remotes/origin/HEAD -&gt; origin/master
+</span><span class='line'>  remotes/origin/gh-pages
+</span><span class='line'>  remotes/origin/master
+</span><span class='line'>  remotes/origin/source
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Mit diesem Setup kann man nun umschalten auf Version 2.1:</p>
+
+<figure class='code'><figcaption><span>Umstellen auf Octopress-2.1 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span><span class="nb">export </span><span class="nv">LANG</span><span class="o">=</span>C.UTF-8
+</span><span class='line'>octopress<span class="nv">$ </span>git checkout -t remotes/octopress/2.1
+</span><span class='line'>Branch 2.1 <span class="nb">set </span>up to track remote branch 2.1 from octopress by rebasing.
+</span><span class='line'>Switched to a new branch <span class="s1">&#39;2.1&#39;</span>
+</span><span class='line'>octopress<span class="nv">$ </span>bundle install
+</span><span class='line'>octopress<span class="nv">$ </span>rake install
+</span><span class='line'>octopress<span class="nv">$ </span>rake generate
+</span><span class='line'>octopress<span class="nv">$ </span>rake preview
+</span><span class='line'><span class="c"># Browser: http://localhost:4000</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hier meine ersten Eindrücke:</p>
+
+<ul>
+<li>Code-Blöcke verwenden nun weißen Hintergrund, was für mich deutlich lesbarer und ansprechender aussieht</li>
+<li>Blog-Einträge mit <code>published: false</code> werden nicht veröffentlicht, in 2.0 werden alle Blog-Einträge veröffentlicht</li>
+<li>Bei RVM wird Ruby-1.9.2 &#8220;angezogen&#8221;, es funktioniert aber auch mit 1.9.3</li>
+<li>Beim Drücken auf &#8220;Blog&#8221; erscheint in der Leiste rechts keine Liste der Blog-Einträge - source/_includes/sidebars/blog_index_default.html</li>
+<li>Bei Überschriften werden die ersten Buchstaben immer groß geschrieben (also: So Eine Überschrift) - _config.yml, titlecase</li>
+<li>Datumsangaben erfolgen in Englisch (wie bei 2.0) - etwas kompliziert zu ändern</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Anpassungen an Octopress-2.1 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git branch -m 2.1 <span class="nb">source</span>-2.1
+</span><span class='line'>git checkout <span class="nb">source</span>-2.1
+</span><span class='line'>git push -u origin <span class="nb">source</span>-2.1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Eigenes Darstellungsthema erzeugen</h2>
+
+<h3>Kopie des Standards-Themas anlegen</h3>
+
+<figure class='code'><figcaption><span>Eigenes Darstellungsthema für Octopress-2.1 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>cp -a .themes/classic .themes/uli
+</span><span class='line'>git add .themes/uli
+</span><span class='line'>git commit -m <span class="s2">&quot;.themes: classic -&gt; uli&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Anpassungen von Octopress-2.0 übernehmen</h3>
+
+<ul>
+<li>Historie vom Zweig &#8220;source&#8221; durchsuchen nach den dort erledigten Änderungen am Thema</li>
+<li>Übernehmen der Änderungen in den Zweig &#8220;source-2.1&#8221;</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 übernehmen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Sichten der Historie</span>
+</span><span class='line'>octopress<span class="nv">$ </span>git log --oneline ..source -- .themes/uli
+</span><span class='line'>b941c1c Anpassungen am Layout
+</span><span class='line'>1cfd652 cp -a .themes/classic .themes/uli
+</span><span class='line'><span class="c"># Änderungen in source-2.1 übernehmen</span>
+</span><span class='line'>octopress<span class="nv">$ </span>git rebase -i --onto <span class="nb">source</span>-2.1 1cfd652 b941c1c
+</span><span class='line'><span class="c"># Konflikt wird angezeigt -&gt; auflösen und festschreiben (committen)</span>
+</span><span class='line'>octopress<span class="nv">$ </span>...
+</span><span class='line'><span class="c"># Zustand sichten</span>
+</span><span class='line'>octopress<span class="nv">$ </span>gitk
+</span><span class='line'><span class="c"># &quot;Detached head&quot;, source-2.1 liegt ein wenig &quot;zurück&quot;</span>
+</span><span class='line'>octopress<span class="nv">$ </span>git checkout -b tmp
+</span><span class='line'>octopress<span class="nv">$ </span>git checkout -B <span class="nb">source</span>-2.1 tmp
+</span><span class='line'>octopress<span class="nv">$ </span>git branch -d tmp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Darstellungsthema aktivieren</h3>
+
+<figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 übernehmen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span>rake install<span class="o">[</span><span class="s1">&#39;uli&#39;</span><span class="o">]</span>
+</span><span class='line'>A theme is already installed, proceeding will overwrite existing files. Are you sure? <span class="o">[</span>y/n<span class="o">]</span> y
+</span><span class='line'><span class="c">## Copying uli theme into ./source and ./sass</span>
+</span><span class='line'>mkdir -p <span class="nb">source</span>
+</span><span class='line'>cp -r .themes/uli/source/. <span class="nb">source</span>
+</span><span class='line'>mkdir -p sass
+</span><span class='line'>cp -r .themes/uli/sass/. sass
+</span><span class='line'>mkdir -p <span class="nb">source</span>/_posts
+</span><span class='line'>mkdir -p public
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Blog-Einträge von Octopress-2.0 übernehmen</h2>
+
+<figure class='code'><figcaption><span>Dokumente von Octopress-2.0 übernehmen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git add <span class="nb">source</span>
+</span><span class='line'>git commit -m <span class="s2">&quot;Quelltexte in&#39;s Repository aufgenommen&quot;</span> .
+</span><span class='line'>git checkout <span class="nb">source</span> -- ./source/_posts
+</span><span class='line'>git commit -m <span class="s2">&quot;Blog-Einträge kopiert von &#39;source&#39;&quot;</span> ./source
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Einstellungen anpassen</h2>
+
+<h3>Grundeinstellungen</h3>
+
+<figure class='code'><figcaption><span>Einstellungen anpassen - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -2,10 +2,10 @@</span>
+</span><span class='line'> #      Main Configs       #
+</span><span class='line'> # ----------------------- #
+</span><span class='line'>
+</span><span class='line'><span class="gd">-url: http://yoursite.com</span>
+</span><span class='line'><span class="gd">-title: My Octopress Blog</span>
+</span><span class='line'><span class="gd">-subtitle: A blogging framework for hackers.</span>
+</span><span class='line'><span class="gd">-author: Your Name</span>
+</span><span class='line'><span class="gi">+url: http://uli-heller.github.com</span>
+</span><span class='line'><span class="gi">+title: Was ich so treibe...</span>
+</span><span class='line'><span class="gi">+subtitle: Java, Linux und Groovy</span>
+</span><span class='line'><span class="gi">+author: Uli Heller</span>
+</span><span class='line'> simple_search: http://google.com/search
+</span><span class='line'> description:
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Überschriften - keine Großbuchstaben</h3>
+
+<figure class='code'><figcaption><span>Keine Großbuchstaben in Überschriften - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -49,7 +49,7 @@</span>
+</span><span class='line'> linklog_marker_position: after
+</span><span class='line'> linklog_marker_position_feed: after
+</span><span class='line'> standard_post_marker:
+</span><span class='line'>
+</span><span class='line'><span class="gd">-titlecase: true       # Converts page and post titles to titlecase</span>
+</span><span class='line'><span class="gi">+titlecase: false       # Converts page and post titles to titlecase</span>
+</span><span class='line'>
+</span><span class='line'> # To change the layout&#39;s default sidebar Add a new sidebar source/_includes/sid
+</span><span class='line'> # then make changes below, eg. post_sidebar: your_sidebar.html
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Deutsche Übersetzungen</h3>
+
+<p>Die Ideen sind weitgehend &#8220;geklaut&#8221; von <a href="http://www.uru.ch/blog/2011/09/12/octopress-oberflaeche-im-schnelldurchgang-auf-deutsch-uebersetzen/">Roger Schärer</a>. In folgenden Dateien sind englische Texte hinterlegt:</p>
+
+<ul>
+<li>_config.yml &#8230; OK</li>
+<li>source/_includes/archive_post.html &#8230; OK</li>
+<li>source/<em>includes/asides/recent_posts.html &#8230; nicht gefunden
+source/</em>includes/sidebars/sections/recent_posts.html</li>
+<li>source/<em>includes/asides/twitter.html .. nicht gefunden
+source/</em>includes/sidebars/sections/twitter.html</li>
+<li>source/_includes/custom/navigation.html</li>
+<li>source/_includes/navigation.html</li>
+<li>source/_includes/post/author.html</li>
+<li>source/_layouts/post.html</li>
+<li>source/_layouts/posts.html &#8230; nicht gefunden</li>
+<li>source/_layouts/page.html &#8230; nicht gefunden</li>
+<li>source/index.html</li>
+<li>source/blog/archives/index.html &#8230; nicht gefunden
+source/archives/index.html</li>
+</ul>
+
+
+<p>Die meisten dieser Änderungen führe ich nicht direkt an den Dateien unterhalb von &#8220;source&#8221; durch, sondern in meinem Themenverzeichnis &#8220;.themes/uli&#8221;. Von dort kann ich sie dann mittels <code>rake install['uli']</code> aktivieren.</p>
+
+<h3>Deutsche Datumsangaben</h3>
+
+<p>Das grundätzliche Vorgehen kommt von <a href="http://home-server-mind.com/deutsche-lokalisation-in-octopress-seiten/">Marc </a>. Er schreibt allerdings, dass man als Einstellung für das Format &#8220;ordinal&#8221; verwenden muß. Grund hierfür ist eine Unschönheit in seiner Implementierung der Methode &#8220;format_date&#8221;. Bei meiner Variante kann man auch beliebige andere Einstellungen verwenden. Ich verwende beispielsweise &#8220;%d. %B %Y&#8221;.</p>
+
+<figure class='code'><figcaption><span>Deutsche Datumsangaben - plugins/date.rb </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -1,5 +1,57 @@</span>
+</span><span class='line'><span class="gi">+# -*- coding: utf-8 -*-</span>
+</span><span class='line'> module Octopress
+</span><span class='line'>   module Date
+</span><span class='line'><span class="gi">+    #Deutsche Lokalisation:</span>
+</span><span class='line'><span class="gi">+    MONTHNAMES_DE = [nil,</span>
+</span><span class='line'><span class="gi">+      &quot;Januar&quot;, &quot;Februar&quot;, &quot;März&quot;, &quot;April&quot;, &quot;Mai&quot;, &quot;Juni&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Juli&quot;, &quot;August&quot;, &quot;September&quot;, &quot;Oktober&quot;, &quot;November&quot;, &quot;Dezember&quot; ]</span>
+</span><span class='line'><span class="gi">+    ABBR_MONTHNAMES_DE = [nil,</span>
+</span><span class='line'><span class="gi">+      &quot;Jan&quot;, &quot;Feb&quot;, &quot;Mär&quot;, &quot;Apr&quot;, &quot;Mai&quot;, &quot;Jun&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Okt&quot;, &quot;Nov&quot;, &quot;Dez&quot; ]</span>
+</span><span class='line'><span class="gi">+    DAYNAMES_DE = [</span>
+</span><span class='line'><span class="gi">+      &quot;Sonntag&quot;, &quot;Montag&quot;, &quot;Dienstag&quot;, &quot;Mittwoch&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Donnerstag&quot;, &quot;Freitag&quot;, &quot;Samstag&quot; ]</span>
+</span><span class='line'><span class="gi">+    ABBR_DAYNAMES_DE = [</span>
+</span><span class='line'><span class="gi">+      &quot;So&quot;, &quot;Mo&quot;, &quot;Di&quot;, &quot;Mi&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Do&quot;, &quot;Fr&quot;, &quot;Sa&quot; ]</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+    # Returns a datetime if the input is a string</span>
+</span><span class='line'><span class="gi">+    def datetime(date)</span>
+</span><span class='line'><span class="gi">+      if date.class == String</span>
+</span><span class='line'><span class="gi">+        date = Time.parse(date)</span>
+</span><span class='line'><span class="gi">+      end</span>
+</span><span class='line'><span class="gi">+      date</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+    # in _config.yml muss stehen: date_format: ordinal </span>
+</span><span class='line'><span class="gi">+    def ordinalize(date)</span>
+</span><span class='line'><span class="gi">+      #**** hier Format bei Bedarf ändern, z.B. %A für ausgeschriebenen Wochent</span>
+</span><span class='line'><span class="gi">+      format_date(date, &quot;%a, %e. %B %Y&quot;) # SA, 10. MÄRZ 2012</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+    # Formats date either as ordinal or by given date format</span>
+</span><span class='line'><span class="gi">+    # Adds %o as ordinal representation of the day</span>
+</span><span class='line'><span class="gi">+    def format_date(date, format)</span>
+</span><span class='line'><span class="gi">+      myformat = format.dup</span>
+</span><span class='line'><span class="gi">+      date = datetime(date)</span>
+</span><span class='line'><span class="gi">+      if format.nil? || format.empty? || format == &quot;ordinal&quot;</span>
+</span><span class='line'><span class="gi">+        date_formatted = ordinalize(date) </span>
+</span><span class='line'><span class="gi">+      else</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%a/, ABBR_DAYNAMES_DE[date.wday])</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%A/, DAYNAMES_DE[date.wday])</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%b/, ABBR_MONTHNAMES_DE[date.mon])</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%B/, MONTHNAMES_DE[date.mon])</span>
+</span><span class='line'><span class="gi">+        date_formatted = date.strftime(myformat)</span>
+</span><span class='line'><span class="gi">+        # date_formatted = date.strftime(format)</span>
+</span><span class='line'><span class="gi">+        # date_formatted.gsub!(/%o/, ordinal(date.strftime(&#39;%e&#39;).to_i))</span>
+</span><span class='line'><span class="gi">+      end</span>
+</span><span class='line'><span class="gi">+      date_formatted #+&quot; ULI:#{date.mon}&quot;</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+  end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+  module DateEn</span>
+</span><span class='line'>
+</span><span class='line'>     # Returns a datetime if the input is a string
+</span><span class='line'>     def datetime(date)
+</span><span class='line'><span class="gu">@@ -95,4 +147,11 @@ module Jekyll</span>
+</span><span class='line'>       self.data[&#39;updated_formatted&#39;] = format_date(self.data[&#39;updated&#39;], date_format) if self.data.has_key?(&#39;updated&#39;)
+</span><span class='line'>     end
+</span><span class='line'>   end
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+  module Filters</span>
+</span><span class='line'><span class="gi">+    include Octopress::Date</span>
+</span><span class='line'><span class="gi">+    def date(date, format)</span>
+</span><span class='line'><span class="gi">+      format_date(date, format)</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+  end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Änderung an _config.yml, damit das Datum so angegeben wird: &#8220;25. Dezember 2012&#8221;</p>
+
+<figure class='code'><figcaption><span>Datumsangaben &#8216;TT. Monat JJJJ&#8217; - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -13,7 +13,11 @@ description:</span>
+</span><span class='line'> # You can customize the format as defined in
+</span><span class='line'> # http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime
+</span><span class='line'> # Additionally, %o will give you the ordinal representation of the day
+</span><span class='line'><span class="gd">-date_format: &quot;ordinal&quot;</span>
+</span><span class='line'><span class="gi">+#  %d.%m.%Y&quot; -&gt; 25.12.2012</span>
+</span><span class='line'><span class="gi">+#  %d. %B %Y&quot; -&gt; 25. December 2012 (oder 25. Dezember 2012)</span>
+</span><span class='line'><span class="gi">+date_format: &quot;%d. %B %Y&quot;</span>
+</span><span class='line'>
+</span><span class='line'> # RSS / Email (optional) subscription links (change if using something like Fee
+</span><span class='line'> subscribe_rss: /atom.xml
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>GitHub-Pages reaktivieren</h2>
+
+<figure class='code'><figcaption><span>GutHub-Pages reaktivieren - Rakefile </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -9,13 +9,13 @@</span>
+</span><span class='line'> ssh_user       = &quot;user@domain.com&quot;
+</span><span class='line'> ssh_port       = &quot;22&quot;
+</span><span class='line'> document_root  = &quot;~/website.com/&quot;
+</span><span class='line'> rsync_delete   = false
+</span><span class='line'><span class="gd">-deploy_default = &quot;rsync&quot;</span>
+</span><span class='line'><span class="gi">+deploy_default = &quot;push&quot;</span>
+</span><span class='line'>
+</span><span class='line'> # Hidden &quot;dot&quot; files that should be included with the deployed site (see task c
+</span><span class='line'> copy_dot_files = []
+</span><span class='line'>
+</span><span class='line'> # This will be configured for you when you run config_deploy
+</span><span class='line'><span class="gd">-deploy_branch  = &quot;gh-pages&quot;</span>
+</span><span class='line'><span class="gi">+deploy_branch  = &quot;master&quot;</span>
+</span><span class='line'>
+</span><span class='line'> ## -- Misc Configs -- ##
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2012/11/24/octopress/">Octopress-Installation</a>
 
 </h1>
@@ -812,6 +1326,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/07/03/eclipse_markdown/">Markdowneditor in Eclipse</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/06/27/centos/">Experimente mit CentOS-6.4</a>
       </li>
     
@@ -825,10 +1343,6 @@
     
       <li class="post">
         <a href="/2013/06/19/tl-wn725n/">150Mbps Wireless N Nano USB Adapter TP-Link TL-WN725N</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/06/16/macbook-air/">Ubuntu auf einem Macbook Air - erste Eindrücke</a>
       </li>
     
   </ul>

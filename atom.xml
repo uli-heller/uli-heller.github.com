@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-06-27T07:30:36+02:00</updated>
+  <updated>2013-07-03T08:16:45+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Markdowneditor in Eclipse]]></title>
+<link href="http://uli-heller.github.com/2013/07/03/eclipse_markdown/"/>
+<updated>2013-07-03T08:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/07/03/eclipse_markdown</id>
+
+      <content type="html"><![CDATA[<p>Gemäß <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=329528">https://bugs.eclipse.org/bugs/show_bug.cgi?id=329528</a>
+sollte Markdown von Eclipse unterstützt werden. Leider gibt&#8217;s
+in Eclipse-4.3 (Kepler) keine Spur davon&#8230;</p>
+
+<!-- more -->
+
+
+<p>Ich verwende die meiste Zeit die &#8220;Eclipse IDE for Java EE Developers&#8221;.
+Da sind die Wiki-Edit-Tools gleich mit enthalten. Eine Datei im
+.textile-Format kann problemlos editiert werden, leider aber keine
+im .markdown-Format.</p>
+
+<p>Abhilfe schafft die Installation der &#8220;Mylyn Docs&#8221; von
+<a href="http://download.eclipse.org/mylyn/snapshots/nightly/docs/">http://download.eclipse.org/mylyn/snapshots/nightly/docs/</a>.
+Ich habe einfach alle &#8220;Mylyn Docs Features&#8221; installiert, Eclipse neu
+gestartet und danach wird bei &#8220;Rechts-Klick&#8221; in &#8220;Markup Language&#8221;
+auch Markdown angezeigt.</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/03/eclipse_markdown/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -225,35 +256,15 @@ Jetzt sollte man im Browser die Begrüßungsseite sehen können:
       <content type="html"><![CDATA[<p>Die nachfolgende Gallerie zeigt, wie ich CentOS-6.4 in einer
 VM installiert habe.</p>
 
-<p><a href="http://uli-heller.github.com/images/galleries/centos/001-new-vm.png" rel="shadowbox" title="001-new-vm"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/001-new-vm.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/002-new-vm.png" rel="shadowbox" title="002-new-vm"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/002-new-vm.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/003-new-vm.png" rel="shadowbox" title="003-new-vm"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/003-new-vm.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/004-new-vm-harddisk.png" rel="shadowbox" title="004-new-vm-harddisk"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/004-new-vm-harddisk.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/005-new-vm-harddisk.png" rel="shadowbox" title="005-new-vm-harddisk"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/005-new-vm-harddisk.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/006-new-vm-harddisk.png" rel="shadowbox" title="006-new-vm-harddisk"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/006-new-vm-harddisk.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/007-vm.png" rel="shadowbox" title="007-vm"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/007-vm.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/008-vm-boot-dvd.png" rel="shadowbox" title="008-vm-boot-dvd"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/008-vm-boot-dvd.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/009-boot-dvd.png" rel="shadowbox" title="009-boot-dvd"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/009-boot-dvd.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/010-booting-from-dvd.png" rel="shadowbox" title="010-booting-from-dvd"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/010-booting-from-dvd.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/011-skip-check.png" rel="shadowbox" title="011-skip-check"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/011-skip-check.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/012-welcome.png" rel="shadowbox" title="012-welcome"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/012-welcome.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/013-language.png" rel="shadowbox" title="013-language"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/013-language.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/014-keyboard.png" rel="shadowbox" title="014-keyboard"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/014-keyboard.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/015-init-hd.png" rel="shadowbox" title="015-init-hd"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/015-init-hd.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/016-timezone.png" rel="shadowbox" title="016-timezone"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/016-timezone.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/017-root.png" rel="shadowbox" title="017-root"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/017-root.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/018-root-is-too-short.png" rel="shadowbox" title="018-root-is-too-short"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/018-root-is-too-short.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/019-rootroot.png" rel="shadowbox" title="019-rootroot"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/019-rootroot.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/020-use-anyway.png" rel="shadowbox" title="020-use-anyway"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/020-use-anyway.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/021-partitioning.png" rel="shadowbox" title="021-partitioning"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/021-partitioning.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/022-write-to-disk.png" rel="shadowbox" title="022-write-to-disk"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/022-write-to-disk.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/023-installing.png" rel="shadowbox" title="023-installing"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/023-installing.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/024-booting.png" rel="shadowbox" title="024-booting"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/024-booting.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/025-login.png" rel="shadowbox" title="025-login"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/025-login.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/026-root-rootroot.png" rel="shadowbox" title="026-root-rootroot"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/026-root-rootroot.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/027-network.png" rel="shadowbox" title="027-network"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/027-network.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/028-yum-update.png" rel="shadowbox" title="028-yum-update"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/028-yum-update.png" /></a>
-<a href="http://uli-heller.github.com/images/galleries/centos/029-yum-update.png" rel="shadowbox" title="029-yum-update"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/029-yum-update.png" /></a></p>
+<!-- more -->
+
+
+
+
+<script src="http://uli-heller.github.com/javascripts/fotorama/jquery-1.10.1.min.js"></script>
+
+
+<p><link href="http://uli-heller.github.com/javascripts/fotorama/fotorama.css" rel="stylesheet"><script src="http://uli-heller.github.com/javascripts/fotorama/fotorama.js"></script><div class="fotorama" data-autoplay="3000" data-transition="dissolve" data-nav="thumbs" data-allow-full-screen="true" data-keyboard="true" data-width="80%" data-thumb-with="64" data-thumb-height="48"><a href="http://uli-heller.github.com/images/galleries/centos/001-new-vm.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/001-new-vm.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/002-new-vm.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/002-new-vm.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/003-new-vm.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/003-new-vm.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/004-new-vm-harddisk.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/004-new-vm-harddisk.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/005-new-vm-harddisk.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/005-new-vm-harddisk.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/006-new-vm-harddisk.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/006-new-vm-harddisk.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/007-vm.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/007-vm.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/008-vm-boot-dvd.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/008-vm-boot-dvd.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/009-boot-dvd.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/009-boot-dvd.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/010-booting-from-dvd.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/010-booting-from-dvd.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/011-skip-check.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/011-skip-check.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/012-welcome.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/012-welcome.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/013-language.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/013-language.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/014-keyboard.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/014-keyboard.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/015-init-hd.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/015-init-hd.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/016-timezone.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/016-timezone.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/017-root.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/017-root.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/018-root-is-too-short.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/018-root-is-too-short.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/019-rootroot.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/019-rootroot.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/020-use-anyway.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/020-use-anyway.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/021-partitioning.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/021-partitioning.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/022-write-to-disk.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/022-write-to-disk.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/023-installing.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/023-installing.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/024-booting.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/024-booting.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/025-login.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/025-login.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/026-root-rootroot.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/026-root-rootroot.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/027-network.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/027-network.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/028-yum-update.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/028-yum-update.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/029-yum-update.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/029-yum-update.png"/></a></div> <!--class="fotorama" data-nav="thumbs" --></p>
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/26/gallery/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
@@ -400,7 +411,7 @@ funktioniert.</p>
 
 <ul>
 <li>/etc/default/grub editieren - Zeile mit &#8220;#GRUB_TERMINAL=console&#8221; bearbeiten, genauer: Raute &#8216;#&#8217; entfernen</li>
-<li>`sudo update-grub2&#8217; ausführen</li>
+<li><code>sudo update-grub2</code> ausführen</li>
 <li><code>sudo reboot</code> - Neustart sollte nun klappen</li>
 </ul>
 
@@ -427,6 +438,38 @@ dann beschreibe ich die Korrektur hier.</p>
 <ul>
 <li>&#8220;Kleiner-Größer-Pipe&#8221; - links neben dem &#8220;Y&#8221;</li>
 <li>&#8220;Dächlein-Kreis&#8221; - links neben der &#8220;1&#8221;</li>
+</ul>
+
+
+<p>Ich habe einige Hinweise gefunden, wie man das korrigieren kann:</p>
+
+<ul>
+<li><a href="http://wiki.ubuntuusers.de/Apple_Computer/Einrichtung">http://wiki.ubuntuusers.de/Apple_Computer/Einrichtung</a> &#8230; scheint veraltet zu sein</li>
+<li><a href="https://help.ubuntu.com/community/AppleKeyboard#Correcting_swapped_keys_and_wrong_keymaps_for_international_.28non-US.29_keyboards">https://help.ubuntu.com/&#8230;/AppleKeyboard</a> &#8230; funktioniert bei mir nicht, weil &#8220;hid_apple&#8221; nicht existiert</li>
+<li><a href="http://forum.ubuntuusers.de/topic/macbook-und-vertauscht-rechte-maustaste-ueber-/#post-2780335">http://forum.ubuntuusers.de/topic/macbook-und-vertauscht-rechte-maustaste-ueber-/#post-2780335</a> &#8230; hat geklappt, korrigiert&#8217;s aber wahrscheinlich nur im X-Desktop und nicht in der Konsole und im Anmeldeschirm</li>
+</ul>
+
+
+<h3>Enttäuschende Akku-Laufzeit</h3>
+
+<p>Zur Akku-Laufzeit kann ich momentan noch keine richtig fundierte Aussage
+treffen, weil ich</p>
+
+<ul>
+<li>das Gerät noch nicht zur täglichen Arbeit einsetze und</li>
+<li>ich aktuell immer eine externe Festplatte verwende und</li>
+<li>ich bislang nur &#8220;Installationsspielereien&#8221; gemacht habe</li>
+</ul>
+
+
+<p>Rein vom subjektiven Eindruck her würde ich sagen, dass ich bei weitem
+nicht auf 9 Stunden Laufzeit komme. Ob ich die mit OSX erreiche, weiß ich
+auch nicht - ich habe OSX noch kein einziges mal gestartet.</p>
+
+<h2>Änderungen</h2>
+
+<ul>
+<li>2013-07-03 &#8230; Abschnitt zur Akku-Laufzeit aufgenommen</li>
 </ul>
 
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/24/macbook-air/">&#9875; Permalink</a></p>]]></content>
@@ -2620,36 +2663,6 @@ freigeschaltet werden.</p>
 
 
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/23/einrichten-eines-ldap-servers-unter-ubuntu-12-dot-04/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Herunterladen des HTTPS-Server-Zertifikats]]></title>
-<link href="http://uli-heller.github.com/2013/04/21/herunterladen-des-https-server-zertifikats/"/>
-<updated>2013-04-21T08:20:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/04/21/herunterladen-des-https-server-zertifikats</id>
-
-      <content type="html"><![CDATA[<h1>Herunterladen des HTTPS-Server-Zertifikats über die Kommandozeile</h1>
-
-<p>Den Trick habe ich von einem <a href="http://eclipsesource.com/blogs/2013/04/19/installing-eclipse-plug-ins-from-an-update-site-with-a-self-signed-certificate/">EclipseSource-Blog</a>:</p>
-
-<figure class='code'><figcaption><span>Herunterladen eines Server-Zertifikats </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> -n <span class="se">\</span>
-</span><span class='line'>| openssl s_client -connect HOST:PORTNUMBER <span class="se">\</span>
-</span><span class='line'>| sed -ne <span class="s1">&#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39;</span> <span class="se">\</span>
-</span><span class='line'>&gt; my-custom-cert.cert
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Prima, das erspart mir künftig einiges an Rumklickerei im Browser.</p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/21/herunterladen-des-https-server-zertifikats/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>
