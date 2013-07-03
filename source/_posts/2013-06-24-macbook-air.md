@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Ubuntu auf einem Macbook Air 2013"
 date: 2013-06-24 05:00
-updated: 2013-06-27 06:00
+updated: 2013-07-03 08:00
 comments: true
 categories: 
 - Linux
@@ -156,3 +156,19 @@ Ich habe einige Hinweise gefunden, wie man das korrigieren kann:
 * [https://help.ubuntu.com/.../AppleKeyboard](https://help.ubuntu.com/community/AppleKeyboard#Correcting_swapped_keys_and_wrong_keymaps_for_international_.28non-US.29_keyboards) ... funktioniert bei mir nicht, weil "hid_apple" nicht existiert
 * <http://forum.ubuntuusers.de/topic/macbook-und-vertauscht-rechte-maustaste-ueber-/#post-2780335> ... hat geklappt, korrigiert's aber wahrscheinlich nur im X-Desktop und nicht in der Konsole und im Anmeldeschirm
 
+### Enttäuschende Akku-Laufzeit
+
+Zur Akku-Laufzeit kann ich momentan noch keine richtig fundierte Aussage
+treffen, weil ich
+
+* das Gerät noch nicht zur täglichen Arbeit einsetze und
+* ich aktuell immer eine externe Festplatte verwende und
+* ich bislang nur "Installationsspielereien" gemacht habe
+
+Rein vom subjektiven Eindruck her würde ich sagen, dass ich bei weitem
+nicht auf 9 Stunden Laufzeit komme. Ob ich die mit OSX erreiche, weiß ich
+auch nicht - ich habe OSX noch kein einziges mal gestartet.
+
+## Änderungen
+
+* 2013-07-03 ... Abschnitt zur Akku-Laufzeit aufgenommen
