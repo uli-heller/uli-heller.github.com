@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Dovecot: Aktualisierung mit Pigeonhole"
 date: 2013-04-19 06:00
-#updated: 2013-02-16 08:00
+updated: 2013-07-05 07:00
 comments: true
 categories: 
 - Linux
@@ -61,7 +61,7 @@ Dovecot vorbereiten
 -------------------
 
 * `cd .../dovecot-2.2.0`
-* `dpkg-buildpackage -u ../dovecot-2.2.1.tar.gz`
+* `uupdate -u ../dovecot-2.2.1.tar.gz`
 * `cd ../dovecot-2.2.1`
 
 Dovecot/Pigeonhole sichten
