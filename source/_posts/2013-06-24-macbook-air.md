@@ -156,6 +156,25 @@ Ich habe einige Hinweise gefunden, wie man das korrigieren kann:
 * [https://help.ubuntu.com/.../AppleKeyboard](https://help.ubuntu.com/community/AppleKeyboard#Correcting_swapped_keys_and_wrong_keymaps_for_international_.28non-US.29_keyboards) ... funktioniert bei mir nicht, weil "hid_apple" nicht existiert
 * <http://forum.ubuntuusers.de/topic/macbook-und-vertauscht-rechte-maustaste-ueber-/#post-2780335> ... hat geklappt, korrigiert's aber wahrscheinlich nur im X-Desktop und nicht in der Konsole und im Anmeldeschirm
 
+#### Analysen
+
+Analog zu <https://bugs.launchpad.net/ubuntu/+source/linux/+bug/942184>:
+
+{% codeblock dmesg|grep hid %}
+uli@uli-MacBookAir-11:~$ dmesg|grep hid
+[    3.956709] usbcore: registered new interface driver usbhid
+[    3.956715] usbhid: USB HID core driver
+[    4.056298] hid-generic 0003:05AC:0290.0001: hiddev0,hidraw0: USB HID v1.10 Device [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input0
+[    4.056947] hid-generic 0003:05AC:0290.0002: input,hiddev0,hidraw1: USB HID v1.10 Keyboard [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input1
+[    4.057971] hid-generic 0003:05AC:0290.0003: input,hiddev0,hidraw2: USB HID v1.10 Mouse [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input2
+[    4.287766] hid-generic 0003:05AC:820A.0004: input,hidraw3: USB HID v1.11 Keyboard [HID 05ac:820a] on usb-0000:00:14.0-3.1/input0
+[    4.379176] hid-generic 0003:05AC:820B.0005: input,hidraw4: USB HID v1.11 Mouse [HID 05ac:820b] on usb-0000:00:14.0-3.2/input0
+{% endcodeblock %}
+
+Sieht so aus, als wäre bei meiner Tastatur die "0290" die magische Konstante. Mit einem Patch
+analog zu <https://launchpadlibrarian.net/94610947/alu2011.patch>
+oder auch <https://github.com/kui/hid-apple> sollte das dann wohl korrigierbar sein.
+
 ### Enttäuschende Akku-Laufzeit
 
 Zur Akku-Laufzeit kann ich momentan noch keine richtig fundierte Aussage
@@ -171,4 +190,5 @@ auch nicht - ich habe OSX noch kein einziges mal gestartet.
 
 ## Änderungen
 
+* 2013-07-05 ... Logs zum Problem "Vertauschte Tasten"
 * 2013-07-03 ... Abschnitt zur Akku-Laufzeit aufgenommen
