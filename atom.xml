@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-07-03T08:16:45+02:00</updated>
+  <updated>2013-07-10T09:11:42+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,200 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Lesegeschwindigkeit von USB-Sticks]]></title>
+<link href="http://uli-heller.github.com/2013/07/10/usb_speed/"/>
+<updated>2013-07-10T08:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/07/10/usb_speed</id>
+
+      <content type="html"><![CDATA[<p>Nachfolgend ein Vergleich der Lesegeschwindigkeiten von 3 USB-Sticks,
+die ich hier rumliegen habe:</p>
+
+<ul>
+<li>ein etwas älterer USB-3.0-Stick</li>
+<li>ein neuer und ganz kleiner USB-2.0-Stick</li>
+<li>ein neuer USB-3.0-Stick</li>
+</ul>
+
+
+<p>Die Lesegeschwindigkeiten messe ich mit <code>hdparm</code> unter Linux auf</p>
+
+<ul>
+<li>meinem Samsung-Laptop mit USB-2.0 und USB-3.0</li>
+<li>meinem HP-Desktop mit USB-2.0</li>
+<li>meinem Macbook Air mit USB-3.0</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h2>USB-Sticks</h2>
+
+<h3>Sony Micro Vault 64 GB USB 3.0</h3>
+
+<p>Vom Format her ein etwas größerer USB-Stick, ist auch schon etwas älter.
+Bei Amazon: <a href="http://www.amazon.de/Sony-Micro-Vault-Match-Speicherstick/dp/B006EK0LZO">http://www.amazon.de/Sony-Micro-Vault-Match-Speicherstick/dp/B006EK0LZO</a></p>
+
+<h3>Sandisk Cruzer Fit 32 GB USB 2.0</h3>
+
+<p>Ein sehr kleiner USB-Stick, recht billig (16€ bei MediaMarkt)
+aber wahrscheinlich auch etwas langsam.
+Bei Amazon: <a href="http://www.amazon.de/Sandisk-Cruzer-Fit-Speicherstick-32GB/dp/B00812F7O8">http://www.amazon.de/Sandisk-Cruzer-Fit-Speicherstick-32GB/dp/B00812F7O8</a></p>
+
+<h3>Sandisk Extreme 64 GB USB 3.0</h3>
+
+<p>Vom Format her ein etwas größerer USB-Stick. Laut Packung</p>
+
+<ul>
+<li>bis zu 190 MB/s lesend</li>
+<li>bis zu 170 MB/s schreibend</li>
+</ul>
+
+
+<p>Bei Amazon: <a href="http://www.amazon.de/SanDisk-Cruzer-Extreme-Speicherstick-64GB/dp/B007YXA5SI">http://www.amazon.de/SanDisk-Cruzer-Extreme-Speicherstick-64GB/dp/B007YXA5SI</a></p>
+
+<h2>Samsung Notebook</h2>
+
+<h3>USB-3.0</h3>
+
+<h4>Sony</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3894 MB in  2.00 seconds = 1947.79 MB/sec
+ Timing buffered disk reads: 304 MB in  3.00 seconds = 101.20 MB/sec
+</code></pre>
+
+<h4>Sandisk 32GB</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3878 MB in  2.00 seconds = 1939.72 MB/sec
+ Timing buffered disk reads:  64 MB in  3.04 seconds =  21.08 MB/sec
+</code></pre>
+
+<h4>Sandisk 64GB</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3994 MB in  2.00 seconds = 1997.93 MB/sec
+ Timing buffered disk reads: 414 MB in  3.01 seconds = 137.37 MB/sec
+</code></pre>
+
+<h3>USB-2.0</h3>
+
+<h4>Sony</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3728 MB in  2.00 seconds = 1864.37 MB/sec
+ Timing buffered disk reads:  96 MB in  3.00 seconds =  31.98 MB/sec
+</code></pre>
+
+<h4>Sandisk 32GB</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3732 MB in  2.00 seconds = 1867.17 MB/sec
+ Timing buffered disk reads:  62 MB in  3.02 seconds =  20.53 MB/sec
+</code></pre>
+
+<h4>Sandisk 64GB</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3810 MB in  2.00 seconds = 1905.59 MB/sec
+ Timing buffered disk reads:  96 MB in  3.01 seconds =  31.89 MB/sec
+</code></pre>
+
+<h2>HP Desktop</h2>
+
+<p>Nur USB-2.0 verfügbar!</p>
+
+<h3>Sony</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdh
+
+/dev/sdh:
+ Timing cached reads:   19494 MB in  2.00 seconds = 9756.41 MB/sec
+ Timing buffered disk reads:  98 MB in  3.04 seconds =  32.23 MB/sec
+</code></pre>
+
+<h3>Sandisk 32GB</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdh
+
+/dev/sdh:
+ Timing cached reads:   19098 MB in  2.00 seconds = 9557.98 MB/sec
+ Timing buffered disk reads:  64 MB in  3.06 seconds =  20.92 MB/sec
+</code></pre>
+
+<h3>Sandisk 64GB</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdh
+
+/dev/sdh:
+ Timing cached reads:   19272 MB in  2.00 seconds = 9645.16 MB/sec
+ Timing buffered disk reads:  98 MB in  3.01 seconds =  32.58 MB/sec
+</code></pre>
+
+<h2>Macbook Air 2013</h2>
+
+<p>Nur USB-3.0 verfügbar!</p>
+
+<h3>Sony</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdc
+
+/dev/sdc:
+ Timing cached reads:   8598 MB in  2.00 seconds = 4302.41 MB/sec
+ Timing buffered disk reads: 382 MB in  3.00 seconds = 127.20 MB/sec
+</code></pre>
+
+<h3>Sandisk 32GB</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdc
+
+/dev/sdc:
+ Timing cached reads:   8518 MB in  2.00 seconds = 4262.42 MB/sec
+ Timing buffered disk reads:  66 MB in  3.03 seconds =  21.78 MB/sec
+</code></pre>
+
+<h3>Sandisk 64GB</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdc
+
+/dev/sdc:
+ Timing cached reads:   8834 MB in  2.00 seconds = 4421.16 MB/sec
+ Timing buffered disk reads: 482 MB in  3.01 seconds = 160.34 MB/sec
+</code></pre>
+
+<h2>Fazit</h2>
+
+<p>Der kleine billige Sandisk-USB-Ministick ist erwartungsgemäß recht langsam.
+Wenn man keine USB-3.0-Schnittstelle zur Verfügung hat, fällt das nicht
+sonderlich in&#8217;s Gewicht (20 MB/sec vs 30 MB/sec). Hat man aber eine
+USB-3.0-Schnittstelle, so erreichen die größeren Sticks grob mehr als
+5-fachen Durchsatz vom Ministick.</p>
+
+<p>Der neue Sandisk-Stick ist etwa 25% schneller als der alte Sony-Stick.
+Das Macbook Air 2013 erreicht bei USB-3.0 auch etwa 25% höheren Durchsatz
+wie mein altes Samsung-Notebook.</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/10/usb_speed/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -450,6 +644,32 @@ dann beschreibe ich die Korrektur hier.</p>
 </ul>
 
 
+<h4>Analysen</h4>
+
+<p>Analog zu <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/942184">https://bugs.launchpad.net/ubuntu/+source/linux/+bug/942184</a>:</p>
+
+<figure class='code'><figcaption><span>dmesg|grep hid </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>uli@uli-MacBookAir-11:~$ dmesg|grep hid
+</span><span class='line'>[    3.956709] usbcore: registered new interface driver usbhid
+</span><span class='line'>[    3.956715] usbhid: USB HID core driver
+</span><span class='line'>[    4.056298] hid-generic 0003:05AC:0290.0001: hiddev0,hidraw0: USB HID v1.10 Device [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input0
+</span><span class='line'>[    4.056947] hid-generic 0003:05AC:0290.0002: input,hiddev0,hidraw1: USB HID v1.10 Keyboard [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input1
+</span><span class='line'>[    4.057971] hid-generic 0003:05AC:0290.0003: input,hiddev0,hidraw2: USB HID v1.10 Mouse [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input2
+</span><span class='line'>[    4.287766] hid-generic 0003:05AC:820A.0004: input,hidraw3: USB HID v1.11 Keyboard [HID 05ac:820a] on usb-0000:00:14.0-3.1/input0
+</span><span class='line'>[    4.379176] hid-generic 0003:05AC:820B.0005: input,hidraw4: USB HID v1.11 Mouse [HID 05ac:820b] on usb-0000:00:14.0-3.2/input0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sieht so aus, als wäre bei meiner Tastatur die &#8220;0290&#8221; die magische Konstante. Mit einem Patch
+analog zu <a href="https://launchpadlibrarian.net/94610947/alu2011.patch">https://launchpadlibrarian.net/94610947/alu2011.patch</a>
+oder auch <a href="https://github.com/kui/hid-apple">https://github.com/kui/hid-apple</a> sollte das dann wohl korrigierbar sein.</p>
+
 <h3>Enttäuschende Akku-Laufzeit</h3>
 
 <p>Zur Akku-Laufzeit kann ich momentan noch keine richtig fundierte Aussage
@@ -469,6 +689,7 @@ auch nicht - ich habe OSX noch kein einziges mal gestartet.</p>
 <h2>Änderungen</h2>
 
 <ul>
+<li>2013-07-05 &#8230; Logs zum Problem &#8220;Vertauschte Tasten&#8221;</li>
 <li>2013-07-03 &#8230; Abschnitt zur Akku-Laufzeit aufgenommen</li>
 </ul>
 
@@ -2459,210 +2680,6 @@ vornehmen:</p>
 gir1.2-gjsdbus-1.0 direkt als Abhängigkeit eingetragen ist. Somit wird
 es beim Installieren von Cinnamon künftig automatisch mit installiert.</p>
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/25/cinnamon-1-dot-7-4-auf-ubuntu-12-dot-04/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Einrichten eines LDAP-Servers unter Ubuntu-12.04]]></title>
-<link href="http://uli-heller.github.com/2013/04/23/einrichten-eines-ldap-servers-unter-ubuntu-12-dot-04/"/>
-<updated>2013-04-23T15:38:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/04/23/einrichten-eines-ldap-servers-unter-ubuntu-12-dot-04</id>
-
-      <content type="html"><![CDATA[<!--
-Einrichten eines LDAP-Servers unter Ubuntu-12.04
-================================================
--->
-
-
-<h2>Rechner aktualisieren</h2>
-
-<p>Zunächst sollte der Rechner aktualisiert werden.</p>
-
-<figure class='code'><figcaption><span>Rechner aktualisieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get update
-</span><span class='line'>sudo apt-get dist-upgrade
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>LDAP-Pakete installieren</h2>
-
-<figure class='code'><figcaption><span>LDAP-Pakete installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install slapd ldap-utils cpu whois
-</span><span class='line'><span class="c"># LDAP-Administrator-Passwort: uli</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>LDAP-Schemas definieren</h2>
-
-<p>Standard-Schemas:</p>
-
-<figure class='code'><figcaption><span>LDAP-Schemas definieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
-</span><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
-</span><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Zusatz-Schema:</p>
-
-<figure class='code'><figcaption><span>LDAP-Zusatzschema definieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/backend_dp.ldif
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Das Zusatzschema gibt&#8217;s <a href="http://uli-heller.github.com/downloads/code/backend_dp.ldif">hier</a></p>
-
-<h2>LDAP-Daten importieren</h2>
-
-<p>Es müssen entweder die Grunddaten importiert werden oder aber
-der Datenbestand eines anderen LDAP-Servers.</p>
-
-<h3>Grunddaten importieren</h3>
-
-<figure class='code'><figcaption><span>Grunddaten importieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
-</span><span class='line'>sudo slapadd -c -l /root/base.ldif
-</span><span class='line'>sudo service slapd start
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Datenbestand importieren</h3>
-
-<p>Dieser Schritt ist optional. Er dient primär der Übernahme eines Datenbestandes
-von einem bestehenden LDAP-Server.</p>
-
-<figure class='code'><figcaption><span>LDAP-Daten importieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
-</span><span class='line'>sudo slapadd -c -l 94.out.ldif  <span class="c"># 94.out.ldif ist eine ältere LDAP-Sicherung</span>
-</span><span class='line'>sudo service slapd start
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Hilfsskripte installieren</h2>
-
-<p>Wir haben einige Hilfsskripte, die die Arbeit mit dem LDAP-Verzeichnis erleichtern:</p>
-
-<ul>
-<li>/usr/local/bin/ldap-create-user.sh
-&#8230; legt einen LDAP-Benutzer an (basiert auf &#8220;cpu&#8221;)</li>
-<li>/usr/local/bin/ldap-delete-user.sh
-&#8230; löscht einen LDAP-Benutzer (basiert auf &#8220;cpu&#8221;)</li>
-<li>/usr/local/bin/ldap-modify-slapcat.sh
-&#8230; setzt die LDAP-Kennworte aller Benutzer in einem LDAP-Export auf &#8220;keines&#8221;</li>
-<li>/etc/cpu/cpu.conf
-&#8230; Konfigurationsdatei für &#8220;cpu&#8221;, enthält u.a. das Admin-Kennwort von LDAP</li>
-</ul>
-
-
-<h2>Web-Anwendung für Kennwort-Änderung installieren</h2>
-
-<p>Unsere Web-Anwendung soll mit dem Apache2 betrieben werden,
-also spielen wir den Apache2 ein und konfigurieren ihn auch gleich.</p>
-
-<figure class='code'><figcaption><span>Apache2 installieren und konfigurieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install apache2 <span class="c"># Web-Server Apache-2.2.22 einspielen</span>
-</span><span class='line'>sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/changepass
-</span><span class='line'>sudo jmacs  /etc/apache2/sites-available/changepass
-</span><span class='line'><span class="c"># Einige Anpassungen vornehmen...</span>
-</span><span class='line'><span class="c"># - CGI: ldap/cgi-bin -&gt; cgi-bin/ldap</span>
-</span><span class='line'>sudo a2dissite default
-</span><span class='line'>sudo a2ensite changepass
-</span><span class='line'>sudo service apache2 restart
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Die Web-Anwendung benötigt noch einige Perl-Module.</p>
-
-<figure class='code'><figcaption><span>Perl-Module installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install libconfig-tiny-perl
-</span><span class='line'>sudo apt-get install libnet-ldap-perl
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Zuletzt: Web-Anwendung einspielen. Folgende Dateien werden dabei benötigt:</p>
-
-<ul>
-<li>/etc/changepass.conf</li>
-<li>/etc/apache2/sites-available/changepass</li>
-<li>/usr/lib/cgi-bin/ldap/changepass</li>
-<li>/var/www/index.html</li>
-<li>/var/www/ldap/changepass.css</li>
-</ul>
-
-
-<h2>LDAP in Firewall freischalten</h2>
-
-<p>Sofern die UFW-Firewall installiert und aktiviert ist, muß der LDAP-Port
-freigeschaltet werden.</p>
-
-<figure class='code'><figcaption><span>LDAP in Firewall freischalten </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ufw allow 389/tcp
-</span><span class='line'>sudo ufw allow 80/tcp
-</span><span class='line'>sudo ufw status
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Tipps und Tricks</h2>
-
-<h3>LDAP-Daten sichern und zurückspielen</h3>
-
-<h4>Sichern</h4>
-
-<figure class='code'><figcaption><span>LDAP-Daten sichern </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo slapcat -l /tmp/slapcat.ldif
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Zurückspielen</h4>
-
-<figure class='code'><figcaption><span>LDAP-Daten zurückspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
-</span><span class='line'>sudo rm -rf /var/lib/ldap/*
-</span><span class='line'>sudo slapadd -c -l /tmp/slapcat.ldif
-</span><span class='line'>sudo chown -R openldap.openldap /var/lib/ldap/*
-</span><span class='line'>sudo service slapd start
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Neustart mit einem leeren LDAP-Bestand</h4>
-
-<figure class='code'><figcaption><span>Neustart mit leerem LDAP-Bestand </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
-</span><span class='line'>sudo rm -rf /var/lib/ldap/*
-</span><span class='line'>sudo service slapd start
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/23/einrichten-eines-ldap-servers-unter-ubuntu-12-dot-04/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>

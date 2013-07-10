@@ -282,6 +282,38 @@ dann beschreibe ich die Korrektur hier.</p>
 </ul>
 
 
+<h4>Analysen</h4>
+
+<p>Analog zu <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/942184">https://bugs.launchpad.net/ubuntu/+source/linux/+bug/942184</a>:</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>dmesg|grep hid </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>uli@uli-MacBookAir-11:~$ dmesg|grep hid
+</span><span class='line'>[    3.956709] usbcore: registered new interface driver usbhid
+</span><span class='line'>[    3.956715] usbhid: USB HID core driver
+</span><span class='line'>[    4.056298] hid-generic 0003:05AC:0290.0001: hiddev0,hidraw0: USB HID v1.10 Device [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input0
+</span><span class='line'>[    4.056947] hid-generic 0003:05AC:0290.0002: input,hiddev0,hidraw1: USB HID v1.10 Keyboard [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input1
+</span><span class='line'>[    4.057971] hid-generic 0003:05AC:0290.0003: input,hiddev0,hidraw2: USB HID v1.10 Mouse [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input2
+</span><span class='line'>[    4.287766] hid-generic 0003:05AC:820A.0004: input,hidraw3: USB HID v1.11 Keyboard [HID 05ac:820a] on usb-0000:00:14.0-3.1/input0
+</span><span class='line'>[    4.379176] hid-generic 0003:05AC:820B.0005: input,hidraw4: USB HID v1.11 Mouse [HID 05ac:820b] on usb-0000:00:14.0-3.2/input0</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<p>Sieht so aus, als wäre bei meiner Tastatur die "0290" die magische Konstante. Mit einem Patch
+analog zu <a href="https://launchpadlibrarian.net/94610947/alu2011.patch">https://launchpadlibrarian.net/94610947/alu2011.patch</a>
+oder auch <a href="https://github.com/kui/hid-apple">https://github.com/kui/hid-apple</a> sollte das dann wohl korrigierbar sein.</p>
+
 <h3>Enttäuschende Akku-Laufzeit</h3>
 
 <p>Zur Akku-Laufzeit kann ich momentan noch keine richtig fundierte Aussage
@@ -301,6 +333,7 @@ auch nicht - ich habe OSX noch kein einziges mal gestartet.</p>
 <h2>Änderungen</h2>
 
 <ul>
+<li>2013-07-05 ... Logs zum Problem "Vertauschte Tasten"</li>
 <li>2013-07-03 ... Abschnitt zur Akku-Laufzeit aufgenommen</li>
 </ul>
 
@@ -386,6 +419,10 @@ auch nicht - ich habe OSX noch kein einziges mal gestartet.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/07/10/usb_speed/">Lesegeschwindigkeit von USB-Sticks</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/07/03/eclipse_markdown/">Markdowneditor in Eclipse</a>
       </li>
     
@@ -399,10 +436,6 @@ auch nicht - ich habe OSX noch kein einziges mal gestartet.</p>
     
       <li class="post">
         <a href="/2013/06/24/macbook-air/">Ubuntu auf einem Macbook Air 2013</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/06/19/tl-wn725n/">150Mbps Wireless N Nano USB Adapter TP-Link TL-WN725N</a>
       </li>
     
   </ul>
