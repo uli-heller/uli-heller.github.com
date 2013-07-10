@@ -1,7 +1,7 @@
 ---
 layout: post
 author: Uli Heller
-published: false
+published: true
 title: "Subversion 1.8.0 für Ubuntu-12.04"
 date: 2013-07-10 10:00
 comments: true
@@ -14,6 +14,9 @@ categories:
 
 Vor ein paar Tagen wurde Subversion-1.8.0 veröffentlicht.
 Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen.
+
+Aktuell kann ich die DEB-Pakete zwar erzeugen und installieren,
+leider funktionieren sie aber nicht richtig!
 
 <!-- more -->
 
@@ -171,3 +174,61 @@ ubuntu@ubuntu1204-64-build:~/build/subversion/subversion-1.8.0$ diff -u debian/l
 {% endcodeblock %}
 
 Danach kann dann mit `fakeroot debian/rules binary` die Verpackung ohne erneute Kompilierung getestet werden.
+
+## Nochmals komplett: Paketerzeugung läuft durch
+
+Nach den vorigen Änderungen kann die Paketerzeugung mit
+
+{% codeblock %}
+dpkg-buildpackage
+{% endcodeblock %}
+
+komplett erfolgreich durchgezogen werden!
+
+## Kurztests: Installation und Funktionsweise
+
+{% codeblock %}
+$ sudo dpkg -i subversion_1.8.0-3dp12~precise1_amd64.deb libsvn1_1.8.0-3dp12~precise1_amd64.deb libserf1_1.2.1-0dp01~precise1_amd64.deb
+$ sudo dpkg -i sqlite3_3.7.15.2-1dp01~precise1_amd64.deb libsqlite3-0_3.7.15.2-1dp01~precise1_amd64.deb
+$ svn --version
+svn, Version 1.8.0 (r1490375)
+   übersetzt am Jul 10 2013, um 11:15:47 auf x86_64-pc-linux-gnu
+
+Copyright (C) 2013 The Apache Software Foundation.
+Diese Software besteht aus Beiträgen vieler Personen;
+siehe Datei NOTICE für weitere Informationen.
+Subversion ist Open Source Software, siehe http://subversion.apache.org/
+
+Die folgenden ZugriffsModule (ZM) für Projektarchive stehen zur Verfügung:
+
+* ra_svn : Modul zum Zugriff auf ein Projektarchiv über das svn-Netzwerkprotokoll.
+  - mit Cyrus-SASL-Authentifizierung
+  - behandelt Schema »svn«
+* ra_local : Modul zum Zugriff auf ein Projektarchiv auf der lokalen Festplatte
+  - behandelt Schema »file«
+* ra_serf : Modul zum Zugriff auf ein Projektarchiv über das Protokoll WebDAV mittels serf.
+  - behandelt Schema »http«
+  - behandelt Schema »https«
+$ cd svn/my-project
+$ svn status
+svn: E155036: Please see the 'svn upgrade' command
+svn: E155036: The working copy at '/home/uli/svn/judith-platzer.18'
+is too old (format 29) to work with client version '1.8.0 (r1490375)' (expects format 31). You need to upgrade the working copy first.
+$ svn upgrade
+$ svn status
+$ svn update
+svn: E175009: XML parsing failed: (411 Length Required)
+$ svn checkout https://.....
+svn: E235000: In file '/home/ubuntu/build/subversion/subversion-1.8.0/subversion/libsvn_client/ra.c' line 647: assertion failed (peg_revnum != SVN_INVALID_REVNUM)
+Aborted (core dumped)
+{% endcodeblock %}
+
+Also: Leider funktioniert's nicht.
+
+## Zurück zur alten Version
+
+{% codeblock %}
+$ sudo apt-get install libsqlite3-0=3.7.9-2ubuntu1.1 sqlite3=3.7.9-2ubuntu1.1
+$ sudo apt-get install subversion=1.7.10* libsvn1=1.7.10*
+$ sudo apt-get install libserf1=1.0*
+{% endcodeblock %}
