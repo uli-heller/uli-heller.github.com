@@ -84,6 +84,8 @@ WEBAPPS
   * http://sharejs.org/
 * undertow (schneller Web-Server für Unit-Tests)
   * http://undertow.io/blog/2013/07/09/Undertow-Beta1-Released.html
+* Sequenz-Diagramme in JavaScript (hübsch)
+  * http://bramp.github.io/js-sequence-diagrams/
 
 CHROME
 ------
