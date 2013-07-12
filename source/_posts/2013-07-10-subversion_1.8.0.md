@@ -4,6 +4,7 @@ author: Uli Heller
 published: true
 title: "Subversion 1.8.0 für Ubuntu-12.04"
 date: 2013-07-10 10:00
+updatee: 2013-07-12 07:00
 comments: true
 categories:
 - Linux
@@ -227,8 +228,19 @@ Also: Leider funktioniert's nicht.
 
 ## Zurück zur alten Version
 
+Auf dem Rechner, den ich zum Testen verwendet habe, geht's
+so zurück zu den alten Versionen:
+
 {% codeblock %}
-$ sudo apt-get install libsqlite3-0=3.7.9-2ubuntu1.1 sqlite3=3.7.9-2ubuntu1.1
+$ sudo apt-get install libsqlite3-0=3.7.9* sqlite3=3.7.9*
 $ sudo apt-get install subversion=1.7.10* libsvn1=1.7.10*
+$ sudo apt-get install libserf1=1.0*
+{% endcodeblock %}
+
+Auf dem Rechner, den ich zum Bauen verwendet habe, geht's
+so zurück zu den alten Versionen:
+
+{% codeblock %}
+$ sudo apt-get install libsqlite3-0=3.7.9* sqlite3=3.7.9*
 $ sudo apt-get install libserf1=1.0*
 {% endcodeblock %}
