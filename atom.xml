@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-07-10T09:11:42+02:00</updated>
+  <updated>2013-07-19T16:50:26+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,696 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Redmine: Von FCGI zu Passenger]]></title>
+<link href="http://uli-heller.github.com/2013/07/19/redmine-passenger/"/>
+<updated>2013-07-19T15:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/07/19/redmine-passenger</id>
+
+      <content type="html"><![CDATA[<p>Bislang habe ich Redmine hinter einem Apache HTTPD via FCGI betrieben.
+Bei meinen Tests mit Redmine-2.3.2 gibt es bei dieser Konstellation aber
+viele Probleme mit der Selektion des Rails-Environments. Es wird immer
+&#8220;development&#8221; verwendet, &#8220;production&#8221; kann nicht mehr &#8220;wie früher&#8221; über
+&#8220;environment.rb&#8221; und <code>ENV['RAILS_ENV'] ||= 'production'</code> selektiert werden.</p>
+
+<!-- more -->
+
+
+<h2>Sichtung der Alt-Version</h2>
+
+<p>Zunächst muß sichergestellt werden, dass die alte Version hinreichend
+gut funktioniert:</p>
+
+<ul>
+<li>Redmine-VM starten</li>
+<li>LDAP-VM starten</li>
+<li>Browser: <a href="http://192.168.56.97">http://192.168.56.97</a> -> &#8220;It works&#8221;</li>
+<li>Browser: <a href="http://192.168.56.97/redmine">http://192.168.56.97/redmine</a> -> Begrüssung von Redmine</li>
+<li>Browser: <a href="http://192.168.56.97/redmine/issues/1">http://192.168.56.97/redmine/issues/1</a> -> Anmeldungseite wird angezeigt; Anmeldung funktioniert</li>
+</ul>
+
+
+<p>Soweit sieht alles ganz OK aus. Nun: Sichtung der Programmstände.</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>ruby -v
+</span><span class='line'>ruby 1.8.7 <span class="o">(</span>2010-01-10 patchlevel 249<span class="o">)</span> <span class="o">[</span>i486-linux<span class="o">]</span>
+</span><span class='line'><span class="nv">$ </span>gem list
+</span><span class='line'>
+</span><span class='line'>*** LOCAL GEMS ***
+</span><span class='line'>
+</span><span class='line'>actionmailer <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>actionpack <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>activerecord <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>activeresource <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>activesupport <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>i18n <span class="o">(</span>0.4.2<span class="o">)</span>
+</span><span class='line'>mysql <span class="o">(</span>2.8.1<span class="o">)</span>
+</span><span class='line'>rack <span class="o">(</span>1.1.3<span class="o">)</span>
+</span><span class='line'>rails <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>rake <span class="o">(</span>0.8.7<span class="o">)</span>
+</span><span class='line'>rubygems-update <span class="o">(</span>1.6.2<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Ruby-Gems herunterladen und installieren</h2>
+
+<p>Mit diesen Befehlen werden die Ruby-Gems heruntergeladen:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem fetch passenger
+</span><span class='line'><span class="c"># gem fetch passenger -v 4.0.10</span>
+</span><span class='line'>gem fetch daemon_controller -v <span class="s2">&quot;&gt;= 1.1.0&quot;</span>
+</span><span class='line'><span class="c"># gem fetch daemon_controller -v 1.1.4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Die *.gem-Dateien müssen auf die Redmine-VM übertragen werden, am besten
+mit <code>scp</code>. Danach spielt man sie ein mit</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install passenger-4.0.10.gem
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Apache-Modul installieren</h2>
+
+<p>Mit nachfolgendem Befehl wird das Passenger-Modul für Apache2
+installiert und auch gleich aktiviert:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install libapache2-mod-passenger
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Apache konfigurieren</h2>
+
+<ul>
+<li>Konfigurationsdatei kopieren und anpassen:
+<code>cp /etc/apache2/sites-available/default /etc/apache2/sites-available/passenger</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span>/etc/apache2/sites-available/passenger </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>#NameVirtualHost *:80
+</span><span class='line'>&lt;VirtualHost *:80>
+</span><span class='line'>        ServerAdmin webmaster@localhost
+</span><span class='line'>
+</span><span class='line'>        PassengerDefaultUser www-data
+</span><span class='line'>        RailsEnv production
+</span><span class='line'>#        RailsBaseURI /redmine
+</span><span class='line'>
+</span><span class='line'>        DocumentRoot /srv/redmine-1.2.1/public/
+</span><span class='line'>#        DocumentRoot /var/www/
+</span><span class='line'>        Alias /redmine "/srv/redmine-1.2.1/public/"
+</span><span class='line'>        &lt;Directory "/srv/redmine-1.2.1/public/">   
+</span><span class='line'>         Options FollowSymLinks -MultiViews  
+</span><span class='line'>          AllowOverride none  
+</span><span class='line'>          Order allow,deny
+</span><span class='line'>          allow from all
+</span><span class='line'>        &lt;/Directory>
+</span><span class='line'>
+</span><span class='line'>        ErrorLog /var/log/apache2/error.log
+</span><span class='line'>
+</span><span class='line'>        # Possible values include: debug, info, notice, warn, error, crit,
+</span><span class='line'>        # alert, emerg.
+</span><span class='line'>        LogLevel warn  
+</span><span class='line'>
+</span><span class='line'>        CustomLog /var/log/apache2/access.log combined
+</span><span class='line'>        ServerSignature On
+</span><span class='line'>&lt;/VirtualHost></span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>Alte Datei &#8220;abklemmen&#8221;: <code>a2dissite default</code></p></li>
+<li><p>Neue Datei aktivieren: <code>a2ensite passenger</code></p></li>
+<li><p>Apache neu starten: <code>/etc/init.d/apache2 restart</code></p></li>
+</ul>
+
+
+<h2>Sichtung der Neu-Version</h2>
+
+<p>Zunächst muß sichergestellt werden, dass die alte Version hinreichend
+gut funktioniert:</p>
+
+<ul>
+<li>Redmine-VM starten (&#8230; läuft vermutlich eh&#8217; noch)</li>
+<li>LDAP-VM starten (&#8230; läuft vermutlich eh&#8217; noch)</li>
+<li>Browser: <a href="http://192.168.56.97">http://192.168.56.97</a>  -> Begrüssung von Redmine</li>
+<li>Browser: <a href="http://192.168.56.97/redmine">http://192.168.56.97/redmine</a> -> Begrüssung von Redmine</li>
+<li>Browser: <a href="http://192.168.56.97/redmine/issues/1">http://192.168.56.97/redmine/issues/1</a> -> Anmeldungseite wird angezeigt; Anmeldung funktioniert</li>
+</ul>
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/19/redmine-passenger/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Analyse des Systemstarts]]></title>
+<link href="http://uli-heller.github.com/2013/07/18/bootchart/"/>
+<updated>2013-07-18T10:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/07/18/bootchart</id>
+
+      <content type="html"><![CDATA[<p>Mein Samsung-Laptop benötigt sehr lange für den Systemstart.
+Gefühlt dauert&#8217;s 5 Minuten vom Einschalten bis zum Login-Prompt.
+Das sollte doch irgendwie schneller gehen - nur wie?</p>
+
+<!-- more -->
+
+
+<h2>Bootchart</h2>
+
+<h3>Installieren</h3>
+
+<p><code>
+sudo apt-get install bootchart pybootchartgui
+</code></p>
+
+<h3>Neustart</h3>
+
+<p><code>
+sudo reboot
+</code></p>
+
+<h3>Sichten</h3>
+
+<ul>
+<li>Verzeichnis: /var/log/bootchart</li>
+<li>Dateien: uli-samsung-precise-20130718-1.tgz und uli-samsung-precise-20130718-1.png</li>
+</ul>
+
+
+<p><img src="http://uli-heller.github.com/images/bootchart/uli-samsung-precise-20130718-1.png" alt="Bootchart vom Samsung-Laptop" /></p>
+
+<p>Es fällt auf, dass ein Großteil der Zeit in IOWAIT verbracht wird (dicke rotbraune Balken). Somit liegt die Vermutung nahe, dass die interne Festplatte wohl schnarchlahm ist. Das deckt sich auch wunderbar mit meinen Beobachtungen bei der täglichen Arbeit:</p>
+
+<ul>
+<li>Editieren eines Shell-Skriptes</li>
+<li>Speichern</li>
+<li>Fenster-Wechsel + Start des Skriptes</li>
+<li>Start scheitert mit einer Fehlermeldung (sinngemäß: &#8220;Skript gesperrt&#8221;)</li>
+<li>2 Sekunden warten + nochmaliger Start</li>
+<li>Start klappt</li>
+</ul>
+
+
+<h3>Versuch: SSD an USB-3</h3>
+
+<p>Eine externe SSD angeschlossen an die USB-3-Schnittstelle startet &#8220;schnell&#8221; (&#8230; gefühlt dauert&#8217;s ähnlich lang wie beim Macbook Air 2013).</p>
+
+<p>Also: Scheint wirklich an der lahmen Platte zu liegen.</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/18/bootchart/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Experimente mit ZFS unter Ubuntu-12.04]]></title>
+<link href="http://uli-heller.github.com/2013/07/12/zfs/"/>
+<updated>2013-07-12T08:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/07/12/zfs</id>
+
+      <content type="html"><![CDATA[<h2>DEBs installieren</h2>
+
+<p><code>
+sudo apt-get install make build-essential dpkg-dev
+sudo apt-get install -f
+sudo dpkg -i zfs-dkms_0.6.1-1~precise_amd64.deb spl-dkms_0.6.1-1~precise_all.deb dkms_2.2.0.3-1ubuntu3.1+zfs6~precise1_all.deb
+sudo dpkg -i zfsutils_0.6.1-1~precise_amd64.deb libnvpair1_0.6.1-1~precise_amd64.deb libuutil1_0.6.1-1~precise_amd64.deb libzfs1_0.6.1-1~precise_amd64.deb libzpool1_0.6.1-1~precise_amd64.deb
+</code></p>
+
+<h2>Kurzexperimente mit ZPOOL</h2>
+
+<p>&#8220;`
+$ sudo zpool create -f zfsdata /dev/sda
+$ sudo zpool status
+  pool: zfsdata
+ state: ONLINE
+  scan: none requested
+config:</p>
+
+<pre><code>NAME        STATE     READ WRITE CKSUM
+zfsdata     ONLINE       0     0     0
+  sda       ONLINE       0     0     0
+</code></pre>
+
+<p>errors: No known data errors
+$ sudo zpool destroy zfsdata
+&#8220;`</p>
+
+<h2>Pool mit RaidZ anlegen</h2>
+
+<p>&#8220;`
+$ sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb
+$ sudo zpool status
+  pool: zfsdata
+ state: ONLINE
+  scan: none requested
+config:</p>
+
+<pre><code>NAME        STATE     READ WRITE CKSUM
+zfsdata     ONLINE       0     0     0
+  raidz1-0  ONLINE       0     0     0
+    sda     ONLINE       0     0     0
+    sdb     ONLINE       0     0     0
+</code></pre>
+
+<p>errors: No known data errors
+$ sudo zpool destroy zfsdata
+&#8220;`</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/12/zfs/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Subversion 1.8.0 für Ubuntu-12.04]]></title>
+<link href="http://uli-heller.github.com/2013/07/10/subversion_1.8.0/"/>
+<updated>2013-07-10T10:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/07/10/subversion_1.8.0</id>
+
+      <content type="html"><![CDATA[<p>Vor ein paar Tagen wurde Subversion-1.8.0 veröffentlicht.
+Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen.</p>
+
+<p>Aktuell kann ich die DEB-Pakete zwar erzeugen und installieren,
+leider funktionieren sie aber nicht richtig!</p>
+
+<!-- more -->
+
+
+<h2>Ausgangpunkt: Subversion-1.7.10</h2>
+
+<p>Mein Ausgangspunkt sind die Pakete für Subversion-1.7.10.</p>
+
+<pre><code>$ cd subversion-1.7.10
+$ uupdate -u ../subversion-1.8.0
+$ cd ../subversion-1.8.0
+$ dpkg-buildpackage
+</code></pre>
+
+<h2>Erste Hürde: Serf-1.2.1</h2>
+
+<h2>Zweite Hürde: Sqlite3-3.7.15</h2>
+
+<p>Subversion benötigt eine relativ aktuelle Version von Sqlite3. Die
+Standard-Version von Ubuntu-12.04 ist zu alt. Ich habe mir so beholfen:</p>
+
+<ul>
+<li>Quellpakete von sqlite3-3.7.15.2 aus &#8220;raring&#8221; runtergeladen</li>
+<li>Ein paar kleine Anpassungen an debian/rules vorgenommen, damit
+tcl85 an der richtigen Stelle ausgelesen wird</li>
+<li>Pakete erzeugen mit <code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<h2>Dritte Hürde: Python-Test bricht ab</h2>
+
+<p>Bei der Ausführung von <code>dpkg-buildpackage</code> in &#8220;subversion-1.8.0&#8221;
+werden die Tests mit einer Fehlermeldung abgebrochen:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>...
+</span><span class='line'>Running testsuite - may take a while.  To disable,
+</span><span class='line'>use DEB_BUILD_OPTIONS=nocheck or edit debian/rules.
+</span><span class='line'>
+</span><span class='line'>/usr/bin/make -f debian/rules check-swig-py check-swig-pl check-swig-rb
+</span><span class='line'>make[1]: Entering directory `/home/ubuntu/build/subversion/subversion-1.8.0'
+</span><span class='line'>set -e; for v in 2.7; do rm -f BUILD/subversion/bindings/swig/python; ln -fs python$v BUILD/subversion/bindings/swig/python; pylib=$(python$v -c 'from distutils import sysconfig; print sysconfig.get_python_lib()');  /usr/bin/make -C BUILD check-swig-py PYTHON=python$v PYVER=$v CLEANUP=1 LC_ALL=C; done
+</span><span class='line'>make[2]: Entering directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>if [ "LD_LIBRARY_PATH" = "DYLD_LIBRARY_PATH" ]; then for d in ./subversion/bindings/swig/python/libsvn_swig_py ./subversion/bindings/swig/python/../../../libsvn_*; do if [ -n "$DYLD_LIBRARY_PATH" ]; then LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$d/.libs"; else LD_LIBRARY_PATH="$d/.libs"; fi; done; export LD_LIBRARY_PATH; fi; \
+</span><span class='line'>  cd ./subversion/bindings/swig/python; \
+</span><span class='line'>    python2.7 /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/python/tests/run_all.py
+</span><span class='line'>...........................................................................................................................
+</span><span class='line'>----------------------------------------------------------------------
+</span><span class='line'>Ran 123 tests in 301.417s
+</span><span class='line'>
+</span><span class='line'>OK
+</span><span class='line'>make[2]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>set -e; for v in 2.7; do rm -f BUILD/subversion/bindings/swig/python; ln -fs python$v-dbg BUILD/subversion/bindings/swig/python; pylib=$(python$v -c 'from distutils import sysconfig; print sysconfig.get_python_lib()');  /usr/bin/make -C BUILD check-swig-py PYTHON=python$v-dbg PYVER=${v}_d PYTHON_INCLUDES=-I/usr/include/python${v}_d CLEANUP=1 LC_ALL=C; done
+</span><span class='line'>make[2]: Entering directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>if [ "LD_LIBRARY_PATH" = "DYLD_LIBRARY_PATH" ]; then for d in ./subversion/bindings/swig/python/libsvn_swig_py ./subversion/bindings/swig/python/../../../libsvn_*; do if [ -n "$DYLD_LIBRARY_PATH" ]; then LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$d/.libs"; else LD_LIBRARY_PATH="$d/.libs"; fi; done; export LD_LIBRARY_PATH; fi; \
+</span><span class='line'>  cd ./subversion/bindings/swig/python; \
+</span><span class='line'>    python2.7-dbg /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/python/tests/run_all.py
+</span><span class='line'>........................Fatal Python error: subversion/bindings/swig/python/svn_client.c:23145 object at 0x399b498 has negative ref count -2604246222170760230
+</span><span class='line'>/bin/bash: line 2: 16967 Aborted                 (core dumped) python2.7-dbg /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/python/tests/run_all.py
+</span><span class='line'>make[2]: *** [check-swig-py] Error 134
+</span><span class='line'>make[2]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>make[1]: *** [check-swig-py] Error 2
+</span><span class='line'>make[1]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0'
+</span><span class='line'>make: *** [debian/stamp-build-arch] Error 2
+</span><span class='line'>dpkg-buildpackage: error: debian/rules build gave error exit status 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Quercheck: subversion-1.8.0.tar.bz2 entpacken und dort dann</p>
+
+<ul>
+<li><code>./configure</code></li>
+<li><code>make</code> &#8230; keine Probleme</li>
+<li><code>make test</code> &#8230; &#8220;nothing to be done&#8221;</li>
+<li><p><code>make check</code> &#8230; &#8220;All tests successful.&#8221;</p>
+
+<pre><code>XFAIL: wc_tests.py 6: add file with not-parent symlink
+Summary of test results:
+ 1909 tests PASSED
+ 55 tests SKIPPED
+ 28 tests XFAILED (1 WORK-IN-PROGRESS)
+SUMMARY: All tests successful.
+</code></pre></li>
+<li><p><code>make check-swig-py</code> &#8230; keine Probleme</p></li>
+</ul>
+
+
+<p>Ich editiere debian/rules und deaktiviere &#8220;call allpydbg&#8221; in &#8220;check-swig-py&#8221;.</p>
+
+<h2>Vierte Hürde: Ruby-Tests brechen ab</h2>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>...
+</span><span class='line'>/usr/bin/make -C BUILD check-swig-rb CLEANUP=1 LC_ALL=C
+</span><span class='line'>make[2]: Entering directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>if [ "LD_LIBRARY_PATH" = "DYLD_LIBRARY_PATH" ]; then for d in ./subversion/bindings/swig/python/libsvn_swig_rb ./subversion/bindings/swig/python/../../../libsvn_*; do if [ -n "$DYLD_LIBRARY_PATH" ]; then LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$d/.libs"; else LD_LIBRARY_PATH="$d/.libs"; fi; done; export LD_LIBRARY_PATH; fi; \
+</span><span class='line'>  cd ./subversion/bindings/swig/ruby; \
+</span><span class='line'>          if [ "1" -eq 1 -a "8" -lt 9 ] ; then \
+</span><span class='line'>            /usr/bin/ruby1.8 -I /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby \
+</span><span class='line'>              /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb \
+</span><span class='line'>        --verbose=normal; \
+</span><span class='line'>          else \
+</span><span class='line'>      /usr/bin/ruby1.8 -I /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby \
+</span><span class='line'>        /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb; \
+</span><span class='line'>          fi
+</span><span class='line'>/home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/util.rb:22:in `require': no such file to load -- ./svn/util (LoadError)
+</span><span class='line'>  from /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/util.rb:22
+</span><span class='line'>  from /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb:37:in `require'
+</span><span class='line'>  from /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb:37
+</span><span class='line'>make[2]: *** [check-swig-rb] Error 1
+</span><span class='line'>make[2]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>make[1]: *** [check-swig-rb] Error 2
+</span><span class='line'>make[1]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0'
+</span><span class='line'>make: *** [debian/stamp-build-arch] Error 2
+</span><span class='line'>dpkg-buildpackage: error: debian/rules build gave error exit status 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Das habe ich korrigiert durch Änderungen an ./subversion/bindings/swig/ruby/test/run-test.rb:</p>
+
+<figure class='code'><figcaption><span>run-test.rb </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">--- subversion/bindings/swig/ruby/test/util.rb~ 2013-05-29 04:00:11.000000000 +0000</span>
+</span><span class='line'><span class="gi">+++ subversion/bindings/swig/ruby/test/util.rb   2013-07-10 09:22:24.845441319 +0000</span>
+</span><span class='line'><span class="gu">@@ -19,7 +19,7 @@</span>
+</span><span class='line'>
+</span><span class='line'> require &quot;fileutils&quot;
+</span><span class='line'> require &quot;pathname&quot;
+</span><span class='line'><span class="gd">-require &quot;./svn/util&quot;</span>
+</span><span class='line'><span class="gi">+require &quot;svn/util&quot;</span>
+</span><span class='line'> require &quot;tmpdir&quot;
+</span><span class='line'>
+</span><span class='line'> require &quot;my-assertions&quot;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Fünfte Hürde: Verpacken bricht ab wegen fehlenjder Dateien</h2>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>...
+</span><span class='line'>make[1]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>find debian/tmp/usr/lib/ruby \( -name \*.a -o -name \*.la \) -exec rm -f {} +
+</span><span class='line'>cd debian/tmp//usr/lib/x86_64-linux-gnu; for lib in ra fs auth swig; do \
+</span><span class='line'>      rm -f libsvn_${lib}_*.so libsvn_${lib}_*.la; \
+</span><span class='line'>  done
+</span><span class='line'>cd debian/tmp//usr/lib/x86_64-linux-gnu; rm -f libsvn_swig*.a libsvnjavahl.a libsvnjavahl.la
+</span><span class='line'># Intermediate hack, until we can remove the rest of the .la files.
+</span><span class='line'>sed -i  "/dependency_libs/s/=.*/=''/" debian/tmp//usr/lib/x86_64-linux-gnu/*.la
+</span><span class='line'>dh_install -s
+</span><span class='line'>dh_install: libapache2-svn missing files (debian/tmp/usr/lib/apache2/modules/*.so), aborting
+</span><span class='line'>make: *** [debian/stamp-install-arch] Error 2
+</span><span class='line'>dpkg-buildpackage: error: fakeroot debian/rules binary gave error exit status 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Das habe ich korrigiert durch Änderungen an ./debian/libapache2-svn.install:</p>
+
+<figure class='code'><figcaption><span>libapache2-svn.install </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>ubuntu@ubuntu1204-64-build:~/build/subversion/subversion-1.8.0$ diff -u debian/libapache2-svn.install~ debian/libapache2-svn.install
+</span><span class='line'><span class="gd">--- debian/libapache2-svn.install~   2013-07-06 06:31:05.000000000 +0000</span>
+</span><span class='line'><span class="gi">+++ debian/libapache2-svn.install    2013-07-10 11:08:06.525738591 +0000</span>
+</span><span class='line'><span class="gu">@@ -1,4 +1,4 @@</span>
+</span><span class='line'><span class="gd">-debian/tmp/usr/lib/apache2/modules/*.so     usr/lib/apache2/modules</span>
+</span><span class='line'><span class="gi">+debian/tmp/usr/libexec/*.so         usr/lib/apache2/modules</span>
+</span><span class='line'> debian/dav_svn.conf                             etc/apache2/mods-available
+</span><span class='line'> debian/dav_svn.load                             etc/apache2/mods-available
+</span><span class='line'> debian/authz_svn.load                           etc/apache2/mods-available
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Danach kann dann mit <code>fakeroot debian/rules binary</code> die Verpackung ohne erneute Kompilierung getestet werden.</p>
+
+<h2>Nochmals komplett: Paketerzeugung läuft durch</h2>
+
+<p>Nach den vorigen Änderungen kann die Paketerzeugung mit</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure>
+
+
+<p>komplett erfolgreich durchgezogen werden!</p>
+
+<h2>Kurztests: Installation und Funktionsweise</h2>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo dpkg -i subversion_1.8.0-3dp12~precise1_amd64.deb libsvn1_1.8.0-3dp12~precise1_amd64.deb libserf1_1.2.1-0dp01~precise1_amd64.deb
+</span><span class='line'>$ sudo dpkg -i sqlite3_3.7.15.2-1dp01~precise1_amd64.deb libsqlite3-0_3.7.15.2-1dp01~precise1_amd64.deb
+</span><span class='line'>$ svn --version
+</span><span class='line'>svn, Version 1.8.0 (r1490375)
+</span><span class='line'>   übersetzt am Jul 10 2013, um 11:15:47 auf x86_64-pc-linux-gnu
+</span><span class='line'>
+</span><span class='line'>Copyright (C) 2013 The Apache Software Foundation.
+</span><span class='line'>Diese Software besteht aus Beiträgen vieler Personen;
+</span><span class='line'>siehe Datei NOTICE für weitere Informationen.
+</span><span class='line'>Subversion ist Open Source Software, siehe http://subversion.apache.org/
+</span><span class='line'>
+</span><span class='line'>Die folgenden ZugriffsModule (ZM) für Projektarchive stehen zur Verfügung:
+</span><span class='line'>
+</span><span class='line'>* ra_svn : Modul zum Zugriff auf ein Projektarchiv über das svn-Netzwerkprotokoll.
+</span><span class='line'>  - mit Cyrus-SASL-Authentifizierung
+</span><span class='line'>  - behandelt Schema »svn«
+</span><span class='line'>* ra_local : Modul zum Zugriff auf ein Projektarchiv auf der lokalen Festplatte
+</span><span class='line'>  - behandelt Schema »file«
+</span><span class='line'>* ra_serf : Modul zum Zugriff auf ein Projektarchiv über das Protokoll WebDAV mittels serf.
+</span><span class='line'>  - behandelt Schema »http«
+</span><span class='line'>  - behandelt Schema »https«
+</span><span class='line'>$ cd svn/my-project
+</span><span class='line'>$ svn status
+</span><span class='line'>svn: E155036: Please see the 'svn upgrade' command
+</span><span class='line'>svn: E155036: The working copy at '/home/uli/svn/judith-platzer.18'
+</span><span class='line'>is too old (format 29) to work with client version '1.8.0 (r1490375)' (expects format 31). You need to upgrade the working copy first.
+</span><span class='line'>$ svn upgrade
+</span><span class='line'>$ svn status
+</span><span class='line'>$ svn update
+</span><span class='line'>svn: E175009: XML parsing failed: (411 Length Required)
+</span><span class='line'>$ svn checkout https://.....
+</span><span class='line'>svn: E235000: In file '/home/ubuntu/build/subversion/subversion-1.8.0/subversion/libsvn_client/ra.c' line 647: assertion failed (peg_revnum != SVN_INVALID_REVNUM)
+</span><span class='line'>Aborted (core dumped)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Also: Leider funktioniert&#8217;s nicht.</p>
+
+<h2>Zurück zur alten Version</h2>
+
+<p>Auf dem Rechner, den ich zum Testen verwendet habe, geht&#8217;s
+so zurück zu den alten Versionen:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo apt-get install libsqlite3-0=3.7.9* sqlite3=3.7.9*
+</span><span class='line'>$ sudo apt-get install subversion=1.7.10* libsvn1=1.7.10*
+</span><span class='line'>$ sudo apt-get install libserf1=1.0*</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Auf dem Rechner, den ich zum Bauen verwendet habe, geht&#8217;s
+so zurück zu den alten Versionen:</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo apt-get install libsqlite3-0=3.7.9* sqlite3=3.7.9*
+</span><span class='line'>$ sudo apt-get install libserf1=1.0*</span></code></pre></td></tr></table></div></figure>
+
+
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/10/subversion_1.8.0/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -2072,614 +2762,6 @@ hier kann ich mich anmelden mit &#8220;uheller&#8221;/&#8221;xxxx&#8221;.</li>
 
 <p>SUPER!</p>
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/05/14/openvpn-ubuntu/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Ubuntu-Debian-Pakete mit LXC erzeugen]]></title>
-<link href="http://uli-heller.github.com/2013/05/12/lxc-ubuntu-build/"/>
-<updated>2013-05-12T10:00:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/05/12/lxc-ubuntu-build</id>
-
-      <content type="html"><![CDATA[<h2>Installation von LXC</h2>
-
-<figure class='code'><figcaption><span>Installation von LXC </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install lxc</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Container-Partition /lxc</h2>
-
-<p>Dieser Abschnitt kann optional ausgeführt werden.
-Voraussetzung ist, dass es eine Volume Group namens &#8220;datavg&#8221;
-gibt und dass diese über mindestens 10 GB freien Speicherplatz
-verfügt.</p>
-
-<h3>Partition anlegen</h3>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo lvcreate -n lxclv -L10G datavg
-</span><span class='line'>sudo mkfs.btrfs /dev/datavg/lxclv</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Partition einbinden</h3>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo -s
-</span><span class='line'>mkdir /lxc
-</span><span class='line'>echo "/dev/datavg/lxclv /lxc btrfs defaults 0 3" >>/etc/fstab
-</span><span class='line'>mount /lxc
-</span><span class='line'>rmdir /var/lib/lxc
-</span><span class='line'>ln -s /lxc/lib /var/lib/lxc
-</span><span class='line'>rm -rf /var/cache/lxc
-</span><span class='line'>ln -s /lxc/cache /var/cache/lxc</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!--
-Verwendung vom lokalen Apt-Cacher-Ng
-------------------------------------
-
-Datei /etc/default/lxc editieren:
-
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>&#8230; funktioniert nicht, es werden viele Pakete als &#8220;nicht verifizierbar&#8221; ausgewiesen.
-&#8211;></p>
-
-<h2>Erstellen von Containern</h2>
-
-<h3>12.04, 32bit</h3>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-32-build -- -r precise -a i386</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Das Komando liefert typischerweise Ausgaben dieser Art:</p>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r precise -a i386
-</span><span class='line'>[sudo] password for uli: 
-</span><span class='line'>
-</span><span class='line'>No config file specified, using the default config
-</span><span class='line'>debootstrap ist /usr/sbin/debootstrap
-</span><span class='line'>Checking cache download in /var/cache/lxc/precise/rootfs-i386 ... 
-</span><span class='line'>Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs ... 
-</span><span class='line'>Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs ...
-</span><span class='line'>
-</span><span class='line'>##
-</span><span class='line'># The default user is 'ubuntu' with password 'ubuntu'!
-</span><span class='line'># Use the 'sudo' command to run tasks as root in the container.
-</span><span class='line'>##
-</span><span class='line'>
-</span><span class='line'>'ubuntu' template installed
-</span><span class='line'>'ubuntu1204-32' created</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>12.04, 64bit</h3>
-
-<p>64-bit Container können nur erstellt werden, wenn das Basissystem auch ein 64-bit-System ist!</p>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-64-build -- -r precise -a amd64</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Arbeit mit Containern</h2>
-
-<ul>
-<li>Anmelden
-
-<ul>
-<li>Benutzer: &#8220;ubuntu&#8221;</li>
-<li>Kennwort: &#8220;ubuntu&#8221;</li>
-</ul>
-</li>
-<li>Netzwerk
-
-<ul>
-<li>IP-Adressen: Aus dem Adressbereich 10.0.3/24</li>
-<li>NAT: Funktioniert - @ping google.com@</li>
-<li>SSH vom Host in den Container: Funktioniert - @ssh ubuntu@10.0.3.250@</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>Anpassung der Container</h2>
-
-<h3>Verwenden des Apt-Cacher-Ng vom Host-System</h3>
-
-<p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
-
-<figure class='code'><figcaption><span>/etc/apt/apt.conf.d/01proxy </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">Acquire</span><span class="p">::</span><span class="n">http</span><span class="p">::</span><span class="n">Proxy</span> <span class="s">&quot;http://10.0.3.1:3142&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Installation von JOE/JMACS</h3>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install joe</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Paketquellen ergänzen um Source-Repositories</h3>
-
-<figure class='code'><figcaption><span>/etc/apt/sources.list </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u sources.list.orig sources.list</span>
-</span><span class='line'><span class="gd">--- sources.list.orig    2012-09-30 09:41:15.000000000 +0200</span>
-</span><span class='line'><span class="gi">+++ sources.list 2013-05-12 18:27:29.615640758 +0200</span>
-</span><span class='line'><span class="gu">@@ -1,3 +1,6 @@</span>
-</span><span class='line'> deb http://archive.ubuntu.com/ubuntu precise main restricted universe multiverse
-</span><span class='line'><span class="gi">+deb-src http://archive.ubuntu.com/ubuntu precise main restricted universe multiverse</span>
-</span><span class='line'> deb http://archive.ubuntu.com/ubuntu precise-updates main restricted universe multiverse
-</span><span class='line'><span class="gi">+deb-src http://archive.ubuntu.com/ubuntu precise-updates main restricted universe multiverse</span>
-</span><span class='line'> deb http://security.ubuntu.com/ubuntu precise-security main restricted universe multiverse
-</span><span class='line'><span class="gi">+deb-src http://security.ubuntu.com/ubuntu precise-security main restricted universe multiverse</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Aktualisierung auf den neuesten Stand</h3>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get update
-</span><span class='line'>sudo apt-get upgrade
-</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Build-Tools einspielen</h2>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get update
-</span><span class='line'>sudo apt-get install build-essential fakeroot dpkg-dev devscripts
-</span><span class='line'>sudo apt-get install autotools-dev debhelper pkg-config
-</span><span class='line'>sudo apt-get install dh-autoreconf
-</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>GPG-Schlüssel übernehmen</h2>
-
-<p>Dieser Abschnitt ist optional. Er wird nur benötigt, um signierte
-DEB-Pakete zu erzeugen!</p>
-
-<p>Auf dem bestehenden Build-System wird der GPG-Schlüssel exportiert:</p>
-
-<figure class='code'><figcaption><span>GPG-Schlüssel exportieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>gpg --export-secret-keys >gpg.keys</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Auf dem neuen LXC-Build-System wird der GPG-Schlüssel importiert:</p>
-
-<figure class='code'><figcaption><span>GPG-Schlüssel importieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>gpg --import &lt;gpg.keys</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Durchführen eines Builds</h2>
-
-<h3>nginx</h3>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>mkdir nginx
-</span><span class='line'>cd nginx
-</span><span class='line'>apt-get source nginx
-</span><span class='line'>sudo apt-get build-dep nginx
-</span><span class='line'>cd nginx-1.1.19
-</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>libseccomp</h3>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'># Kopieren der nachfolgenden Dateien:
-</span><span class='line'>#  libseccomp_0.1.0-1dp01~precise2.debian.tar.gz
-</span><span class='line'>#  libseccomp_0.1.0-1dp01~precise2.dsc 
-</span><span class='line'>#  libseccomp_0.1.0.orig.tar.gz
-</span><span class='line'>dpkg-source -x  libseccomp_0.1.0-1dp01~precise2.dsc
-</span><span class='line'>cd libseccomp-0.1.0
-</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>lxc</h3>
-
-<p>&#8230; läuft analog zu &#8220;libseccomp&#8221;</p>
-
-<h2>Sichern und Rückspielen von Containern</h2>
-
-<h3>Sichern</h3>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>cd /lxc
-</span><span class='line'>sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Rückspielen</h3>
-
-<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>cd /lxc
-</span><span class='line'>sudo tar -xvjpf /backups/lxc/20121119.tar.bz2</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Probleme</h2>
-
-<h3>Offene Punkte</h3>
-
-<h4>Wie sorgt man dafür, dass ein Container nur über ein Host-Only-Netzwerk erreichbar ist?</h4>
-
-<h3>Erledigte Punkte</h3>
-
-<h4>Verwendung des Apt-Cacher-Ng durch einen Container</h4>
-
-<p>&#8230; geht wie üblich durch /etc/apt/apt.conf.d/01proxy innerhalb des Containers</p>
-
-<h4>Wie übernimmt man einen Container auf ein anderes System?</h4>
-
-<p>&#8230; durch Sichern und Rückspielen.</p>
-
-<h2>Links</h2>
-
-<ul>
-<li><a href="https://help.ubuntu.com/12.04/serverguide/lxc.html">Ubuntu 12.04 Server Guide</a></li>
-</ul>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/05/12/lxc-ubuntu-build/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs]]></title>
-<link href="http://uli-heller.github.com/2013/05/11/grub-reboot/"/>
-<updated>2013-05-11T06:31:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/05/11/grub-reboot</id>
-
-      <content type="html"><![CDATA[<p>Üblicherweise starte ich meine diversen VMs einfach mit <code>sudo reboot</code>
-neu. Dabei wird dann der Standard-Eintrag im Grub-Menü selektiert und
-das betreffende Betriebssystem hochgefahren.</p>
-
-<p>Manchmal möchte ich aber einen anderen Eintrag aktivieren und ein
-alternatives Betriebssystem oder einen anderen Linux-Kernel starten.
-Das Verfahren habe ich mir von <a href="http://michael-prokop.at/blog/2013/05/10/how-to-get-grub-reboot-working/">Michael Prokop&#8217;s Blog</a> &#8216;geklaut&#8217;.</p>
-
-<!-- more -->
-
-
-<h2>Sichten: Welche Menüeinträge gibt es?</h2>
-
-<figure class='code'><figcaption><span>Liste der Menüeinträge in Grub </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># grep &quot;^menuentry&quot; /boot/grub/grub.cfg</span>
-</span><span class='line'>menuentry <span class="s1">&#39;Ubuntu, with Linux 3.2.0-36-virtual&#39;</span> --class ubuntu --class gnu-linux --class gnu --class os <span class="o">{</span>
-</span><span class='line'>menuentry <span class="s1">&#39;Ubuntu, with Linux 3.2.0-36-virtual (recovery mode)&#39;</span> --class ubuntu --class gnu-linux --class gnu --class os <span class="o">{</span>
-</span><span class='line'>menuentry <span class="s2">&quot;Memory test (memtest86+)&quot;</span> <span class="o">{</span>
-</span><span class='line'>menuentry <span class="s2">&quot;Memory test (memtest86+, serial console 115200)&quot;</span> <span class="o">{</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Umstellen des Standard-Boot-Eintrages</h2>
-
-<figure class='code'><figcaption><span>Umstellen der Standard-Boot-Eintrages </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># grep GRUB_DEFAULT /etc/default/grub</span>
-</span><span class='line'><span class="nv">GRUB_DEFAULT</span><span class="o">=</span>0
-</span><span class='line'><span class="c"># sed -i &#39;s/^GRUB_DEFAULT.*/GRUB_DEFAULT=saved/&#39; /etc/default/grub</span>
-</span><span class='line'><span class="c"># grep GRUB_DEFAULT /etc/default/grub</span>
-</span><span class='line'><span class="nv">GRUB_DEFAULT</span><span class="o">=</span>saved
-</span><span class='line'><span class="c"># update-grub</span>
-</span><span class='line'>Generating grub.cfg ...
-</span><span class='line'>Found linux image: /boot/vmlinuz-3.2.0-36-virtual
-</span><span class='line'>Found initrd image: /boot/initrd.img-3.2.0-36-virtual
-</span><span class='line'>Found memtest86+ image: /memtest86+.bin
-</span><span class='line'><span class="k">done</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Neustart eines anderen Eintrages</h2>
-
-<p>Ich möchte den Eintrag &#8220;Memory test (memtest86+)&#8221;
-starten, das ist der dritte Eintrag im Boot-Menü:</p>
-
-<figure class='code'><figcaption><span>Neustart mit dem dritten Standard-Boot-Eintrag </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># grub-reboot 2</span>
-</span><span class='line'><span class="c"># reboot</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nun wird der dritte Eintrag gestartet, der blaue Bildschirm von
-&#8220;Memory Test&#8221; erscheint.</p>
-
-<p>Beim nächsten Neustart wird dann wieder der ursprüngliche Boot-Eintrag
-geladen.</p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/05/11/grub-reboot/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Probleme mit MySQL: start: Job failed to start]]></title>
-<link href="http://uli-heller.github.com/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/"/>
-<updated>2013-05-01T06:31:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/05/01/probleme-mit-mysql-start-job-failed-to-start</id>
-
-      <content type="html"><![CDATA[<p>Auf einem meiner Rechner habe ich gestern diverse Updates eingespielt mit</p>
-
-<ul>
-<li><code>apt-get update</code></li>
-<li><code>apt-get upgrade</code></li>
-<li><code>apt-get dist-upgrade</code></li>
-</ul>
-
-
-<p>Dabei wurde auch MySQL aktualisiert. Leider läßt es sich anschließend nicht
-mehr starten. Es erscheint die Fehlermeldung &#8220;start: Job failed to start&#8221;.</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><figcaption><span>Fehlermeldung beim Start von MySQL </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>service mysql start
-</span><span class='line'>  start: Job failed to start
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Eine Sichtung der Log-Dateien unter /var/log liefert leider auch keine
-brauchbaren Informationen:</p>
-
-<figure class='code'><figcaption><span>Sichtung der Log-Dateien </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /var/log
-</span><span class='line'>ls -ltra
-</span><span class='line'>  -rw-rw-r--  1 root      utmp  15744 2013-05-01 06:28 wtmp
-</span><span class='line'>  -rw-rw-r--  1 root      utmp 292292 2013-05-01 06:28 lastlog
-</span><span class='line'>  -rw-r-----  1 syslog    adm   93910 2013-05-01 06:40 auth.log
-</span><span class='line'>  -rw-r-----  1 syslog    adm   17682 2013-05-01 06:47 syslog
-</span><span class='line'>  -rw-r-----  1 syslog    adm  142088 2013-05-01 06:47 messages
-</span><span class='line'>  -rw-r-----  1 syslog    adm   78161 2013-05-01 06:47 kern.log
-</span><span class='line'>  -rw-r-----  1 syslog    adm    5394 2013-05-01 06:47 daemon.log
-</span><span class='line'><span class="c"># daemon.log: mysql pre-start process (2168) terminated with status 1</span>
-</span><span class='line'><span class="c"># kern.log: type=1505 audit(1367383657.073:19):  operation=&quot;profile_replace&quot; pid=2170 name=&quot;/usr/sbin/mysqld&quot;</span>
-</span><span class='line'><span class="c"># messages: type=1505 audit(1367383657.073:19):  operation=&quot;profile_replace&quot; pid=2170 name=&quot;/usr/sbin/mysqld&quot;</span>
-</span><span class='line'><span class="c"># syslog:</span>
-</span><span class='line'><span class="c">#   type=1505 audit(1367383657.073:19):  operation=&quot;profile_replace&quot; pid=2170 name=&quot;/usr/sbin/mysqld&quot;</span>
-</span><span class='line'><span class="c">#    mysql pre-start process (2168) terminated with status 1</span>
-</span><span class='line'><span class="c"># auth.log: ...</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Logging von Upstart aktivieren</h2>
-
-<p>Im <a href="http://upstart.ubuntu.com/cookbook/#initctl-log-priority">Kochbuch für Upstart</a>
-steht, wie man das Logging für Upstart aktiviert:</p>
-
-<ul>
-<li><code>initctl log-priority  # Ausgabe: message</code></li>
-<li><code>initctl log-priority debug</code></li>
-<li><code>service mysql start</code></li>
-</ul>
-
-
-<p>Danach stehen deutlich mehr Informationen in den Log-Dateien. Leider betreffen
-diese mehr die Arbeitsweise vom Upstart-Init-Daemon als die der zu startenden
-Services.</p>
-
-<p>Also: Logging für Upstart wieder deaktivieren:</p>
-
-<ul>
-<li><code>initctl log-priority message</code></li>
-</ul>
-
-
-<h2>Logging für ein Upstart-Skript aktivieren</h2>
-
-<p>Im  <a href="http://upstart.ubuntu.com/cookbook/#obtaining-a-log-of-a-script-section">Kochbuch für Upstart</a>
-steht, wie man Logs für die Upstart-Skripte erzeugt. Die Idee ist, dem Ansatz
-&#8220;Log Script Section Output to Syslog&#8221; zu folgen:</p>
-
-<figure class='code'><figcaption><span>Auszug aus dem Upstart-Kochbuch - Skriptausgabe loggen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>script
-</span><span class='line'>  <span class="nb">exec</span> &gt;/dev/kmsg 2&gt;&amp;1
-</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;this data will be sent to the system log&quot;</span>
-</span><span class='line'>end script
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Zunächst müssen wir die Konfigurationsdatei für den MySQL-Upstart-Service
-finden: /etc/init/mysql.conf. Eine Sichtung liefert:</p>
-
-<ul>
-<li>Es gibt ein &#8220;pre-start script&#8221;</li>
-<li>In den Fehlermeldungen war die Rede von &#8220;pre-start process&#8221;</li>
-<li>Also: Wir schauen uns den &#8220;pre-start&#8221;-Teil näher an</li>
-</ul>
-
-
-<p>Dieser Teil sieht so aus:</p>
-
-<figure class='code'><figcaption><span>/etc/init/mysql.conf - pre-start </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>pre-start script
-</span><span class='line'>    <span class="c">#Sanity checks</span>
-</span><span class='line'>    <span class="o">[</span> -r <span class="nv">$HOME</span>/my.cnf <span class="o">]</span>
-</span><span class='line'>    <span class="o">[</span> -d /var/run/mysqld <span class="o">]</span> <span class="o">||</span> install -m 755 -o mysql -g root -d /var/run/mysqld
-</span><span class='line'>    <span class="c"># Load AppArmor profile</span>
-</span><span class='line'>    <span class="k">if </span>aa-status --enabled 2&gt;/dev/null; <span class="k">then</span>
-</span><span class='line'><span class="k">        </span>apparmor_parser -r /etc/apparmor.d/usr.sbin.mysqld <span class="o">||</span> <span class="nb">true</span>
-</span><span class='line'><span class="nb">    </span><span class="k">fi</span>
-</span><span class='line'><span class="k">    </span><span class="nv">LC_ALL</span><span class="o">=</span>C <span class="nv">BLOCKSIZE</span><span class="o">=</span> df --portability /var/lib/mysql/. | tail -n 1 | awk <span class="s1">&#39;{ exit ($4&lt;4096) }&#39;</span>
-</span><span class='line'>end script
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Es fällt auf, dass der freie Speicherplatz auf /var/lib/mysql/. geprüft wird.
-Möglicherweise ist also auch einfach diese Partition voll gelaufen!</p>
-
-<h2>Sichtung und Bereinigung der Partition /var</h2>
-
-<figure class='code'><figcaption><span>Sichtung und Bereinigung der Partiton /var </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>df /var
-</span><span class='line'>  /dev/mapper/systemvg-varlv  376807    354385      2966 100% /var
-</span><span class='line'>apt-get clean
-</span><span class='line'>df /var
-</span><span class='line'>  /dev/mapper/systemvg-varlv  376807    202839    154512  57% /var
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nun kann man MySQL wieder normal starten!</p>
-
-<figure class='code'><figcaption><span>Normaler Start von MySQL </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>service mysql start
-</span><span class='line'>  mysql start/running, process 1589
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Links</h2>
-
-<ul>
-<li><a href="http://upstart.ubuntu.com/cookbook">Kochbuch für Upstart</a></li>
-</ul>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Cinnamon-1.7.4 auf Ubuntu-12.04]]></title>
-<link href="http://uli-heller.github.com/2013/04/25/cinnamon-1-dot-7-4-auf-ubuntu-12-dot-04/"/>
-<updated>2013-04-25T09:05:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/04/25/cinnamon-1-dot-7-4-auf-ubuntu-12-dot-04</id>
-
-      <content type="html"><![CDATA[<p>Heute habe ich versucht, die aktuelle Cinnamon-Version auf Ubuntu-12.04
-zu installieren und zum Laufen zu bringen. Das Ergebnis war erstmal
-ernüchternd: Nach dem Anmelden erscheint ein komplett leerer Bildschirm,
-man sieht nur das Hintergrundbild.</p>
-
-<p>Mit &#8220;Alt-t&#8221; kann man ein Terminal-Fenster öffnen und darin ein paar Tests
-vornehmen:</p>
-
-<ul>
-<li><code>muffin</code> &#8230; startet problemlos</li>
-<li><code>cinnamon</code> &#8230; startet nicht, stattdessen erscheint eine Fehlermeldung bzgl. GJsDbus</li>
-</ul>
-
-
-<p>Eine Google-Suche zeigt dann die Lösung: <code>sudo apt-get install gir1.2-gjsdbus-1.0</code>. Danach erscheint nach dem Anmelden die gewohnte Arbeitsoberfläche.</p>
-
-<p>Jetzt habe ich mein Debian-Paket für Cinnamon so überarbeitet, dass
-gir1.2-gjsdbus-1.0 direkt als Abhängigkeit eingetragen ist. Somit wird
-es beim Installieren von Cinnamon künftig automatisch mit installiert.</p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/04/25/cinnamon-1-dot-7-4-auf-ubuntu-12-dot-04/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>

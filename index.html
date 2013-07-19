@@ -86,6 +86,278 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/07/19/redmine-passenger/">Redmine: Von FCGI zu Passenger</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-19T15:00:00+02:00" pubdate data-updated="true">19. Juli 2013</time>
+         &bull; <a rel="bookmark" href="/2013/07/19/redmine-passenger/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Bislang habe ich Redmine hinter einem Apache HTTPD via FCGI betrieben.
+Bei meinen Tests mit Redmine-2.3.2 gibt es bei dieser Konstellation aber
+viele Probleme mit der Selektion des Rails-Environments. Es wird immer
+&#8220;development&#8221; verwendet, &#8220;production&#8221; kann nicht mehr &#8220;wie früher&#8221; über
+&#8220;environment.rb&#8221; und <code>ENV['RAILS_ENV'] ||= 'production'</code> selektiert werden.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/07/19/redmine-passenger/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/07/18/bootchart/">Analyse des Systemstarts</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-07-18T10:00:00+02:00" pubdate data-updated="true">18. Juli 2013</time>
+         &bull; <a rel="bookmark" href="/2013/07/18/bootchart/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Mein Samsung-Laptop benötigt sehr lange für den Systemstart.
+Gefühlt dauert&#8217;s 5 Minuten vom Einschalten bis zum Login-Prompt.
+Das sollte doch irgendwie schneller gehen - nur wie?</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/07/18/bootchart/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/07/12/zfs/">Experimente mit ZFS unter Ubuntu-12.04</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-12T08:00:00+02:00" pubdate data-updated="true">12. Juli 2013</time>
+         &bull; <a rel="bookmark" href="/2013/07/12/zfs/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h2>DEBs installieren</h2>
+
+<p><code>
+sudo apt-get install make build-essential dpkg-dev
+sudo apt-get install -f
+sudo dpkg -i zfs-dkms_0.6.1-1~precise_amd64.deb spl-dkms_0.6.1-1~precise_all.deb dkms_2.2.0.3-1ubuntu3.1+zfs6~precise1_all.deb
+sudo dpkg -i zfsutils_0.6.1-1~precise_amd64.deb libnvpair1_0.6.1-1~precise_amd64.deb libuutil1_0.6.1-1~precise_amd64.deb libzfs1_0.6.1-1~precise_amd64.deb libzpool1_0.6.1-1~precise_amd64.deb
+</code></p>
+
+<h2>Kurzexperimente mit ZPOOL</h2>
+
+<p>&#8220;`
+$ sudo zpool create -f zfsdata /dev/sda
+$ sudo zpool status
+  pool: zfsdata
+ state: ONLINE
+  scan: none requested
+config:</p>
+
+<pre><code>NAME        STATE     READ WRITE CKSUM
+zfsdata     ONLINE       0     0     0
+  sda       ONLINE       0     0     0
+</code></pre>
+
+<p>errors: No known data errors
+$ sudo zpool destroy zfsdata
+&#8220;`</p>
+
+<h2>Pool mit RaidZ anlegen</h2>
+
+<p>&#8220;`
+$ sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb
+$ sudo zpool status
+  pool: zfsdata
+ state: ONLINE
+  scan: none requested
+config:</p>
+
+<pre><code>NAME        STATE     READ WRITE CKSUM
+zfsdata     ONLINE       0     0     0
+  raidz1-0  ONLINE       0     0     0
+    sda     ONLINE       0     0     0
+    sdb     ONLINE       0     0     0
+</code></pre>
+
+<p>errors: No known data errors
+$ sudo zpool destroy zfsdata
+&#8220;`</p>
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/07/10/subversion_1.8.0/">Subversion 1.8.0 für Ubuntu-12.04</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-10T10:00:00+02:00" pubdate data-updated="true">10. Juli 2013</time>
+         &bull; <a rel="bookmark" href="/2013/07/10/subversion_1.8.0/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Vor ein paar Tagen wurde Subversion-1.8.0 veröffentlicht.
+Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen.</p>
+
+<p>Aktuell kann ich die DEB-Pakete zwar erzeugen und installieren,
+leider funktionieren sie aber nicht richtig!</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/07/10/subversion_1.8.0/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/07/10/usb_speed/">Lesegeschwindigkeit von USB-Sticks</a>
 
 </h1>
@@ -429,240 +701,6 @@ funktioniert der USB-Adapter erstmal auch nicht.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/06/16/macbook-air/">Ubuntu auf einem Macbook Air - erste Eindrücke</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-06-16T12:00:00+02:00" pubdate data-updated="true">16. Juni 2013</time>
-         &bull; <a rel="bookmark" href="/2013/06/16/macbook-air/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><p>Bedingt durch die Probleme mit meinem Samsung-Notebook habe ich
-mir nun ein Macbook Air 2013 11 Zoll gegönnt.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/06/16/macbook-air/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/06/14/ubuntu-server-wlan/">WLAN-Konfiguration beim Ubuntu-Server</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-14T12:00:00+02:00" pubdate data-updated="true">14. Juni 2013</time>
-         &bull; <a rel="bookmark" href="/2013/06/14/ubuntu-server-wlan/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><p>Meinen alten EEEPC würde ich gerne als DHCP-Server weiterverwenden.
-Also: Ubuntu-12.04-Server drauf und los geht&#8217;s. Dumm nur:
-Aktuell ist unklar, wie ich die WLAN-Konfiguration hinbekomme.
-Auf Desktop-Systemen macht man das ja mit dem NetworkManager,
-was auf dem Server ohne graphische Benutzerschnittstelle schwierig ist.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/06/14/ubuntu-server-wlan/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/06/10/lxc-clone-x/">LXC: Clonen eines Containers mit Namen &#8216;x&#8217;</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-10T17:40:00+02:00" pubdate data-updated="true">10. Juni 2013</time>
-         &bull; <a rel="bookmark" href="/2013/06/10/lxc-clone-x/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><p>Seit ich BTRFS-Subvolumes und -Snapshots zum Clonen von
-LXC-Containern verwende, erzeuge ich viel mehr dieser
-Clones - es geht einfach <em>sehr</em> schnell und verbraucht
-fast keine Resourcen.</p>
-
-<p>Beim Rum-Clonen bin ich über einen blöden Fehler gestolpert:
-Man kann keinen Container clonen, der &#8220;x&#8221; heißt. Der Vorgang
-bricht ab mit der Meldung &#8220;ERROR: can&#8217;t access to &#8216;/var/lib/lyc/x&#8217;&#8221;.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/06/10/lxc-clone-x/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/06/10/cpan-ohne-root/">Perl: CPAN ohne Root</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-10T06:00:00+02:00" pubdate data-updated="true">10. Juni 2013</time>
-         &bull; <a rel="bookmark" href="/2013/06/10/cpan-ohne-root/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><p>Manchmal möchte man Perl-Module auf einem Rechner installieren,
-ohne dass man Root-Rechte dafür hat - oder umgekehrt: Man
-möchte Leuten ermöglichen, auf einem Rechner mit Perl-Modulen
-rumzuspielen, für den sie keinen Root-Zugriff haben. Die nachfolgende
-Beschreibung bezieht sich auf Ubuntu-12.04.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/06/10/cpan-ohne-root/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Älter</a>
@@ -679,23 +717,23 @@ Beschreibung bezieht sich auf Ubuntu-12.04.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/07/19/redmine-passenger/">Redmine: Von FCGI zu Passenger</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/18/bootchart/">Analyse des Systemstarts</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/12/zfs/">Experimente mit ZFS unter Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/10/subversion_1.8.0/">Subversion 1.8.0 für Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/07/10/usb_speed/">Lesegeschwindigkeit von USB-Sticks</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/03/eclipse_markdown/">Markdowneditor in Eclipse</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/06/27/centos/">Experimente mit CentOS-6.4</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/06/26/gallery/">Gallerie - Installation von CentOS-6.4 in einer VM</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/06/24/macbook-air/">Ubuntu auf einem Macbook Air 2013</a>
       </li>
     
   </ul>
