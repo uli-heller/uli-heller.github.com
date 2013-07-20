@@ -86,6 +86,114 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/05/14/openvpn-ubuntu/">OpenVPN unter Ubuntu nutzen</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-05-14T06:00:00+02:00" pubdate data-updated="true">14. Mai 2013</time>
+         &bull; <a rel="bookmark" href="/2013/05/14/openvpn-ubuntu/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h2>Installation von OpenVPN</h2>
+
+<figure class='code'><figcaption><span>Installation von OpenVPN </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install openvpn</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Konfigurationsdateien von OpenVPN einspielen</h2>
+
+<figure class='code'><figcaption><span>Konfigurationsdateien von OpenVPN einspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>mkdir ~/openvpn
+</span><span class='line'>unzip -d ~/openvpn uheller.zip</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Es werden Dateien wie diese abgelegt:</p>
+
+<ul>
+<li>openvpn/2E76.crt</li>
+<li>openvpn/2E76.key</li>
+<li>openvpn/ca.crt</li>
+<li>openvpn/ta.key</li>
+<li>openvpn/uheller.ovpn</li>
+</ul>
+
+
+<h2>OpenVPN starten</h2>
+
+<figure class='code'><figcaption><span>OpenVPN starten </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo openvpn ~/openvpn/uheller.ovpn
+</span><span class='line'>Enter Auth Username: uheller
+</span><span class='line'>Enter Auth Password: xxxx</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>VPN-Rechner nutzen</h2>
+
+<p>Das Hauptproblem ist nun die Namensauflösung.
+Meine VPN-Gegenstelle nennt mir keinen NameServer, also
+muß ich</p>
+
+<ul>
+<li>entweder immer via IP-Adresse &#8220;arbeiten&#8221;</li>
+<li>oder die Hosts selbst bei mir in /etc/hosts eintragen</li>
+</ul>
+
+
+<p>Zunächst verfolge ich mal den ersten Ansatz:</p>
+
+<ul>
+<li><a href="https://10.157.1.20/owa">https://10.157.1.20/owa</a> &#8230; öffnet den Webmailer,
+hier kann ich mich anmelden mit &#8220;uheller&#8221;/&#8221;xxxx&#8221;.</li>
+</ul>
+
+
+<p>SUPER!</p>
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/05/12/lxc-ubuntu-build/">Ubuntu-Debian-Pakete mit LXC erzeugen</a>
 
 </h1>
@@ -1112,136 +1220,6 @@ nicht sauber zurückgerollt werden.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/04/12/git-subtree/">Git Subtree (1/2)</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-12T07:14:00+02:00" pubdate data-updated="true">12. April 2013</time>
-         &bull; <a rel="bookmark" href="/2013/04/12/git-subtree/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Git Subtree - Neues DEB-Paket bereitstellen</h1>
-
-<h2>Einleitung</h2>
-
-<p>Kurze Erklärung: Warum will ich&#8217;s verwenden? Warum kann ich&#8217;s nicht
-direkt verwenden?</p>
-
-<p>Leider ist <code>git subtree</code> in den von mir verwendeten Pakete standardmässig
-nicht aktiv:</p>
-
-<figure class='code'><figcaption><span>git-subtree fehlt </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
-</span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Entweder wir aktivieren es manuell oder wir bauen neue Pakete, bei denen <code>git subtree</code> aktiviert ist.</p>
-
-<h2>Manuelles Aktivieren von Git Subtree</h2>
-
-<figure class='code'><figcaption><span>git-subtree manuell installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
-</span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
-</span><span class='line'><span class="nv">$ </span>sudo cp /usr/share/doc/git/contrib/subtree/git-subtree.sh /usr/lib/git-core/git-subtree
-</span><span class='line'><span class="nv">$ </span>sudo chmod +x  /usr/lib/git-core/git-subtree
-</span><span class='line'><span class="nv">$ </span>git subtree
-</span><span class='line'>usage: git subtree add   --prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
-</span><span class='line'>   or: git subtree add   --prefix<span class="o">=</span>&lt;prefix&gt; &lt;repository&gt; &lt;commit&gt;
-</span><span class='line'>   or: git subtree merge --prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
-</span><span class='line'>...
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nachteil beim manuellen Aktivieren: Es gibt keine Online-Dokumentation,
-d.h. <code>git help subtree</code> läuft in&#8217;s Leere.</p>
-
-<h2>Erzeugung neuer DEB-Pakete</h2>
-
-<ul>
-<li>Ausgangspunkt: Build-Verzeichnis für Git-1.8.2.1 liegt vor, d.h. ich
-kann mit <code>dpkg-buildpackage</code> neue DEB-Pakete erzeugen</li>
-<li>Sichtung: Wie funktioniert die Einbindung von &#8220;subtree&#8221;?
-
-<ul>
-<li>Die Implementierung liegt unter contrib/subtree</li>
-<li>Eine Einspielanleitung gibt&#8217;s dort auch</li>
-<li>Diese müssen wir &#8220;eigentlich&#8221; nur noch in debian/rules einbauen
-und fertig!</li>
-</ul>
-</li>
-<li>Also: Änderungen an debian/changelog und debian/rules durchführen und
-los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
-<li>Sichtung: Ist git-subtree in den erstellten Paketen enthalten?
-
-<ul>
-<li><code>dpkg-deb -c git_1.8.2.1*deb|grep git-core/git-subtree</code></li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Probleme</h3>
-
-<h4>Falscher Installationspfad</h4>
-
-<ul>
-<li>Verwendet wird: /build/git/git-1.8.2.1/debian/git/usr/libexec/git-core</li>
-<li>Richtig wäre:  /build/git/git-1.8.2.1/debian/git/usr/lib/git-core</li>
-<li>Korrektur durch: Setzen von libexecdir in debian/rules</li>
-</ul>
-
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Älter</a>
@@ -1260,6 +1238,10 @@ los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/07/19/redmine-passenger/">Redmine: Von FCGI zu Passenger</a>
       </li>
     
@@ -1273,10 +1255,6 @@ los geht&#8217;s mit <code>dpkg-buildpackage</code> (&#8230; das dauert)</li>
     
       <li class="post">
         <a href="/2013/07/10/subversion_1.8.0/">Subversion 1.8.0 für Ubuntu-12.04</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/10/usb_speed/">Lesegeschwindigkeit von USB-Sticks</a>
       </li>
     
   </ul>

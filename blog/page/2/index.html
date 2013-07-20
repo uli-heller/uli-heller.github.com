@@ -86,6 +86,63 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/06/19/tl-wn725n/">150Mbps Wireless N Nano USB Adapter TP-Link TL-WN725N</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-19T12:00:00+02:00" pubdate data-updated="true">19. Juni 2013</time>
+         &bull; <a rel="bookmark" href="/2013/06/19/tl-wn725n/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Da bei meinem Macbook Air 2013 das WLAN nicht funktioniert, habe ich
+mir einen Nano-USB-Adapter gekauft und plane, damit die Zeit zu überbrücken
+bis ein Treiber für den internen WLAN-Adapter verfügbar ist. Leider
+funktioniert der USB-Adapter erstmal auch nicht.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/06/19/tl-wn725n/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/06/16/macbook-air/">Ubuntu auf einem Macbook Air - erste Eindrücke</a>
 
 </h1>
@@ -641,114 +698,6 @@ angezeigt werden.</li>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/05/14/openvpn-ubuntu/">OpenVPN unter Ubuntu nutzen</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-05-14T06:00:00+02:00" pubdate data-updated="true">14. Mai 2013</time>
-         &bull; <a rel="bookmark" href="/2013/05/14/openvpn-ubuntu/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h2>Installation von OpenVPN</h2>
-
-<figure class='code'><figcaption><span>Installation von OpenVPN </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>sudo apt-get install openvpn</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Konfigurationsdateien von OpenVPN einspielen</h2>
-
-<figure class='code'><figcaption><span>Konfigurationsdateien von OpenVPN einspielen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>mkdir ~/openvpn
-</span><span class='line'>unzip -d ~/openvpn uheller.zip</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Es werden Dateien wie diese abgelegt:</p>
-
-<ul>
-<li>openvpn/2E76.crt</li>
-<li>openvpn/2E76.key</li>
-<li>openvpn/ca.crt</li>
-<li>openvpn/ta.key</li>
-<li>openvpn/uheller.ovpn</li>
-</ul>
-
-
-<h2>OpenVPN starten</h2>
-
-<figure class='code'><figcaption><span>OpenVPN starten </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo openvpn ~/openvpn/uheller.ovpn
-</span><span class='line'>Enter Auth Username: uheller
-</span><span class='line'>Enter Auth Password: xxxx</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>VPN-Rechner nutzen</h2>
-
-<p>Das Hauptproblem ist nun die Namensauflösung.
-Meine VPN-Gegenstelle nennt mir keinen NameServer, also
-muß ich</p>
-
-<ul>
-<li>entweder immer via IP-Adresse &#8220;arbeiten&#8221;</li>
-<li>oder die Hosts selbst bei mir in /etc/hosts eintragen</li>
-</ul>
-
-
-<p>Zunächst verfolge ich mal den ersten Ansatz:</p>
-
-<ul>
-<li><a href="https://10.157.1.20/owa">https://10.157.1.20/owa</a> &#8230; öffnet den Webmailer,
-hier kann ich mich anmelden mit &#8220;uheller&#8221;/&#8221;xxxx&#8221;.</li>
-</ul>
-
-
-<p>SUPER!</p>
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Älter</a>
@@ -767,6 +716,10 @@ hier kann ich mich anmelden mit &#8220;uheller&#8221;/&#8221;xxxx&#8221;.</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/07/19/redmine-passenger/">Redmine: Von FCGI zu Passenger</a>
       </li>
     
@@ -780,10 +733,6 @@ hier kann ich mich anmelden mit &#8220;uheller&#8221;/&#8221;xxxx&#8221;.</li>
     
       <li class="post">
         <a href="/2013/07/10/subversion_1.8.0/">Subversion 1.8.0 für Ubuntu-12.04</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/10/usb_speed/">Lesegeschwindigkeit von USB-Sticks</a>
       </li>
     
   </ul>
