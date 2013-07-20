@@ -103,6 +103,8 @@ Experimente mit ZFS unter Ubuntu-12.04
   
 
 
+
+  
 <time datetime="2013-07-12T08:00:00+02:00" pubdate data-updated="true">12. Juli 2013</time>
          &bull; <a rel="bookmark" href="/2013/07/12/zfs/">Permalink</a>
       </p>
@@ -111,52 +113,102 @@ Experimente mit ZFS unter Ubuntu-12.04
 
 <div class="entry-content"><h2>DEBs installieren</h2>
 
-<p><code>
-sudo apt-get install make build-essential dpkg-dev
-sudo apt-get install -f
-sudo dpkg -i zfs-dkms_0.6.1-1~precise_amd64.deb spl-dkms_0.6.1-1~precise_all.deb dkms_2.2.0.3-1ubuntu3.1+zfs6~precise1_all.deb
-sudo dpkg -i zfsutils_0.6.1-1~precise_amd64.deb libnvpair1_0.6.1-1~precise_amd64.deb libuutil1_0.6.1-1~precise_amd64.deb libzfs1_0.6.1-1~precise_amd64.deb libzpool1_0.6.1-1~precise_amd64.deb
-</code></p>
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install make build-essential dpkg-dev
+</span><span class='line'>sudo apt-get install -f
+</span><span class='line'>sudo dpkg -i zfs-dkms_0.6.1-1~precise_amd64.deb spl-dkms_0.6.1-1~precise_all.deb dkms_2.2.0.3-1ubuntu3.1+zfs6~precise1_all.deb
+</span><span class='line'>sudo dpkg -i zfsutils_0.6.1-1~precise_amd64.deb libnvpair1_0.6.1-1~precise_amd64.deb libuutil1_0.6.1-1~precise_amd64.deb libzfs1_0.6.1-1~precise_amd64.deb libzpool1_0.6.1-1~precise_amd64.deb
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
 
 <h2>Kurzexperimente mit ZPOOL</h2>
 
-<p>```
-$ sudo zpool create -f zfsdata /dev/sda
-$ sudo zpool status
-  pool: zfsdata
- state: ONLINE
-  scan: none requested
-config:</p>
+<!--escape-->
 
-<pre><code>NAME        STATE     READ WRITE CKSUM
-zfsdata     ONLINE       0     0     0
-  sda       ONLINE       0     0     0
-</code></pre>
 
-<p>errors: No known data errors
-$ sudo zpool destroy zfsdata
-```</p>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata /dev/sda
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: none requested
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    sda       ONLINE       0     0     0
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>sudo zpool destroy zfsdata
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
 
 <h2>Pool mit RaidZ anlegen</h2>
 
-<p>```
-$ sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb
-$ sudo zpool status
-  pool: zfsdata
- state: ONLINE
-  scan: none requested
-config:</p>
+<!--escape-->
 
-<pre><code>NAME        STATE     READ WRITE CKSUM
-zfsdata     ONLINE       0     0     0
-  raidz1-0  ONLINE       0     0     0
-    sda     ONLINE       0     0     0
-    sdb     ONLINE       0     0     0
-</code></pre>
 
-<p>errors: No known data errors
-$ sudo zpool destroy zfsdata
-```</p>
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: none requested
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    raidz1-0  ONLINE       0     0     0
+</span><span class='line'>      sda     ONLINE       0     0     0
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>sudo zpool destroy zfsdata
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+
 </div>
 
 
@@ -179,7 +231,9 @@ $ sudo zpool destroy zfsdata
   
 
 
-<time datetime="2013-07-12T08:00:00+02:00" pubdate data-updated="true">12. Juli 2013</time>
+
+  
+<time datetime="2013-07-20T08:00:00+02:00" class="updated">Updated 20. Juli 2013</time>
 
 
 <span class="categories">
