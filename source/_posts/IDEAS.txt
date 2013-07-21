@@ -17,6 +17,10 @@
 * http://people.skolelinux.org/pere/blog/How_to_fix_a_Thinkpad_X230_with_a_broken_180_GB_SSD_disk.html
 * http://anonscm.debian.org/gitweb/?p=collab-maint/ssd-setup.git
 
+## Container, LXC, ...
+
+* https://github.com/arachsys/containers
+
 # Sonstiges
 
 NginX - Apache
