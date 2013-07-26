@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Ubuntu auf einem Macbook Air 2013"
 date: 2013-06-24 05:00
-updated: 2013-07-03 08:00
+updated: 2013-07-26 11:30
 comments: true
 categories: 
 - Linux
@@ -173,7 +173,8 @@ uli@uli-MacBookAir-11:~$ dmesg|grep hid
 
 Sieht so aus, als wäre bei meiner Tastatur die "0290" die magische Konstante. Mit einem Patch
 analog zu <https://launchpadlibrarian.net/94610947/alu2011.patch>
-oder auch <https://github.com/kui/hid-apple> sollte das dann wohl korrigierbar sein.
+oder auch <https://github.com/kui/hid-apple>
+oder auch <https://bugzilla.kernel.org/show_bug.cgi?id=60181> sollte das dann wohl korrigierbar sein.
 
 ### Enttäuschende Akku-Laufzeit
 
@@ -190,5 +191,6 @@ auch nicht - ich habe OSX noch kein einziges mal gestartet.
 
 ## Änderungen
 
+* 2013-07-26 ... Verweis auf Kernel-Bug 60181 aufgenommen (Tasten + Touchpad)
 * 2013-07-05 ... Logs zum Problem "Vertauschte Tasten"
 * 2013-07-03 ... Abschnitt zur Akku-Laufzeit aufgenommen
