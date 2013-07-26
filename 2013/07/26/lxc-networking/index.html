@@ -181,6 +181,8 @@ die früher anstandslos gelaufen sind.</p>
 
 <h2>Abhilfe</h2>
 
+<h3>Temporäre Abhilfe</h3>
+
 <p>Abhilfe schafft die Ausführung vom nachfolgenden Befehl auf dem Host:</p>
 
 <p><code>
@@ -188,6 +190,20 @@ sudo iptables -A POSTROUTING -t mangle -p udp --dport bootpc -j CHECKSUM --check
 </code></p>
 
 <p>Die Abhilfe ist hier beschrieben: <a href="https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14">https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14</a></p>
+
+<h3>Dauerhafte Abhilfe</h3>
+
+<p>Eine dauerhafte Abhilfe schafft die Aktualisierung des Paketes
+"isc-dhcp-client" auf Version 4.1.ESV-R4-0ubuntu5.8 oder neuer.
+Das geht ganz normal mit <code>apt-get update; apt-get upgrade</code>.
+Ich hatte zuvor 4.1.ESV-R4-0ubuntu5.5 im Container.</p>
+
+<h2>Nachtrag: Ursache</h2>
+
+<p>Das Problem wurde ziemlich sicher verursacht durch den Einsatz von
+einem 3.10-er Kernel auf dem Host. Nach dem "Runterschalten" auf 3.8
+laufen die Container auch wieder ohne Aktualisierung von
+"isc-dhcp-client".</p>
 </div>
 
 

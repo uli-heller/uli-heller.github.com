@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-07-26T14:33:59+02:00</updated>
+  <updated>2013-07-26T16:44:40+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -83,6 +83,8 @@ die früher anstandslos gelaufen sind.</p>
 
 <h2>Abhilfe</h2>
 
+<h3>Temporäre Abhilfe</h3>
+
 <p>Abhilfe schafft die Ausführung vom nachfolgenden Befehl auf dem Host:</p>
 
 <p><code>
@@ -90,6 +92,20 @@ sudo iptables -A POSTROUTING -t mangle -p udp --dport bootpc -j CHECKSUM --check
 </code></p>
 
 <p>Die Abhilfe ist hier beschrieben: <a href="https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14">https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14</a></p>
+
+<h3>Dauerhafte Abhilfe</h3>
+
+<p>Eine dauerhafte Abhilfe schafft die Aktualisierung des Paketes
+&#8220;isc-dhcp-client&#8221; auf Version 4.1.ESV-R4-0ubuntu5.8 oder neuer.
+Das geht ganz normal mit <code>apt-get update; apt-get upgrade</code>.
+Ich hatte zuvor 4.1.ESV-R4-0ubuntu5.5 im Container.</p>
+
+<h2>Nachtrag: Ursache</h2>
+
+<p>Das Problem wurde ziemlich sicher verursacht durch den Einsatz von
+einem 3.10-er Kernel auf dem Host. Nach dem &#8220;Runterschalten&#8221; auf 3.8
+laufen die Container auch wieder ohne Aktualisierung von
+&#8220;isc-dhcp-client&#8221;.</p>
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/26/lxc-networking/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
