@@ -86,6 +86,122 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/06/26/gallery/">Gallerie - Installation von CentOS-6.4 in einer VM</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-06-26T08:00:00+02:00" pubdate data-updated="true">26. Juni 2013</time>
+         &bull; <a rel="bookmark" href="/2013/06/26/gallery/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Die nachfolgende Gallerie zeigt, wie ich CentOS-6.4 in einer
+VM installiert habe.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/06/26/gallery/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/06/24/macbook-air/">Ubuntu auf einem Macbook Air 2013</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-06-24T05:00:00+02:00" pubdate data-updated="true">24. Juni 2013</time>
+         &bull; <a rel="bookmark" href="/2013/06/24/macbook-air/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Bedingt durch die Probleme mit meinem Samsung-Notebook habe ich
+mir nun ein Macbook Air 2013 11 Zoll gegönnt. Erste Eindrücke habe
+ich mit Live-CDs und Ad-Hoc-Installationen gesammelt. Hier nun
+mein Weg zu einem &#8220;richtig&#8221; funktionierenden System.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/06/24/macbook-air/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/06/19/tl-wn725n/">150Mbps Wireless N Nano USB Adapter TP-Link TL-WN725N</a>
 
 </h1>
@@ -546,158 +662,6 @@ dennoch ohne allzuviel Tipparbeit installieren kann.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/05/17/markdown-pdf/">Markdown nach PDF wandeln</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-17T21:00:00+02:00" pubdate data-updated="true">17. Mai 2013</time>
-         &bull; <a rel="bookmark" href="/2013/05/17/markdown-pdf/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><p>Hier kurz eine Beschreibung, wie man Markdown nach PDF
-konvertieren kann auf Basis von</p>
-
-<ul>
-<li>Kramdown</li>
-<li>Gimli</li>
-<li>Context</li>
-<li>Pandoc</li>
-</ul>
-
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/05/17/markdown-pdf/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/05/16/jboss-7.1.1/">JBoss Application Server 7 unter Ubuntu nutzen</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-16T19:00:00+02:00" pubdate data-updated="true">16. Mai 2013</time>
-         &bull; <a rel="bookmark" href="/2013/05/16/jboss-7.1.1/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h2>Installation und Kurztest von JBoss AS</h2>
-
-<ul>
-<li>Paket von http://www.jboss.org/jbossas/downloads herunterladen,
-einspielen und starten:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span>Einspielen und Starten von JBossAS </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># jboss-as-7.1.1.Final.tar.gz heruntergeladen nach ~/Downloads</span>
-</span><span class='line'><span class="nb">cd</span> /opt
-</span><span class='line'>gzip -cd ~/Downloads/jboss-as-7.1.1.Final.tar.gz |sudo tar xf -
-</span><span class='line'><span class="c"># ... es darf keine Fehlermeldung erscheinen!</span>
-</span><span class='line'>sudo chown -R uli.uli jboss-as-7.1.1.Final
-</span><span class='line'><span class="nb">cd  </span>jboss-as-7.1.1.Final
-</span><span class='line'>./bin/standalone.sh
-</span><span class='line'><span class="c"># ... muß ohne Fehlermeldung starten</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Test mit <a href="https://localhost:8080">https://localhost:8080</a>: Es muß grob &#8220;Welcome to AS 7&#8221;
-angezeigt werden.</li>
-</ul>
-
-
-<h2>Probleme</h2>
-
-<ul>
-<li>Keine, auch nicht mit JDK6</li>
-</ul>
-
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Älter</a>
@@ -716,6 +680,14 @@ angezeigt werden.</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/07/26/lxc-networking/">LXC: Probleme bei der Initialisierung des Netzwerkes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/21/git-fork/">Git Fork</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
       </li>
     
@@ -725,14 +697,6 @@ angezeigt werden.</li>
     
       <li class="post">
         <a href="/2013/07/18/bootchart/">Analyse des Systemstarts</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/12/zfs/">Experimente mit ZFS unter Ubuntu-12.04</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/10/subversion_1.8.0/">Subversion 1.8.0 für Ubuntu-12.04</a>
       </li>
     
   </ul>

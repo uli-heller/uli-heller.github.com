@@ -958,9 +958,7 @@ werden, damit es zu keinen Verwechslungen kommen kann.</p>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -o <span class="nv">ashift</span><span class="o">=</span>12 -f zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511 spare scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -o <span class="nv">ashift</span><span class="o">=</span>12 -f zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
 </span><span class='line'><span class="nv">$ </span>sudo zpool status
 </span><span class='line'>  pool: zfsdata
 </span><span class='line'> state: ONLINE
@@ -972,10 +970,35 @@ werden, damit es zu keinen Verwechslungen kommen kann.</p>
 </span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  ONLINE       0     0     0
 </span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
 </span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511  ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994  AVAIL
 </span><span class='line'>
 </span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<p>Die Platte "scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994" bleibt auf Vorrat
+nicht eingesteckt im Rahmen. Beim Ausfall einer Platte wird sie eingesteckt und
+mittels <code>zpool replace zfsdata {kaputte_platte} scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994</code>
+aktiviert.</p>
+
+<h2>Probleme</h2>
+
+<h3>Dateisystem nach Neustart nicht eingebunden</h3>
+
+<p>Nachdem ich den Kernel aktualisiert habe von 3.2 nach 3.5 klappt das automatische
+Einhängen des ZFS-Dateisystems nicht mehr.</p>
+
+<p>Abhilfe: Standard-Paket "mountall" wieder installieren und ZFS umkonfigurieren!</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install <span class="nv">mountall</span><span class="o">=</span>2.36.4
+</span><span class='line'>sudo sed -i s/ZFS_MOUNT<span class="o">=</span><span class="s1">&#39;no&#39;</span>/ZFS_MOUNT<span class="o">=</span><span class="s1">&#39;yes&#39;</span>/ /etc/default/zfs
 </span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
 
 
@@ -1076,6 +1099,14 @@ werden, damit es zu keinen Verwechslungen kommen kann.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/07/26/lxc-networking/">LXC: Probleme bei der Initialisierung des Netzwerkes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/21/git-fork/">Git Fork</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
       </li>
     
@@ -1085,14 +1116,6 @@ werden, damit es zu keinen Verwechslungen kommen kann.</p>
     
       <li class="post">
         <a href="/2013/07/18/bootchart/">Analyse des Systemstarts</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/12/zfs/">Experimente mit ZFS unter Ubuntu-12.04</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/10/subversion_1.8.0/">Subversion 1.8.0 für Ubuntu-12.04</a>
       </li>
     
   </ul>

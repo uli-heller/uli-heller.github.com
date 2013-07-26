@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-07-20T12:49:41+02:00</updated>
+  <updated>2013-07-26T14:33:59+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,126 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[LXC: Probleme bei der Initialisierung des Netzwerkes]]></title>
+<link href="http://uli-heller.github.com/2013/07/26/lxc-networking/"/>
+<updated>2013-07-26T15:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/07/26/lxc-networking</id>
+
+      <content type="html"><![CDATA[<p>Seit einiger Zeit verwende ich LXC als Ergänzung zu VirtualBox.
+Bislang läuft das weitgehend problemlos.
+Merkwürdigerweise habe einige LXC-Container seit heute ein
+Problem beim Start: Es dauert endlos, bis der Login-Prompt erscheint
+und das Netzwerk funktioniert nicht. Betroffen sind auch Container,
+die früher anstandslos gelaufen sind.</p>
+
+<!-- more -->
+
+
+<h2>Logs</h2>
+
+<h3>Host: /var/Log/syslog</h3>
+
+<figure class='code'><figcaption><span>Host:/var/log/syslog </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82 
+</span><span class='line'>Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82 
+</span><span class='line'>Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82 
+</span><span class='line'>Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82 
+</span><span class='line'>Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82 
+</span><span class='line'>Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82 
+</span><span class='line'>Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82 
+</span><span class='line'>Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82 
+</span><span class='line'>Jul 26 13:13:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Container: /var/log/syslog</h3>
+
+<figure class='code'><figcaption><span>Container:/var/log/syslog </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>Jul 26 11:12:53 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 17
+</span><span class='line'>Jul 26 11:12:53 localhost dhclient: 5 bad udp checksums in 5 packets
+</span><span class='line'>Jul 26 11:13:10 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 14
+</span><span class='line'>Jul 26 11:13:24 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
+</span><span class='line'>Jul 26 11:13:35 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
+</span><span class='line'>Jul 26 11:13:50 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
+</span><span class='line'>Jul 26 11:14:01 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 10
+</span><span class='line'>Jul 26 11:14:01 localhost dhclient: 5 bad udp checksums in 5 packets
+</span><span class='line'>Jul 26 11:14:11 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
+</span><span class='line'>Jul 26 11:14:26 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Abhilfe</h2>
+
+<p>Abhilfe schafft die Ausführung vom nachfolgenden Befehl auf dem Host:</p>
+
+<p><code>
+sudo iptables -A POSTROUTING -t mangle -p udp --dport bootpc -j CHECKSUM --checksum-fill
+</code></p>
+
+<p>Die Abhilfe ist hier beschrieben: <a href="https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14">https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14</a></p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/26/lxc-networking/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[Git Fork]]></title>
+<link href="http://uli-heller.github.com/2013/07/21/git-fork/"/>
+<updated>2013-07-21T09:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/07/21/git-fork</id>
+
+      <content type="html"><![CDATA[<h1>Git Fork</h1>
+
+<p>Hier kurz meine Notizen zum Arbeiten mit GitHub Forks:</p>
+
+<ul>
+<li>Bestehendes Projekt &#8220;forken&#8221; -> einfach via GitHub-Webseite</li>
+<li>Lokalen Clone hiervon anlegen: <code>git clone ...</code></li>
+<li>Lokale Änderungen an GitHub schicken:
+<code>git push origin master</code></li>
+<li>Original-Projekt als &#8220;upstream&#8221; definieren:
+<code>git remote add upstream ...</code></li>
+<li>Lokale Kopie des Original-Projektes aktualisieren:
+<code>git fetch upstream</code></li>
+<li>Lokale Kopie des Original-Projektes &#8220;einarbeiten&#8221;:
+
+<ul>
+<li><code>git merge --no-commit upstream/master</code></li>
+<li><code>git mergetool</code></li>
+<li><code>git commit -m ...</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Mehr Details: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/21/git-fork/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -1328,9 +1448,7 @@ werden, damit es zu keinen Verwechslungen kommen kann.</p>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -o <span class="nv">ashift</span><span class="o">=</span>12 -f zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511 spare scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -o <span class="nv">ashift</span><span class="o">=</span>12 -f zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
 </span><span class='line'><span class="nv">$ </span>sudo zpool status
 </span><span class='line'>  pool: zfsdata
 </span><span class='line'> state: ONLINE
@@ -1342,10 +1460,29 @@ werden, damit es zu keinen Verwechslungen kommen kann.</p>
 </span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  ONLINE       0     0     0
 </span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
 </span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511  ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994  AVAIL
 </span><span class='line'>
 </span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Die Platte &#8220;scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994&#8221; bleibt auf Vorrat
+nicht eingesteckt im Rahmen. Beim Ausfall einer Platte wird sie eingesteckt und
+mittels <code>zpool replace zfsdata {kaputte_platte} scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994</code>
+aktiviert.</p>
+
+<h2>Probleme</h2>
+
+<h3>Dateisystem nach Neustart nicht eingebunden</h3>
+
+<p>Nachdem ich den Kernel aktualisiert habe von 3.2 nach 3.5 klappt das automatische
+Einhängen des ZFS-Dateisystems nicht mehr.</p>
+
+<p>Abhilfe: Standard-Paket &#8220;mountall&#8221; wieder installieren und ZFS umkonfigurieren!</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install <span class="nv">mountall</span><span class="o">=</span>2.36.4
+</span><span class='line'>sudo sed -i s/ZFS_MOUNT<span class="o">=</span><span class="s1">&#39;no&#39;</span>/ZFS_MOUNT<span class="o">=</span><span class="s1">&#39;yes&#39;</span>/ /etc/default/zfs
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -2393,7 +2530,8 @@ dann beschreibe ich die Korrektur hier.</p>
 
 <p>Sieht so aus, als wäre bei meiner Tastatur die &#8220;0290&#8221; die magische Konstante. Mit einem Patch
 analog zu <a href="https://launchpadlibrarian.net/94610947/alu2011.patch">https://launchpadlibrarian.net/94610947/alu2011.patch</a>
-oder auch <a href="https://github.com/kui/hid-apple">https://github.com/kui/hid-apple</a> sollte das dann wohl korrigierbar sein.</p>
+oder auch <a href="https://github.com/kui/hid-apple">https://github.com/kui/hid-apple</a>
+oder auch <a href="https://bugzilla.kernel.org/show_bug.cgi?id=60181">https://bugzilla.kernel.org/show_bug.cgi?id=60181</a> sollte das dann wohl korrigierbar sein.</p>
 
 <h3>Enttäuschende Akku-Laufzeit</h3>
 
@@ -2414,6 +2552,7 @@ auch nicht - ich habe OSX noch kein einziges mal gestartet.</p>
 <h2>Änderungen</h2>
 
 <ul>
+<li>2013-07-26 &#8230; Verweis auf Kernel-Bug 60181 aufgenommen (Tasten + Touchpad)</li>
 <li>2013-07-05 &#8230; Logs zum Problem &#8220;Vertauschte Tasten&#8221;</li>
 <li>2013-07-03 &#8230; Abschnitt zur Akku-Laufzeit aufgenommen</li>
 </ul>
@@ -3528,205 +3667,6 @@ dpkg-checkbuilddeps: Unmet build dependencies: debhelper (&gt;= 8) dh-autoreconf
 
 <p>&#8230; läuft nun durch!</p>
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/01/build-dependencies/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Markdown nach PDF wandeln]]></title>
-<link href="http://uli-heller.github.com/2013/05/17/markdown-pdf/"/>
-<updated>2013-05-17T21:00:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/05/17/markdown-pdf</id>
-
-      <content type="html"><![CDATA[<p>Hier kurz eine Beschreibung, wie man Markdown nach PDF
-konvertieren kann auf Basis von</p>
-
-<ul>
-<li>Kramdown</li>
-<li>Gimli</li>
-<li>Context</li>
-<li>Pandoc</li>
-</ul>
-
-
-<!-- more -->
-
-
-<h2>Kramdown</h2>
-
-<ul>
-<li>RVM muß installiert sein</li>
-<li>Ruby-2.0 muß verfügbar sein</li>
-<li><code>apt-get install texlive-latex-recommended texlive-latex-extra</code></li>
-</ul>
-
-
-<p>Danach kann &#8220;kramdown&#8221; mit <code>gem install kramdown</code> installiert werden.
-Die Erzeugung einer PDF-Datei geht dann so:</p>
-
-<pre><code>kramdown --template document -o latex README-markdown.md  &gt;README-markdown.tex
-pdftex README-markdown.tex
-</code></pre>
-
-<p>Tabellen scheinen von &#8220;kramdown&#8221; richtig in LaTeX-Tabellen umgesetzt
-zu werden.</p>
-
-<p>Probleme gibt&#8217;s manchmal noch bei der Einbindung von Bildern.
-Diese werden viel zu breit dargestellt. Abhilfe schafft ein eigenes
-LaTeX-Template:</p>
-
-<pre><code>cp ~/.rvm/gems/ruby-2.0.0-p0/gems/kramdown-1.0.1/data/kramdown/document.latex .
-# Einfügen von
-# \setkeys{Gin}{width=\textwidth} % Alle Bilder auf Seitenbreite skalieren
-# direkt vor \begin{document}
-mv document.latex ulidoc.latex
-kramdown --template ulidoc -o latex README-markdown.md  &gt;README-markdown.tex
-pdftex README-markdown.tex
-</code></pre>
-
-<p>Nun werden die Bilder schön auf Seitenbreite skaliert.</p>
-
-<p>Außerdem kann man mit diesen Änderungen am LaTeX-Template noch ein
-Inhaltsverzeichnis erzeugen:</p>
-
-<ul>
-<li><p>Unmittelbar vor &#8220;\usepackage[T1]{fontenc}&#8221; folgende Zeile einfügen:</p>
-
-<p>  \usepackage[ngerman]{babel}</p></li>
-<li><p>Die Zeile &#8220;\usepackage{hyperref}&#8221; ersetzen durch</p>
-
-<p>  \usepackage[bookmarks=true,bookmarksnumbered=true]{hyperref}</p></li>
-<li><p>(Optional) Unmittelbar nach &#8220;\begin{document}&#8221; diese Zeile einfügen:</p>
-
-<p>  \tableofcontents</p>
-
-<p>Damit wird dann auch im &#8220;Haupttext&#8221; ein Inhaltsverzeichnis erzeugt.</p></li>
-</ul>
-
-
-<h2>Gimli</h2>
-
-<ul>
-<li>RVM muß installiert sein</li>
-<li>Ruby-2.0 muß verfügbar sein</li>
-<li><code>apt-get install wkhtmltopdf</code></li>
-<li><code>apt-get install libxml2-dev</code></li>
-<li><code>apt-get install libxslt-dev</code></li>
-</ul>
-
-
-<p>Danach kann Gimli mit <code>gem install gimli</code> installiert werden.
-Die Erzeugung einer PDF-Datei geht dann so:</p>
-
-<pre><code>gimli -f README-markdown.md
-</code></pre>
-
-<p>Oder mittels &#8220;bin/md2pdf-gimli.sh&#8221; so:</p>
-
-<pre><code>./bin/md2pdf-gimli.sh README-markdown.md
-</code></pre>
-
-<p>Leider kommt Gimli nicht mit Markdown-Tabellen zurecht!</p>
-
-<h2>Pandoc</h2>
-
-<p>Zunächst muß das Programme &#8220;pandoc&#8221; installiert
-werden:</p>
-
-<pre><code>sudo apt-get install pandoc
-</code></pre>
-
-<p>Nun benötigt man noch das Skript &#8220;bin/md2pdf-pandoc.sh&#8221; und ein
-Markdown-Dokument, beispielsweise  &#8220;README-markdown.md&#8221;.</p>
-
-<p>Eine PDF-Datei erzeugt man dann mit</p>
-
-<pre><code>./bin/md2pdf-pandoc.sh README-markdown.md
-</code></pre>
-
-<p>Die PDF-Datei hat den Namen &#8220;README-markdown.pdf&#8221;.</p>
-
-<p>Leider kommt Pandoc in der Version 1.9 nicht mit Markdown-Tabellen zurecht,
-die Version 1.11 soll dies können!</p>
-
-<h2>Context</h2>
-
-<p>Zunächst müssen die Programme &#8220;context&#8221; und &#8220;pandoc&#8221; installiert
-werden:</p>
-
-<pre><code>sudo apt-get install context
-sudo apt-get install pandoc
-</code></pre>
-
-<p>Nun benötigt man noch das Skript &#8220;bin/md2pdf-context.sh&#8221; und ein
-Markdown-Dokument, beispielsweise  &#8220;README-markdown.md&#8221;.</p>
-
-<p>Eine PDF-Datei erzeugt man dann mit</p>
-
-<pre><code>./bin/md2pdf-context.sh README-markdown.md
-</code></pre>
-
-<p>Die PDF-Datei hat den Namen &#8220;README-markdown.pdf&#8221;.</p>
-
-<p>Context erzeugt ein hübsches PDF-Inhalts-Verzeichnis.
-Leider kommt Context nicht mit Markdown-Tabellen zurecht!</p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/05/17/markdown-pdf/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[JBoss Application Server 7 unter Ubuntu nutzen]]></title>
-<link href="http://uli-heller.github.com/2013/05/16/jboss-7.1.1/"/>
-<updated>2013-05-16T19:00:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/05/16/jboss-7.1.1</id>
-
-      <content type="html"><![CDATA[<h2>Installation und Kurztest von JBoss AS</h2>
-
-<ul>
-<li>Paket von http://www.jboss.org/jbossas/downloads herunterladen,
-einspielen und starten:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span>Einspielen und Starten von JBossAS </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># jboss-as-7.1.1.Final.tar.gz heruntergeladen nach ~/Downloads</span>
-</span><span class='line'><span class="nb">cd</span> /opt
-</span><span class='line'>gzip -cd ~/Downloads/jboss-as-7.1.1.Final.tar.gz |sudo tar xf -
-</span><span class='line'><span class="c"># ... es darf keine Fehlermeldung erscheinen!</span>
-</span><span class='line'>sudo chown -R uli.uli jboss-as-7.1.1.Final
-</span><span class='line'><span class="nb">cd  </span>jboss-as-7.1.1.Final
-</span><span class='line'>./bin/standalone.sh
-</span><span class='line'><span class="c"># ... muß ohne Fehlermeldung starten</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Test mit <a href="https://localhost:8080">https://localhost:8080</a>: Es muß grob &#8220;Welcome to AS 7&#8221;
-angezeigt werden.</li>
-</ul>
-
-
-<h2>Probleme</h2>
-
-<ul>
-<li>Keine, auch nicht mit JDK6</li>
-</ul>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/05/16/jboss-7.1.1/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>

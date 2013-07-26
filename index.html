@@ -86,6 +86,140 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/07/26/lxc-networking/">LXC: Probleme bei der Initialisierung des Netzwerkes</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-26T15:00:00+02:00" pubdate data-updated="true">26. Juli 2013</time>
+         &bull; <a rel="bookmark" href="/2013/07/26/lxc-networking/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Seit einiger Zeit verwende ich LXC als Ergänzung zu VirtualBox.
+Bislang läuft das weitgehend problemlos.
+Merkwürdigerweise habe einige LXC-Container seit heute ein
+Problem beim Start: Es dauert endlos, bis der Login-Prompt erscheint
+und das Netzwerk funktioniert nicht. Betroffen sind auch Container,
+die früher anstandslos gelaufen sind.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/07/26/lxc-networking/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/07/21/git-fork/">Git Fork</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-21T09:00:00+02:00" pubdate data-updated="true">21. Juli 2013</time>
+         &bull; <a rel="bookmark" href="/2013/07/21/git-fork/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h1>Git Fork</h1>
+
+<p>Hier kurz meine Notizen zum Arbeiten mit GitHub Forks:</p>
+
+<ul>
+<li>Bestehendes Projekt &#8220;forken&#8221; -> einfach via GitHub-Webseite</li>
+<li>Lokalen Clone hiervon anlegen: <code>git clone ...</code></li>
+<li>Lokale Änderungen an GitHub schicken:
+<code>git push origin master</code></li>
+<li>Original-Projekt als &#8220;upstream&#8221; definieren:
+<code>git remote add upstream ...</code></li>
+<li>Lokale Kopie des Original-Projektes aktualisieren:
+<code>git fetch upstream</code></li>
+<li>Lokale Kopie des Original-Projektes &#8220;einarbeiten&#8221;:
+
+<ul>
+<li><code>git merge --no-commit upstream/master</code></li>
+<li><code>git mergetool</code></li>
+<li><code>git commit -m ...</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Mehr Details: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</p>
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
 
 </h1>
@@ -1064,9 +1198,7 @@ werden, damit es zu keinen Verwechslungen kommen kann.</p>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -o <span class="nv">ashift</span><span class="o">=</span>12 -f zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511 spare scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -o <span class="nv">ashift</span><span class="o">=</span>12 -f zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
 </span><span class='line'><span class="nv">$ </span>sudo zpool status
 </span><span class='line'>  pool: zfsdata
 </span><span class='line'> state: ONLINE
@@ -1078,10 +1210,29 @@ werden, damit es zu keinen Verwechslungen kommen kann.</p>
 </span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  ONLINE       0     0     0
 </span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
 </span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511  ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994  AVAIL
 </span><span class='line'>
 </span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Die Platte &#8220;scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994&#8221; bleibt auf Vorrat
+nicht eingesteckt im Rahmen. Beim Ausfall einer Platte wird sie eingesteckt und
+mittels <code>zpool replace zfsdata {kaputte_platte} scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994</code>
+aktiviert.</p>
+
+<h2>Probleme</h2>
+
+<h3>Dateisystem nach Neustart nicht eingebunden</h3>
+
+<p>Nachdem ich den Kernel aktualisiert habe von 3.2 nach 3.5 klappt das automatische
+Einhängen des ZFS-Dateisystems nicht mehr.</p>
+
+<p>Abhilfe: Standard-Paket &#8220;mountall&#8221; wieder installieren und ZFS umkonfigurieren!</p>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install <span class="nv">mountall</span><span class="o">=</span>2.36.4
+</span><span class='line'>sudo sed -i s/ZFS_MOUNT<span class="o">=</span><span class="s1">&#39;no&#39;</span>/ZFS_MOUNT<span class="o">=</span><span class="s1">&#39;yes&#39;</span>/ /etc/default/zfs
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1351,122 +1502,6 @@ zum Einsatz kommen wird.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/06/26/gallery/">Gallerie - Installation von CentOS-6.4 in einer VM</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-06-26T08:00:00+02:00" pubdate data-updated="true">26. Juni 2013</time>
-         &bull; <a rel="bookmark" href="/2013/06/26/gallery/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><p>Die nachfolgende Gallerie zeigt, wie ich CentOS-6.4 in einer
-VM installiert habe.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/06/26/gallery/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/06/24/macbook-air/">Ubuntu auf einem Macbook Air 2013</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-06-24T05:00:00+02:00" pubdate data-updated="true">24. Juni 2013</time>
-         &bull; <a rel="bookmark" href="/2013/06/24/macbook-air/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><p>Bedingt durch die Probleme mit meinem Samsung-Notebook habe ich
-mir nun ein Macbook Air 2013 11 Zoll gegönnt. Erste Eindrücke habe
-ich mit Live-CDs und Ad-Hoc-Installationen gesammelt. Hier nun
-mein Weg zu einem &#8220;richtig&#8221; funktionierenden System.</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/06/24/macbook-air/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Älter</a>
@@ -1483,6 +1518,14 @@ mein Weg zu einem &#8220;richtig&#8221; funktionierenden System.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/07/26/lxc-networking/">LXC: Probleme bei der Initialisierung des Netzwerkes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/21/git-fork/">Git Fork</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
       </li>
     
@@ -1492,14 +1535,6 @@ mein Weg zu einem &#8220;richtig&#8221; funktionierenden System.</p>
     
       <li class="post">
         <a href="/2013/07/18/bootchart/">Analyse des Systemstarts</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/12/zfs/">Experimente mit ZFS unter Ubuntu-12.04</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/10/subversion_1.8.0/">Subversion 1.8.0 für Ubuntu-12.04</a>
       </li>
     
   </ul>

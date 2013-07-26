@@ -86,6 +86,158 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/05/17/markdown-pdf/">Markdown nach PDF wandeln</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-17T21:00:00+02:00" pubdate data-updated="true">17. Mai 2013</time>
+         &bull; <a rel="bookmark" href="/2013/05/17/markdown-pdf/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Hier kurz eine Beschreibung, wie man Markdown nach PDF
+konvertieren kann auf Basis von</p>
+
+<ul>
+<li>Kramdown</li>
+<li>Gimli</li>
+<li>Context</li>
+<li>Pandoc</li>
+</ul>
+
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/05/17/markdown-pdf/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
+<a href="/2013/05/16/jboss-7.1.1/">JBoss Application Server 7 unter Ubuntu nutzen</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-16T19:00:00+02:00" pubdate data-updated="true">16. Mai 2013</time>
+         &bull; <a rel="bookmark" href="/2013/05/16/jboss-7.1.1/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><h2>Installation und Kurztest von JBoss AS</h2>
+
+<ul>
+<li>Paket von http://www.jboss.org/jbossas/downloads herunterladen,
+einspielen und starten:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Einspielen und Starten von JBossAS </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># jboss-as-7.1.1.Final.tar.gz heruntergeladen nach ~/Downloads</span>
+</span><span class='line'><span class="nb">cd</span> /opt
+</span><span class='line'>gzip -cd ~/Downloads/jboss-as-7.1.1.Final.tar.gz |sudo tar xf -
+</span><span class='line'><span class="c"># ... es darf keine Fehlermeldung erscheinen!</span>
+</span><span class='line'>sudo chown -R uli.uli jboss-as-7.1.1.Final
+</span><span class='line'><span class="nb">cd  </span>jboss-as-7.1.1.Final
+</span><span class='line'>./bin/standalone.sh
+</span><span class='line'><span class="c"># ... muß ohne Fehlermeldung starten</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Test mit <a href="https://localhost:8080">https://localhost:8080</a>: Es muß grob &#8220;Welcome to AS 7&#8221;
+angezeigt werden.</li>
+</ul>
+
+
+<h2>Probleme</h2>
+
+<ul>
+<li>Keine, auch nicht mit JDK6</li>
+</ul>
+
+</div>
+
+  <footer>
+    
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/05/14/openvpn-ubuntu/">OpenVPN unter Ubuntu nutzen</a>
 
 </h1>
@@ -1094,132 +1246,6 @@ schon die Anwendung der Quilt-Patches scheitert.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/04/15/pigeonhole/">Pigeonhole für für mein Debian-Paket von Dovecot</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-15T06:00:00+02:00" pubdate data-updated="true">15. April 2013</time>
-         &bull; <a rel="bookmark" href="/2013/04/15/pigeonhole/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Dovecot: Einbinden von Pigeonhole</h1>
-
-<p>Mein Dovecot-Debian-Paket beinhaltet u.a. auch Pigeonhole.
-Pigeonhole wird separat zum Herunterladen angeboten, im Debian-Paket
-erscheint es aber als Patch unterhalb von debian/patches. Das ist ein
-gewisses Problem, weil man das heruntergeladene Paket dann immer erst
-in einen Patch umwandeln muß.</p>
-
-<p>Deshalb mein Ziel: Ich würde das Pigeonhole-Paket gerne möglichst
-unverändert in&#8217;s Dovecot-Debian-Paket einbinden!</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/04/15/pigeonhole/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/04/14/quilt-fuer-gitdeb/">Quilt für mein Debian-Paket von Git</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-14T12:00:00+02:00" pubdate data-updated="true">14. April 2013</time>
-         &bull; <a rel="bookmark" href="/2013/04/14/quilt-fuer-gitdeb/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Quilt: Umstellung der Patchverwaltung meines Git-Debian-Paketes auf Quilt</h1>
-
-<p>Mein Git-Debian-Paket verwendet bislang keine vernünftige Patchverwaltung.
-Stattdessen werden bei der Erzeugung des Paketes einfach alle Patches
-unterhalb von debian/diff der Reihe nach angewandt. Blöderweise fallen so
-gescheiterte Patchanwendungen nicht auf, außerdem werden im Source-Paket
-teilweise Original-Dateien modifiziert - vermutlich weil einige Patches
-nicht sauber zurückgerollt werden.</p>
-
-<p>Also: Ich will Quilt haben!</p>
-
-</div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2013/04/14/quilt-fuer-gitdeb/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Älter</a>
@@ -1238,6 +1264,14 @@ nicht sauber zurückgerollt werden.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/07/26/lxc-networking/">LXC: Probleme bei der Initialisierung des Netzwerkes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/21/git-fork/">Git Fork</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
       </li>
     
@@ -1247,14 +1281,6 @@ nicht sauber zurückgerollt werden.</p>
     
       <li class="post">
         <a href="/2013/07/18/bootchart/">Analyse des Systemstarts</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/12/zfs/">Experimente mit ZFS unter Ubuntu-12.04</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/10/subversion_1.8.0/">Subversion 1.8.0 für Ubuntu-12.04</a>
       </li>
     
   </ul>

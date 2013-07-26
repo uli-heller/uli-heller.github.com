@@ -166,7 +166,7 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/2013/06/24/macbook-air/</loc>
-        <lastmod>2013-07-05T06:57:25+02:00</lastmod>
+        <lastmod>2013-07-26T11:31:24+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/2013/06/26/gallery/</loc>
@@ -190,7 +190,7 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/2013/07/12/zfs/</loc>
-        <lastmod>2013-07-20T12:49:40+02:00</lastmod>
+        <lastmod>2013-07-20T14:20:55+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/2013/07/18/bootchart/</loc>
@@ -203,6 +203,14 @@
     <url>
         <loc>http://uli-heller.github.com/2013/07/20/octopress-fehler/</loc>
         <lastmod>2013-07-20T08:20:56+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://uli-heller.github.com/2013/07/21/git-fork/</loc>
+        <lastmod>2013-07-21T09:38:40+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://uli-heller.github.com/2013/07/26/lxc-networking/</loc>
+        <lastmod>2013-07-26T14:33:59+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/articles/hetzner-mailserver.html</loc>
@@ -222,7 +230,7 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/archives/</loc>
-        <lastmod>2013-07-20T12:49:40+02:00</lastmod>
+        <lastmod>2013-07-26T14:33:59+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/impressum/</loc>
@@ -230,7 +238,7 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/</loc>
-        <lastmod>2013-07-20T12:49:40+02:00</lastmod>
+        <lastmod>2013-07-26T14:33:59+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/about/</loc>
