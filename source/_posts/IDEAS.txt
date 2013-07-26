@@ -66,6 +66,8 @@ Octopress
       http://cloose.github.io/CuteMarkEd/
 * Improve octopress
     * http://www.narga.net/improve-octopress-advanced-tweaks-tips/
+* AscciDoctor und MarkItUp
+    * http://architects.dzone.com/articles/asciidoc-editor-markitup
 
 SH
 --
