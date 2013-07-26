@@ -56,6 +56,8 @@ Jul 26 11:14:26 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port
 
 ## Abhilfe
 
+### Temporäre Abhilfe
+
 Abhilfe schafft die Ausführung vom nachfolgenden Befehl auf dem Host:
 
 ```
@@ -63,3 +65,18 @@ sudo iptables -A POSTROUTING -t mangle -p udp --dport bootpc -j CHECKSUM --check
 ```
 
 Die Abhilfe ist hier beschrieben: <https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14>
+
+### Dauerhafte Abhilfe
+
+Eine dauerhafte Abhilfe schafft die Aktualisierung des Paketes
+"isc-dhcp-client" auf Version 4.1.ESV-R4-0ubuntu5.8 oder neuer.
+Das geht ganz normal mit `apt-get update; apt-get upgrade`.
+Ich hatte zuvor 4.1.ESV-R4-0ubuntu5.5 im Container.
+
+## Nachtrag: Ursache
+
+Das Problem wurde ziemlich sicher verursacht durch den Einsatz von
+einem 3.10-er Kernel auf dem Host. Nach dem "Runterschalten" auf 3.8
+laufen die Container auch wieder ohne Aktualisierung von
+"isc-dhcp-client".
+
