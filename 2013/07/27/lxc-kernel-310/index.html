@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>LXC: Probleme mit 3.10-er-Kernel - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+  <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
+
+  
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/2013/07/27/lxc-kernel-310/">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  
+
+<!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+<!--
+<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+-->
+<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+  
+
+   
+  <link href="/octopress-favicon.png" rel="icon">
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Uli's IT-Blog - Konzeption, Entwicklung, Betrieb</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+
+
+
+
+
+
+
+
+
+
+
+<article class="hentry " role="article">
+  
+  <header>
+    <h1 class="entry-title">
+
+LXC: Probleme mit 3.10-er-Kernel
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-27T09:00:00+02:00" pubdate data-updated="true">27. Juli 2013</time>
+         &bull; <a rel="bookmark" href="/2013/07/27/lxc-kernel-310/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Seit einiger Zeit verwende ich LXC als Ergänzung zu VirtualBox.
+Bislang läuft das weitgehend problemlos. Merkwürdigerweise
+bekomme ich seit ein paar Tagen immer wieder Fehlermeldungen
+bezüglich BTRFS: "Das Dateisystem ist nur lesbar".</p>
+
+<p>Erst dachte ich, BTRFS hätte 'nen Schuß. Detailliertere Tests zeigen,
+dass der 3.10-er-Kernel wohl "Schuld" ist.</p>
+
+<!-- more -->
+
+
+<h2>Meine LXC-Umgebung</h2>
+
+<ul>
+<li>Ubuntu 12.04</li>
+<li>3.8-er-Kernel oder auch 3.10-er-Kernel</li>
+<li>/dev/mapper/datavg-lxlv ist eingebunden unter /lxc und ist ein
+BTRFS-Dateisystem</li>
+<li>Alle LXC-Container liegen unter /lxc, also auf einem BTRFS-Dateisystem</li>
+</ul>
+
+
+<h2>Runterfahren eines LXC-Containers unter 3.8</h2>
+
+<p>Beim 3.8-er-Kernel sieht man eine Fehlermeldung bzgl.
+meiner BTRFS-Partition: Sie kann <em>nicht</em> umgehängt werden mit
+Nur-Lesen-Zugriff.</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Runterfahren mit Kernel 3.8 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>~<span class="nv">$ </span>sudo poweroff
+</span><span class='line'>...
+</span><span class='line'>umount: /run/lock: not mounted
+</span><span class='line'>umount: /run/shm: not mounted
+</span><span class='line'>mount: cannot mount block device /dev/mapper/datavg-lxclv <span class="nb">read</span>-only
+</span><span class='line'> * Will now halt
+</span><span class='line'>~<span class="nv">$ </span>sudo touch  /lxc/x
+</span><span class='line'>~<span class="nv">$ </span>sudo rm  /lxc/x
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h2>Runterfahren eines LXC-Containers unter 3.10</h2>
+
+<p>Beim 3.10-er-Kernel sieht man keine Fehlermeldung bzgl.
+meiner BTRFS-Partition, also kann sie vermutlich umgehängt werden mit
+Nur-Lesen-Zugriff. Dementsprechend ist sie danach "nur-lesend"
+eingehängt und der Inhalt von /lxc kann nicht mehr modifiziert
+werden.</p>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Runterfahren mit Kernel 3.10 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>~<span class="nv">$ </span>sudo poweroff
+</span><span class='line'>...
+</span><span class='line'>umount: /run/lock: not mounted
+</span><span class='line'>umount: /run/shm: not mounted
+</span><span class='line'> * Will now halt
+</span><span class='line'>~<span class="nv">$ </span>sudo touch /lxc/x
+</span><span class='line'>touch: »/lxc/x“ kann nicht berührt werden: Das Dateisystem ist nur lesbar
+</span><span class='line'>~<span class="nv">$ LANG</span><span class="o">=</span>C sudo touch /lxc/x
+</span><span class='line'>touch: cannot touch <span class="sb">`</span>/lxc/x<span class="err">&#39;</span>: Read-only file system
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h2>Dateisysteme innerhalb der LXC-Container</h2>
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Dateisysteme </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>container~<span class="nv">$ </span>df
+</span><span class='line'>Filesystem               1K-blocks     Used Available Use% Mounted on
+</span><span class='line'>/dev/mapper/datavg-lxclv  41943040 13871816  26684544  35% /
+</span><span class='line'>none                        816864       76    816788   1% /run
+</span><span class='line'>none                          5120        0      5120   0% /run/lock
+</span><span class='line'>none                       4084308        0   4084308   0% /run/shm
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+<h2>Korrekturen</h2>
+
+<ul>
+<li>Bei Verwendung des 3.10-er-Kernels nach dem Stoppen eines Containers: <code>sudo mount -o remount,rw /dev/mapper/datavg-lxclv</code> ausführen</li>
+<li>Immer nur den 3.8-er-Kernel verwenden</li>
+<li>Innerhalb des Containers /etc/init.d/umountroot "abklemmen"</li>
+</ul>
+
+
+<!--escape-->
+
+
+<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Container: /etc/init.d/umountroot </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>container:~$ diff -u /etc/init.d/umountroot.orig /etc/init.d/umountroot
+</span><span class='line'><span class="gd">--- /etc/init.d/umountroot.orig  2012-04-14 09:26:31.000000000 +0000</span>
+</span><span class='line'><span class="gi">+++ /etc/init.d/umountroot   2013-07-27 06:57:20.487486654 +0000</span>
+</span><span class='line'><span class="gu">@@ -8,6 +8,7 @@</span>
+</span><span class='line'> # Default-Stop:      0 6
+</span><span class='line'> # Short-Description: Mount the root filesystem read-only.
+</span><span class='line'> ### END INIT INFO
+</span><span class='line'><span class="gi">+exit 0</span>
+</span><span class='line'>
+</span><span class='line'> PATH=/sbin:/bin
+</span><span class='line'> . /lib/init/vars.sh
+</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
+
+
+<!--end-escape-->
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-27T09:00:00+02:00" pubdate data-updated="true">27. Juli 2013</time>
+
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lxc/'>Lxc</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+
+      
+
+    </p>
+    
+      <div class="sharing">
+  
+    
+      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
+    
+  
+  
+  
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/07/26/lxc-networking/" title="Voriger Beitrag: LXC: Probleme bei der Initialisierung des Netzwerkes">&laquo; LXC: Probleme bei der Initialisierung des Netzwerkes</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+<section>
+  <h1>Comments</h1>
+  
+
+  
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  
+</section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/26/lxc-networking/">LXC: Probleme bei der Initialisierung des Netzwerkes</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/21/git-fork/">Git Fork</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/19/redmine-passenger/">Redmine: Von FCGI zu Passenger</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ulispersonalitblog';
+			var disqus_developer = '0';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/2013/07/27/lxc-kernel-310/';
+        var disqus_url = 'http://uli-heller.github.com/2013/07/27/lxc-kernel-310/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

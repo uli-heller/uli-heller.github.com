@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-07-26T16:44:40+02:00</updated>
+  <updated>2013-07-27T09:28:25+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -11,6 +11,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[LXC: Probleme mit 3.10-er-Kernel]]></title>
+<link href="http://uli-heller.github.com/2013/07/27/lxc-kernel-310/"/>
+<updated>2013-07-27T09:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/07/27/lxc-kernel-310</id>
+
+      <content type="html"><![CDATA[<p>Seit einiger Zeit verwende ich LXC als Ergänzung zu VirtualBox.
+Bislang läuft das weitgehend problemlos. Merkwürdigerweise
+bekomme ich seit ein paar Tagen immer wieder Fehlermeldungen
+bezüglich BTRFS: &#8220;Das Dateisystem ist nur lesbar&#8221;.</p>
+
+<p>Erst dachte ich, BTRFS hätte &#8216;nen Schuß. Detailliertere Tests zeigen,
+dass der 3.10-er-Kernel wohl &#8220;Schuld&#8221; ist.</p>
+
+<!-- more -->
+
+
+<h2>Meine LXC-Umgebung</h2>
+
+<ul>
+<li>Ubuntu 12.04</li>
+<li>3.8-er-Kernel oder auch 3.10-er-Kernel</li>
+<li>/dev/mapper/datavg-lxlv ist eingebunden unter /lxc und ist ein
+BTRFS-Dateisystem</li>
+<li>Alle LXC-Container liegen unter /lxc, also auf einem BTRFS-Dateisystem</li>
+</ul>
+
+
+<h2>Runterfahren eines LXC-Containers unter 3.8</h2>
+
+<p>Beim 3.8-er-Kernel sieht man eine Fehlermeldung bzgl.
+meiner BTRFS-Partition: Sie kann <em>nicht</em> umgehängt werden mit
+Nur-Lesen-Zugriff.</p>
+
+<figure class='code'><figcaption><span>Runterfahren mit Kernel 3.8 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>~<span class="nv">$ </span>sudo poweroff
+</span><span class='line'>...
+</span><span class='line'>umount: /run/lock: not mounted
+</span><span class='line'>umount: /run/shm: not mounted
+</span><span class='line'>mount: cannot mount block device /dev/mapper/datavg-lxclv <span class="nb">read</span>-only
+</span><span class='line'> * Will now halt
+</span><span class='line'>~<span class="nv">$ </span>sudo touch  /lxc/x
+</span><span class='line'>~<span class="nv">$ </span>sudo rm  /lxc/x
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Runterfahren eines LXC-Containers unter 3.10</h2>
+
+<p>Beim 3.10-er-Kernel sieht man keine Fehlermeldung bzgl.
+meiner BTRFS-Partition, also kann sie vermutlich umgehängt werden mit
+Nur-Lesen-Zugriff. Dementsprechend ist sie danach &#8220;nur-lesend&#8221;
+eingehängt und der Inhalt von /lxc kann nicht mehr modifiziert
+werden.</p>
+
+<figure class='code'><figcaption><span>Runterfahren mit Kernel 3.10 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>~<span class="nv">$ </span>sudo poweroff
+</span><span class='line'>...
+</span><span class='line'>umount: /run/lock: not mounted
+</span><span class='line'>umount: /run/shm: not mounted
+</span><span class='line'> * Will now halt
+</span><span class='line'>~<span class="nv">$ </span>sudo touch /lxc/x
+</span><span class='line'>touch: »/lxc/x“ kann nicht berührt werden: Das Dateisystem ist nur lesbar
+</span><span class='line'>~<span class="nv">$ LANG</span><span class="o">=</span>C sudo touch /lxc/x
+</span><span class='line'>touch: cannot touch <span class="sb">`</span>/lxc/x<span class="err">&#39;</span>: Read-only file system
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Dateisysteme innerhalb der LXC-Container</h2>
+
+<figure class='code'><figcaption><span>Dateisysteme </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>container~<span class="nv">$ </span>df
+</span><span class='line'>Filesystem               1K-blocks     Used Available Use% Mounted on
+</span><span class='line'>/dev/mapper/datavg-lxclv  41943040 13871816  26684544  35% /
+</span><span class='line'>none                        816864       76    816788   1% /run
+</span><span class='line'>none                          5120        0      5120   0% /run/lock
+</span><span class='line'>none                       4084308        0   4084308   0% /run/shm
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Korrekturen</h2>
+
+<ul>
+<li>Bei Verwendung des 3.10-er-Kernels nach dem Stoppen eines Containers: <code>sudo mount -o remount,rw /dev/mapper/datavg-lxclv</code> ausführen</li>
+<li>Immer nur den 3.8-er-Kernel verwenden</li>
+<li>Innerhalb des Containers /etc/init.d/umountroot &#8220;abklemmen&#8221;</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Container: /etc/init.d/umountroot </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>container:~$ diff -u /etc/init.d/umountroot.orig /etc/init.d/umountroot
+</span><span class='line'><span class="gd">--- /etc/init.d/umountroot.orig  2012-04-14 09:26:31.000000000 +0000</span>
+</span><span class='line'><span class="gi">+++ /etc/init.d/umountroot   2013-07-27 06:57:20.487486654 +0000</span>
+</span><span class='line'><span class="gu">@@ -8,6 +8,7 @@</span>
+</span><span class='line'> # Default-Stop:      0 6
+</span><span class='line'> # Short-Description: Mount the root filesystem read-only.
+</span><span class='line'> ### END INIT INFO
+</span><span class='line'><span class="gi">+exit 0</span>
+</span><span class='line'>
+</span><span class='line'> PATH=/sbin:/bin
+</span><span class='line'> . /lib/init/vars.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/27/lxc-kernel-310/">&#9875; Permalink</a></p>]]></content>
+    </entry>
   
     <entry>
       
@@ -3614,75 +3756,6 @@ von VirtualBox:</p>
 </ul>
 
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/01/precise-mit-linux38/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Abhängigkeiten für Debian-Paketbau installieren]]></title>
-<link href="http://uli-heller.github.com/2013/06/01/build-dependencies/"/>
-<updated>2013-06-01T17:30:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/06/01/build-dependencies</id>
-
-      <content type="html"><![CDATA[<p>Normalerweise spiele ich alle zum Bau eines Debian-Paketes notwendigen
-Programme ein mittels <code>sudo apt-get build-dep {paketname}</code>. Blöderweise
-geht das nicht, wenn das zu bauende Paket nicht aus einem
-Repository &#8220;geladen&#8221; werden soll, so zum Beispiel wenn ich nur die
-Quelltexte und die DSC-Datei des Paketes vorliegen habe.</p>
-
-<p>Nachfolgend beschreibe ich am Beispiel von MUFFIN, wie man die Pakete
-dennoch ohne allzuviel Tipparbeit installieren kann.</p>
-
-<!-- more -->
-
-
-<h2>Quelltexte herunterladen</h2>
-
-<p>Beispielsweise von <a href="https://github.com/linuxmint/muffin/archive/1.8.2.tar.gz">https://github.com/linuxmint/muffin/archive/1.8.2.tar.gz</a></p>
-
-<h2>Quelltexte entpacken</h2>
-
-<ul>
-<li><code>gzip -cd muffin-1.8.2.tar.gz|tar xf -</code></li>
-<li><code>cd muffin-1.8.2</code></li>
-</ul>
-
-
-<h2>Abhängigkeiten anzeigen</h2>
-
-<ul>
-<li><code>dpkg-buildpackage</code></li>
-</ul>
-
-
-<p>&#8230; liefert eine Ausgabe der Art:</p>
-
-<p><code>
-...
-dpkg-checkbuilddeps: Unmet build dependencies: debhelper (&gt;= 8) dh-autoreconf intltool (&gt;= 0.34.90) libgtk-3-dev (&gt;= 3.0.8-1~) libcanberra-gtk3-dev gobject-introspection (&gt;= 0.9.12-5~) libgirepository1.0-dev (&gt;= 0.9.12) libjson-glib-dev (&gt;= 0.13.2-1~) libclutter-1.0-dev (&gt;= 1.7.5) libpango1.0-dev (&gt;= 1.2.0) libgconf2-dev (&gt;= 2.6.1-2) libglib2.0-dev (&gt;= 2.6.0) libstartup-notification0-dev (&gt;= 0.7) libxcomposite-dev (&gt;= 1:0.2) libxfixes-dev libxrender-dev libxdamage-dev libxcursor-dev libxinerama-dev libxext-dev libxrandr-dev gnome-doc-utils (&gt;= 0.8) gnome-pkg-tools (&gt;= 0.10) gsettings-desktop-schemas-dev (&gt;= 3.3.0)
-</code></p>
-
-<h2>Abhängigkeiten installieren</h2>
-
-<pre><code>dpkg-checkbuilddeps 2&gt;&amp;1 \
-| sed                    \
-  -e "s/^.*: //"         \
-  -e "s/([^(]*)//g"      \
-|sudo xargs apt-get install -y
-</code></pre>
-
-<h2>Paket bauen</h2>
-
-<ul>
-<li><code>dpkg-buildpackage</code></li>
-</ul>
-
-
-<p>&#8230; läuft nun durch!</p>
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/01/build-dependencies/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>
