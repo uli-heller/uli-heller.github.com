@@ -23,7 +23,7 @@ Version von Subversion-1.8.1 heraus.
 
 ## Ausgangpunkt: Subversion-1.8.0
 
-Mein Ausgangspunkt sind meine kapputten Pakete für Subversion-1.8.0.
+Mein Ausgangspunkt sind meine kaputten Pakete für Subversion-1.8.0.
 
     $ cd subversion-1.8.0
     $ uupdate -u ../subversion-1.8.1
