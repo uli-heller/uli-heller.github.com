@@ -86,6 +86,63 @@
   <header>
     <h1 class="entry-title">
 
+<a href="/2013/06/01/precise-mit-linux38/">Ubuntu-12.04 mit 3.8-er-Kernel</a>
+
+</h1>
+
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-06-01T17:30:00+02:00" pubdate data-updated="true">01. Juni 2013</time>
+         &bull; <a rel="bookmark" href="/2013/06/01/precise-mit-linux38/">Permalink</a>
+      </p>
+    
+  </header>
+
+<div class="entry-content"><p>Heute habe ich den Drang verspürt, den Raring-Kernel - also Linux-3.8 - auf
+mein Precise-System zu installieren.</p>
+
+</div>
+
+  <footer>
+    
+    
+    <p><a rel="full-article" href="/2013/06/01/precise-mit-linux38/">Vollständiger Artikel &rarr;</a></p>
+    
+  </footer>
+
+
+    </article>
+  
+    
+
+
+
+
+
+
+
+
+
+
+    <article >
+      
+  <header>
+    <h1 class="entry-title">
+
 <a href="/2013/06/01/build-dependencies/">Abhängigkeiten für Debian-Paketbau installieren</a>
 
 </h1>
@@ -1171,72 +1228,6 @@ freigeschaltet werden.</p>
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
-      
-  <header>
-    <h1 class="entry-title">
-
-<a href="/2013/04/21/herunterladen-des-https-server-zertifikats/">Herunterladen des HTTPS-Server-Zertifikats</a>
-
-</h1>
-
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-21T08:20:00+02:00" pubdate data-updated="true">21. April 2013</time>
-         &bull; <a rel="bookmark" href="/2013/04/21/herunterladen-des-https-server-zertifikats/">Permalink</a>
-      </p>
-    
-  </header>
-
-<div class="entry-content"><h1>Herunterladen des HTTPS-Server-Zertifikats über die Kommandozeile</h1>
-
-<p>Den Trick habe ich von einem <a href="http://eclipsesource.com/blogs/2013/04/19/installing-eclipse-plug-ins-from-an-update-site-with-a-self-signed-certificate/">EclipseSource-Blog</a>:</p>
-
-<figure class='code'><figcaption><span>Herunterladen eines Server-Zertifikats </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> -n <span class="se">\</span>
-</span><span class='line'>| openssl s_client -connect HOST:PORTNUMBER <span class="se">\</span>
-</span><span class='line'>| sed -ne <span class="s1">&#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39;</span> <span class="se">\</span>
-</span><span class='line'>&gt; my-custom-cert.cert
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Prima, das erspart mir künftig einiges an Rumklickerei im Browser.</p>
-</div>
-
-  <footer>
-    
-    
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Älter</a>
@@ -1255,7 +1246,11 @@ freigeschaltet werden.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel</a>
+        <a href="/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
       </li>
     
       <li class="post">
@@ -1268,10 +1263,6 @@ freigeschaltet werden.</p>
     
       <li class="post">
         <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/07/19/redmine-passenger/">Redmine: Von FCGI zu Passenger</a>
       </li>
     
   </ul>

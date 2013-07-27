@@ -3,7 +3,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-07-27T09:28:25+02:00</updated>
+  <updated>2013-07-27T09:55:12+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -18,7 +18,175 @@
 
 
 
-<title type="html"><![CDATA[LXC: Probleme mit 3.10-er-Kernel]]></title>
+<title type="html"><![CDATA[Subversion 1.8.1 für Ubuntu-12.04]]></title>
+<link href="http://uli-heller.github.com/2013/07/27/subversion_1.8.1/"/>
+<updated>2013-07-27T10:00:00+02:00</updated>
+<id>http://uli-heller.github.com/2013/07/27/subversion_1.8.1</id>
+
+      <content type="html"><![CDATA[<p>Vor ein paar Tagen wurde Subversion-1.8.1 veröffentlicht.
+Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen.
+Eingeflossen sind dabei auch die gescheiterten Versuche
+mit Subversion-1.8.0. Schlußendlich kommt eine für mich funktionierende
+Version von Subversion-1.8.1 heraus.</p>
+
+<!-- more -->
+
+
+<h2>Ausgangpunkt: Subversion-1.8.0</h2>
+
+<p>Mein Ausgangspunkt sind meine kaputten Pakete für Subversion-1.8.0.</p>
+
+<pre><code>$ cd subversion-1.8.0
+$ uupdate -u ../subversion-1.8.1
+$ cd ../subversion-1.8.1
+</code></pre>
+
+<p>Nun habe ich folgende Generierungs-Abhängigkeiten (build dependencies)
+festgelegt:</p>
+
+<ul>
+<li>subversion: serf-1.2.1 und sqlite-3.7.15</li>
+<li>serf: sqlite-3.7.15</li>
+</ul>
+
+
+<h2>Erste Hürde: Sqlite3-3.7.15</h2>
+
+<p>Subversion benötigt eine relativ aktuelle Version von Sqlite3. Die
+Standard-Version von Ubuntu-12.04 ist zu alt. Ich habe mir so beholfen:</p>
+
+<ul>
+<li>Quellpakete von sqlite3-3.7.15.2 aus &#8220;raring&#8221; runtergeladen</li>
+<li>Ein paar kleine Anpassungen an debian/rules vorgenommen, damit
+tcl85 an der richtigen Stelle ausgelesen wird</li>
+<li>Pakete erzeugen mit <code>dpkg-buildpackage</code></li>
+<li>Pakete installieren</li>
+</ul>
+
+
+<h2>Zweite Hürde: Serf-1.2.1</h2>
+
+<ul>
+<li>Diverse Umstellungen nötig, damit die Generierung durchläuft</li>
+<li>Pakete erzeugen mit <code>dpkg-buildpackage</code></li>
+<li>Pakete installieren</li>
+</ul>
+
+
+<h2>Subversion-1.8.1</h2>
+
+<ul>
+<li>Kann nun wie üblich mit <code>dpkg-buildpackage</code> erzeugt werden</li>
+</ul>
+
+
+<h2>Kurztests: Installation und Funktionsweise</h2>
+
+<figure class='code'><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='plain'><span class='line'>$ sudo dpkg -i subversion_1.8.1-3dp12~precise1_amd64.deb libsvn1_1.8.1-3dp12~precise1_amd64.deb libserf1_1.2.1-0dp01~precise1_amd64.deb
+</span><span class='line'>$ sudo dpkg -i sqlite3_3.7.15.2-1dp01~precise1_amd64.deb libsqlite3-0_3.7.15.2-1dp01~precise1_amd64.deb
+</span><span class='line'>$ svn --version
+</span><span class='line'>svn, Version 1.8.1 (r1503906)
+</span><span class='line'>   übersetzt am Jul 26 2013, um 15:38:27 auf x86_64-pc-linux-gnu
+</span><span class='line'>
+</span><span class='line'>Copyright (C) 2013 The Apache Software Foundation.
+</span><span class='line'>Diese Software besteht aus Beiträgen vieler Personen;
+</span><span class='line'>siehe Datei NOTICE für weitere Informationen.
+</span><span class='line'>Subversion ist Open Source Software, siehe http://subversion.apache.org/
+</span><span class='line'>
+</span><span class='line'>Die folgenden ZugriffsModule (ZM) für Projektarchive stehen zur Verfügung:
+</span><span class='line'>
+</span><span class='line'>* ra_svn : Modul zum Zugriff auf ein Projektarchiv über das svn-Netzwerkprotokoll.
+</span><span class='line'>  - mit Cyrus-SASL-Authentifizierung
+</span><span class='line'>  - behandelt Schema »svn«
+</span><span class='line'>* ra_local : Modul zum Zugriff auf ein Projektarchiv auf der lokalen Festplatte
+</span><span class='line'>  - behandelt Schema »file«
+</span><span class='line'>* ra_serf : Modul zum Zugriff auf ein Projektarchiv über das Protokoll WebDAV mittels serf.
+</span><span class='line'>  - behandelt Schema »http«
+</span><span class='line'>  - behandelt Schema »https«
+</span><span class='line'>$ cd svn/my-project
+</span><span class='line'>$ svn status
+</span><span class='line'>svn: E155036: Please see the 'svn upgrade' command
+</span><span class='line'>svn: E155036: The working copy at '/home/uli/svn/my-project'
+</span><span class='line'>is too old (format 29) to work with client version '1.8.1 (r1503906)' (expects format 31). You need to upgrade the working copy first.
+</span><span class='line'>$ svn upgrade
+</span><span class='line'>Upgraded '.'
+</span><span class='line'>$ svn status
+</span><span class='line'>$ svn update
+</span><span class='line'>Updating '.':
+</span><span class='line'>A    minianwendungjsf/.classpath
+</span><span class='line'>A    minianwendungjsf/ant
+</span><span class='line'>A    minianwendungjsf/ant/build.xml
+</span><span class='line'>A    minianwendungjsf/.project
+</span><span class='line'>...
+</span><span class='line'>A    EJB3.1_Test/login.config
+</span><span class='line'>Updated to revision 13.
+</span><span class='line'>$ svn checkout https://.....
+</span><span class='line'>A    my-project2/git-test
+</span><span class='line'>A    my-project2/git-test/Hello.txt
+</span><span class='line'>A    my-project2/git-test/01-git-neu.txt
+</span><span class='line'>...
+</span><span class='line'>A    my-project2/testfolder2
+</span><span class='line'>A    my-project2/testfolder2/testbin-ticket9.odt
+</span><span class='line'>Checked out revision 78.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Also: Grobtest ist OK.</p>
+<p><a rel="bookmark" href="http://uli-heller.github.com/2013/07/27/subversion_1.8.1/">&#9875; Permalink</a></p>]]></content>
+    </entry>
+  
+    <entry>
+      
+
+
+
+
+<title type="html"><![CDATA[LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar]]></title>
 <link href="http://uli-heller.github.com/2013/07/27/lxc-kernel-310/"/>
 <updated>2013-07-27T09:00:00+02:00</updated>
 <id>http://uli-heller.github.com/2013/07/27/lxc-kernel-310</id>
@@ -1993,7 +2161,7 @@ SUMMARY: All tests successful.
 </span><span class='line'>$ cd svn/my-project
 </span><span class='line'>$ svn status
 </span><span class='line'>svn: E155036: Please see the 'svn upgrade' command
-</span><span class='line'>svn: E155036: The working copy at '/home/uli/svn/judith-platzer.18'
+</span><span class='line'>svn: E155036: The working copy at '/home/uli/svn/my-project'
 </span><span class='line'>is too old (format 29) to work with client version '1.8.0 (r1490375)' (expects format 31). You need to upgrade the working copy first.
 </span><span class='line'>$ svn upgrade
 </span><span class='line'>$ svn status
@@ -3659,103 +3827,6 @@ erledigt:</p>
 
 
 <p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/09/lxc-snapshots/">&#9875; Permalink</a></p>]]></content>
-    </entry>
-  
-    <entry>
-      
-
-
-
-
-<title type="html"><![CDATA[Ubuntu-12.04 mit 3.8-er-Kernel]]></title>
-<link href="http://uli-heller.github.com/2013/06/01/precise-mit-linux38/"/>
-<updated>2013-06-01T17:30:00+02:00</updated>
-<id>http://uli-heller.github.com/2013/06/01/precise-mit-linux38</id>
-
-      <content type="html"><![CDATA[<p>Heute habe ich den Drang verspürt, den Raring-Kernel - also Linux-3.8 - auf
-mein Precise-System zu installieren.</p>
-
-<!--more -->
-
-
-<p>Zuvor hatte ich
-dan Hardware-Enablement-Stack für 12.04 installiert
-und damit schon den 3.5-er-Kernel verwendet und auch
-den neueren XServer. Details dazu stehen hier:
-<a href="http://uli-heller.github.com/2013/02/20/precise-hardware-enablement/">Neuer Kernel für Ubuntu-12.04</a>.</p>
-
-<p>Das Einspielen des Kernels geht ganz einfach. Nach dem Einspielen
-muß man seinen Rechner neu starten, damit der neue Kernel auch
-verwendet wird:</p>
-
-<figure class='code'><figcaption><span>Einspielen des Raring-Kernels </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo apt-get install linux-generic-lts-raring
-</span><span class='line'>...
-</span><span class='line'>Error! Could not locate dkms.conf file.
-</span><span class='line'>File:  does not exist.
-</span><span class='line'>...
-</span><span class='line'><span class="nv">$ </span>reboot
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Wie oben angedeutet erschien bei mir u.a. eine Fehlermeldung bzgl. &#8220;dkms.conf&#8221;.
-Die habe ich einfach ignoriert und noch keinen Fehler festgestellt (auch nicht
-mit &#8220;VirtualBox&#8221; und anderen Dingen, die Kernel-Module benötigen).</p>
-
-<p>Nachdem der neue Kernel gut funktioniert, lösche ich nun die alten Kernels:</p>
-
-<figure class='code'><figcaption><span>Entfernen der Alt-Kernel </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get purge linux-generic
-</span><span class='line'>sudo apt-get purge linux-generic-lts-quantal
-</span><span class='line'>dpkg --get-selections <span class="s2">&quot;linux*-3.2*&quot;</span>|cut -f1|xargs sudo apt-get purge -y
-</span><span class='line'>dpkg --get-selections <span class="s2">&quot;linux*-3.5*&quot;</span>|cut -f1|xargs sudo apt-get purge -y
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Fehlermeldung bzgl. dkms.conf</h2>
-
-<p>Die oben genannte Fehlermeldung erscheint auch bei späteren Aktualisierungen
-des Kernels. Dennoch scheint nach der Aktualisierung alles zu funktionieren,
-auch VirtualBox-VMs können gestartet werden.</p>
-
-<p>Die Fehlermeldung erscheint auch beim Neukompilieren der Kernel-Module
-von VirtualBox:</p>
-
-<figure class='code'><figcaption><span>Neukompilieren der Kernel-Module von VirtualBox </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo /etc/init.d/vboxdrv setup
-</span><span class='line'> * Stopping VirtualBox kernel modules                                    <span class="o">[</span> OK <span class="o">]</span>
-</span><span class='line'> * Uninstalling old VirtualBox DKMS kernel modules                              Error! Could not locate dkms.conf file.
-</span><span class='line'>File:  does not exist.
-</span><span class='line'>                                                                         <span class="o">[</span> OK <span class="o">]</span>
-</span><span class='line'> * Trying to register the VirtualBox kernel modules using DKMS           <span class="o">[</span> OK <span class="o">]</span>
-</span><span class='line'> * Starting VirtualBox kernel modules                                    <span class="o">[</span> OK <span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Folgende Dinge habe ich ausprobiert, um das Problem zu lösen:</p>
-
-<ul>
-<li><code>sudo apt-get install --reinstall dkms</code> &#8230; keine Besserung</li>
-<li><code>sudo dpkg -i virtualbox-4.2_4.2.12-84980~Ubuntu~precise_amd64.deb</code> &#8230; keine Besserung</li>
-<li><code>sudo apt-get purge dkms; sudo apt-get install dkms</code> &#8230; keine Besserung</li>
-<li><code>sudo rm -rf /var/lib/dkms/vboxhost/4.2.*</code> &#8230; danach klappt&#8217;s wieder ohne Fehlermeldung (siehe <a href="http://8thstring.blogspot.fr/2012/01/error-could-not-locate-dkmsconf-file.html">http://8thstring.blogspot.fr/2012/01/error-could-not-locate-dkmsconf-file.html</a>)</li>
-</ul>
-
-<p><a rel="bookmark" href="http://uli-heller.github.com/2013/06/01/precise-mit-linux38/">&#9875; Permalink</a></p>]]></content>
     </entry>
   
 </feed>
