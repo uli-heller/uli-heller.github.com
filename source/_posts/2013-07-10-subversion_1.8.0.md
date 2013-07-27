@@ -213,7 +213,7 @@ Die folgenden ZugriffsModule (ZM) für Projektarchive stehen zur Verfügung:
 $ cd svn/my-project
 $ svn status
 svn: E155036: Please see the 'svn upgrade' command
-svn: E155036: The working copy at '/home/uli/svn/judith-platzer.18'
+svn: E155036: The working copy at '/home/uli/svn/my-project'
 is too old (format 29) to work with client version '1.8.0 (r1490375)' (expects format 31). You need to upgrade the working copy first.
 $ svn upgrade
 $ svn status
