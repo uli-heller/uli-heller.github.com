@@ -4,7 +4,7 @@ author: Uli Heller
 published: true
 title: "Neuer Kernel für Ubuntu-12.04"
 date: 2013-02-20 07:00
-updated: 2013-06-14 05:00
+updated: 2013-07-29 08:00
 comments: true
 categories: 
 - Linux
@@ -63,6 +63,8 @@ Leider gibt's jetzt doch ein paar negative Auffälligkeiten:
     * 3.5.0-34 vom Juni 2013 bringt auch keine Besserung
     * 3.8.0-23 vom Juni 2013 bringt auch keine Besserung (da funktioniert nach dem Aufwachen der X-Server nicht mehr)
     * 3.8.0-25 vom Juni 2013 bringt auch keine Besserung (da funktioniert nach dem Aufwachen der X-Server nicht mehr)
+    * 3.8.0-26 vom Juli 2013 bringt auch keine Besserung (da funktioniert nach dem Aufwachen der X-Server nicht mehr)
+    * 3.10.4 vom Juli 2013 bringt auch keine Besserung (da funktioniert nach dem Aufwachen der X-Server nicht mehr)
 
 * Starten mit dem alten 3.2-er-Kernel funktioniert nicht mehr - man sieht
   scheinbar die Konsole mit Mauszeiger und kann keine Eingaben vornehmen
