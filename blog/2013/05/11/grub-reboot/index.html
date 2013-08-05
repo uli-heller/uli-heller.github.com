@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+
+  
+  <meta name="description" content="Üblicherweise starte ich meine diversen VMs einfach mit sudo reboot
+neu. Dabei wird dann der Standard-Eintrag im Grub-Menü selektiert und
+das &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/05/11/grub-reboot">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Uli's IT-Blog - Konzeption, Entwicklung, Betrieb</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-11T06:31:00+02:00" pubdate data-updated="true">11. May 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Üblicherweise starte ich meine diversen VMs einfach mit <code>sudo reboot</code>
+neu. Dabei wird dann der Standard-Eintrag im Grub-Menü selektiert und
+das betreffende Betriebssystem hochgefahren.</p>
+
+<p>Manchmal möchte ich aber einen anderen Eintrag aktivieren und ein
+alternatives Betriebssystem oder einen anderen Linux-Kernel starten.
+Das Verfahren habe ich mir von <a href="http://michael-prokop.at/blog/2013/05/10/how-to-get-grub-reboot-working/">Michael Prokop&rsquo;s Blog</a> &lsquo;geklaut&rsquo;.</p>
+
+<!-- more -->
+
+
+<h2>Sichten: Welche Menüeinträge gibt es?</h2>
+
+<figure class='code'><figcaption><span>Liste der Men</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># grep &quot;^menuentry&quot; /boot/grub/grub.cfg</span>
+</span><span class='line'>menuentry <span class="s1">&#39;Ubuntu, with Linux 3.2.0-36-virtual&#39;</span> --class ubuntu --class gnu-linux --class gnu --class os <span class="o">{</span>
+</span><span class='line'>menuentry <span class="s1">&#39;Ubuntu, with Linux 3.2.0-36-virtual (recovery mode)&#39;</span> --class ubuntu --class gnu-linux --class gnu --class os <span class="o">{</span>
+</span><span class='line'>menuentry <span class="s2">&quot;Memory test (memtest86+)&quot;</span> <span class="o">{</span>
+</span><span class='line'>menuentry <span class="s2">&quot;Memory test (memtest86+, serial console 115200)&quot;</span> <span class="o">{</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Umstellen des Standard-Boot-Eintrages</h2>
+
+<figure class='code'><figcaption><span>Umstellen der Standard-Boot-Eintrages </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># grep GRUB_DEFAULT /etc/default/grub</span>
+</span><span class='line'><span class="nv">GRUB_DEFAULT</span><span class="o">=</span>0
+</span><span class='line'><span class="c"># sed -i &#39;s/^GRUB_DEFAULT.*/GRUB_DEFAULT=saved/&#39; /etc/default/grub</span>
+</span><span class='line'><span class="c"># grep GRUB_DEFAULT /etc/default/grub</span>
+</span><span class='line'><span class="nv">GRUB_DEFAULT</span><span class="o">=</span>saved
+</span><span class='line'><span class="c"># update-grub</span>
+</span><span class='line'>Generating grub.cfg ...
+</span><span class='line'>Found linux image: /boot/vmlinuz-3.2.0-36-virtual
+</span><span class='line'>Found initrd image: /boot/initrd.img-3.2.0-36-virtual
+</span><span class='line'>Found memtest86+ image: /memtest86+.bin
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Neustart eines anderen Eintrages</h2>
+
+<p>Ich möchte den Eintrag &ldquo;Memory test (memtest86+)&rdquo;
+starten, das ist der dritte Eintrag im Boot-Menü:</p>
+
+<figure class='code'><figcaption><span>Neustart mit dem dritten Standard-Boot-Eintrag </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># grub-reboot 2</span>
+</span><span class='line'><span class="c"># reboot</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nun wird der dritte Eintrag gestartet, der blaue Bildschirm von
+&ldquo;Memory Test&rdquo; erscheint.</p>
+
+<p>Beim nächsten Neustart wird dann wieder der ursprüngliche Boot-Eintrag
+geladen.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-11T06:31:00+02:00" pubdate data-updated="true">11. May 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/grub/'>Grub</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/" title="Voriger Beitrag: Probleme mit MySQL: start: Job failed to start">&laquo; Probleme mit MySQL: start: Job failed to start</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/05/12/lxc-ubuntu-build/" title="Nächster Beitrag: Ubuntu-Debian-Pakete mit LXC erzeugen">Ubuntu-Debian-Pakete mit LXC erzeugen &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ulispersonalitblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/05/11/grub-reboot/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/05/11/grub-reboot/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

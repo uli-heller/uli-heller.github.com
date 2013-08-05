@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: MySQL | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Probleme mit MySQL: start: Job failed to start]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/"/>
+    <updated>2013-05-01T06:31:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/05/01/probleme-mit-mysql-start-job-failed-to-start</id>
+    <content type="html"><![CDATA[<p>Auf einem meiner Rechner habe ich gestern diverse Updates eingespielt mit</p>
+
+<ul>
+<li><code>apt-get update</code></li>
+<li><code>apt-get upgrade</code></li>
+<li><code>apt-get dist-upgrade</code></li>
+</ul>
+
+
+<p>Dabei wurde auch MySQL aktualisiert. Leider läßt es sich anschließend nicht
+mehr starten. Es erscheint die Fehlermeldung &ldquo;start: Job failed to start&rdquo;.</p>
+
+<!-- more -->
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fehlermeldung beim Start von MySQL </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>service mysql start
+</span><span class='line'>  start: Job failed to start
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Eine Sichtung der Log-Dateien unter /var/log liefert leider auch keine
+brauchbaren Informationen:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Sichtung der Log-Dateien </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /var/log
+</span><span class='line'>ls -ltra
+</span><span class='line'>  -rw-rw-r&amp;mdash;  1 root      utmp  15744 2013-05-01 06:28 wtmp
+</span><span class='line'>  -rw-rw-r&amp;mdash;  1 root      utmp 292292 2013-05-01 06:28 lastlog
+</span><span class='line'>  -rw-r&amp;mdash;&amp;mdash;&amp;ndash;  1 syslog    adm   93910 2013-05-01 06:40 auth.log
+</span><span class='line'>  -rw-r&amp;mdash;&amp;mdash;&amp;ndash;  1 syslog    adm   17682 2013-05-01 06:47 syslog
+</span><span class='line'>  -rw-r&amp;mdash;&amp;mdash;&amp;ndash;  1 syslog    adm  142088 2013-05-01 06:47 messages
+</span><span class='line'>  -rw-r&amp;mdash;&amp;mdash;&amp;ndash;  1 syslog    adm   78161 2013-05-01 06:47 kern.log
+</span><span class='line'>  -rw-r&amp;mdash;&amp;mdash;&amp;ndash;  1 syslog    adm    5394 2013-05-01 06:47 daemon.log&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;daemon.log: mysql pre-start process <span class="o">(</span>2168<span class="o">)</span> terminated with status 1&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;kern.log: <span class="nb">type</span><span class="o">=</span>1505 audit<span class="o">(</span>1367383657.073:19<span class="o">)</span>:  <span class="nv">operation</span><span class="o">=</span>&amp;ldquo;profile_replace&amp;rdquo; <span class="nv">pid</span><span class="o">=</span>2170 <span class="nv">name</span><span class="o">=</span>&amp;ldquo;/usr/sbin/mysqld&amp;rdquo;&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;messages: <span class="nb">type</span><span class="o">=</span>1505 audit<span class="o">(</span>1367383657.073:19<span class="o">)</span>:  <span class="nv">operation</span><span class="o">=</span>&amp;ldquo;profile_replace&amp;rdquo; <span class="nv">pid</span><span class="o">=</span>2170 <span class="nv">name</span><span class="o">=</span>&amp;ldquo;/usr/sbin/mysqld&amp;rdquo;&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;syslog:&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;type<span class="o">=</span>1505 audit<span class="o">(</span>1367383657.073:19<span class="o">)</span>:  <span class="nv">operation</span><span class="o">=</span>&amp;ldquo;profile_replace&amp;rdquo; <span class="nv">pid</span><span class="o">=</span>2170 <span class="nv">name</span><span class="o">=</span>&amp;ldquo;/usr/sbin/mysqld&amp;rdquo;&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;mysql pre-start process <span class="o">(</span>2168<span class="o">)</span> terminated with status 1&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;auth.log: &amp;hellip;&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Logging von Upstart aktivieren</h2>
+
+<p>Im <a href="http://upstart.ubuntu.com/cookbook/#initctl-log-priority">Kochbuch für Upstart</a>
+steht, wie man das Logging für Upstart aktiviert:</p>
+
+<ul>
+<li><code>initctl log-priority  # Ausgabe: message</code></li>
+<li><code>initctl log-priority debug</code></li>
+<li><code>service mysql start</code></li>
+</ul>
+
+
+<p>Danach stehen deutlich mehr Informationen in den Log-Dateien. Leider betreffen
+diese mehr die Arbeitsweise vom Upstart-Init-Daemon als die der zu startenden
+Services.</p>
+
+<p>Also: Logging für Upstart wieder deaktivieren:</p>
+
+<ul>
+<li><code>initctl log-priority message</code></li>
+</ul>
+
+
+<h2>Logging für ein Upstart-Skript aktivieren</h2>
+
+<p>Im  <a href="http://upstart.ubuntu.com/cookbook/#obtaining-a-log-of-a-script-section">Kochbuch für Upstart</a>
+steht, wie man Logs für die Upstart-Skripte erzeugt. Die Idee ist, dem Ansatz
+&ldquo;Log Script Section Output to Syslog&rdquo; zu folgen:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Auszug aus dem Upstart-Kochbuch &ndash; Skriptausgabe loggen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>script
+</span><span class='line'>  <span class="nb">exec</span> &gt;/dev/kmsg 2&gt;&amp;amp;1
+</span><span class='line'>  <span class="nb">echo</span> &amp;ldquo;this data will be sent to the system log&amp;rdquo;
+</span><span class='line'>end script
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Zunächst müssen wir die Konfigurationsdatei für den MySQL-Upstart-Service
+finden: /etc/init/mysql.conf. Eine Sichtung liefert:</p>
+
+<ul>
+<li>Es gibt ein &ldquo;pre-start script&rdquo;</li>
+<li>In den Fehlermeldungen war die Rede von &ldquo;pre-start process&rdquo;</li>
+<li>Also: Wir schauen uns den &ldquo;pre-start&rdquo;-Teil näher an</li>
+</ul>
+
+
+<p>Dieser Teil sieht so aus:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/init/mysql.conf &ndash; pre-start </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>pre-start script&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;#Sanity checks
+</span><span class='line'><span class="o">[</span> -r <span class="nv">$HOME</span>/my.cnf <span class="o">]</span>
+</span><span class='line'><span class="o">[</span> -d /var/run/mysqld <span class="o">]</span> <span class="o">||</span> install -m 755 -o mysql -g root -d /var/run/mysqld
+</span><span class='line'><span class="c"># Load AppArmor profile</span>
+</span><span class='line'><span class="k">if </span>aa-status --enabled 2&amp;gt;/dev/null; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span>apparmor_parser -r /etc/apparmor.d/usr.sbin.mysqld <span class="o">||</span> <span class="nb">true</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'><span class="nv">LC_ALL</span><span class="o">=</span>C <span class="nv">BLOCKSIZE</span><span class="o">=</span> df --portability /var/lib/mysql/. | tail -n 1 | awk <span class="s1">&#39;{ exit ($4&amp;lt;4096) }&#39;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;end script
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Es fällt auf, dass der freie Speicherplatz auf /var/lib/mysql/. geprüft wird.
+Möglicherweise ist also auch einfach diese Partition voll gelaufen!</p>
+
+<h2>Sichtung und Bereinigung der Partition /var</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Sichtung und Bereinigung der Partiton</span><a href='/var'>link</a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>df /var
+</span><span class='line'>  /dev/mapper/systemvg-varlv  376807    354385      2966 100% /var
+</span><span class='line'>apt-get clean
+</span><span class='line'>df /var
+</span><span class='line'>  /dev/mapper/systemvg-varlv  376807    202839    154512  57% /var
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Nun kann man MySQL wieder normal starten!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Normaler Start von MySQL </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>service mysql start
+</span><span class='line'>  mysql start/running, process 1589
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="http://upstart.ubuntu.com/cookbook">Kochbuch für Upstart</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

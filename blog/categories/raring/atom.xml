@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Raring | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/raring/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[150Mbps Wireless N Nano USB Adapter TP-Link TL-WN725N]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/06/19/tl-wn725n/"/>
+    <updated>2013-06-19T12:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/06/19/tl-wn725n</id>
+    <content type="html"><![CDATA[<p>Da bei meinem Macbook Air 2013 das WLAN nicht funktioniert, habe ich
+mir einen Nano-USB-Adapter gekauft und plane, damit die Zeit zu überbrücken
+bis ein Treiber für den internen WLAN-Adapter verfügbar ist. Leider
+funktioniert der USB-Adapter erstmal auch nicht.</p>
+
+<!-- more -->
+
+
+<h2>Einstecken und Sichten</h2>
+
+<p>Einfaches Einstecken und Sichten bringt leider keinen sonderlich tollen
+Erfolg.</p>
+
+<ul>
+<li><code>ifconfig -a</code> &hellip; zeigt keine neue Schnittstelle an</li>
+<li><code>tail /var/log/syslog</code> &hellip; ist auch wenig aussagekräftig</li>
+</ul>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/var/log/syslog </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Jun 19 06:54:46 . usb 2-1.2: new high-speed USB device number 5 using ehci-pci
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: New USB device found, idVendor=0bda, idProduct=8179
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: New USB device strings: Mfr=1, Product=2, SerialNumJur=3
+</span><span class='line'>Jun 19 06:54.46 . usb 2-1.2: Product: 802.11n NIC
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: Manufacturer: Realtek
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: SerialNumber: 00E04C0001</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Zusätzliche Treiber</h2>
+
+<p>Der nächste Versuch: &ldquo;Zusätzliche Treiber&rdquo; bei den Systemeinstellungen.
+Leider wird auch bei eingestecktem Adapter kein zusätzlicher Treiber angezeigt.</p>
+
+<h2>Bestehendes Kernel-Modul r8192u_usb</h2>
+
+<p>Sichtung der geladenen und der verfügbaren Kernel-Module. Ich &ldquo;weiß&rdquo;, dass
+die RALINK-Module üblicherweise mit &ldquo;r8&rdquo; im Namen beginnen:</p>
+
+<ul>
+<li>`lsmod|grep r8' &hellip; r8169</li>
+<li><p><code>cd /lib/modules; find . -name "r8*"</code></p>
+
+<pre><code>./3.8.0-25-generic/kernel/drivers/mtd/nand/r852.ko
+./3.8.0-25-generic/kernel/drivers/net/ethernet/realtek/r8169.ko
+./3.8.0-25-generic/kernel/drivers/usb/gadget/r8a66597-udc.ko
+./3.8.0-25-generic/kernel/drivers/usb/host/r8a66597-hcd.ko
+./3.8.0-25-generic/kernel/drivers/staging/rtl8192e/rtl8192e/r8192e_pci.ko
+./3.8.0-25-generic/kernel/drivers/staging/rtl8187se/r8187se.ko
+./3.8.0-25-generic/kernel/drivers/staging/rtl8192u/r8192u_usb.ko
+./3.8.0-25-generic/kernel/drivers/staging/rtl8712/r8712u.ko
+</code></pre></li>
+</ul>
+
+
+<p>Hiervon sieht der &ldquo;r8192u_usb.ko&rdquo; am vielversprechendsten aus.
+Ich lade ihn manuell mit <code>sudo modprobe r8192u_usb</code>. Leider bringt
+das keine Verbesserung, der WLAN-Adapter bleibt &ldquo;unsichtbar&rdquo; &ndash; auch
+nach erneutem Aus- und Einstecken.</p>
+
+<h2>Bestehendes Kernel-Modul rtl8192cu</h2>
+
+<p>Keine Besserung.</p>
+
+<h2>Bestehendes Kernel-Modul rtl8150</h2>
+
+<p>Keine Besserung.</p>
+
+<h2>Treiber von der Realtek-Webseite</h2>
+
+<ul>
+<li><a href="http://www.r-statistics.com/2011/11/edimax-ew-7811un-usb-wireless-connecting-to-a-network-on-ubuntu-11-10/">Anleitung</a></li>
+<li><a href="http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&amp;PNid=48&amp;PFid=48&amp;Level=5&amp;Conn=4&amp;DownTypeID=3&amp;GetDown=false&amp;Downloads=true#2742">Realtek</a></li>
+<li>Datei: RTL8192xC_USB_linux_v3.4.4_4749.20121105.zip</li>
+</ul>
+
+
+<p>Die Kompilierung bricht unter dem 3.8-er-Kernel ab mit Fehlermeldungen.</p>
+
+<h2>Treiber von GitHub</h2>
+
+<ul>
+<li><a href="http://forum.ubuntuusers.de/topic/problem-mit-usb-adapter-tp-link-tl-wn725n-v2/#post-5536902">Anleitung</a></li>
+</ul>
+
+
+<p>Die Kompilierung bricht unter dem 3.8-er-Kernel ab mit Fehlermeldungen. Diese Fehlermeldungen kann man noch umgehen, indem man die Quelltexte leicht variiert. Leider kann das frisch erzeugte Modul anschließend nicht geladen werden wegen unaufgelöster Referenzen (&ldquo;daemonize&rdquo; und &ldquo;kernel_thread&rdquo;).</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu auf einem Macbook Air - erste Eindrücke]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/06/16/macbook-air/"/>
+    <updated>2013-06-16T12:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/06/16/macbook-air</id>
+    <content type="html"><![CDATA[<p>Bedingt durch die Probleme mit meinem Samsung-Notebook habe ich
+mir nun ein Macbook Air 2013 11 Zoll gegönnt.</p>
+
+<!-- more -->
+
+
+<h2>Ubuntu-12.04.2 Live CD auf Macbook Air 2011</h2>
+
+<p>Einfach das Mac-Iso auf einen USB-Stick schreiben mittels @dd@,
+den Stick an&rsquo;s Macbook anschließen und beim Neustart die &ldquo;Alt&rdquo;-Taste
+gedrückt halten.</p>
+
+<p>Das Macbook startet völlig problemlos. Alles scheint zu funktionieren,
+sogar die WLAN-Karte.</p>
+
+<h2>Ubuntu-12.04.2 Live CD auf Macbook Air 2013</h2>
+
+<p>Vorgehen wie zuvor. Bereits beim Start fällt auf, dass der &ldquo;Splash-Screen&rdquo;
+mit dem Ubuntu-Logo nur in Textdarstellung erscheint. WLAN funktioniert
+nicht und beim Versuch, den proprietären Treiber zu aktivieren stürzt der
+Kernel ab.</p>
+
+<h2>Ubuntu-13.04 Live CD auf Macbook Air 2013</h2>
+
+<p>Vorgehen wie zuvor, nur mit der 13.04-CD. Der Start sieht wesentlich besser
+aus &ndash; eigentlich genauso, wie bei 12.04.2 mit dem alten Macbook Air. Der
+&ldquo;Splash Screen&rdquo; erscheint in graphischer Form.</p>
+
+<p>Leider funktioniert die WLAN-Karte im Live-CD-Modus nicht. Der proprietäre
+Treiber wird auch nicht zum Nachladen angeboten.</p>
+
+<h2>Ubuntu-12.04.2 Test-Installation auf Macbook Air 2013</h2>
+
+<p>Die Test-Installation verläuft weitgehend problemlos.
+Der Start des installierten Systems funktioniert aber erstmal nicht, der
+Bildschirm bleibt nach dem Grub-Menü einfach schwarz.
+Über den Zwischenschritt &ldquo;recovery mode&rdquo; läßt sich der Desktop
+aber normal starten.</p>
+
+<p>Im Desktop fällt auf:</p>
+
+<ul>
+<li>die &ldquo;Kleiner-Größer-Pipe-Taste&rdquo; ist vertauscht mit der
+&ldquo;Kreis-Dächlein-Taste&rdquo; links neben der &ldquo;1&rdquo;.</li>
+<li>die Funktionstasten zur Änderung der Helligkeit, &hellip; funktionieren
+nicht</li>
+</ul>
+
+
+<p>Da der WLAN-Adapter nicht funktioniert, kann ich aber</p>
+
+<ul>
+<li>keine Updates einspielen</li>
+<li>keine proprietären Treiber installieren</li>
+</ul>
+
+
+<p>Bin also erstmal &ldquo;ausgebremst&rdquo;.</p>
+
+<h2>Ubuntu-12.04.2 Test-Installation auf Macbook Air 2011</h2>
+
+<p>Hierfür habe ich einfach die Test-Installation vom Macbook Air 2013
+genommen und an das ältere Macbook Air drangestöpselt.</p>
+
+<ul>
+<li>Der Start ist ähnlich wie beim 2013-er-Modell: Bildschirm bleibt schwarz</li>
+<li><p>Recovery-Mode: Bleibt hängen mit</p>
+
+<pre><code>Loading Linux 3.5.0-23-generic ...
+Loading initial ramdisk
+</code></pre></li>
+</ul>
+
+
+<p>Die Laufwerkslampe blinkt dabei permanent. Nachdem sich in 15 Minuten keine
+Änderung getan hat, habe ich den Boot-Vorgang abgebrochen.</p>
+]]></content>
+  </entry>
+  
+</feed>

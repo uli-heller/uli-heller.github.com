@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Subversion | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/subversion/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Subversion 1.8.1 für Ubuntu-12.04]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/07/27/subversion_1.8.1/"/>
+    <updated>2013-07-27T10:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/07/27/subversion_1.8.1</id>
+    <content type="html"><![CDATA[<p>Vor ein paar Tagen wurde Subversion-1.8.1 veröffentlicht.
+Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen.
+Eingeflossen sind dabei auch die gescheiterten Versuche
+mit Subversion-1.8.0. Schlußendlich kommt eine für mich funktionierende
+Version von Subversion-1.8.1 heraus.</p>
+
+<!-- more -->
+
+
+<h2>Ausgangpunkt: Subversion-1.8.0</h2>
+
+<p>Mein Ausgangspunkt sind meine kaputten Pakete für Subversion-1.8.0.</p>
+
+<pre><code>$ cd subversion-1.8.0
+$ uupdate -u ../subversion-1.8.1
+$ cd ../subversion-1.8.1
+</code></pre>
+
+<p>Nun habe ich folgende Generierungs-Abhängigkeiten (build dependencies)
+festgelegt:</p>
+
+<ul>
+<li>subversion: serf-1.2.1 und sqlite-3.7.15</li>
+<li>serf: sqlite-3.7.15</li>
+</ul>
+
+
+<h2>Erste Hürde: Sqlite3-3.7.15</h2>
+
+<p>Subversion benötigt eine relativ aktuelle Version von Sqlite3. Die
+Standard-Version von Ubuntu-12.04 ist zu alt. Ich habe mir so beholfen:</p>
+
+<ul>
+<li>Quellpakete von sqlite3-3.7.15.2 aus &ldquo;raring&rdquo; runtergeladen</li>
+<li>Ein paar kleine Anpassungen an debian/rules vorgenommen, damit
+tcl85 an der richtigen Stelle ausgelesen wird</li>
+<li>Pakete erzeugen mit <code>dpkg-buildpackage</code></li>
+<li>Pakete installieren</li>
+</ul>
+
+
+<h2>Zweite Hürde: Serf-1.2.1</h2>
+
+<ul>
+<li>Diverse Umstellungen nötig, damit die Generierung durchläuft</li>
+<li>Pakete erzeugen mit <code>dpkg-buildpackage</code></li>
+<li>Pakete installieren</li>
+</ul>
+
+
+<h2>Subversion-1.8.1</h2>
+
+<ul>
+<li>Kann nun wie üblich mit <code>dpkg-buildpackage</code> erzeugt werden</li>
+</ul>
+
+
+<h2>Kurztests: Installation und Funktionsweise</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dpkg -i subversion_1.8.1-3dp12~precise1_amd64.deb libsvn1_1.8.1-3dp12~precise1_amd64.deb libserf1_1.2.1-0dp01~precise1_amd64.deb
+</span><span class='line'>$ sudo dpkg -i sqlite3_3.7.15.2-1dp01~precise1_amd64.deb libsqlite3-0_3.7.15.2-1dp01~precise1_amd64.deb
+</span><span class='line'>$ svn &mdash;version
+</span><span class='line'>svn, Version 1.8.1 (r1503906)
+</span><span class='line'>   übersetzt am Jul 26 2013, um 15:38:27 auf x86_64-pc-linux-gnu&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Copyright &copy; 2013 The Apache Software Foundation.
+</span><span class='line'>Diese Software besteht aus Beiträgen vieler Personen;
+</span><span class='line'>siehe Datei NOTICE für weitere Informationen.
+</span><span class='line'>Subversion ist Open Source Software, siehe &lt;a href="http://subversion.apache.org/">http://subversion.apache.org/&lt;/a>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Die folgenden ZugriffsModule (ZM) für Projektarchive stehen zur Verfügung:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;ul>
+</span><span class='line'>&lt;li>ra_svn : Modul zum Zugriff auf ein Projektarchiv über das svn-Netzwerkprotokoll.
+</span><span class='line'>
+</span><span class='line'>&lt;ul>
+</span><span class='line'>&lt;li>mit Cyrus-SASL-Authentifizierung&lt;/li>
+</span><span class='line'>&lt;li>behandelt Schema »svn«&lt;/li>
+</span><span class='line'>&lt;/ul>
+</span><span class='line'>&lt;/li>
+</span><span class='line'>&lt;li>ra_local : Modul zum Zugriff auf ein Projektarchiv auf der lokalen Festplatte
+</span><span class='line'>
+</span><span class='line'>&lt;ul>
+</span><span class='line'>&lt;li>behandelt Schema »file«&lt;/li>
+</span><span class='line'>&lt;/ul>
+</span><span class='line'>&lt;/li>
+</span><span class='line'>&lt;li>ra_serf : Modul zum Zugriff auf ein Projektarchiv über das Protokoll WebDAV mittels serf.
+</span><span class='line'>
+</span><span class='line'>&lt;ul>
+</span><span class='line'>&lt;li>behandelt Schema »http«&lt;/li>
+</span><span class='line'>&lt;li>behandelt Schema »https«
+</span><span class='line'>$ cd svn/my-project
+</span><span class='line'>$ svn status
+</span><span class='line'>svn: E155036: Please see the &lsquo;svn upgrade&rsquo; command
+</span><span class='line'>svn: E155036: The working copy at &lsquo;/home/uli/svn/my-project&rsquo;
+</span><span class='line'>is too old (format 29) to work with client version &lsquo;1.8.1 (r1503906)&rsquo; (expects format 31). You need to upgrade the working copy first.
+</span><span class='line'>$ svn upgrade
+</span><span class='line'>Upgraded &lsquo;.&rsquo;
+</span><span class='line'>$ svn status
+</span><span class='line'>$ svn update
+</span><span class='line'>Updating &lsquo;.&rsquo;:
+</span><span class='line'>A    minianwendungjsf/.classpath
+</span><span class='line'>A    minianwendungjsf/ant
+</span><span class='line'>A    minianwendungjsf/ant/build.xml
+</span><span class='line'>A    minianwendungjsf/.project
+</span><span class='line'>&hellip;
+</span><span class='line'>A    EJB3.1_Test/login.config
+</span><span class='line'>Updated to revision 13.
+</span><span class='line'>$ svn checkout &lt;a href="https://.....">https://.....&lt;/a>
+</span><span class='line'>A    my-project2/git-test
+</span><span class='line'>A    my-project2/git-test/Hello.txt
+</span><span class='line'>A    my-project2/git-test/01-git-neu.txt
+</span><span class='line'>&hellip;
+</span><span class='line'>A    my-project2/testfolder2
+</span><span class='line'>A    my-project2/testfolder2/testbin-ticket9.odt
+</span><span class='line'>Checked out revision 78.</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Also: Grobtest ist OK.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Subversion 1.8.0 für Ubuntu-12.04]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/07/10/subversion_1.8.0/"/>
+    <updated>2013-07-10T10:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/07/10/subversion_1.8.0</id>
+    <content type="html"><![CDATA[<p>Vor ein paar Tagen wurde Subversion-1.8.0 veröffentlicht.
+Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen.</p>
+
+<p>Aktuell kann ich die DEB-Pakete zwar erzeugen und installieren,
+leider funktionieren sie aber nicht richtig!</p>
+
+<!-- more -->
+
+
+<h2>Ausgangpunkt: Subversion-1.7.10</h2>
+
+<p>Mein Ausgangspunkt sind die Pakete für Subversion-1.7.10.</p>
+
+<pre><code>$ cd subversion-1.7.10
+$ uupdate -u ../subversion-1.8.0
+$ cd ../subversion-1.8.0
+$ dpkg-buildpackage
+</code></pre>
+
+<h2>Erste Hürde: Serf-1.2.1</h2>
+
+<h2>Zweite Hürde: Sqlite3-3.7.15</h2>
+
+<p>Subversion benötigt eine relativ aktuelle Version von Sqlite3. Die
+Standard-Version von Ubuntu-12.04 ist zu alt. Ich habe mir so beholfen:</p>
+
+<ul>
+<li>Quellpakete von sqlite3-3.7.15.2 aus &ldquo;raring&rdquo; runtergeladen</li>
+<li>Ein paar kleine Anpassungen an debian/rules vorgenommen, damit
+tcl85 an der richtigen Stelle ausgelesen wird</li>
+<li>Pakete erzeugen mit <code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<h2>Dritte Hürde: Python-Test bricht ab</h2>
+
+<p>Bei der Ausführung von <code>dpkg-buildpackage</code> in &ldquo;subversion-1.8.0&rdquo;
+werden die Tests mit einer Fehlermeldung abgebrochen:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&hellip;
+</span><span class='line'>Running testsuite &ndash; may take a while.  To disable,
+</span><span class='line'>use DEB_BUILD_OPTIONS=nocheck or edit debian/rules.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>/usr/bin/make -f debian/rules check-swig-py check-swig-pl check-swig-rb
+</span><span class='line'>make[1]: Entering directory &lt;code>/home/ubuntu/build/subversion/subversion-1.8.0'
+</span><span class='line'>set -e; for v in 2.7; do rm -f BUILD/subversion/bindings/swig/python; ln -fs python$v BUILD/subversion/bindings/swig/python; pylib=$(python$v -c 'from distutils import sysconfig; print sysconfig.get_python_lib()');  /usr/bin/make -C BUILD check-swig-py PYTHON=python$v PYVER=$v CLEANUP=1 LC_ALL=C; done
+</span><span class='line'>make[2]: Entering directory&lt;/code>/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>if [ &ldquo;LD_LIBRARY_PATH&rdquo; = &ldquo;DYLD_LIBRARY_PATH&rdquo; ]; then for d in ./subversion/bindings/swig/python/libsvn_swig_py ./subversion/bindings/swig/python/../../../libsvn_*; do if [ -n &ldquo;$DYLD_LIBRARY_PATH&rdquo; ]; then LD_LIBRARY_PATH=&ldquo;$LD_LIBRARY_PATH:$d/.libs&rdquo;; else LD_LIBRARY_PATH=&ldquo;$d/.libs&rdquo;; fi; done; export LD_LIBRARY_PATH; fi; \&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>cd ./subversion/bindings/swig/python; \
+</span><span class='line'>  python2.7 /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/python/tests/run_all.py
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;h2>&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&lt;/h2>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Ran 123 tests in 301.417s&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>OK
+</span><span class='line'>make[2]: Leaving directory &lt;code>/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>set -e; for v in 2.7; do rm -f BUILD/subversion/bindings/swig/python; ln -fs python$v-dbg BUILD/subversion/bindings/swig/python; pylib=$(python$v -c 'from distutils import sysconfig; print sysconfig.get_python_lib()');  /usr/bin/make -C BUILD check-swig-py PYTHON=python$v-dbg PYVER=${v}_d PYTHON_INCLUDES=-I/usr/include/python${v}_d CLEANUP=1 LC_ALL=C; done
+</span><span class='line'>make[2]: Entering directory&lt;/code>/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>if [ &ldquo;LD_LIBRARY_PATH&rdquo; = &ldquo;DYLD_LIBRARY_PATH&rdquo; ]; then for d in ./subversion/bindings/swig/python/libsvn_swig_py ./subversion/bindings/swig/python/../../../libsvn_*; do if [ -n &ldquo;$DYLD_LIBRARY_PATH&rdquo; ]; then LD_LIBRARY_PATH=&ldquo;$LD_LIBRARY_PATH:$d/.libs&rdquo;; else LD_LIBRARY_PATH=&ldquo;$d/.libs&rdquo;; fi; done; export LD_LIBRARY_PATH; fi; \&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>cd ./subversion/bindings/swig/python; \
+</span><span class='line'>  python2.7-dbg /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/python/tests/run_all.py
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;Fatal Python error: subversion/bindings/swig/python/svn_client.c:23145 object at 0x399b498 has negative ref count -2604246222170760230
+</span><span class='line'>/bin/bash: line 2: 16967 Aborted                 (core dumped) python2.7-dbg /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/python/tests/run_all.py
+</span><span class='line'>make[2]: &lt;strong>&lt;em> [check-swig-py] Error 134
+</span><span class='line'>make[2]: Leaving directory &lt;code>/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>make[1]: *** [check-swig-py] Error 2
+</span><span class='line'>make[1]: Leaving directory&lt;/code>/home/ubuntu/build/subversion/subversion-1.8.0'
+</span><span class='line'>make: &lt;/em>&lt;/strong> [debian/stamp-build-arch] Error 2
+</span><span class='line'>dpkg-buildpackage: error: debian/rules build gave error exit status 2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Quercheck: subversion-1.8.0.tar.bz2 entpacken und dort dann</p>
+
+<ul>
+<li><code>./configure</code></li>
+<li><code>make</code> &hellip; keine Probleme</li>
+<li><code>make test</code> &hellip; &ldquo;nothing to be done&rdquo;</li>
+<li><p><code>make check</code> &hellip; &ldquo;All tests successful.&rdquo;</p>
+
+<pre><code>XFAIL: wc_tests.py 6: add file with not-parent symlink
+Summary of test results:
+ 1909 tests PASSED
+ 55 tests SKIPPED
+ 28 tests XFAILED (1 WORK-IN-PROGRESS)
+SUMMARY: All tests successful.
+</code></pre></li>
+<li><p><code>make check-swig-py</code> &hellip; keine Probleme</p></li>
+</ul>
+
+
+<p>Ich editiere debian/rules und deaktiviere &ldquo;call allpydbg&rdquo; in &ldquo;check-swig-py&rdquo;.</p>
+
+<h2>Vierte Hürde: Ruby-Tests brechen ab</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&hellip;
+</span><span class='line'>/usr/bin/make -C BUILD check-swig-rb CLEANUP=1 LC_ALL=C
+</span><span class='line'>make[2]: Entering directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>if [ &ldquo;LD_LIBRARY_PATH&rdquo; = &ldquo;DYLD_LIBRARY_PATH&rdquo; ]; then for d in ./subversion/bindings/swig/python/libsvn_swig_rb ./subversion/bindings/swig/python/../../../libsvn_*; do if [ -n &ldquo;$DYLD_LIBRARY_PATH&rdquo; ]; then LD_LIBRARY_PATH=&ldquo;$LD_LIBRARY_PATH:$d/.libs&rdquo;; else LD_LIBRARY_PATH=&ldquo;$d/.libs&rdquo;; fi; done; export LD_LIBRARY_PATH; fi; \&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>cd ./subversion/bindings/swig/ruby; \
+</span><span class='line'>      if [ "1" -eq 1 -a "8" -lt 9 ] ; then \
+</span><span class='line'>        /usr/bin/ruby1.8 -I /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby \
+</span><span class='line'>          /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb \
+</span><span class='line'>      --verbose=normal; \
+</span><span class='line'>      else \
+</span><span class='line'>    /usr/bin/ruby1.8 -I /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby \
+</span><span class='line'>      /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb; \
+</span><span class='line'>      fi
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>/home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/util.rb:22:in `require': no such file to load &mdash; ./svn/util (LoadError)&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>from /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/util.rb:22
+</span><span class='line'>from /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb:37:in `require'
+</span><span class='line'>from /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb:37
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>make[2]: &lt;strong>&lt;em> [check-swig-rb] Error 1
+</span><span class='line'>make[2]: Leaving directory &lt;code>/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>make[1]: *** [check-swig-rb] Error 2
+</span><span class='line'>make[1]: Leaving directory&lt;/code>/home/ubuntu/build/subversion/subversion-1.8.0'
+</span><span class='line'>make: &lt;/em>&lt;/strong> [debian/stamp-build-arch] Error 2
+</span><span class='line'>dpkg-buildpackage: error: debian/rules build gave error exit status 2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Das habe ich korrigiert durch Änderungen an ./subversion/bindings/swig/ruby/test/run-test.rb:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>run-test.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;mdash;&amp;ndash; subversion/bindings/swig/ruby/test/util.rb~ 2013-05-29 04:00:11.000000000 +0000
+</span><span class='line'><span class="gi">+++ subversion/bindings/swig/ruby/test/util.rb  2013-07-10 09:22:24.845441319 +0000</span>
+</span><span class='line'><span class="gu">@@ -19,7 +19,7 @@&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt; require &amp;ldquo;fileutils&amp;rdquo;
+</span><span class='line'> require &amp;ldquo;pathname&amp;rdquo;
+</span><span class='line'><span class="gd">-require &amp;ldquo;./svn/util&amp;rdquo;</span>
+</span><span class='line'><span class="gi">+require &amp;ldquo;svn/util&amp;rdquo;</span>
+</span><span class='line'> require &amp;ldquo;tmpdir&amp;rdquo;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt; require &amp;ldquo;my-assertions&amp;rdquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Fünfte Hürde: Verpacken bricht ab wegen fehlenjder Dateien</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&hellip;
+</span><span class='line'>make[1]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
+</span><span class='line'>find debian/tmp/usr/lib/ruby ( -name *.a -o -name *.la ) -exec rm -f {} +
+</span><span class='line'>cd debian/tmp//usr/lib/x86_64-linux-gnu; for lib in ra fs auth swig; do \&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>    rm -f libsvn_${lib}_*.so libsvn_${lib}_*.la; \
+</span><span class='line'>done
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>cd debian/tmp//usr/lib/x86_64-linux-gnu; rm -f libsvn_swig*.a libsvnjavahl.a libsvnjavahl.la&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Intermediate hack, until we can remove the rest of the .la files.&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>sed -i  &ldquo;/dependency_libs/s/=.&lt;em>/=&lsquo;&rsquo;/&rdquo; debian/tmp//usr/lib/x86_64-linux-gnu/&lt;/em>.la
+</span><span class='line'>dh_install -s
+</span><span class='line'>dh_install: libapache2-svn missing files (debian/tmp/usr/lib/apache2/modules/&lt;em>.so), aborting
+</span><span class='line'>make: &lt;/em>** [debian/stamp-install-arch] Error 2
+</span><span class='line'>dpkg-buildpackage: error: fakeroot debian/rules binary gave error exit status 2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Das habe ich korrigiert durch Änderungen an ./debian/libapache2-svn.install:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>libapache2-svn.install </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>ubuntu@ubuntu1204-64-build:~/build/subversion/subversion-1.8.0$ diff -u debian/libapache2-svn.install~ debian/libapache2-svn.install
+</span><span class='line'>&amp;mdash;&amp;ndash; debian/libapache2-svn.install~  2013-07-06 06:31:05.000000000 +0000
+</span><span class='line'><span class="gi">+++ debian/libapache2-svn.install   2013-07-10 11:08:06.525738591 +0000</span>
+</span><span class='line'><span class="gu">@@ -1,4 +1,4 @@</span>
+</span><span class='line'><span class="gd">-debian/tmp/usr/lib/apache2/modules/&lt;em&gt;.so        usr/lib/apache2/modules</span>
+</span><span class='line'><span class="gi">+debian/tmp/usr/libexec/&lt;/em&gt;.so            usr/lib/apache2/modules</span>
+</span><span class='line'> debian/dav_svn.conf                             etc/apache2/mods-available
+</span><span class='line'> debian/dav_svn.load                             etc/apache2/mods-available
+</span><span class='line'> debian/authz_svn.load                           etc/apache2/mods-available
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Danach kann dann mit <code>fakeroot debian/rules binary</code> die Verpackung ohne erneute Kompilierung getestet werden.</p>
+
+<h2>Nochmals komplett: Paketerzeugung läuft durch</h2>
+
+<p>Nach den vorigen Änderungen kann die Paketerzeugung mit</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>komplett erfolgreich durchgezogen werden!</p>
+
+<h2>Kurztests: Installation und Funktionsweise</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dpkg -i subversion_1.8.0-3dp12~precise1_amd64.deb libsvn1_1.8.0-3dp12~precise1_amd64.deb libserf1_1.2.1-0dp01~precise1_amd64.deb
+</span><span class='line'>$ sudo dpkg -i sqlite3_3.7.15.2-1dp01~precise1_amd64.deb libsqlite3-0_3.7.15.2-1dp01~precise1_amd64.deb
+</span><span class='line'>$ svn &mdash;version
+</span><span class='line'>svn, Version 1.8.0 (r1490375)
+</span><span class='line'>   übersetzt am Jul 10 2013, um 11:15:47 auf x86_64-pc-linux-gnu&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Copyright &copy; 2013 The Apache Software Foundation.
+</span><span class='line'>Diese Software besteht aus Beiträgen vieler Personen;
+</span><span class='line'>siehe Datei NOTICE für weitere Informationen.
+</span><span class='line'>Subversion ist Open Source Software, siehe &lt;a href="http://subversion.apache.org/">http://subversion.apache.org/&lt;/a>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Die folgenden ZugriffsModule (ZM) für Projektarchive stehen zur Verfügung:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;ul>
+</span><span class='line'>&lt;li>ra_svn : Modul zum Zugriff auf ein Projektarchiv über das svn-Netzwerkprotokoll.
+</span><span class='line'>
+</span><span class='line'>&lt;ul>
+</span><span class='line'>&lt;li>mit Cyrus-SASL-Authentifizierung&lt;/li>
+</span><span class='line'>&lt;li>behandelt Schema »svn«&lt;/li>
+</span><span class='line'>&lt;/ul>
+</span><span class='line'>&lt;/li>
+</span><span class='line'>&lt;li>ra_local : Modul zum Zugriff auf ein Projektarchiv auf der lokalen Festplatte
+</span><span class='line'>
+</span><span class='line'>&lt;ul>
+</span><span class='line'>&lt;li>behandelt Schema »file«&lt;/li>
+</span><span class='line'>&lt;/ul>
+</span><span class='line'>&lt;/li>
+</span><span class='line'>&lt;li>ra_serf : Modul zum Zugriff auf ein Projektarchiv über das Protokoll WebDAV mittels serf.
+</span><span class='line'>
+</span><span class='line'>&lt;ul>
+</span><span class='line'>&lt;li>behandelt Schema »http«&lt;/li>
+</span><span class='line'>&lt;li>behandelt Schema »https«
+</span><span class='line'>$ cd svn/my-project
+</span><span class='line'>$ svn status
+</span><span class='line'>svn: E155036: Please see the &lsquo;svn upgrade&rsquo; command
+</span><span class='line'>svn: E155036: The working copy at &lsquo;/home/uli/svn/my-project&rsquo;
+</span><span class='line'>is too old (format 29) to work with client version &lsquo;1.8.0 (r1490375)&rsquo; (expects format 31). You need to upgrade the working copy first.
+</span><span class='line'>$ svn upgrade
+</span><span class='line'>$ svn status
+</span><span class='line'>$ svn update
+</span><span class='line'>svn: E175009: XML parsing failed: (411 Length Required)
+</span><span class='line'>$ svn checkout &lt;a href="https://.....">https://.....&lt;/a>
+</span><span class='line'>svn: E235000: In file &lsquo;/home/ubuntu/build/subversion/subversion-1.8.0/subversion/libsvn_client/ra.c&rsquo; line 647: assertion failed (peg_revnum != SVN_INVALID_REVNUM)
+</span><span class='line'>Aborted (core dumped)</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Also: Leider funktioniert&rsquo;s nicht.</p>
+
+<h2>Zurück zur alten Version</h2>
+
+<p>Auf dem Rechner, den ich zum Testen verwendet habe, geht&rsquo;s
+so zurück zu den alten Versionen:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo apt-get install libsqlite3-0=3.7.9&lt;em> sqlite3=3.7.9&lt;/em>
+</span><span class='line'>$ sudo apt-get install subversion=1.7.10&lt;em> libsvn1=1.7.10&lt;/em>
+</span><span class='line'>$ sudo apt-get install libserf1=1.0*</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Auf dem Rechner, den ich zum Bauen verwendet habe, geht&rsquo;s
+so zurück zu den alten Versionen:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo apt-get install libsqlite3-0=3.7.9&lt;em> sqlite3=3.7.9&lt;/em>
+</span><span class='line'>$ sudo apt-get install libserf1=1.0*</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

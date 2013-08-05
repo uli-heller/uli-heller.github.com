@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JMX auf Localhost - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+
+  
+  <meta name="description" content="JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&rsquo;s Monitoringittels &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/03/22/localhost-jmx">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Uli's IT-Blog - Konzeption, Entwicklung, Betrieb</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JMX auf Localhost</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-22T08:00:00+01:00" pubdate data-updated="true">22. March 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
+
+<p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&rsquo;s Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
+
+<p><img src="/images/java/jconsole.png"></p>
+
+<p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich &ndash; die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden &ndash; sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
+
+<p>Ziel: Wir wollen die JMX-Schnittstelle so in Betrieb nehmen, dass nur von &ldquo;localhost&rdquo; aus auf sie zugegriffen werden kann!</p>
+
+<!-- more -->
+
+
+<h2>JMX für Netzwerkzugriffe öffnen</h2>
+
+<p>Hier das klassische Vorgehen mittels Java-Properties:</p>
+
+<figure class='code'><figcaption><span>tomcat/bin/setenv.sh </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Djava.rmi.server.hostname=localhost&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote ${CATALINA_OPTS}&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.port=11223 ${CATALINA_OPTS}&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.authenticate=false ${CATALINA_OPTS}&quot;</span>
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">&quot;-Dcom.sun.management.jmxremote.ssl=false ${CATALINA_OPTS}&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nachteile:</p>
+
+<ul>
+<li><p>Das ist ein Scheunentor &ndash; netzwerkweit &ldquo;jeder&rdquo; kann nun mittels JMX auf unsere Anwendung zugreifen</p></li>
+<li><p>Absichern könnte man&rsquo;s mit Firewall-Regeln, was aber zusätzliche Arbeitslast für die Firewall-Truppe bedeutet</p></li>
+<li><p>Oder man aktiviert die Authentifizierung und hängt so eine Art Benutzerverwaltung mit dran &ndash; auch doof</p></li>
+</ul>
+
+
+<p>Eine Idee ist nun, den JMX-Port nicht netzwerkweit sondern nur über &ldquo;localhost&rdquo; erreichbar zu machen. Praktisch bedeutet dies, dass dann nur Leute, die sich auf dem betreffenden Rechner anmelden können, Zugriff auf die JMX-Schnittstelle haben. Die oben aufgeführten Java-Properties bieten leider keine entsprechende Einschränkmöglichkeit, also muß eine andere Lösung her!</p>
+
+<h2>JMX über eine eigene RMISocketFactory freigeben</h2>
+
+<p>Die Idee für nachfolgendes Vorgehen stammt von <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a>. Grob geht&rsquo;s so:</p>
+
+<ul>
+<li>Eigene RMISocketFactory erstellen und registrieren</li>
+<li>MBeanServer über die Standard-ManagementFactory &ldquo;holen&rdquo;</li>
+<li>MBeanServer mit der eigenen RMISocketFactory &ldquo;verknüpfen&rdquo; und einen JMXConnectorServer dafür erzeugen und starten</li>
+</ul>
+
+
+<p>Zusätzlich zu den in der Quelle auf <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a> umgesetzten Schritte mußte ich noch das Java-Property &ldquo;java.rmi.server.hostname&rdquo; auf &ldquo;127.0.0.1&rdquo; setzen. Ohne diesen Zusatzschritt funktioniert später JCONSOLE nicht.</p>
+
+<p>Wenn man das richtig getan hat, dann kann man danach mittels <code>jconsole localhost:11223</code> die JCONSOLE starten. &ldquo;11223&rdquo; ist dabei die Portnummer, die man bei vorigem Ablauf mit verarbeitet.</p>
+
+<p>Ich habe das ganze noch in ein Servlet verpackt. Nun kann ich durch</p>
+
+<ul>
+<li><code>curl http://localhost-jmx/jmx/start</code> &hellip; die JMX-Schnittstelle &ldquo;öffnen&rdquo;</li>
+<li><code>curl http://localhost-jmx/jmx/stop</code> &hellip; die JMX-Schnittstelle &ldquo;schließen&rdquo;</li>
+</ul>
+
+
+<p>Zur Not geht das auch über einen Browser.</p>
+
+<p>Seitens des Operatings sind keinerlei Eingriffe erforderlich. Auch das lästige Setzen des Java-Properties erübrigt sich.</p>
+
+<p>Den Quelltext zu dem ganzen gibt&rsquo;s auf <a href="https://github.com/uli-heller/uli-java-prototypes/tree/master/localhost-jmx">GitHub</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-22T08:00:00+01:00" pubdate data-updated="true">22. March 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jmx/'>JMX</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/21/debian-changelog/" title="Voriger Beitrag: Neue Einträge für debian/changelog">&laquo; Neue Einträge für debian/changelog</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/04/03/gpg-signaturen/" title="Nächster Beitrag: GPG: Signaturen">GPG: Signaturen &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ulispersonalitblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/03/22/localhost-jmx/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/03/22/localhost-jmx/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

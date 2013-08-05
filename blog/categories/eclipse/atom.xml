@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Eclipse | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/eclipse/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Markdowneditor in Eclipse]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/07/03/eclipse_markdown/"/>
+    <updated>2013-07-03T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/07/03/eclipse_markdown</id>
+    <content type="html"><![CDATA[<p>Gemäß <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=329528">https://bugs.eclipse.org/bugs/show_bug.cgi?id=329528</a>
+sollte Markdown von Eclipse unterstützt werden. Leider gibt&rsquo;s
+in Eclipse-4.3 (Kepler) keine Spur davon&hellip;</p>
+
+<!-- more -->
+
+
+<p>Ich verwende die meiste Zeit die &ldquo;Eclipse IDE for Java EE Developers&rdquo;.
+Da sind die Wiki-Edit-Tools gleich mit enthalten. Eine Datei im
+.textile-Format kann problemlos editiert werden, leider aber keine
+im .markdown-Format.</p>
+
+<p>Abhilfe schafft die Installation der &ldquo;Mylyn Docs&rdquo; von
+<a href="http://download.eclipse.org/mylyn/snapshots/nightly/docs/">http://download.eclipse.org/mylyn/snapshots/nightly/docs/</a>.
+Ich habe einfach alle &ldquo;Mylyn Docs Features&rdquo; installiert, Eclipse neu
+gestartet und danach wird bei &ldquo;Rechts-Klick&rdquo; in &ldquo;Markup Language&rdquo;
+auch Markdown angezeigt.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ASM - BytecodeOutline-Plugin in Eclipse installieren]]></title>
+    <link href="http://uli-heller.github.com/blog/2012/11/27/bytecodeoutline/"/>
+    <updated>2012-11-27T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2012/11/27/bytecodeoutline</id>
+    <content type="html"><![CDATA[<h1>BytecodeOutline-Plugin für Eclipse</h1>
+
+<p>Zuerst ein paar Angaben zu meiner Systemumgebung:</p>
+
+<ul>
+<li>Ubuntu-12.04, 64bit</li>
+<li>Eclipse-jee-juno-SR1</li>
+<li><a href="http://forge.ow2.org/projects/asm/">de.loskutov.BytecodeOutline_2.4.0.jar</a></li>
+</ul>
+
+
+<p>Ich benötige das Plugin nur temporär. Es soll nicht permanent in meiner Eclipse-Umgebung verfügbar sein.</p>
+
+<h2>Neue Eclipse-Installation</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Eclipse-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /opt
+</span><span class='line'>gzip -cd &amp;ldquo;<span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/eclipse/eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz |sudo tar xf &amp;ndash;
+</span><span class='line'>sudo chown -R uli.uli eclipse
+</span><span class='line'>sudo mv eclipse eclipse-botst
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Test der neuen Eclipse-Installation</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Test der Eclipse-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/opt/eclipse-botst/eclipse &amp;amp;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Eclipse wird gestartet&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;&amp;ndash;&gt; wieder stoppen&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Einspielen des Plugins</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen des Plugins </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Sicherstellen: Eclipse ist gestoppt&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;cd /opt/eclipse-botst
+</span><span class='line'>cp &amp;ldquo;<span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Kurztest des Plugins</h2>
+
+<ul>
+<li>Eclipse starten</li>
+<li>Java-Klasse aus einem bestehenden Eclipse-Projekt selektieren</li>
+<li>Window &ndash;> Show View &ndash;> Other &ndash;> Java &ndash;> Bytecode</li>
+</ul>
+
+
+<p><img src="/images/java/eclipse/bytecode-outline.png" title="&lsquo;Eclipse mit Bytecode-View&rsquo;" ></p>
+]]></content>
+  </entry>
+  
+</feed>

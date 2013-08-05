@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Pakete | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/pakete/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu-Debian-Pakete mit LXC erzeugen]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/05/12/lxc-ubuntu-build/"/>
+    <updated>2013-05-12T10:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/05/12/lxc-ubuntu-build</id>
+    <content type="html"><![CDATA[<h2>Installation von LXC</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Installation von LXC </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install lxc</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Container-Partition /lxc</h2>
+
+<p>Dieser Abschnitt kann optional ausgeführt werden.
+Voraussetzung ist, dass es eine Volume Group namens &ldquo;datavg&rdquo;
+gibt und dass diese über mindestens 10 GB freien Speicherplatz
+verfügt.</p>
+
+<h3>Partition anlegen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lvcreate -n lxclv -L10G datavg
+</span><span class='line'>sudo mkfs.btrfs /dev/datavg/lxclv</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Partition einbinden</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -s
+</span><span class='line'>mkdir /lxc
+</span><span class='line'>echo &ldquo;/dev/datavg/lxclv /lxc btrfs defaults 0 3&rdquo; >>/etc/fstab
+</span><span class='line'>mount /lxc
+</span><span class='line'>rmdir /var/lib/lxc
+</span><span class='line'>ln -s /lxc/lib /var/lib/lxc
+</span><span class='line'>rm -rf /var/cache/lxc
+</span><span class='line'>ln -s /lxc/cache /var/cache/lxc</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<!--
+Verwendung vom lokalen Apt-Cacher-Ng
+------------------------------------
+
+Datei /etc/default/lxc editieren:
+
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+... funktioniert nicht, es werden viele Pakete als "nicht verifizierbar" ausgewiesen.
+-->
+
+
+<h2>Erstellen von Containern</h2>
+
+<h3>12.04, 32bit</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-32-build &mdash; -r precise -a i386</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Das Komando liefert typischerweise Ausgaben dieser Art:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo lxc-create -t ubuntu -n ubuntu1204-32 &mdash; -r precise -a i386
+</span><span class='line'>[sudo] password for uli:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>No config file specified, using the default config
+</span><span class='line'>debootstrap ist /usr/sbin/debootstrap
+</span><span class='line'>Checking cache download in /var/cache/lxc/precise/rootfs-i386 &hellip;
+</span><span class='line'>Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs &hellip;
+</span><span class='line'>Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs &hellip;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>#&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>The default user is &lsquo;ubuntu&rsquo; with password &lsquo;ubuntu&rsquo;!&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Use the &lsquo;sudo&rsquo; command to run tasks as root in the container.&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>#&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lsquo;ubuntu&rsquo; template installed
+</span><span class='line'>&lsquo;ubuntu1204-32&rsquo; created</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>12.04, 64bit</h3>
+
+<p>64-bit Container können nur erstellt werden, wenn das Basissystem auch ein 64-bit-System ist!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-64-build &mdash; -r precise -a amd64</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Arbeit mit Containern</h2>
+
+<ul>
+<li>Anmelden
+
+<ul>
+<li>Benutzer: &ldquo;ubuntu&rdquo;</li>
+<li>Kennwort: &ldquo;ubuntu&rdquo;</li>
+</ul>
+</li>
+<li>Netzwerk
+
+<ul>
+<li>IP-Adressen: Aus dem Adressbereich 10.0.3/24</li>
+<li>NAT: Funktioniert &ndash; @ping google.com@</li>
+<li>SSH vom Host in den Container: Funktioniert &ndash; @ssh ubuntu@10.0.3.250@</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Anpassung der Container</h2>
+
+<h3>Verwenden des Apt-Cacher-Ng vom Host-System</h3>
+
+<p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/apt/apt.conf.d/01proxy </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">Acquire</span><span class="p">::&lt;</span><span class="n">a</span> <span class="n">href</span><span class="p">=</span><span class="s">&quot;http::Proxy&quot;</span><span class="p">&gt;</span><span class="n">http</span><span class="p">::</span><span class="n">Proxy</span><span class="p">&lt;/</span><span class="n">a</span><span class="p">&gt;</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="p">=</span><span class="s">&quot;http://10.0.3.1:3142&quot;</span><span class="p">&gt;</span><span class="n">http</span><span class="p">:</span><span class="c1">//10.0.3.1:3142&lt;/a&gt;&amp;rdquo;;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Installation von JOE/JMACS</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install joe</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Paketquellen ergänzen um Source-Repositories</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/apt/sources.list </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u sources.list.orig sources.list</span>
+</span><span class='line'>&amp;mdash;&amp;ndash; sources.list.orig   2012-09-30 09:41:15.000000000 +0200
+</span><span class='line'><span class="gi">+++ sources.list    2013-05-12 18:27:29.615640758 +0200</span>
+</span><span class='line'><span class="gu">@@ -1,3 +1,6 @@</span>
+</span><span class='line'> deb &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise main restricted universe multiverse</span>
+</span><span class='line'> deb &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise-updates main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise-updates main restricted universe multiverse</span>
+</span><span class='line'> deb &lt;a href=&quot;http://security.ubuntu.com/ubuntu&quot;&gt;http://security.ubuntu.com/ubuntu&lt;/a&gt; precise-security main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src &lt;a href=&quot;http://security.ubuntu.com/ubuntu&quot;&gt;http://security.ubuntu.com/ubuntu&lt;/a&gt; precise-security main restricted universe multiverse</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Aktualisierung auf den neuesten Stand</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get upgrade
+</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Build-Tools einspielen</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install build-essential fakeroot dpkg-dev devscripts
+</span><span class='line'>sudo apt-get install autotools-dev debhelper pkg-config
+</span><span class='line'>sudo apt-get install dh-autoreconf
+</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>GPG-Schlüssel übernehmen</h2>
+
+<p>Dieser Abschnitt ist optional. Er wird nur benötigt, um signierte
+DEB-Pakete zu erzeugen!</p>
+
+<p>Auf dem bestehenden Build-System wird der GPG-Schlüssel exportiert:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>GPG-Schl</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg &mdash;export-secret-keys >gpg.keys</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Auf dem neuen LXC-Build-System wird der GPG-Schlüssel importiert:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>GPG-Schl</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg &mdash;import &lt;gpg.keys</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Durchführen eines Builds</h2>
+
+<h3>nginx</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir nginx
+</span><span class='line'>cd nginx
+</span><span class='line'>apt-get source nginx
+</span><span class='line'>sudo apt-get build-dep nginx
+</span><span class='line'>cd nginx-1.1.19
+</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>libseccomp</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Kopieren der nachfolgenden Dateien:&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>libseccomp_0.1.0-1dp01~precise2.debian.tar.gz&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>libseccomp_0.1.0-1dp01~precise2.dsc&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>libseccomp_0.1.0.orig.tar.gz&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>dpkg-source -x  libseccomp_0.1.0-1dp01~precise2.dsc
+</span><span class='line'>cd libseccomp-0.1.0
+</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>lxc</h3>
+
+<p>&hellip; läuft analog zu &ldquo;libseccomp&rdquo;</p>
+
+<h2>Sichern und Rückspielen von Containern</h2>
+
+<h3>Sichern</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lxc
+</span><span class='line'>sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Rückspielen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lxc
+</span><span class='line'>sudo tar -xvjpf /backups/lxc/20121119.tar.bz2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Probleme</h2>
+
+<h3>Offene Punkte</h3>
+
+<h4>Wie sorgt man dafür, dass ein Container nur über ein Host-Only-Netzwerk erreichbar ist?</h4>
+
+<h3>Erledigte Punkte</h3>
+
+<h4>Verwendung des Apt-Cacher-Ng durch einen Container</h4>
+
+<p>&hellip; geht wie üblich durch /etc/apt/apt.conf.d/01proxy innerhalb des Containers</p>
+
+<h4>Wie übernimmt man einen Container auf ein anderes System?</h4>
+
+<p>&hellip; durch Sichern und Rückspielen.</p>
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://help.ubuntu.com/12.04/serverguide/lxc.html">Ubuntu 12.04 Server Guide</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

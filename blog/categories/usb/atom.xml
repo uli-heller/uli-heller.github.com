@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: USB | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/usb/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Lesegeschwindigkeit von USB-Sticks]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/07/10/usb_speed/"/>
+    <updated>2013-07-10T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/07/10/usb_speed</id>
+    <content type="html"><![CDATA[<p>Nachfolgend ein Vergleich der Lesegeschwindigkeiten von 3 USB-Sticks,
+die ich hier rumliegen habe:</p>
+
+<ul>
+<li>ein etwas älterer USB-3.0-Stick</li>
+<li>ein neuer und ganz kleiner USB-2.0-Stick</li>
+<li>ein neuer USB-3.0-Stick</li>
+</ul>
+
+
+<p>Die Lesegeschwindigkeiten messe ich mit <code>hdparm</code> unter Linux auf</p>
+
+<ul>
+<li>meinem Samsung-Laptop mit USB-2.0 und USB-3.0</li>
+<li>meinem HP-Desktop mit USB-2.0</li>
+<li>meinem Macbook Air mit USB-3.0</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h2>USB-Sticks</h2>
+
+<h3>Sony Micro Vault 64 GB USB 3.0</h3>
+
+<p>Vom Format her ein etwas größerer USB-Stick, ist auch schon etwas älter.
+Bei Amazon: <a href="http://www.amazon.de/Sony-Micro-Vault-Match-Speicherstick/dp/B006EK0LZO">http://www.amazon.de/Sony-Micro-Vault-Match-Speicherstick/dp/B006EK0LZO</a></p>
+
+<h3>Sandisk Cruzer Fit 32 GB USB 2.0</h3>
+
+<p>Ein sehr kleiner USB-Stick, recht billig (16€ bei MediaMarkt)
+aber wahrscheinlich auch etwas langsam.
+Bei Amazon: <a href="http://www.amazon.de/Sandisk-Cruzer-Fit-Speicherstick-32GB/dp/B00812F7O8">http://www.amazon.de/Sandisk-Cruzer-Fit-Speicherstick-32GB/dp/B00812F7O8</a></p>
+
+<h3>Sandisk Extreme 64 GB USB 3.0</h3>
+
+<p>Vom Format her ein etwas größerer USB-Stick. Laut Packung</p>
+
+<ul>
+<li>bis zu 190 MB/s lesend</li>
+<li>bis zu 170 MB/s schreibend</li>
+</ul>
+
+
+<p>Bei Amazon: <a href="http://www.amazon.de/SanDisk-Cruzer-Extreme-Speicherstick-64GB/dp/B007YXA5SI">http://www.amazon.de/SanDisk-Cruzer-Extreme-Speicherstick-64GB/dp/B007YXA5SI</a></p>
+
+<h2>Samsung Notebook</h2>
+
+<h3>USB-3.0</h3>
+
+<h4>Sony</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3894 MB in  2.00 seconds = 1947.79 MB/sec
+ Timing buffered disk reads: 304 MB in  3.00 seconds = 101.20 MB/sec
+</code></pre>
+
+<h4>Sandisk 32GB</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3878 MB in  2.00 seconds = 1939.72 MB/sec
+ Timing buffered disk reads:  64 MB in  3.04 seconds =  21.08 MB/sec
+</code></pre>
+
+<h4>Sandisk 64GB</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3994 MB in  2.00 seconds = 1997.93 MB/sec
+ Timing buffered disk reads: 414 MB in  3.01 seconds = 137.37 MB/sec
+</code></pre>
+
+<h3>USB-2.0</h3>
+
+<h4>Sony</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3728 MB in  2.00 seconds = 1864.37 MB/sec
+ Timing buffered disk reads:  96 MB in  3.00 seconds =  31.98 MB/sec
+</code></pre>
+
+<h4>Sandisk 32GB</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3732 MB in  2.00 seconds = 1867.17 MB/sec
+ Timing buffered disk reads:  62 MB in  3.02 seconds =  20.53 MB/sec
+</code></pre>
+
+<h4>Sandisk 64GB</h4>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdb
+
+/dev/sdb:
+ Timing cached reads:   3810 MB in  2.00 seconds = 1905.59 MB/sec
+ Timing buffered disk reads:  96 MB in  3.01 seconds =  31.89 MB/sec
+</code></pre>
+
+<h2>HP Desktop</h2>
+
+<p>Nur USB-2.0 verfügbar!</p>
+
+<h3>Sony</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdh
+
+/dev/sdh:
+ Timing cached reads:   19494 MB in  2.00 seconds = 9756.41 MB/sec
+ Timing buffered disk reads:  98 MB in  3.04 seconds =  32.23 MB/sec
+</code></pre>
+
+<h3>Sandisk 32GB</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdh
+
+/dev/sdh:
+ Timing cached reads:   19098 MB in  2.00 seconds = 9557.98 MB/sec
+ Timing buffered disk reads:  64 MB in  3.06 seconds =  20.92 MB/sec
+</code></pre>
+
+<h3>Sandisk 64GB</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdh
+
+/dev/sdh:
+ Timing cached reads:   19272 MB in  2.00 seconds = 9645.16 MB/sec
+ Timing buffered disk reads:  98 MB in  3.01 seconds =  32.58 MB/sec
+</code></pre>
+
+<h2>Macbook Air 2013</h2>
+
+<p>Nur USB-3.0 verfügbar!</p>
+
+<h3>Sony</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdc
+
+/dev/sdc:
+ Timing cached reads:   8598 MB in  2.00 seconds = 4302.41 MB/sec
+ Timing buffered disk reads: 382 MB in  3.00 seconds = 127.20 MB/sec
+</code></pre>
+
+<h3>Sandisk 32GB</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdc
+
+/dev/sdc:
+ Timing cached reads:   8518 MB in  2.00 seconds = 4262.42 MB/sec
+ Timing buffered disk reads:  66 MB in  3.03 seconds =  21.78 MB/sec
+</code></pre>
+
+<h3>Sandisk 64GB</h3>
+
+<pre><code>~$ sudo hdparm -tT /dev/sdc
+
+/dev/sdc:
+ Timing cached reads:   8834 MB in  2.00 seconds = 4421.16 MB/sec
+ Timing buffered disk reads: 482 MB in  3.01 seconds = 160.34 MB/sec
+</code></pre>
+
+<h2>Fazit</h2>
+
+<p>Der kleine billige Sandisk-USB-Ministick ist erwartungsgemäß recht langsam.
+Wenn man keine USB-3.0-Schnittstelle zur Verfügung hat, fällt das nicht
+sonderlich in&rsquo;s Gewicht (20 MB/sec vs 30 MB/sec). Hat man aber eine
+USB-3.0-Schnittstelle, so erreichen die größeren Sticks grob mehr als
+5-fachen Durchsatz vom Ministick.</p>
+
+<p>Der neue Sandisk-Stick ist etwa 25% schneller als der alte Sony-Stick.
+Das Macbook Air 2013 erreicht bei USB-3.0 auch etwa 25% höheren Durchsatz
+wie mein altes Samsung-Notebook.</p>
+]]></content>
+  </entry>
+  
+</feed>

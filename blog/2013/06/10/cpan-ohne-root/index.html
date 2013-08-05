@@ -1,0 +1,549 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Perl: CPAN ohne Root - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+
+  
+  <meta name="description" content="Manchmal möchte man Perl-Module auf einem Rechner installieren,
+ohne dass man Root-Rechte dafür hat &ndash; oder umgekehrt: Man
+möchte Leuten &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/06/10/cpan-ohne-root">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Uli's IT-Blog - Konzeption, Entwicklung, Betrieb</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Perl: CPAN ohne Root</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T06:00:00+02:00" pubdate data-updated="true">10. June 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Manchmal möchte man Perl-Module auf einem Rechner installieren,
+ohne dass man Root-Rechte dafür hat &ndash; oder umgekehrt: Man
+möchte Leuten ermöglichen, auf einem Rechner mit Perl-Modulen
+rumzuspielen, für den sie keinen Root-Zugriff haben. Die nachfolgende
+Beschreibung bezieht sich auf Ubuntu-12.04.</p>
+
+<!-- more -->
+
+
+<h2>Vorbereitung: Diverse Pakete installieren</h2>
+
+<p>Für diesen Abschnitt wird &ldquo;root&rdquo;-Zugriff benötigt!</p>
+
+<pre><code>sudo apt-get install perl-modules
+sudo apt-get install liblocal-lib-perl
+sudo apt-get install make
+sudo apt-get install build-essential
+</code></pre>
+
+<h2>Grundeinrichtung von CPAN</h2>
+
+<p>Für die Grundeinrichtung von CPAN wird als &ldquo;normaler&rdquo; Benutzer
+das Kommando <code>cpan</code> ausgeführt. Bei der Ersteinrichtung werden
+viele Fragen gestellt, die man am besten einfach &ldquo;Abnickt&rdquo;.
+Wenn was schief läuft: <code>rm -rf ~/.cpan</code> und erneut starten!</p>
+
+<p>Hier das Konsolen-Log der Grundeinrichtung:</p>
+
+<figure class='code'><figcaption><span>Grundeinrichtung von CPAN </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Sorry, we have to rerun the configuration dialog for CPAN.pm due to
+</span><span class='line'>some missing parameters. Configuration will be written to
+</span><span class='line'> &lt;&lt;/home/ubuntu/.cpan/CPAN/MyConfig.pm>>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>CPAN.pm requires configuration, but most of it can be done automatically.
+</span><span class='line'>If you answer 'no' below, you will enter an interactive dialog for each
+</span><span class='line'>configuration option instead.
+</span><span class='line'>
+</span><span class='line'>Would you like to configure as much as possible automatically? [yes] 
+</span><span class='line'>
+</span><span class='line'> &lt;install_help>
+</span><span class='line'>
+</span><span class='line'>Warning: You do not have write permission for Perl library directories.
+</span><span class='line'>
+</span><span class='line'>To install modules, you need to configure a local Perl library directory or
+</span><span class='line'>escalate your privileges.  CPAN can help you by bootstrapping the local::lib
+</span><span class='line'>module or by configuring itself to use 'sudo' (if available).  You may also
+</span><span class='line'>resolve this problem manually if you need to customize your setup.
+</span><span class='line'>
+</span><span class='line'>What approach do you want?  (Choose 'local::lib', 'sudo' or 'manual')
+</span><span class='line'> [local::lib] 
+</span><span class='line'>
+</span><span class='line'>ALERT: 'make' is an essential tool for building perl Modules.
+</span><span class='line'>Please make sure you have 'make' (or some equivalent) working.
+</span><span class='line'>
+</span><span class='line'>Autoconfigured everything but 'urllist'.
+</span><span class='line'>
+</span><span class='line'>Now you need to choose your CPAN mirror sites.  You can let me
+</span><span class='line'>pick mirrors for you, you can select them from a list or you
+</span><span class='line'>can enter them by hand.
+</span><span class='line'>
+</span><span class='line'>Would you like me to automatically choose some CPAN mirror
+</span><span class='line'>sites for you? (This means connecting to the Internet) [yes] 
+</span><span class='line'>
+</span><span class='line'>Trying to fetch a mirror list from the Internet
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://www.perl.org/CPAN/MIRRORED.BY
+</span><span class='line'>
+</span><span class='line'>Looking for CPAN mirrors near you (please be patient)
+</span><span class='line'>.................................. done!
+</span><span class='line'>
+</span><span class='line'>New urllist
+</span><span class='line'>  http://httpupdate37.cpanel.net/CPAN/
+</span><span class='line'>  http://cpan.mirrors.uk2.net/
+</span><span class='line'>  http://ftp.spbu.ru/CPAN/
+</span><span class='line'>
+</span><span class='line'>Autoconfiguration complete.
+</span><span class='line'>
+</span><span class='line'>Attempting to bootstrap local::lib...
+</span><span class='line'>
+</span><span class='line'>Writing /home/ubuntu/.cpan/CPAN/MyConfig.pm for bootstrap...
+</span><span class='line'>commit: wrote '/home/ubuntu/.cpan/CPAN/MyConfig.pm'
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://httpupdate37.cpanel.net/CPAN/authors/01mailrc.txt.gz
+</span><span class='line'>Going to read '/home/ubuntu/.cpan/sources/authors/01mailrc.txt.gz'
+</span><span class='line'>............................................................................DONE
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://httpupdate37.cpanel.net/CPAN/modules/02packages.details.txt.gz
+</span><span class='line'>Going to read '/home/ubuntu/.cpan/sources/modules/02packages.details.txt.gz'
+</span><span class='line'>  Database was generated on Mon, 10 Jun 2013 03:53:02 GMT
+</span><span class='line'>  HTTP::Date not available
+</span><span class='line'>..............
+</span><span class='line'>  New CPAN.pm version (v2.00) available.
+</span><span class='line'>  [Currently running version is v1.960001]
+</span><span class='line'>  You might want to try
+</span><span class='line'>    install CPAN
+</span><span class='line'>    reload cpan
+</span><span class='line'>  to both upgrade CPAN.pm and run the new version without leaving
+</span><span class='line'>  the current session.
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>..............................................................DONE
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://httpupdate37.cpanel.net/CPAN/modules/03modlist.data.gz
+</span><span class='line'>Going to read '/home/ubuntu/.cpan/sources/modules/03modlist.data.gz'
+</span><span class='line'>............................................................................DONE
+</span><span class='line'>Going to write /home/ubuntu/.cpan/Metadata
+</span><span class='line'>Running make for E/ET/ETHER/local-lib-1.008010.tar.gz
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/local-lib-1.008010.tar.gz
+</span><span class='line'>Fetching with HTTP::Tiny:
+</span><span class='line'>http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/CHECKSUMS
+</span><span class='line'>Checksum for /home/ubuntu/.cpan/sources/authors/id/E/ET/ETHER/local-lib-1.008010.tar.gz ok
+</span><span class='line'>---- Unsatisfied dependencies detected during ----
+</span><span class='line'>----      ETHER/local-lib-1.008010.tar.gz     ----
+</span><span class='line'>    ExtUtils::MakeMaker [build_requires]
+</span><span class='line'>Running make test
+</span><span class='line'>  Make had some problems, won't test
+</span><span class='line'>  Delayed until after prerequisites
+</span><span class='line'>Running make install
+</span><span class='line'>  Make had some problems, won't install
+</span><span class='line'>  Delayed until after prerequisites
+</span><span class='line'>Tried to deactivate inactive local::lib '/home/ubuntu/perl5'
+</span><span class='line'>
+</span><span class='line'>local::lib is installed. You must now add the following environment variables
+</span><span class='line'>to your shell configuration files (or registry, if you are on Windows) and
+</span><span class='line'>then restart your command line shell and CPAN before installing modules:
+</span><span class='line'>
+</span><span class='line'>Use of uninitialized value $deactivating in numeric eq (==) at /usr/share/perl5/local/lib.pm line 354.
+</span><span class='line'>Use of uninitialized value $deactivating in numeric eq (==) at /usr/share/perl5/local/lib.pm line 356.
+</span><span class='line'>Use of uninitialized value $interpolate in numeric eq (==) at /usr/share/perl5/local/lib.pm line 366.
+</span><span class='line'>export PERL_LOCAL_LIB_ROOT="/home/ubuntu/perl5";
+</span><span class='line'>export PERL_MB_OPT="--install_base /home/ubuntu/perl5";
+</span><span class='line'>export PERL_MM_OPT="INSTALL_BASE=/home/ubuntu/perl5";
+</span><span class='line'>export PERL5LIB="/home/ubuntu/perl5/lib/perl5/i686-linux-gnu-thread-multi-64int:/home/ubuntu/perl5/lib/perl5";
+</span><span class='line'>export PATH="/home/ubuntu/perl5/bin:$PATH";
+</span><span class='line'>
+</span><span class='line'>Would you like me to append that to /home/ubuntu/.bashrc now? [yes] 
+</span><span class='line'>
+</span><span class='line'>commit: wrote '/home/ubuntu/.cpan/CPAN/MyConfig.pm'
+</span><span class='line'>
+</span><span class='line'>You can re-run configuration any time with 'o conf init' in the CPAN shell
+</span><span class='line'>Terminal does not support AddHistory.
+</span><span class='line'>
+</span><span class='line'>cpan shell -- CPAN exploration and modules installation (v1.960001)
+</span><span class='line'>Enter 'h' for help.
+</span><span class='line'>
+</span><span class='line'>cpan[1]> quit</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Moose installieren</h2>
+
+<p>Nun installiere ich das Perl-Modul Moose via CPAN. Läuft ohne Probleme durch!</p>
+
+<figure class='code'><figcaption><span>Moose installieren mit CPAN </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>cpan install Moose
+</span><span class='line'>...
+</span><span class='line'>Installing /home/ubuntu/perl5/man/man3/Moose::Manual::Classes.3pm
+</span><span class='line'>Installing /home/ubuntu/perl5/bin/moose-outdated
+</span><span class='line'>Appending installation info to /home/ubuntu/perl5/lib/perl5/i686-linux-gnu-thread-multi-64int/perllocal.pod
+</span><span class='line'>  ETHER/Moose-2.0802.tar.gz
+</span><span class='line'>  /usr/bin/make install  -- OK
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T06:00:00+02:00" pubdate data-updated="true">10. June 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/perl/'>Perl</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/09/lxc-snapshots/" title="Voriger Beitrag: LXC: Schnelles Clonen mit BTRFS-Snapshots">&laquo; LXC: Schnelles Clonen mit BTRFS-Snapshots</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/06/10/lxc-clone-x/" title="Nächster Beitrag: LXC: Clonen eines Containers mit Namen 'x'">LXC: Clonen eines Containers mit Namen 'x' &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ulispersonalitblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/06/10/cpan-ohne-root/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/06/10/cpan-ohne-root/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

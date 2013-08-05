@@ -7,9 +7,12 @@
   <meta charset="utf-8">
   <title>Hetzner-Mailserver - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
-  <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
 
   
+  <meta name="description" content="Aufsetzen des Hetzner-Mailservers Grundinstallation und -konfiguration Anmelden am Robot
+Ubuntu-12.04 64bit
+Anmelden via SSH: root/xxxxx
+Einspielen &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,22 +22,23 @@
 
   
   <link rel="canonical" href="http://uli-heller.github.com/articles/hetzner-mailserver.html">
+  <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
-  
-
-<!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <!--
-<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 -->
-<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
   
 
-   
-  <link href="/octopress-favicon.png" rel="icon">
 </head>
 
 <body   >
@@ -69,26 +73,12 @@
   <div id="main">
     <div id="content">
       <div>
-
-
-
-
-
-
-
-
-
-
-
-<article class="hentry " role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">
-
-Hetzner-Mailserver
-
-</h1>
-
+    
+      <h1 class="entry-title">Hetzner-Mailserver</h1>
+    
     
       <p class="meta">
         
@@ -105,11 +95,12 @@ Hetzner-Mailserver
 
 
   
-<time datetime="2013-02-19T07:00:00+01:00" pubdate data-updated="true">19. Februar 2013</time>
-         &bull; <a rel="bookmark" href="/articles/hetzner-mailserver.html">Permalink</a>
+<time datetime="2013-02-19T07:00:00+01:00" pubdate data-updated="true">19. February 2013</time>
+        
       </p>
     
   </header>
+
 
 <div class="entry-content"><h1>Aufsetzen des Hetzner-Mailservers</h1>
 
@@ -126,10 +117,8 @@ Hetzner-Mailserver
 
 <h2>Sichtung der APT-Schlüssel</h2>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Paket aktualisieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Paket aktualisieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -159,87 +148,59 @@ Hetzner-Mailserver
 </span><span class='line'>
 </span><span class='line'>pub   4096R/EFE21092 2012-05-11
 </span><span class='line'>uid                  Ubuntu CD Image Automatic Signing Key <span class="o">(</span>2012<span class="o">)</span> &lt;cdimage@ubuntu.com&gt;
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>Zusatzprogramme installieren und Systemaktualisierung</h2>
 
 <p>Zunächst installiere ich einige Zusatzprogramme:</p>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Zusatzprogramme installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Zusatzprogramme installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install joe
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Dann eine Aktualisierung des Komplettsystems gefolgt von einem Neustart:</p>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Systemaktualisierung </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Systemaktualisierung </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
 </span><span class='line'>apt-get dist-upgrade
 </span><span class='line'>reboot
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>Mailbenutzer anlegen</h2>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Mailbenutzer anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Mailbenutzer anlegen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>useradd -m dpmail
 </span><span class='line'>id dpmail
 </span><span class='line'> <span class="nv">uid</span><span class="o">=</span>1000<span class="o">(</span>dpmail<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>1000<span class="o">(</span>dpmail<span class="o">)</span> <span class="nv">groups</span><span class="o">=</span>1000<span class="o">(</span>dpmail<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>Exim installieren und konfigurieren</h2>
 
 <p>Exim installieren:</p>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Exim installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Exim installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install exim4-daemon-heavy
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Exim konfigurieren:</p>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Exim konfigurieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Exim konfigurieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>dpkg-reconfigure exim4-config
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Zur Durchführung der Konfiguration müssen einige Fragen beantwortet werden:</p>
@@ -268,27 +229,20 @@ No</li>
 
 <p>Danach:</p>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Exim-Konfiguration abschliessen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Exim-Konfiguration abschliessen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>cp .../exim4.conf /etc/exim4/exim4.conf
 </span><span class='line'>chown -R Debian-exim.Debian-exim /var/log/exim4
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>NginX</h2>
 
 <h3>Grundinstallation</h3>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>NginX herunterladen und installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>NginX herunterladen und installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -300,27 +254,19 @@ No</li>
 </span><span class='line'>wget -c http://83.236.132.108/dprepo/ubuntu/12.04.64/debs/nginx-common_1.2.8-0dp01~precise1_all.deb
 </span><span class='line'>dpkg -i nginx_1.2.8-0dp01~precise1_all.deb nginx-common_1.2.8-0dp01~precise1_all.deb nginx-full_1.2.8-0dp01~precise1_amd64.deb
 </span><span class='line'>apt-get install -f
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>NginX-Benutzer anlegen</h3>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>NginX-Benutzer anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>NginX-Benutzer anlegen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>useradd -m -d /home/nginx nginx
 </span><span class='line'>id nginx
 </span><span class='line'><span class="c"># uid=1002(nginx) gid=1002(nginx) groups=1002(nginx)</span>
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Konfiguration</h3>
@@ -328,7 +274,7 @@ No</li>
 <ul>
 <li><code>service nginx start</code></li>
 <li>Browser: <a href="http://daemons-point.com">http://daemons-point.com</a>
--> zeigt die Begrüßung von NginX an</li>
+&ndash;> zeigt die Begrüßung von NginX an</li>
 <li><code>mkdir /srv/www</code></li>
 <li><code>chown nginx.nginx /srv/www</code></li>
 <li><code>mkdir /srv/www</code></li>
@@ -347,7 +293,7 @@ No</li>
 <li>Zusatzpakete installieren:
 
 <ul>
-<li><code>apt-get install dkms</code> (... installiert recht viele Pakete)</li>
+<li><code>apt-get install dkms</code> (&hellip; installiert recht viele Pakete)</li>
 </ul>
 </li>
 <li>Download-Bereich anlegen: <code>mkdir -p /data/downloads</code></li>
@@ -362,15 +308,15 @@ No</li>
 <li>Installieren:
 
 <ul>
-<li><code>dpkg -i virtualbox-4.2_4.2.10-84104~Ubuntu~precise_amd64.deb</code> (... scheitert mit vielen Fehlermeldungen)</li>
-<li><code>apt-get install -f</code> (... korrigiert die Fehler und installiert auch VirtualBox)</li>
+<li><code>dpkg -i virtualbox-4.2_4.2.10-84104~Ubuntu~precise_amd64.deb</code> (&hellip; scheitert mit vielen Fehlermeldungen)</li>
+<li><code>apt-get install -f</code> (&hellip; korrigiert die Fehler und installiert auch VirtualBox)</li>
 </ul>
 </li>
 <li>Test:
 
 <ul>
 <li><code>ssh -X root@hetzner-server</code></li>
-<li><code>VirtualBox</code> -> GUI öffnet sich</li>
+<li><code>VirtualBox</code> &ndash;> GUI öffnet sich</li>
 </ul>
 </li>
 <li>ExtPack installieren
@@ -407,10 +353,8 @@ No</li>
 
 <h3>VBox-Benutzer anlegen</h3>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>VBox-Benutzer anlegen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>VBox-Benutzer anlegen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -424,10 +368,7 @@ No</li>
 </span><span class='line'>chown vboxuser.vboxuser /data/vboxuser
 </span><span class='line'>su - vboxuser
 </span><span class='line'>vboxmanage setproperty machinefolder /data/vboxuser
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>VBoxTool</h3>
@@ -437,19 +378,16 @@ No</li>
 </ul>
 
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>VBoxTool installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>VBoxTool installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /data/downloads
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>  <span class="nb">cd</span> /data/downloads
 </span><span class='line'>  wget -c .../vboxtool_0.6-2dp01~precise1_all.deb
 </span><span class='line'>  dpkg -i vboxtool_0.6-2dp01~precise1_all.deb
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>  TODO: Hostonlyif erzeugen!</p>
@@ -486,7 +424,7 @@ No</li>
 
 <ul>
 <li><code>ssh -L3389:localhost:3389 daemons-point.com</code></li>
-<li><code>rdesktop localhost:3389</code> -> es erscheint die Konsole der VM</li>
+<li><code>rdesktop localhost:3389</code> &ndash;> es erscheint die Konsole der VM</li>
 </ul>
 
 
@@ -510,7 +448,7 @@ No</li>
 <li>/home/dpmail/.ssh/authorized_keys</li>
 <li>/home/nginx/.ssh/authorized_keys</li>
 <li>/home/vboxuser/.ssh/authorized_keys</li>
-<li>/srv/www/index.html (... etc)</li>
+<li>/srv/www/index.html (&hellip; etc)</li>
 </ul>
 
 
@@ -520,10 +458,8 @@ No</li>
 
 <p>Problem:</p>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Programmaktualisierung reparieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Programmaktualisierung reparieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -549,18 +485,13 @@ No</li>
 </span><span class='line'>  joe
 </span><span class='line'>Install these packages without verification <span class="o">[</span>y/N<span class="o">]</span>?
 </span><span class='line'>E: Some packages could not be authenticated
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Korrektur:</p>
 
-<!--escape-->
-
-
-<div class='escape-wrapper'><notextile><!--content--><figure class='code'><figcaption><span>Programmaktualisierung reparieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Programmaktualisierung reparieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -570,10 +501,7 @@ No</li>
 </span><span class='line'>cp ubuntu120464:/etc/apt/sources.list sources.list
 </span><span class='line'>apt-get update
 </span><span class='line'>apt-get install joe
-</span></code></pre></td></tr></table></div></figure><!--end-content--></notextile></div>
-
-
-<!--end-escape-->
+</span></code></pre></td></tr></table></div></figure>
 
 
 
@@ -587,7 +515,7 @@ No</li>
 
 <span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
 
-
+      
 
 
 
@@ -602,22 +530,15 @@ No</li>
 
   
 <time datetime="2013-04-09T07:00:00+02:00" class="updated">Updated 09. April 2013</time>
-
-
       
+
 
     </p>
     
       <div class="sharing">
   
-    
-      <a href="http://twitter.com/share" title="Tweet this" class="twitter-share" target="_blank">Tweet</a>
-    
   
   
-  
-  
-
 </div>
 
     
@@ -628,33 +549,32 @@ No</li>
   </footer>
 </article>
 
-
 </div>
 
 <aside class="sidebar">
-  
-    <section>
+  
+    <section>
   <h1>Neueste Beiträge</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
+        <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post</a>
       </li>
     
       <li class="post">
-        <a href="/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
+        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
       </li>
     
       <li class="post">
-        <a href="/2013/07/26/lxc-networking/">LXC: Probleme bei der Initialisierung des Netzwerkes</a>
+        <a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a>
       </li>
     
       <li class="post">
-        <a href="/2013/07/21/git-fork/">Git Fork</a>
+        <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
       </li>
     
       <li class="post">
-        <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
+        <a href="/blog/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
       </li>
     
   </ul>
@@ -664,13 +584,7 @@ No</li>
 
 
 
-
-
-
-
-
-
-  
+  
 </aside>
 
 
@@ -704,6 +618,11 @@ No</li>
 
 </footer>
   
+
+
+
+
+
 
 
 

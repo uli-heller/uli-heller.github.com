@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Java | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JBoss Application Server 7 unter Ubuntu nutzen]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/05/16/jboss-7.1.1/"/>
+    <updated>2013-05-16T19:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/05/16/jboss-7.1.1</id>
+    <content type="html"><![CDATA[<h2>Installation und Kurztest von JBoss AS</h2>
+
+<ul>
+<li>Paket von <a href="http://www.jboss.org/jbossas/downloads">http://www.jboss.org/jbossas/downloads</a> herunterladen,
+einspielen und starten:</li>
+</ul>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen und Starten von JBossAS </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;jboss-as-7.1.1.Final.tar.gz heruntergeladen nach ~/Downloads&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;cd /opt
+</span><span class='line'>gzip -cd ~/Downloads/jboss-as-7.1.1.Final.tar.gz |sudo tar xf &amp;ndash;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;&amp;hellip; es darf keine Fehlermeldung erscheinen!&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;sudo chown -R uli.uli jboss-as-7.1.1.Final
+</span><span class='line'><span class="nb">cd  </span>jboss-as-7.1.1.Final
+</span><span class='line'>./bin/standalone.sh&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;&amp;hellip; muß ohne Fehlermeldung starten&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<ul>
+<li>Test mit <a href="https://localhost:8080">https://localhost:8080</a>: Es muß grob &ldquo;Welcome to AS 7&rdquo;
+angezeigt werden.</li>
+</ul>
+
+
+<h2>Probleme</h2>
+
+<ul>
+<li>Keine, auch nicht mit JDK6</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JMX auf Localhost]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/03/22/localhost-jmx/"/>
+    <updated>2013-03-22T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/03/22/localhost-jmx</id>
+    <content type="html"><![CDATA[<h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
+
+<p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&rsquo;s Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
+
+<p><img src="/images/java/jconsole.png"></p>
+
+<p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich &ndash; die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden &ndash; sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
+
+<p>Ziel: Wir wollen die JMX-Schnittstelle so in Betrieb nehmen, dass nur von &ldquo;localhost&rdquo; aus auf sie zugegriffen werden kann!</p>
+
+<!-- more -->
+
+
+<h2>JMX für Netzwerkzugriffe öffnen</h2>
+
+<p>Hier das klassische Vorgehen mittels Java-Properties:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>tomcat/bin/setenv.sh </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Djava.rmi.server.hostname<span class="o">=</span>localhost&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote.port<span class="o">=</span>11223 <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote.authenticate<span class="o">=</span><span class="nb">false</span> <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote.ssl<span class="o">=</span><span class="nb">false</span> <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Nachteile:</p>
+
+<ul>
+<li><p>Das ist ein Scheunentor &ndash; netzwerkweit &ldquo;jeder&rdquo; kann nun mittels JMX auf unsere Anwendung zugreifen</p></li>
+<li><p>Absichern könnte man&rsquo;s mit Firewall-Regeln, was aber zusätzliche Arbeitslast für die Firewall-Truppe bedeutet</p></li>
+<li><p>Oder man aktiviert die Authentifizierung und hängt so eine Art Benutzerverwaltung mit dran &ndash; auch doof</p></li>
+</ul>
+
+
+<p>Eine Idee ist nun, den JMX-Port nicht netzwerkweit sondern nur über &ldquo;localhost&rdquo; erreichbar zu machen. Praktisch bedeutet dies, dass dann nur Leute, die sich auf dem betreffenden Rechner anmelden können, Zugriff auf die JMX-Schnittstelle haben. Die oben aufgeführten Java-Properties bieten leider keine entsprechende Einschränkmöglichkeit, also muß eine andere Lösung her!</p>
+
+<h2>JMX über eine eigene RMISocketFactory freigeben</h2>
+
+<p>Die Idee für nachfolgendes Vorgehen stammt von <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a>. Grob geht&rsquo;s so:</p>
+
+<ul>
+<li>Eigene RMISocketFactory erstellen und registrieren</li>
+<li>MBeanServer über die Standard-ManagementFactory &ldquo;holen&rdquo;</li>
+<li>MBeanServer mit der eigenen RMISocketFactory &ldquo;verknüpfen&rdquo; und einen JMXConnectorServer dafür erzeugen und starten</li>
+</ul>
+
+
+<p>Zusätzlich zu den in der Quelle auf <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a> umgesetzten Schritte mußte ich noch das Java-Property &ldquo;java.rmi.server.hostname&rdquo; auf &ldquo;127.0.0.1&rdquo; setzen. Ohne diesen Zusatzschritt funktioniert später JCONSOLE nicht.</p>
+
+<p>Wenn man das richtig getan hat, dann kann man danach mittels <code>jconsole localhost:11223</code> die JCONSOLE starten. &ldquo;11223&rdquo; ist dabei die Portnummer, die man bei vorigem Ablauf mit verarbeitet.</p>
+
+<p>Ich habe das ganze noch in ein Servlet verpackt. Nun kann ich durch</p>
+
+<ul>
+<li><code>curl http://localhost-jmx/jmx/start</code> &hellip; die JMX-Schnittstelle &ldquo;öffnen&rdquo;</li>
+<li><code>curl http://localhost-jmx/jmx/stop</code> &hellip; die JMX-Schnittstelle &ldquo;schließen&rdquo;</li>
+</ul>
+
+
+<p>Zur Not geht das auch über einen Browser.</p>
+
+<p>Seitens des Operatings sind keinerlei Eingriffe erforderlich. Auch das lästige Setzen des Java-Properties erübrigt sich.</p>
+
+<p>Den Quelltext zu dem ganzen gibt&rsquo;s auf <a href="https://github.com/uli-heller/uli-java-prototypes/tree/master/localhost-jmx">GitHub</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TCPMON]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/02/21/tcpmon/"/>
+    <updated>2013-02-21T12:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/02/21/tcpmon</id>
+    <content type="html"><![CDATA[<h1>Analyse von TCP-Datenströmen</h1>
+
+<p>Früher gab&rsquo;s mal ein Programm von Apache, welches sich in TCP-Datenströme
+einklinken ließ. Das Teil hieß TCPMON und war u.a. als Bestandteil von AXIS
+verfügbar.</p>
+
+<h2>TCPMON auf GoogleCode</h2>
+
+<ul>
+<li>Version 1.1 runtergeladen</li>
+<li>Gestartet</li>
+<li>Beobachtung: Funktioniert, aber Pakete werden nicht angezeigt. Damit
+ist das Paket ziemlich sinnfrei</li>
+</ul>
+
+
+<h2>Notizen</h2>
+
+<p>```sh
+git svn clone -r 700000:HEAD <a href="http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/tcpmon">http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/tcpmon</a></p>
+
+<h1>&hellip; das dauert</h1>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[WSGEN - Wie man's mit Interfaces macht]]></title>
+    <link href="http://uli-heller.github.com/blog/2012/11/30/wsgen/"/>
+    <updated>2012-11-30T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2012/11/30/wsgen</id>
+    <content type="html"><![CDATA[<h1>Erzeugen einer WSDL-Datei für ein JAXWS-Webservice-Interface</h1>
+
+<h2>Vorab &ndash; unser Webservice</h2>
+
+<p>Ausgangspunkt ist dieses Interface für unseren Webservice:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (SampleWebService.java)</span> <a href='/downloads/code/java/wsdl/SampleWebService.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebMethod</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebParam</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;sampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'>   <span class="nd">@WebMethod</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span>
+</span><span class='line'>            <span class="nd">@WebParam</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;msg&quot;</span><span class="o">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">WebParam</span><span class="o">.</span><span class="na">Mode</span><span class="o">.</span><span class="na">IN</span><span class="o">)</span> <span class="n">String</span> <span class="n">msg</span>
+</span><span class='line'>   <span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Zusätzlich gibt&rsquo;s auch schon eine Implementierung dafür, nämlich diese:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (SampleWebServiceImpl.java)</span> <a href='/downloads/code/java/wsdl/SampleWebServiceImpl.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleWebServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span><span class="n">String</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>       <span class="k">return</span> <span class="s">&quot;Echo: &quot;</span><span class="o">+</span><span class="n">msg</span><span class="o">;</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Da wir nur zwei Quelldateien haben, können wir die schnell manuell durchkompilieren:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Kompilieren der Quelldateien </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>javac SampleWebServiceImpl.java  <span class="c"># &amp;hellip; kompiliert beide Dateien</span>
+</span><span class='line'><span class="nv">$ </span>ls
+</span><span class='line'>SampleWebService.class      SampleWebServiceImpl.java
+</span><span class='line'>SampleWebServiceImpl.class  SampleWebService.java
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>WSGEN &ndash; das übliche Vorgehen</h2>
+
+<p>Das übliche Vorgehen basiert auf dem Tool <code>wsgen</code>, welches dem JDK beiliegt:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Vorgehen mit WSGEN </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>wsgen -cp . SampleWebServiceImpl -wsdl -inlineSchemas
+</span><span class='line'><span class="nv">$ </span>ls
+</span><span class='line'>jaxws                   SampleWebServiceImpl.class  SampleWebService.java
+</span><span class='line'>SampleWebService.class  SampleWebServiceImpl.java   SampleWebService.wsdl
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Da haben wir sie, die WSDL-Datei mit dem Namen &ldquo;SampleWebService.wsdl&rdquo;.</p>
+
+<h2>WSGEN &ndash; das Problem</h2>
+
+<p>Manchmal steht nur das Interface für den Webservice zur Verfügung, also nur die Datei <a href="/downloads/code/java/wsdl/SampleWebService.java">SampleWebService.java</a>. Wenn wir versuchen, daraus eine WSDL-Datei zu erzeugen, erscheint so eine Fehlermeldung:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WSGEN und ServiceInterface </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>wsgen -cp . SampleWebService -wsdl -inlineSchemas
+</span><span class='line'>The class &amp;ldquo;SampleWebService&amp;rdquo; is not an endpoint implementation class.&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Usage: WSGEN <span class="o">[</span>options<span class="o">]</span> &lt;SEI&gt;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;where <span class="o">[</span>options<span class="o">]</span> include:
+</span><span class='line'>  -classpath &lt;path&gt;          specify where to find input class files
+</span><span class='line'>&amp;hellip;
+</span><span class='line'>Examples:
+</span><span class='line'>  wsgen -cp . example.Stock
+</span><span class='line'>  wsgen -cp . example.Stock -wsdl -servicename <span class="o">{</span>&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://mynamespace&quot;</span>&gt;http://mynamespace&lt;/a&gt;<span class="o">}</span>MyService
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Wie&rsquo;s aussieht funktioniert WSGEN also nicht mit Interface-Klassen, es wird eine Implementierungsklasse benötigt:</p>
+
+<ul>
+<li><a href="http://java.net/jira/browse/JAX_WS-817">Jira-Ticket gegen JAXWS</a></li>
+</ul>
+
+
+<h2>Ein erster Versuch mit abstrakter Klasse</h2>
+
+<p>Hier eine abstrakte Implementierungsklasse:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (AbstractSampleWebServiceImpl.java)</span> <a href='/downloads/code/java/wsdl/AbstractSampleWebServiceImpl.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">abstract</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AbstractSampleWebServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Leider klappt&rsquo;s auch nicht:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WSGEN mit abstrakter Implementierungsklasse </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>javac AbstractSampleWebServiceImpl.java
+</span><span class='line'><span class="nv">$ </span>wsgen -cp . AbstractSampleWebServiceImpl -wsdl -inlineSchemas
+</span><span class='line'>&amp;hellip;
+</span><span class='line'>com.sun.tools.internal.ws.processor.modeler.ModelerException: modeler error: Classes annotated with @javax.jws.WebService must not be abstract. Class: AbstractSampleWebServiceImpl
+</span><span class='line'>&amp;hellip;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Dynamische Erstellung einer Implementierungsklasse</h2>
+
+<p>Der nächste Versuch sieht so aus:</p>
+
+<ul>
+<li>ich lade das Interface und untersuche alle seine Methoden</li>
+<li>daraus erzeuge ich den Quelltext für eine Implementierungsklasse</li>
+<li>die Implementierungsklasse kompiliere ich mit dem JavaCompiler</li>
+<li>auf die dabei erstellte .class-Datei lasse ich dann <code>wsgen</code> los</li>
+</ul>
+
+
+<p>Den Versuch habe ich in einem <a href="http://github.com/uli-heller/uli-wsgen">GITHUB-Projekt</a> plattformübergreifend umgesetzt. Er scheint grundsätzlich zu funktionieren, ich kann in meinem aktuellen Projekt auf die manuelle Erstellung von Dummy-Implementierungsklassen verzichten.</p>
+
+<p>Beispielaufruf: <code>./uli-wsgen.sh -c myproject.jar -f sample.wsdl SampleWebService</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ASM - BytecodeOutline-Plugin in Eclipse installieren]]></title>
+    <link href="http://uli-heller.github.com/blog/2012/11/27/bytecodeoutline/"/>
+    <updated>2012-11-27T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2012/11/27/bytecodeoutline</id>
+    <content type="html"><![CDATA[<h1>BytecodeOutline-Plugin für Eclipse</h1>
+
+<p>Zuerst ein paar Angaben zu meiner Systemumgebung:</p>
+
+<ul>
+<li>Ubuntu-12.04, 64bit</li>
+<li>Eclipse-jee-juno-SR1</li>
+<li><a href="http://forge.ow2.org/projects/asm/">de.loskutov.BytecodeOutline_2.4.0.jar</a></li>
+</ul>
+
+
+<p>Ich benötige das Plugin nur temporär. Es soll nicht permanent in meiner Eclipse-Umgebung verfügbar sein.</p>
+
+<h2>Neue Eclipse-Installation</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Eclipse-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /opt
+</span><span class='line'>gzip -cd &amp;ldquo;<span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/eclipse/eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz |sudo tar xf &amp;ndash;
+</span><span class='line'>sudo chown -R uli.uli eclipse
+</span><span class='line'>sudo mv eclipse eclipse-botst
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Test der neuen Eclipse-Installation</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Test der Eclipse-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/opt/eclipse-botst/eclipse &amp;amp;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Eclipse wird gestartet&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;&amp;ndash;&gt; wieder stoppen&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Einspielen des Plugins</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen des Plugins </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Sicherstellen: Eclipse ist gestoppt&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;cd /opt/eclipse-botst
+</span><span class='line'>cp &amp;ldquo;<span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Kurztest des Plugins</h2>
+
+<ul>
+<li>Eclipse starten</li>
+<li>Java-Klasse aus einem bestehenden Eclipse-Projekt selektieren</li>
+<li>Window &ndash;> Show View &ndash;> Other &ndash;> Java &ndash;> Bytecode</li>
+</ul>
+
+
+<p><img src="/images/java/eclipse/bytecode-outline.png" title="&lsquo;Eclipse mit Bytecode-View&rsquo;" ></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: PDF | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/pdf/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Markdown nach PDF wandeln]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/05/17/markdown-pdf/"/>
+    <updated>2013-05-17T21:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/05/17/markdown-pdf</id>
+    <content type="html"><![CDATA[<p>Hier kurz eine Beschreibung, wie man Markdown nach PDF
+konvertieren kann auf Basis von</p>
+
+<ul>
+<li>Kramdown</li>
+<li>Gimli</li>
+<li>Context</li>
+<li>Pandoc</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h2>Kramdown</h2>
+
+<ul>
+<li>RVM muß installiert sein</li>
+<li>Ruby-2.0 muß verfügbar sein</li>
+<li><code>apt-get install texlive-latex-recommended texlive-latex-extra</code></li>
+</ul>
+
+
+<p>Danach kann &ldquo;kramdown&rdquo; mit <code>gem install kramdown</code> installiert werden.
+Die Erzeugung einer PDF-Datei geht dann so:</p>
+
+<pre><code>kramdown --template document -o latex README-markdown.md  &gt;README-markdown.tex
+pdftex README-markdown.tex
+</code></pre>
+
+<p>Tabellen scheinen von &ldquo;kramdown&rdquo; richtig in LaTeX-Tabellen umgesetzt
+zu werden.</p>
+
+<p>Probleme gibt&rsquo;s manchmal noch bei der Einbindung von Bildern.
+Diese werden viel zu breit dargestellt. Abhilfe schafft ein eigenes
+LaTeX-Template:</p>
+
+<pre><code>cp ~/.rvm/gems/ruby-2.0.0-p0/gems/kramdown-1.0.1/data/kramdown/document.latex .
+# Einfügen von
+# \setkeys{Gin}{width=\textwidth} % Alle Bilder auf Seitenbreite skalieren
+# direkt vor \begin{document}
+mv document.latex ulidoc.latex
+kramdown --template ulidoc -o latex README-markdown.md  &gt;README-markdown.tex
+pdftex README-markdown.tex
+</code></pre>
+
+<p>Nun werden die Bilder schön auf Seitenbreite skaliert.</p>
+
+<p>Außerdem kann man mit diesen Änderungen am LaTeX-Template noch ein
+Inhaltsverzeichnis erzeugen:</p>
+
+<ul>
+<li><p>Unmittelbar vor &ldquo;\usepackage[T1]{fontenc}&rdquo; folgende Zeile einfügen:</p>
+
+<p>  \usepackage[ngerman]{babel}</p></li>
+<li><p>Die Zeile &ldquo;\usepackage{hyperref}&rdquo; ersetzen durch</p>
+
+<p>  \usepackage[bookmarks=true,bookmarksnumbered=true]{hyperref}</p></li>
+<li><p>(Optional) Unmittelbar nach &ldquo;\begin{document}&rdquo; diese Zeile einfügen:</p>
+
+<p>  \tableofcontents</p>
+
+<p>Damit wird dann auch im &ldquo;Haupttext&rdquo; ein Inhaltsverzeichnis erzeugt.</p></li>
+</ul>
+
+
+<h2>Gimli</h2>
+
+<ul>
+<li>RVM muß installiert sein</li>
+<li>Ruby-2.0 muß verfügbar sein</li>
+<li><code>apt-get install wkhtmltopdf</code></li>
+<li><code>apt-get install libxml2-dev</code></li>
+<li><code>apt-get install libxslt-dev</code></li>
+</ul>
+
+
+<p>Danach kann Gimli mit <code>gem install gimli</code> installiert werden.
+Die Erzeugung einer PDF-Datei geht dann so:</p>
+
+<pre><code>gimli -f README-markdown.md
+</code></pre>
+
+<p>Oder mittels &ldquo;bin/md2pdf-gimli.sh&rdquo; so:</p>
+
+<pre><code>./bin/md2pdf-gimli.sh README-markdown.md
+</code></pre>
+
+<p>Leider kommt Gimli nicht mit Markdown-Tabellen zurecht!</p>
+
+<h2>Pandoc</h2>
+
+<p>Zunächst muß das Programme &ldquo;pandoc&rdquo; installiert
+werden:</p>
+
+<pre><code>sudo apt-get install pandoc
+</code></pre>
+
+<p>Nun benötigt man noch das Skript &ldquo;bin/md2pdf-pandoc.sh&rdquo; und ein
+Markdown-Dokument, beispielsweise  &ldquo;README-markdown.md&rdquo;.</p>
+
+<p>Eine PDF-Datei erzeugt man dann mit</p>
+
+<pre><code>./bin/md2pdf-pandoc.sh README-markdown.md
+</code></pre>
+
+<p>Die PDF-Datei hat den Namen &ldquo;README-markdown.pdf&rdquo;.</p>
+
+<p>Leider kommt Pandoc in der Version 1.9 nicht mit Markdown-Tabellen zurecht,
+die Version 1.11 soll dies können!</p>
+
+<h2>Context</h2>
+
+<p>Zunächst müssen die Programme &ldquo;context&rdquo; und &ldquo;pandoc&rdquo; installiert
+werden:</p>
+
+<pre><code>sudo apt-get install context
+sudo apt-get install pandoc
+</code></pre>
+
+<p>Nun benötigt man noch das Skript &ldquo;bin/md2pdf-context.sh&rdquo; und ein
+Markdown-Dokument, beispielsweise  &ldquo;README-markdown.md&rdquo;.</p>
+
+<p>Eine PDF-Datei erzeugt man dann mit</p>
+
+<pre><code>./bin/md2pdf-context.sh README-markdown.md
+</code></pre>
+
+<p>Die PDF-Datei hat den Namen &ldquo;README-markdown.pdf&rdquo;.</p>
+
+<p>Context erzeugt ein hübsches PDF-Inhalts-Verzeichnis.
+Leider kommt Context nicht mit Markdown-Tabellen zurecht!</p>
+]]></content>
+  </entry>
+  
+</feed>

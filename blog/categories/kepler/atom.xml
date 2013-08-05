@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Kepler | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/kepler/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Markdowneditor in Eclipse]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/07/03/eclipse_markdown/"/>
+    <updated>2013-07-03T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/07/03/eclipse_markdown</id>
+    <content type="html"><![CDATA[<p>Gemäß <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=329528">https://bugs.eclipse.org/bugs/show_bug.cgi?id=329528</a>
+sollte Markdown von Eclipse unterstützt werden. Leider gibt&rsquo;s
+in Eclipse-4.3 (Kepler) keine Spur davon&hellip;</p>
+
+<!-- more -->
+
+
+<p>Ich verwende die meiste Zeit die &ldquo;Eclipse IDE for Java EE Developers&rdquo;.
+Da sind die Wiki-Edit-Tools gleich mit enthalten. Eine Datei im
+.textile-Format kann problemlos editiert werden, leider aber keine
+im .markdown-Format.</p>
+
+<p>Abhilfe schafft die Installation der &ldquo;Mylyn Docs&rdquo; von
+<a href="http://download.eclipse.org/mylyn/snapshots/nightly/docs/">http://download.eclipse.org/mylyn/snapshots/nightly/docs/</a>.
+Ich habe einfach alle &ldquo;Mylyn Docs Features&rdquo; installiert, Eclipse neu
+gestartet und danach wird bei &ldquo;Rechts-Klick&rdquo; in &ldquo;Markup Language&rdquo;
+auch Markdown angezeigt.</p>
+]]></content>
+  </entry>
+  
+</feed>

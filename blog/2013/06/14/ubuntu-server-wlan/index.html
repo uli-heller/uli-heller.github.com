@@ -1,0 +1,658 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>WLAN-Konfiguration beim Ubuntu-Server - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+
+  
+  <meta name="description" content="Meinen alten EEEPC würde ich gerne als DHCP-Server weiterverwenden.
+Also: Ubuntu-12.04-Server drauf und los geht&rsquo;s. Dumm nur:
+Aktuell ist &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/06/14/ubuntu-server-wlan">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Uli's IT-Blog - Konzeption, Entwicklung, Betrieb</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">WLAN-Konfiguration beim Ubuntu-Server</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-14T12:00:00+02:00" pubdate data-updated="true">14. June 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Meinen alten EEEPC würde ich gerne als DHCP-Server weiterverwenden.
+Also: Ubuntu-12.04-Server drauf und los geht&rsquo;s. Dumm nur:
+Aktuell ist unklar, wie ich die WLAN-Konfiguration hinbekomme.
+Auf Desktop-Systemen macht man das ja mit dem NetworkManager,
+was auf dem Server ohne graphische Benutzerschnittstelle schwierig ist.</p>
+
+<!-- more -->
+
+
+<h2>Vorbereitungen</h2>
+
+<p>Auf dem EEEPC habe ich diese Grundinstallation vorgenommen:</p>
+
+<ul>
+<li>Ubuntu-12.04.2 Server, 32 bit</li>
+<li>Raring-Kernel</li>
+<li>Alle Aktualisierungen vom heutigen Tage (2013-06-14)</li>
+</ul>
+
+
+<h2>Grundtests</h2>
+
+<p>Die Grundtests habe ich von hier: <a href="http://ubuntuforums.org/showthread.php?t=1094204">http://ubuntuforums.org/showthread.php?t=1094204</a></p>
+
+<figure class='code'><figcaption><span>Grundtests </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo -s
+</span><span class='line'># ifconfig wlan0 up
+</span><span class='line'># iwlist scan
+</span><span class='line'>wlan0     Scan completed :
+</span><span class='line'>          Cell 01 - Address: 00:3f:c6:3c:dd:a2
+</span><span class='line'>                    Channel:1
+</span><span class='line'>                    Frequency:2.412 GHz (Channel 1)
+</span><span class='line'>                    Quality=37/70  Signal level=-73 dBm  
+</span><span class='line'>                    Encryption key:on
+</span><span class='line'>                    ESSID:"SiegfriedUndRoy"
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Konfiguration als WLAN-Client</h2>
+
+<p>Die Konfiguration habe ich hierher:
+<a href="http://ubuntuforums.org/showthread.php?t=2007475">http://ubuntuforums.org/showthread.php?t=2007475</a>.
+Sie ist gegenüber der Vorlage leicht abgewandelt.</p>
+
+<figure class='code'><figcaption><span>/etc/network/interfaces </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>auto wlan0
+</span><span class='line'>iface wlan0 inet dhcp
+</span><span class='line'>  wpa-ssid SiegfriedUndRoy
+</span><span class='line'>  wpa-psk  SharpTiger</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hierbei muß nach &ldquo;wpa-ssid&rdquo; der Name des zu verwendenden Funknetzwerkes
+eingetragen werden und bei &ldquo;wpa-psk&rdquo; das dabei zu verwendende Kennwort.
+Bevor Fragen aufkommen: &ldquo;SiegfriedUndRoy&rdquo; und &ldquo;SharpTiger&rdquo; sind erfundene
+Werte.</p>
+
+<p>Nun muß nur noch das WLAN-Interface aktiviert werden.</p>
+
+<figure class='code'><figcaption><span>WLAN-Interface aktivieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># ifdown wlan0 # Fehlermeldung ignorieren</span>
+</span><span class='line'><span class="c"># ifup wlan0   # Hier darf keine Fehlermeldung erscheinen</span>
+</span><span class='line'>ssh stop/waiting
+</span><span class='line'>ssh start/running, process 1202
+</span><span class='line'><span class="c"># ifconfig wlan0</span>
+</span><span class='line'>wlan0     Link encap:Ethernet  HWaddr 00:3f:c6:3c:dd:a2
+</span><span class='line'>          inet addr:192.168.178.27  Bcast:192.168.178.255  Mask:255.255.255.0
+</span><span class='line'>          inet6 addr: fe80::215:afff:fe88:ab6d/64 Scope:Link
+</span><span class='line'>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+</span><span class='line'>          RX packets:696 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>          TX packets:496 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>          collisions:0 txqueuelen:1000
+</span><span class='line'>          RX bytes:526709 <span class="o">(</span>526.7 KB<span class="o">)</span>  TX bytes:66404 <span class="o">(</span>66.4 KB<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wichtig ist, dass bei &ldquo;inet addr:&rdquo; eine IP-Adresse ähnlich der bei
+mir angezeigten 192.168.178.27 steht. Wie&rsquo;s aussieht funktioniert&rsquo;s schon!</p>
+
+<h2>Konfiguration als Access-Point</h2>
+
+<p>Grob gehe ich nach dieser Anleitung vor: <a href="http://wiki.ubuntuusers.de/WLAN_Router">http://wiki.ubuntuusers.de/WLAN_Router</a></p>
+
+<h3>Zusatzpakete installieren</h3>
+
+<figure class='code'><figcaption><span>Zusatzpakete installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo apt-get install -y hostapd dnsmasq
+</span><span class='line'>Paketlisten werden gelesen... Fertig
+</span><span class='line'>Abhängigkeitsbaum wird aufgebaut
+</span><span class='line'>Statusinformationen werden eingelesen... Fertig
+</span><span class='line'>Die folgenden Pakete wurden automatisch installiert und werden nicht mehr benötigt:
+</span><span class='line'>  crda wireless-regdb
+</span><span class='line'>Verwenden Sie »apt-get autoremove«, um sie zu entfernen.
+</span><span class='line'>Die folgenden zusätzlichen Pakete werden installiert:
+</span><span class='line'>  dnsmasq-base libnetfilter-conntrack3
+</span><span class='line'>Die folgenden NEUEN Pakete werden installiert:
+</span><span class='line'>  dnsmasq dnsmasq-base hostapd libnetfilter-conntrack3
+</span><span class='line'>...
+</span><span class='line'>hostapd <span class="o">(</span>1:0.7.3-4ubuntu1<span class="o">)</span> wird eingerichtet ...
+</span><span class='line'>Trigger für libc-bin werden verarbeitet ...
+</span><span class='line'>ldconfig deferred processing now taking place
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Konfiguration von hostapd</h3>
+
+<p>Zunächst muß die Datei /etc/default/hostapd
+wie folgt modifiziert werden:</p>
+
+<figure class='code'><figcaption><span>/etc/default/hostapd </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'># diff -u /etc/default/hostapd.orig /etc/default/hostapd
+</span><span class='line'><span class="gd">--- hostapd.orig 2013-06-14 13:26:20.390584872 +0200</span>
+</span><span class='line'><span class="gi">+++ hostapd  2013-06-14 13:27:14.698854220 +0200</span>
+</span><span class='line'><span class="gu">@@ -7,7 +7,8 @@</span>
+</span><span class='line'> # file and hostapd will be started during system boot. An example configuration
+</span><span class='line'> # file can be found at /usr/share/doc/hostapd/examples/hostapd.conf.gz
+</span><span class='line'> #
+</span><span class='line'><span class="gd">-#DAEMON_CONF=&quot;&quot;</span>
+</span><span class='line'><span class="gi">+DAEMON_CONF=&quot;/etc/hostapd.conf&quot;</span>
+</span><span class='line'><span class="gi">+RUN_DAEMON=yes</span>
+</span><span class='line'>
+</span><span class='line'> # Additional daemon options to be appended to hostapd command:-
+</span><span class='line'> #    -d   show more debug messages (-dd for even more)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Dann brauchen wir zusätzlich noch die Konfigurationsdatei
+/etc/hostapd.conf. Das Grundgerüst habe ich von hier:
+<a href="http://wiki.ubuntuusers.de/WLAN_Router">http://wiki.ubuntuusers.de/WLAN_Router</a></p>
+
+<figure class='code'><figcaption><span>/etc/hostapd.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'># Schnittstelle und Treiber
+</span><span class='line'>interface=wlan0
+</span><span class='line'>driver=nl80211
+</span><span class='line'>
+</span><span class='line'># WLAN-Konfiguration
+</span><span class='line'>ssid=HaeberleUndPfleiderer
+</span><span class='line'>channel=1
+</span><span class='line'>
+</span><span class='line'># ESSID sichtbar
+</span><span class='line'>ignore_broadcast_ssid=0
+</span><span class='line'>
+</span><span class='line'># Ländereinstellungen
+</span><span class='line'>country_code=DE
+</span><span class='line'>ieee80211d=1
+</span><span class='line'>
+</span><span class='line'># Übertragungsmodus
+</span><span class='line'>hw_mode=g
+</span><span class='line'>
+</span><span class='line'># Optionale Einstellungen
+</span><span class='line'># supported_rates=10 20 55 110 60 90 120 180 240 360 480 540
+</span><span class='line'>
+</span><span class='line'># Draft-N Modus aktivieren / optional nur für entsprechende Karten
+</span><span class='line'># ieee80211n=1
+</span><span class='line'>
+</span><span class='line'># Übertragungsmodus / Bandbreite 40MHz
+</span><span class='line'># ht_capab=[HT40+][SHORT-GI-40][DSSS_CCK-40]
+</span><span class='line'>
+</span><span class='line'># Beacons
+</span><span class='line'>beacon_int=100
+</span><span class='line'>dtim_period=2
+</span><span class='line'>
+</span><span class='line'># MAC-Authentifizierung
+</span><span class='line'>macaddr_acl=0
+</span><span class='line'>
+</span><span class='line'># max. Anzahl der Clients
+</span><span class='line'>max_num_sta=20
+</span><span class='line'>
+</span><span class='line'># Größe der Datenpakete/Begrenzung
+</span><span class='line'>rts_threshold=2347
+</span><span class='line'>fragm_threshold=2346
+</span><span class='line'>
+</span><span class='line'># hostapd Log Einstellungen
+</span><span class='line'>logger_syslog=-1
+</span><span class='line'>logger_syslog_level=2
+</span><span class='line'>logger_stdout=-1
+</span><span class='line'>logger_stdout_level=2
+</span><span class='line'>
+</span><span class='line'># temporäre Konfigurationsdateien
+</span><span class='line'>dump_file=/tmp/hostapd.dump
+</span><span class='line'>ctrl_interface=/var/run/hostapd
+</span><span class='line'>ctrl_interface_group=0
+</span><span class='line'>
+</span><span class='line'># Authentifizierungsoptionen
+</span><span class='line'>auth_algs=3
+</span><span class='line'>
+</span><span class='line'># wmm-Funktionalität
+</span><span class='line'>wmm_enabled=0
+</span><span class='line'>
+</span><span class='line'># Verschlüsselung / hier rein WPA2
+</span><span class='line'>wpa=2
+</span><span class='line'>rsn_preauth=1
+</span><span class='line'>rsn_preauth_interfaces=wlan0
+</span><span class='line'>wpa_key_mgmt=WPA-PSK
+</span><span class='line'>rsn_pairwise=CCMP
+</span><span class='line'>
+</span><span class='line'># Schlüsselintervalle / Standardkonfiguration
+</span><span class='line'>wpa_group_rekey=600
+</span><span class='line'>wpa_ptk_rekey=600
+</span><span class='line'>wpa_gmk_rekey=86400
+</span><span class='line'>
+</span><span class='line'># Zugangsschlüssel (PSK) / hier in Klartext (ASCII)
+</span><span class='line'>wpa_passphrase=ScharfesTigerle
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Konfiguration der Netzwerkschnittstelle</h3>
+
+<figure class='code'><figcaption><span>/etc/network/interfaces </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>auto wlan0
+</span><span class='line'>iface wlan0 inet static
+</span><span class='line'>  address 192.168.3.1
+</span><span class='line'>  netmask 255.255.255.0
+</span><span class='line'>  broadcast 192.168.3.255
+</span><span class='line'>
+</span><span class='line'># hostap und dnsmasq neu starten
+</span><span class='line'>up /etc/init.d/hostapd restart
+</span><span class='line'>up /etc/init.d/dnsmasq restart</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Konfiguration von dnsmasq</h3>
+
+<figure class='code'><figcaption><span>/etc/dnsmasq.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'># diff -u /etc/dnsmasq.conf.orig /etc/dnsmasq.conf
+</span><span class='line'><span class="gd">--- /etc/dnsmasq.conf.orig   2013-06-14 13:57:34.856639712 +0200</span>
+</span><span class='line'><span class="gi">+++ /etc/dnsmasq.conf    2013-06-14 13:58:18.400855636 +0200</span>
+</span><span class='line'><span class="gu">@@ -142,7 +142,7 @@</span>
+</span><span class='line'> # a lease time. If you have more than one network, you will need to
+</span><span class='line'> # repeat this for each network on which you want to supply DHCP
+</span><span class='line'> # service.
+</span><span class='line'><span class="gd">-#dhcp-range=192.168.0.50,192.168.0.150,12h</span>
+</span><span class='line'><span class="gi">+dhcp-range=192.168.3.50,192.168.3.150,12h</span>
+</span><span class='line'>
+</span><span class='line'> # This is an example of a DHCP range where the netmask is given. This
+</span><span class='line'> # is needed for networks we reach the dnsmasq DHCP server via a relay
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Test</h3>
+
+<p>Nach der Konfiguration erfolgt ein Neustart mit <code>sudo reboot</code>. Danach
+kann man sich am WLAN &ldquo;HaeberleUndPfleiderer&rdquo; mit
+dem Kennwort &ldquo;ScharfesTigerle&rdquo; anmelden.</p>
+
+<ul>
+<li>IP-Adresse: <code>ifconfig wlan0</code> &ndash; 192.168.3.115</li>
+<li>SSH-Zugriff: <code>ssh 192.168.3.1</code> &ndash; klappt</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-14T12:00:00+02:00" pubdate data-updated="true">14. June 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/server/'>Server</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/10/lxc-clone-x/" title="Voriger Beitrag: LXC: Clonen eines Containers mit Namen 'x'">&laquo; LXC: Clonen eines Containers mit Namen 'x'</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/06/16/macbook-air/" title="Nächster Beitrag: Ubuntu auf einem Macbook Air - erste Eindrücke">Ubuntu auf einem Macbook Air - erste Eindrücke &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ulispersonalitblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/06/14/ubuntu-server-wlan/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/06/14/ubuntu-server-wlan/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

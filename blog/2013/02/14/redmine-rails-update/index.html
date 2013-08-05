@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rails-2.3.17 - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+
+  
+  <meta name="description" content="Rails-Update für Redmine-1.2 Leider ist schon wieder eine Sicherheitslücke in Rails
+entdeckt worden. Analog zur Aktualisierung auf 2.3.15 erfolgt nun &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/02/14/redmine-rails-update">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Uli's IT-Blog - Konzeption, Entwicklung, Betrieb</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rails-2.3.17</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-02-14T06:10:00+01:00" pubdate data-updated="true">14. February 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>Rails-Update für Redmine-1.2</h1>
+
+<p>Leider ist schon wieder eine <a href="http://www.heise.de/security/meldung/Neues-Sicherheits-Update-fuer-Ruby-on-Rails-1802557.html">Sicherheitslücke</a> in Rails
+entdeckt worden.</p>
+
+<p>Analog zur Aktualisierung auf 2.3.15 erfolgt nun die auf 2.3.17:</p>
+
+<ul>
+<li>Gems runterladen und auf Redmine-Rechner kopieren</li>
+<li>Betriebssystem aktualisieren</li>
+<li>Gems einspielen</li>
+<li>Alte Gems löschen</li>
+</ul>
+
+
+<h2>Gems herunterladen und zum Redmine-Server übertragen</h2>
+
+<p>Der Redmine-Server hat keinen Zugang zum Internet. Deshalb müssen die Gems
+auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
+werden.</p>
+
+<figure class='code'><figcaption><span> (get-2.3.17.sh)</span> <a href='/downloads/code/get-2.3.17.sh'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.17
+</span><span class='line'>
+</span><span class='line'>fetch<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="o">(</span>
+</span><span class='line'>  <span class="nv">GN</span><span class="o">=</span><span class="s2">&quot;$1-$2.gem&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -s <span class="s2">&quot;${GN}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span>gem fetch <span class="s2">&quot;$1&quot;</span> -v <span class="s2">&quot;$2&quot;</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>  <span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>i in actionmailer actionpack activerecord activeresource activesupport rails; <span class="k">do</span>
+</span><span class='line'><span class="k">  </span>fetch <span class="s2">&quot;${i}&quot;</span> <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>fetch rack 1.1.3
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Die Dateien werden danach mit SCP auf den Redmine-Server übertragen.</p>
+
+<h2>Basissystem aktualisieren</h2>
+
+<figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
+</span><span class='line'>apt-get upgrade
+</span><span class='line'>apt-get dist-upgrade
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Gems einspielen</h2>
+
+<figure class='code'><figcaption><span>Gems einspielen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.17.gem
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Alte Gems deininstallieren</h2>
+
+<figure class='code'><figcaption><span> (uninstall-2.3.15.sh)</span> <a href='/downloads/code/uninstall-2.3.15.sh'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.15
+</span><span class='line'>
+</span><span class='line'>gem uninstall rails -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall actionmailer -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall actionpack -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activerecord -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activeresource -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activesupport -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'><span class="c">#gem uninstall rack -v 1.1.1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-02-14T06:10:00+01:00" class="updated">Updated 14. February 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lucid/'>Lucid</a>, <a class='category' href='/blog/categories/redmine/'>Redmine</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/12/github-downloads/" title="Voriger Beitrag: GitHub - Downloads">&laquo; GitHub - Downloads</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/02/15/quilt/" title="Nächster Beitrag: Patchverwaltung mit Quilt">Patchverwaltung mit Quilt &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ulispersonalitblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/02/14/redmine-rails-update/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/02/14/redmine-rails-update/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

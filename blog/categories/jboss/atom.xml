@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: JBoss | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/jboss/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JBoss Application Server 7 unter Ubuntu nutzen]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/05/16/jboss-7.1.1/"/>
+    <updated>2013-05-16T19:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/05/16/jboss-7.1.1</id>
+    <content type="html"><![CDATA[<h2>Installation und Kurztest von JBoss AS</h2>
+
+<ul>
+<li>Paket von <a href="http://www.jboss.org/jbossas/downloads">http://www.jboss.org/jbossas/downloads</a> herunterladen,
+einspielen und starten:</li>
+</ul>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen und Starten von JBossAS </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;jboss-as-7.1.1.Final.tar.gz heruntergeladen nach ~/Downloads&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;cd /opt
+</span><span class='line'>gzip -cd ~/Downloads/jboss-as-7.1.1.Final.tar.gz |sudo tar xf &amp;ndash;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;&amp;hellip; es darf keine Fehlermeldung erscheinen!&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;sudo chown -R uli.uli jboss-as-7.1.1.Final
+</span><span class='line'><span class="nb">cd  </span>jboss-as-7.1.1.Final
+</span><span class='line'>./bin/standalone.sh&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;&amp;hellip; muß ohne Fehlermeldung starten&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<ul>
+<li>Test mit <a href="https://localhost:8080">https://localhost:8080</a>: Es muß grob &ldquo;Welcome to AS 7&rdquo;
+angezeigt werden.</li>
+</ul>
+
+
+<h2>Probleme</h2>
+
+<ul>
+<li>Keine, auch nicht mit JDK6</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

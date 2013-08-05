@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://uli-heller.github.com/sitemap.xml 

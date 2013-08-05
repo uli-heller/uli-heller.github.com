@@ -7,9 +7,10 @@
   <meta charset="utf-8">
   <title>Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
-  <meta name="Generator" content="Jekyll & Octopress (http://octopress.org)">
 
   
+  <meta name="description" content="Rails-Update für Redmine-1.2 Einleitung Auf einem etwas älteren Linux-Server betreibe ich eine fast genauso alte
+Redmine-Instanz. Redmine ist eine &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,23 +19,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.com/blog/page/6/">
+  <link rel="canonical" href="http://uli-heller.github.com/blog/page/6">
+  <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/octopress.min.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
-  
-
-<!--Fonts from Google's Web font directory at http://google.com/webfonts -->
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <!--
-<link href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic' rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 -->
-<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
   
 
-   
-  <link href="/octopress-favicon.png" rel="icon">
 </head>
 
 <body   >
@@ -70,26 +72,653 @@
     <div id="content">
       <div class="blog-index">
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
+  
+  
+    <article>
       
   <header>
-    <h1 class="entry-title">
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/11/redmine-rails-update/">Rails-2.3.15</a></h1>
+    
+    
+      <p class="meta">
+        
 
-<a href="/2012/11/24/octopress-21/">Octopress-2.1</a>
 
-</h1>
 
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-01-11T07:00:00+01:00" pubdate data-updated="true">11. January 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Rails-Update für Redmine-1.2</h1>
+
+<h2>Einleitung</h2>
+
+<p>Auf einem etwas älteren Linux-Server betreibe ich eine fast genauso alte
+<a href="http://redmine.org">Redmine</a>-Instanz. Redmine ist eine
+<a href="http://rubyonrails.org">Rails</a>-Anwendung und
+weil ich so eine alte Version davon verwende, ist die Rails-Version anfällig
+gegen die diese Woche entdeckten kritischen
+<a href="http://weblog.rubyonrails.org/2013/1/8/Rails-3-2-11-3-1-10-3-0-19-and-2-3-15-have-been-released/">Schwachstellen</a>.</p>
+
+<p>Redmine selbst kann zur Zeit nicht auf die aktuelle Version 2.2 aktualisiert
+werden, weil ich ältere, mit der neuen Version nicht verträgliche Plugins
+verwende. Also heißt die Strategie: Redmine beibehalten, Rails aktualisieren
+auf Version 2.3.15.</p>
+
+<h2>Gems herunterladen und zum Redmine-Server übertragen</h2>
+
+<p>Der Redmine-Server hat keinen Zugang zum Internet. Deshalb müssen die Gems
+auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
+werden.</p>
+
+<figure class='code'><figcaption><span> (get-2.3.15.sh)</span> <a href='/downloads/code/get-2.3.15.sh'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.15
+</span><span class='line'>
+</span><span class='line'>fetch<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="o">(</span>
+</span><span class='line'>  <span class="nv">GN</span><span class="o">=</span><span class="s2">&quot;$1-$2.gem&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -s <span class="s2">&quot;${GN}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span>gem fetch <span class="s2">&quot;$1&quot;</span> -v <span class="s2">&quot;$2&quot;</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>  <span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>i in actionmailer actionpack activerecord activeresource activesupport rails; <span class="k">do</span>
+</span><span class='line'><span class="k">  </span>fetch <span class="s2">&quot;${i}&quot;</span> <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>fetch rack 1.1.3
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Die Dateien werden danach mit SCP auf den Redmine-Server übertragen.</p>
+
+<h2>Basissystem aktualisieren</h2>
+
+<figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
+</span><span class='line'>apt-get upgrade
+</span><span class='line'>apt-get dist-upgrade
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Gems einspielen</h2>
+
+<figure class='code'><figcaption><span>Gems einspielen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.15.gem
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Alte Gems deininstallieren</h2>
+
+<figure class='code'><figcaption><span> (uninstall-2.3.11.sh)</span> <a href='/downloads/code/uninstall-2.3.11.sh'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.11
+</span><span class='line'>
+</span><span class='line'>gem uninstall rails -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall actionmailer -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall actionpack -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activerecord -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activeresource -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activesupport -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall rack -v 1.1.1
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/12/03/foto-jhead/">Fotos - Aufnahmezeitpunkt als Dateiname</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-12-03T10:00:00+01:00" pubdate data-updated="true">03. December 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Fotos &ndash; Aufnahmezeitpunkt als Dateiname</h1>
+
+<h2>Vorbereitung</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo apt-get install jhead
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Umbenennung aller Fotos</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span><span class="nb">cd</span> <span class="o">{</span>bilderverzeichnis<span class="o">}</span>
+</span><span class='line'><span class="nv">$ </span>jhead -n<span class="s2">&quot;%Y%m%d-%H%M%S&quot;</span> *.jpg
+</span><span class='line'><span class="c"># Benennt die Bilder um nach bspw. &quot;20121006-174624.jpg&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Geotagging</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo apt-get install libimage-exiftool-perl
+</span><span class='line'><span class="nv">$ </span>java -jar geotag-0.082.jar
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/30/wsgen/">WSGEN - Wie man&#8217;s mit Interfaces macht</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-11-30T08:00:00+01:00" pubdate data-updated="true">30. November 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Erzeugen einer WSDL-Datei für ein JAXWS-Webservice-Interface</h1>
+
+<h2>Vorab &ndash; unser Webservice</h2>
+
+<p>Ausgangspunkt ist dieses Interface für unseren Webservice:</p>
+
+<figure class='code'><figcaption><span> (SampleWebService.java)</span> <a href='/downloads/code/java/wsdl/SampleWebService.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebMethod</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebParam</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;sampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'>   <span class="nd">@WebMethod</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span>
+</span><span class='line'>            <span class="nd">@WebParam</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;msg&quot;</span><span class="o">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">WebParam</span><span class="o">.</span><span class="na">Mode</span><span class="o">.</span><span class="na">IN</span><span class="o">)</span> <span class="n">String</span> <span class="n">msg</span>
+</span><span class='line'>   <span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Zusätzlich gibt&rsquo;s auch schon eine Implementierung dafür, nämlich diese:</p>
+
+<figure class='code'><figcaption><span> (SampleWebServiceImpl.java)</span> <a href='/downloads/code/java/wsdl/SampleWebServiceImpl.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleWebServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span><span class="n">String</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>       <span class="k">return</span> <span class="s">&quot;Echo: &quot;</span><span class="o">+</span><span class="n">msg</span><span class="o">;</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Da wir nur zwei Quelldateien haben, können wir die schnell manuell durchkompilieren:</p>
+
+<figure class='code'><figcaption><span>Kompilieren der Quelldateien </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>javac SampleWebServiceImpl.java  <span class="c"># ... kompiliert beide Dateien</span>
+</span><span class='line'><span class="nv">$ </span>ls
+</span><span class='line'>SampleWebService.class      SampleWebServiceImpl.java
+</span><span class='line'>SampleWebServiceImpl.class  SampleWebService.java
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>WSGEN &ndash; das übliche Vorgehen</h2>
+
+<p>Das übliche Vorgehen basiert auf dem Tool <code>wsgen</code>, welches dem JDK beiliegt:</p>
+
+<figure class='code'><figcaption><span>Vorgehen mit WSGEN </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>wsgen -cp . SampleWebServiceImpl -wsdl -inlineSchemas
+</span><span class='line'><span class="nv">$ </span>ls
+</span><span class='line'>jaxws                   SampleWebServiceImpl.class  SampleWebService.java
+</span><span class='line'>SampleWebService.class  SampleWebServiceImpl.java   SampleWebService.wsdl
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Da haben wir sie, die WSDL-Datei mit dem Namen &ldquo;SampleWebService.wsdl&rdquo;.</p>
+
+<h2>WSGEN &ndash; das Problem</h2>
+
+<p>Manchmal steht nur das Interface für den Webservice zur Verfügung, also nur die Datei <a href="/downloads/code/java/wsdl/SampleWebService.java">SampleWebService.java</a>. Wenn wir versuchen, daraus eine WSDL-Datei zu erzeugen, erscheint so eine Fehlermeldung:</p>
+
+<figure class='code'><figcaption><span>WSGEN und ServiceInterface </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>wsgen -cp . SampleWebService -wsdl -inlineSchemas
+</span><span class='line'>The class <span class="s2">&quot;SampleWebService&quot;</span> is not an endpoint implementation class.
+</span><span class='line'>
+</span><span class='line'>Usage: WSGEN <span class="o">[</span>options<span class="o">]</span> &lt;SEI&gt;
+</span><span class='line'>
+</span><span class='line'>where <span class="o">[</span>options<span class="o">]</span> include:
+</span><span class='line'>  -classpath &lt;path&gt;          specify where to find input class files
+</span><span class='line'>...
+</span><span class='line'>Examples:
+</span><span class='line'>  wsgen -cp . example.Stock
+</span><span class='line'>  wsgen -cp . example.Stock -wsdl -servicename <span class="o">{</span>http://mynamespace<span class="o">}</span>MyService
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wie&rsquo;s aussieht funktioniert WSGEN also nicht mit Interface-Klassen, es wird eine Implementierungsklasse benötigt:</p>
+
+<ul>
+<li><a href="http://java.net/jira/browse/JAX_WS-817">Jira-Ticket gegen JAXWS</a></li>
+</ul>
+
+
+<h2>Ein erster Versuch mit abstrakter Klasse</h2>
+
+<p>Hier eine abstrakte Implementierungsklasse:</p>
+
+<figure class='code'><figcaption><span> (AbstractSampleWebServiceImpl.java)</span> <a href='/downloads/code/java/wsdl/AbstractSampleWebServiceImpl.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">abstract</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AbstractSampleWebServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Leider klappt&rsquo;s auch nicht:</p>
+
+<figure class='code'><figcaption><span>WSGEN mit abstrakter Implementierungsklasse </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>javac AbstractSampleWebServiceImpl.java
+</span><span class='line'><span class="nv">$ </span>wsgen -cp . AbstractSampleWebServiceImpl -wsdl -inlineSchemas
+</span><span class='line'>...
+</span><span class='line'>com.sun.tools.internal.ws.processor.modeler.ModelerException: modeler error: Classes annotated with @javax.jws.WebService must not be abstract. Class: AbstractSampleWebServiceImpl
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Dynamische Erstellung einer Implementierungsklasse</h2>
+
+<p>Der nächste Versuch sieht so aus:</p>
+
+<ul>
+<li>ich lade das Interface und untersuche alle seine Methoden</li>
+<li>daraus erzeuge ich den Quelltext für eine Implementierungsklasse</li>
+<li>die Implementierungsklasse kompiliere ich mit dem JavaCompiler</li>
+<li>auf die dabei erstellte .class-Datei lasse ich dann <code>wsgen</code> los</li>
+</ul>
+
+
+<p>Den Versuch habe ich in einem <a href="http://github.com/uli-heller/uli-wsgen">GITHUB-Projekt</a> plattformübergreifend umgesetzt. Er scheint grundsätzlich zu funktionieren, ich kann in meinem aktuellen Projekt auf die manuelle Erstellung von Dummy-Implementierungsklassen verzichten.</p>
+
+<p>Beispielaufruf: <code>./uli-wsgen.sh -c myproject.jar -f sample.wsdl SampleWebService</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/27/bytecodeoutline/">ASM - BytecodeOutline-Plugin in Eclipse installieren</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-27T08:00:00+01:00" pubdate data-updated="true">27. November 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>BytecodeOutline-Plugin für Eclipse</h1>
+
+<p>Zuerst ein paar Angaben zu meiner Systemumgebung:</p>
+
+<ul>
+<li>Ubuntu-12.04, 64bit</li>
+<li>Eclipse-jee-juno-SR1</li>
+<li><a href="http://forge.ow2.org/projects/asm/">de.loskutov.BytecodeOutline_2.4.0.jar</a></li>
+</ul>
+
+
+<p>Ich benötige das Plugin nur temporär. Es soll nicht permanent in meiner Eclipse-Umgebung verfügbar sein.</p>
+
+<h2>Neue Eclipse-Installation</h2>
+
+<figure class='code'><figcaption><span>Neue Eclipse-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /opt
+</span><span class='line'>gzip -cd <span class="err">&quot;</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/eclipse/eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz |sudo tar xf -
+</span><span class='line'>sudo chown -R uli.uli eclipse
+</span><span class='line'>sudo mv eclipse eclipse-botst
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Test der neuen Eclipse-Installation</h2>
+
+<figure class='code'><figcaption><span>Test der Eclipse-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/opt/eclipse-botst/eclipse &amp;
+</span><span class='line'><span class="c"># Eclipse wird gestartet</span>
+</span><span class='line'><span class="c"># -&gt; wieder stoppen</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Einspielen des Plugins</h2>
+
+<figure class='code'><figcaption><span>Einspielen des Plugins </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Sicherstellen: Eclipse ist gestoppt</span>
+</span><span class='line'><span class="nb">cd</span> /opt/eclipse-botst
+</span><span class='line'>cp <span class="err">&quot;</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Kurztest des Plugins</h2>
+
+<ul>
+<li>Eclipse starten</li>
+<li>Java-Klasse aus einem bestehenden Eclipse-Projekt selektieren</li>
+<li>Window &ndash;> Show View &ndash;> Other &ndash;> Java &ndash;> Bytecode</li>
+</ul>
+
+
+<p><img src="/images/java/eclipse/bytecode-outline.png" title="'Eclipse mit Bytecode-View'" ></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/25/lxc/">LXC</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-11-25T10:49:00+01:00" pubdate data-updated="true">25. November 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1><span class="caps">LXC</span></h1>
+<h2>Installation</h2>
+<pre><code>sudo apt-get install lxc</code></pre>
+<h2>Container-Partition /lxc</h2>
+<p>Dieser Teil ist optional. Man kann ihn auch einfach weglassen, dann<br />
+werden die <span class="caps">LXC</span>-Container eben unterhalb von /var angelegt. Das setzt<br />
+dann natürlich voraus, dass dort noch genügend freier Platz vorhanden ist<br />
+- etwa 10GB sollten für den Anfang reichen. Prüfen kann man das mit<br />
+<code>df -h /var</code>.</p>
+<p>Die nachfolgende Beschreibung geht davon aus, dass das System mit <span class="caps">LVM</span><br />
+partitioniert ist und dass eine VolumeGroup namens &#8220;datavg&#8221; vorhanden<br />
+ist.</p>
+<h3>Partition anlegen</h3>
+<pre><code>sudo lvcreate -n lxclv -L10G datavg
+sudo mkfs.btrfs /dev/datavg/lxclv</code></pre>
+<h3>Partition einbinden</h3>
+<pre><code>sudo -s
+mkdir /lxc
+echo "/dev/datavg/lxclv /lxc btrfs defaults 0 3" &gt;&gt;/etc/fstab
+mount /lxc
+rmdir /var/lib/lxc
+ln -s /lxc/lib /var/lib/lxc
+rm -rf /var/cache/lxc
+ln -s /lxc/cache /var/cache/lxc</code></pre>
+<h2>Erstellen von Containern</h2>
+<h3>12.04, 64bit</h3>
+<p>64-bit Container können nur erstellt werden, wenn das Basissystem auch ein 64-bit-System ist!</p>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1204-64 -- -r precise -a amd64</code></pre>
+<h3>12.04, 32bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r precise -a i386</code></pre>
+<pre><code>uli@uli-hp-ssd:~/Downloads/virtualbox$ sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r precise -a i386
+[sudo] password for uli: </code>
+
+<code>No config file specified, using the default config
+debootstrap ist /usr/sbin/debootstrap
+Checking cache download in /var/cache/lxc/precise/rootfs-i386 ... 
+Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs ... 
+Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs ...</code>
+
+<code>##
+# The default user is 'ubuntu' with password 'ubuntu'!
+# Use the 'sudo' command to run tasks as root in the container.
+##</code>
+
+<code>'ubuntu' template installed
+'ubuntu1204-32' created</code></pre>
+<h3>13.04, 64bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1304-64 -- -r raring -a amd64</code></pre>
+<h3>13.04, 32bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1304-32 -- -r raring -a i386</code></pre>
+<h3>10.04, 32bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r lucid -a i386</code></pre>
+<h2>Arbeit mit Containern</h2>
+<ul>
+	<li>Anmelden
+	<ul>
+		<li>Benutzer: &#8220;ubuntu&#8221;</li>
+		<li>Kennwort: &#8220;ubuntu&#8221;</li>
+	</ul></li>
+	<li>Netzwerk
+	<ul>
+		<li>IP-Adressen: Aus dem Adressbereich 10.0.3/24</li>
+		<li><span class="caps">NAT</span>: Funktioniert &#8211; <code>ping google.com</code></li>
+		<li><span class="caps">SSH</span> vom Host in den Container: Funktioniert &#8211; <code>ssh ubuntu</code>10.0.3.250@</li>
+	</ul></li>
+</ul>
+<h2>Anpassung der Container</h2>
+<h3>Verwenden des Apt-Cache-Ng vom Host-System</h3>
+<p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
+<pre><code>Acquire::http::Proxy "http://10.0.3.1:3142";</code></pre>
+<h3>Installation von <span class="caps">JOE</span>/<span class="caps">JMACS</span></h3>
+<pre><code>sudo apt-get install joe</code></pre>
+<h2>Sichern und Rückspielen von Containern</h2>
+<h3>Sichern</h3>
+<pre><code>cd /lxc
+sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .</code></pre>
+<h3>Rückspielen</h3>
+<pre><code>cd /lxc
+sudo tar -xvjpf /backups/lxc/20121119.tar.bz2</code></pre>
+<h2>Probleme</h2>
+<h3>Offene Punkte</h3>
+<h4>Wie sorgt man dafür, dass ein Container nur über ein Host-Only-Netzwerk erreichbar ist?</h4>
+<h3>Erledigte Punkte</h3>
+<h4>Verwendung des Apt-Cacher-Ng durch einen Container</h4>
+<p>&#8230; geht wie üblich durch /etc/apt/apt.conf.d/01proxy innerhalb des Containers</p>
+<h4>Wie übernimmt man einen Container auf ein anderes System?</h4>
+<p>&#8230; durch Sichern und Rückspielen.</p>
+<h2>Links</h2>
+<ul>
+	<li>Ubuntu 12.04 Server Guide: https://help.ubuntu.com/12.04/serverguide/lxc.html</li>
+</ul></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/24/octopress-21/">Octopress-2.1</a></h1>
+    
     
       <p class="meta">
         
@@ -107,16 +736,18 @@
 
   
 <time datetime="2012-11-24T10:49:00+01:00" pubdate data-updated="true">24. November 2012</time>
-         &bull; <a rel="bookmark" href="/2012/11/24/octopress-21/">Permalink</a>
+        
       </p>
     
   </header>
 
-<div class="entry-content"><h1>Meine Tests mit Octopress-2.1</h1>
 
-<p>Ausgangspunkt ist meine &#8220;normale&#8221; Octopress-Installation:</p>
+  <div class="entry-content"><h1>Meine Tests mit Octopress-2.1</h1>
 
-<figure class='code'><figcaption><span>Normale Octopress-Installation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<p>Ausgangspunkt ist meine &ldquo;normale&rdquo; Octopress-Installation:</p>
+
+<figure class='code'><figcaption><span>Normale Octopress-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -149,7 +780,8 @@
 
 <p>Mit diesem Setup kann man nun umschalten auf Version 2.1:</p>
 
-<figure class='code'><figcaption><span>Umstellen auf Octopress-2.1 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Umstellen auf Octopress-2.1 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -175,14 +807,15 @@
 <ul>
 <li>Code-Blöcke verwenden nun weißen Hintergrund, was für mich deutlich lesbarer und ansprechender aussieht</li>
 <li>Blog-Einträge mit <code>published: false</code> werden nicht veröffentlicht, in 2.0 werden alle Blog-Einträge veröffentlicht</li>
-<li>Bei RVM wird Ruby-1.9.2 &#8220;angezogen&#8221;, es funktioniert aber auch mit 1.9.3</li>
-<li>Beim Drücken auf &#8220;Blog&#8221; erscheint in der Leiste rechts keine Liste der Blog-Einträge - source/_includes/sidebars/blog_index_default.html</li>
-<li>Bei Überschriften werden die ersten Buchstaben immer groß geschrieben (also: So Eine Überschrift) - _config.yml, titlecase</li>
-<li>Datumsangaben erfolgen in Englisch (wie bei 2.0) - etwas kompliziert zu ändern</li>
+<li>Bei RVM wird Ruby-1.9.2 &ldquo;angezogen&rdquo;, es funktioniert aber auch mit 1.9.3</li>
+<li>Beim Drücken auf &ldquo;Blog&rdquo; erscheint in der Leiste rechts keine Liste der Blog-Einträge &ndash; source/_includes/sidebars/blog_index_default.html</li>
+<li>Bei Überschriften werden die ersten Buchstaben immer groß geschrieben (also: So Eine Überschrift) &ndash; _config.yml, titlecase</li>
+<li>Datumsangaben erfolgen in Englisch (wie bei 2.0) &ndash; etwas kompliziert zu ändern</li>
 </ul>
 
 
-<figure class='code'><figcaption><span>Anpassungen an Octopress-2.1 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Anpassungen an Octopress-2.1 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>git branch -m 2.1 <span class="nb">source</span>-2.1
@@ -195,7 +828,8 @@
 
 <h3>Kopie des Standards-Themas anlegen</h3>
 
-<figure class='code'><figcaption><span>Eigenes Darstellungsthema für Octopress-2.1 </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Eigenes Darstellungsthema f</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>cp -a .themes/classic .themes/uli
@@ -207,12 +841,13 @@
 <h3>Anpassungen von Octopress-2.0 übernehmen</h3>
 
 <ul>
-<li>Historie vom Zweig &#8220;source&#8221; durchsuchen nach den dort erledigten Änderungen am Thema</li>
-<li>Übernehmen der Änderungen in den Zweig &#8220;source-2.1&#8221;</li>
+<li>Historie vom Zweig &ldquo;source&rdquo; durchsuchen nach den dort erledigten Änderungen am Thema</li>
+<li>Übernehmen der Änderungen in den Zweig &ldquo;source-2.1&rdquo;</li>
 </ul>
 
 
-<figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 übernehmen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -245,7 +880,8 @@
 
 <h3>Darstellungsthema aktivieren</h3>
 
-<figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 übernehmen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -268,7 +904,8 @@
 
 <h2>Blog-Einträge von Octopress-2.0 übernehmen</h2>
 
-<figure class='code'><figcaption><span>Dokumente von Octopress-2.0 übernehmen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Dokumente von Octopress-2.0 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -283,7 +920,8 @@
 
 <h3>Grundeinstellungen</h3>
 
-<figure class='code'><figcaption><span>Einstellungen anpassen - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Einstellungen anpassen - _config.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -314,9 +952,10 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Überschriften - keine Großbuchstaben</h3>
+<h3>Überschriften &ndash; keine Großbuchstaben</h3>
 
-<figure class='code'><figcaption><span>Keine Großbuchstaben in Überschriften - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Keine Gro</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -341,12 +980,12 @@
 
 <h3>Deutsche Übersetzungen</h3>
 
-<p>Die Ideen sind weitgehend &#8220;geklaut&#8221; von <a href="http://www.uru.ch/blog/2011/09/12/octopress-oberflaeche-im-schnelldurchgang-auf-deutsch-uebersetzen/">Roger Schärer</a>. In folgenden Dateien sind englische Texte hinterlegt:</p>
+<p>Die Ideen sind weitgehend &ldquo;geklaut&rdquo; von <a href="http://www.uru.ch/blog/2011/09/12/octopress-oberflaeche-im-schnelldurchgang-auf-deutsch-uebersetzen/">Roger Schärer</a>. In folgenden Dateien sind englische Texte hinterlegt:</p>
 
 <ul>
-<li>_config.yml &#8230; OK</li>
-<li>source/_includes/archive_post.html &#8230; OK</li>
-<li>source/<em>includes/asides/recent_posts.html &#8230; nicht gefunden
+<li>_config.yml &hellip; OK</li>
+<li>source/_includes/archive_post.html &hellip; OK</li>
+<li>source/<em>includes/asides/recent_posts.html &hellip; nicht gefunden
 source/</em>includes/sidebars/sections/recent_posts.html</li>
 <li>source/<em>includes/asides/twitter.html .. nicht gefunden
 source/</em>includes/sidebars/sections/twitter.html</li>
@@ -354,21 +993,22 @@ source/</em>includes/sidebars/sections/twitter.html</li>
 <li>source/_includes/navigation.html</li>
 <li>source/_includes/post/author.html</li>
 <li>source/_layouts/post.html</li>
-<li>source/_layouts/posts.html &#8230; nicht gefunden</li>
-<li>source/_layouts/page.html &#8230; nicht gefunden</li>
+<li>source/_layouts/posts.html &hellip; nicht gefunden</li>
+<li>source/_layouts/page.html &hellip; nicht gefunden</li>
 <li>source/index.html</li>
-<li>source/blog/archives/index.html &#8230; nicht gefunden
+<li>source/blog/archives/index.html &hellip; nicht gefunden
 source/archives/index.html</li>
 </ul>
 
 
-<p>Die meisten dieser Änderungen führe ich nicht direkt an den Dateien unterhalb von &#8220;source&#8221; durch, sondern in meinem Themenverzeichnis &#8220;.themes/uli&#8221;. Von dort kann ich sie dann mittels <code>rake install['uli']</code> aktivieren.</p>
+<p>Die meisten dieser Änderungen führe ich nicht direkt an den Dateien unterhalb von &ldquo;source&rdquo; durch, sondern in meinem Themenverzeichnis &ldquo;.themes/uli&rdquo;. Von dort kann ich sie dann mittels <code>rake install['uli']</code> aktivieren.</p>
 
 <h3>Deutsche Datumsangaben</h3>
 
-<p>Das grundätzliche Vorgehen kommt von <a href="http://home-server-mind.com/deutsche-lokalisation-in-octopress-seiten/">Marc </a>. Er schreibt allerdings, dass man als Einstellung für das Format &#8220;ordinal&#8221; verwenden muß. Grund hierfür ist eine Unschönheit in seiner Implementierung der Methode &#8220;format_date&#8221;. Bei meiner Variante kann man auch beliebige andere Einstellungen verwenden. Ich verwende beispielsweise &#8220;%d. %B %Y&#8221;.</p>
+<p>Das grundätzliche Vorgehen kommt von <a href="http://home-server-mind.com/deutsche-lokalisation-in-octopress-seiten/">Marc </a>. Er schreibt allerdings, dass man als Einstellung für das Format &ldquo;ordinal&rdquo; verwenden muß. Grund hierfür ist eine Unschönheit in seiner Implementierung der Methode &ldquo;format_date&rdquo;. Bei meiner Variante kann man auch beliebige andere Einstellungen verwenden. Ich verwende beispielsweise &ldquo;%d. %B %Y&rdquo;.</p>
 
-<figure class='code'><figcaption><span>Deutsche Datumsangaben - plugins/date.rb </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Deutsche Datumsangaben - plugins/date.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -509,9 +1149,10 @@ source/archives/index.html</li>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Änderung an _config.yml, damit das Datum so angegeben wird: &#8220;25. Dezember 2012&#8221;</p>
+<p>Änderung an _config.yml, damit das Datum so angegeben wird: &ldquo;25. Dezember 2012&rdquo;</p>
 
-<figure class='code'><figcaption><span>Datumsangaben &#8216;TT. Monat JJJJ&#8217; - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Datumsangaben &#8216;TT. Monat JJJJ&#8217; - _config.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -538,7 +1179,8 @@ source/archives/index.html</li>
 
 <h2>GitHub-Pages reaktivieren</h2>
 
-<figure class='code'><figcaption><span>GutHub-Pages reaktivieren - Rakefile </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>GutHub-Pages reaktivieren - Rakefile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -575,35 +1217,19 @@ source/archives/index.html</li>
 
 
 </div>
-
-  <footer>
-    
-    
-  </footer>
+  
+  
 
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
+  
+    <article>
       
   <header>
-    <h1 class="entry-title">
-
-<a href="/2012/11/24/octopress/">Octopress-Installation</a>
-
-</h1>
-
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/24/octopress/">Octopress-Installation</a></h1>
+    
     
       <p class="meta">
         
@@ -619,12 +1245,13 @@ source/archives/index.html</li>
 
 
 <time datetime="2012-11-24T10:49:00+01:00" pubdate data-updated="true">24. November 2012</time>
-         &bull; <a rel="bookmark" href="/2012/11/24/octopress/">Permalink</a>
+        
       </p>
     
   </header>
 
-<div class="entry-content"><h1>Meine erste Octopress-Installation</h1>
+
+  <div class="entry-content"><h1>Meine erste Octopress-Installation</h1>
 
 <h2>Installation</h2>
 
@@ -641,7 +1268,8 @@ source/archives/index.html</li>
 </ul>
 
 
-<figure class='code'><figcaption><span>Partition vergrößern und diverse Pakete installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Partition vergr</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -666,7 +1294,8 @@ source/archives/index.html</li>
 
 <h4>Git</h4>
 
-<figure class='code'><figcaption><span>Git installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Git installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install -y git
 </span><span class='line'>sudo apt-get clean
@@ -677,7 +1306,8 @@ source/archives/index.html</li>
 
 <h4>Ruby mittels RVM</h4>
 
-<figure class='code'><figcaption><span>Ruby installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Ruby installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -700,7 +1330,8 @@ source/archives/index.html</li>
 
 <h5>Octopress und Pakete</h5>
 
-<figure class='code'><figcaption><span>Octropress installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Octropress installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -715,7 +1346,8 @@ source/archives/index.html</li>
 
 <h5>Textile statt Markdown</h5>
 
-<figure class='code'><figcaption><span>Textile statt Markdown - Rakefile </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Textile statt Markdown - Rakefile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -738,7 +1370,8 @@ source/archives/index.html</li>
 
 <h5>Autor und Titel</h5>
 
-<figure class='code'><figcaption><span>Autor und Tutel - _config.yml </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Autor und Tutel - _config.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -774,7 +1407,7 @@ source/archives/index.html</li>
 <p>Ziel: Die Octopress-Seiten sollen auf GitHub unter</p>
 
 <ul>
-<li>http://uli-heller.github.com/</li>
+<li><a href="http://uli-heller.github.com/">http://uli-heller.github.com/</a></li>
 </ul>
 
 
@@ -785,8 +1418,8 @@ source/archives/index.html</li>
 <p>Auf GitHub muß ein spezielles Repository angelegt werden:</p>
 
 <ul>
-<li>mein GitHub-Benutzer: &#8220;uli-heller&#8221;</li>
-<li>neu anzulegendes Repository: &#8220;uli-heller.github.com&#8221;</li>
+<li>mein GitHub-Benutzer: &ldquo;uli-heller&rdquo;</li>
+<li>neu anzulegendes Repository: &ldquo;uli-heller.github.com&rdquo;</li>
 </ul>
 
 
@@ -807,15 +1440,16 @@ source/archives/index.html</li>
 <p>an und gib&#8217; danach im Browser die URL</p>
 
 <ul>
-<li>http://uli-heller.github.com</li>
+<li><a href="http://uli-heller.github.com">http://uli-heller.github.com</a></li>
 </ul>
 
 
-<p>ein. Mit etwas Glück erscheint der Inhalt der &#8220;index.html&#8221;</p>
+<p>ein. Mit etwas Glück erscheint der Inhalt der &ldquo;index.html&rdquo;</p>
 
 <h5>Anpassungen im Octopress-Verzeichnis</h5>
 
-<figure class='code'><figcaption><span>Octopress für Veröffentlichung vorbereiten </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Octopress f</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -830,7 +1464,8 @@ source/archives/index.html</li>
 
 <h5>Quellverzeichnis zur Sicherung hinzufügen</h5>
 
-<figure class='code'><figcaption><span>Sicherung vorbereiten </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Sicherung vorbereiten </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>git add <span class="nb">source</span>
 </span><span class='line'>git commit -m <span class="s2">&quot;Quelltexte sichern&quot;</span>
@@ -841,7 +1476,8 @@ source/archives/index.html</li>
 
 <p>Neue Artikel werden mit diesem Befehl auf GitHub gesichert:</p>
 
-<figure class='code'><figcaption><span>Quellverzeichnis sichern </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Quellverzeichnis sichern </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
@@ -854,7 +1490,8 @@ source/archives/index.html</li>
 
 <p>Immer dann, wenn neue Artikel veröffentlicht werden sollen, muß man so vorgehen:</p>
 
-<figure class='code'><figcaption><span>Neue Veröffentlichungen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Neue Ver</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
@@ -865,7 +1502,8 @@ source/archives/index.html</li>
 
 <h4>Folgeinstallation</h4>
 
-<figure class='code'><figcaption><span>Folgeinstallation </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Folgeinstallation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -902,16 +1540,18 @@ source/archives/index.html</li>
 
 <h3>Darstellung</h3>
 
-<figure class='code'><figcaption><span>Meinen Darstellungsstil aktivieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Meinen Darstellungsstil aktivieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>rake install<span class="o">[</span><span class="s1">&#39;uli&#39;</span><span class="o">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Zurück zur Standard-Darstellung geht&#8217;s so:</p>
+<p>Zurück zur Standard-Darstellung geht&rsquo;s so:</p>
 
-<figure class='code'><figcaption><span>Standarddarstellung aktivieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Standarddarstellung aktivieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>rake install
@@ -920,7 +1560,8 @@ source/archives/index.html</li>
 
 <h2>Ein erster Blog-Eintrag</h2>
 
-<figure class='code'><figcaption><span>Ersten Blog-Eintrag erstellen </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Ersten Blog-Eintrag erstellen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -950,7 +1591,7 @@ source/archives/index.html</li>
 <li>Wie verwende ich include_code in Verbindung mit Textile?
 
 <ul>
-<li>https://github.com/imathis/octopress/issues/500</li>
+<li><a href="https://github.com/imathis/octopress/issues/500">https://github.com/imathis/octopress/issues/500</a></li>
 <li><code>git branch -a --contains ca47041</code></li>
 </ul>
 </li>
@@ -963,7 +1604,8 @@ source/archives/index.html</li>
 
 <p>Die Beschreibung ist obsolet! Verwende besser: <code>rake install['uli']</code>!</p>
 
-<figure class='code'><figcaption><span>Hellere Farben - sass/custom/_colors.scss </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Hellere Farben - sass/custom/_colors.scss </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1108,11 +1750,12 @@ source/archives/index.html</li>
 </ul>
 
 
-<p>Die Listeneinträge werden zu weit links angeziegt, so dass die &#8220;Punkte&#8221; links außerhalb des Textbereichs erscheinen.</p>
+<p>Die Listeneinträge werden zu weit links angeziegt, so dass die &ldquo;Punkte&rdquo; links außerhalb des Textbereichs erscheinen.</p>
 
 <p>Korrektur: Editiere sass/custom/_layout.scss wie folgt:</p>
 
-<figure class='code'><figcaption><span>Eingerückte Listen - sass/custom/_layout.scss </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Einger</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1145,7 +1788,8 @@ source/archives/index.html</li>
 
 <h5>RBENV</h5>
 
-<figure class='code'><figcaption><span>RBENV </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>RBENV </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1162,7 +1806,8 @@ source/archives/index.html</li>
 
 <h5>RUBY</h5>
 
-<figure class='code'><figcaption><span>RUBY </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>RUBY </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>rbenv install 1.9.3-p0
 </span><span class='line'>rbenv rehash
@@ -1173,7 +1818,8 @@ source/archives/index.html</li>
 
 <h4>YAML und zlib</h4>
 
-<figure class='code'><figcaption><span>Fehlermeldung yaml und zlib </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Fehlermeldung yaml und zlib </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1194,7 +1840,8 @@ source/archives/index.html</li>
 
 <p>Lösungsversuch mit libyaml-dev und libz-dev:</p>
 
-<figure class='code'><figcaption><span>yaml und zlib installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>yaml und zlib installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1205,11 +1852,12 @@ source/archives/index.html</li>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>&#8230; funktioniert.</p>
+<p>&hellip; funktioniert.</p>
 
 <h4>OpenSSL</h4>
 
-<figure class='code'><figcaption><span>Fehlermeldung OpenSSL </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Fehlermeldung OpenSSL </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1230,7 +1878,8 @@ source/archives/index.html</li>
 
 <p>Lösungsversuch mit libssl-dev:</p>
 
-<figure class='code'><figcaption><span>libssl-dev installieren </span></figcaption><div class='highlight'><table><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>libssl-dev installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1241,37 +1890,21 @@ source/archives/index.html</li>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>&#8230; funktioniert.</p>
+<p>&hellip; funktioniert.</p>
 </div>
-
-  <footer>
-    
-    
-  </footer>
+  
+  
 
 
     </article>
   
-    
-
-
-
-
-
-
-
-
-
-
-    <article >
+  
+    <article>
       
   <header>
-    <h1 class="entry-title">
-
-<a href="/2012/05/18/markdown/">Markdown-Testdokument</a>
-
-</h1>
-
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/18/markdown/">Markdown-Testdokument</a></h1>
+    
     
       <p class="meta">
         
@@ -1288,61 +1921,60 @@ source/archives/index.html</li>
 
 
   
-<time datetime="2012-05-18T08:00:00+02:00" pubdate data-updated="true">18. Mai 2012</time>
-         &bull; <a rel="bookmark" href="/2012/05/18/markdown/">Permalink</a>
+<time datetime="2012-05-18T08:00:00+02:00" pubdate data-updated="true">18. May 2012</time>
+        
       </p>
     
   </header>
 
-<div class="entry-content"><h1>Markdown-Testdokument</h1>
+
+  <div class="entry-content"><h1>Markdown-Testdokument</h1>
 
 <p>Dies ist mein Testdokument für Markdown. Ich packe hier einfach alle denkbaren Konstrukte in Markdown rein, damit ich nicht immer wieder neu suchen muß.</p>
 
 </div>
-
-  <footer>
-    
-    
-    <p><a rel="full-article" href="/2012/05/18/markdown/">Vollständiger Artikel &rarr;</a></p>
-    
-  </footer>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/05/18/markdown/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
 
 
     </article>
   
   <div class="pagination">
     
-    <a href="/archives/">Blog-Archiv</a>
+    <a href="/blog/archives">Blog Archiv</a>
     
     <a class="next" href="/blog/page/5/">Neuer &rarr;</a>
     
   </div>
 </div>
-
 <aside class="sidebar">
-  
-    <section>
+  
+    <section>
   <h1>Neueste Beiträge</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
+        <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!&#8217; for nil:NilClass in post</a>
       </li>
     
       <li class="post">
-        <a href="/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
+        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
       </li>
     
       <li class="post">
-        <a href="/2013/07/26/lxc-networking/">LXC: Probleme bei der Initialisierung des Netzwerkes</a>
+        <a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a>
       </li>
     
       <li class="post">
-        <a href="/2013/07/21/git-fork/">Git Fork</a>
+        <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
       </li>
     
       <li class="post">
-        <a href="/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a>
+        <a href="/blog/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
       </li>
     
   </ul>
@@ -1352,15 +1984,8 @@ source/archives/index.html</li>
 
 
 
-
-
-
-
-
-
-  
+  
 </aside>
-
 
     </div>
   </div>
@@ -1395,7 +2020,6 @@ source/archives/index.html</li>
 
 <script type="text/javascript">
       var disqus_shortname = 'ulispersonalitblog';
-			var disqus_developer = '0';
       
         
         var disqus_script = 'count.js';
@@ -1406,6 +2030,11 @@ source/archives/index.html</li>
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
+
+
+
+
+
 
 
 

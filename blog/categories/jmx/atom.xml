@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: JMX | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/jmx/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JMX auf Localhost]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/03/22/localhost-jmx/"/>
+    <updated>2013-03-22T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/03/22/localhost-jmx</id>
+    <content type="html"><![CDATA[<h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
+
+<p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&rsquo;s Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
+
+<p><img src="/images/java/jconsole.png"></p>
+
+<p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich &ndash; die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden &ndash; sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
+
+<p>Ziel: Wir wollen die JMX-Schnittstelle so in Betrieb nehmen, dass nur von &ldquo;localhost&rdquo; aus auf sie zugegriffen werden kann!</p>
+
+<!-- more -->
+
+
+<h2>JMX für Netzwerkzugriffe öffnen</h2>
+
+<p>Hier das klassische Vorgehen mittels Java-Properties:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>tomcat/bin/setenv.sh </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Djava.rmi.server.hostname<span class="o">=</span>localhost&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote.port<span class="o">=</span>11223 <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote.authenticate<span class="o">=</span><span class="nb">false</span> <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote.ssl<span class="o">=</span><span class="nb">false</span> <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Nachteile:</p>
+
+<ul>
+<li><p>Das ist ein Scheunentor &ndash; netzwerkweit &ldquo;jeder&rdquo; kann nun mittels JMX auf unsere Anwendung zugreifen</p></li>
+<li><p>Absichern könnte man&rsquo;s mit Firewall-Regeln, was aber zusätzliche Arbeitslast für die Firewall-Truppe bedeutet</p></li>
+<li><p>Oder man aktiviert die Authentifizierung und hängt so eine Art Benutzerverwaltung mit dran &ndash; auch doof</p></li>
+</ul>
+
+
+<p>Eine Idee ist nun, den JMX-Port nicht netzwerkweit sondern nur über &ldquo;localhost&rdquo; erreichbar zu machen. Praktisch bedeutet dies, dass dann nur Leute, die sich auf dem betreffenden Rechner anmelden können, Zugriff auf die JMX-Schnittstelle haben. Die oben aufgeführten Java-Properties bieten leider keine entsprechende Einschränkmöglichkeit, also muß eine andere Lösung her!</p>
+
+<h2>JMX über eine eigene RMISocketFactory freigeben</h2>
+
+<p>Die Idee für nachfolgendes Vorgehen stammt von <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a>. Grob geht&rsquo;s so:</p>
+
+<ul>
+<li>Eigene RMISocketFactory erstellen und registrieren</li>
+<li>MBeanServer über die Standard-ManagementFactory &ldquo;holen&rdquo;</li>
+<li>MBeanServer mit der eigenen RMISocketFactory &ldquo;verknüpfen&rdquo; und einen JMXConnectorServer dafür erzeugen und starten</li>
+</ul>
+
+
+<p>Zusätzlich zu den in der Quelle auf <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a> umgesetzten Schritte mußte ich noch das Java-Property &ldquo;java.rmi.server.hostname&rdquo; auf &ldquo;127.0.0.1&rdquo; setzen. Ohne diesen Zusatzschritt funktioniert später JCONSOLE nicht.</p>
+
+<p>Wenn man das richtig getan hat, dann kann man danach mittels <code>jconsole localhost:11223</code> die JCONSOLE starten. &ldquo;11223&rdquo; ist dabei die Portnummer, die man bei vorigem Ablauf mit verarbeitet.</p>
+
+<p>Ich habe das ganze noch in ein Servlet verpackt. Nun kann ich durch</p>
+
+<ul>
+<li><code>curl http://localhost-jmx/jmx/start</code> &hellip; die JMX-Schnittstelle &ldquo;öffnen&rdquo;</li>
+<li><code>curl http://localhost-jmx/jmx/stop</code> &hellip; die JMX-Schnittstelle &ldquo;schließen&rdquo;</li>
+</ul>
+
+
+<p>Zur Not geht das auch über einen Browser.</p>
+
+<p>Seitens des Operatings sind keinerlei Eingriffe erforderlich. Auch das lästige Setzen des Java-Properties erübrigt sich.</p>
+
+<p>Den Quelltext zu dem ganzen gibt&rsquo;s auf <a href="https://github.com/uli-heller/uli-java-prototypes/tree/master/localhost-jmx">GitHub</a></p>
+]]></content>
+  </entry>
+  
+</feed>

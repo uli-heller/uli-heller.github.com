@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: PGP | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/pgp/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GPG: Signaturen]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/04/03/gpg-signaturen/"/>
+    <updated>2013-04-03T15:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/04/03/gpg-signaturen</id>
+    <content type="html"><![CDATA[<h1>GPG/PGP-Signatur von Quelltext-Dateien prüfen</h1>
+
+<p>Quelltextdateien werden oftmals mit GPG/PGP-Signaturen bereitgestellt, über die die Integrität der Dateien geprüft werrden kann. Hier zeige ich exemplarisch, wie dies für Subversion und Nginx gemacht wird.</p>
+
+<!-- more -->
+
+
+<h2>Subversion</h2>
+
+<ol>
+<li><p>Quelltext herunterladen: <code>wget http://mirror.serversupportforum.de/apache/subversion/subversion-1.7.9.tar.gz</code></p></li>
+<li><p>Signatur herunterladen: <code>wget http://www.apache.org/dist/subversion/subversion-1.7.9.tar.gz.asc</code></p></li>
+<li><p>Schlüssel importieren: <code>wget -O - https://people.apache.org/keys/group/subversion.asc|gpg --import</code></p></li>
+<li><p>Signatur prüfen: <code>gpg subversion-1.7.9.tar.gz.asc</code></p></li>
+</ol>
+
+
+<h2>Nginx</h2>
+
+<ol>
+<li><p>Quelltexte herunterladen: <code>wget -O - http://nginx.org/download/nginx-1.2.8.tar.gz|gzip -cd &gt;nginx-1.2.8.tar.gz</code></p>
+
+<p>Hinweis: Dieses umständliche Vorgehen ist notwendig, weil die Version 1.2.8 aus unerfindlichen Gründen &ldquo;doppelt komprimiert&rdquo; ist!</p></li>
+<li><p>Signatur herunterladen: <code>wget http://nginx.org/download/nginx-1.2.8.tar.gz.asc</code></p></li>
+<li><p>Signatur prüfen: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
+
+<p>Klappt nicht: Es wird gemeckert weil der zugehörige RSA-Schlüssel fehlt</p></li>
+<li><p>Schlüssel importieren &ndash; auf eine der folgenden Arten:</p>
+
+<ul>
+<li><p>Vom Keyserver: <code>gpg --keyserver pgpkeys.mit.edu --recv-key A1C052F8</code></p></li>
+<li><p>Mittels manuellem Download: <code>wget -O - http://nginx.org/keys/mdounin.key|gzip -cd|gpg --import</code></p></li>
+</ul>
+
+
+<p>Ich hab&rsquo;s auf beide Arten gemacht und dabei überprüft, dass der Schlüssel identisch ist!</p></li>
+<li><p>Erneuter Test: <code>gpg  nginx-1.2.8.tar.gz.asc</code></p>
+
+<p>Klappt halbwegs!</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

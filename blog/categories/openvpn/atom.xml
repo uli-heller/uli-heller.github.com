@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: OpenVPN | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/openvpn/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[OpenVPN unter Ubuntu nutzen]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/05/14/openvpn-ubuntu/"/>
+    <updated>2013-05-14T06:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/05/14/openvpn-ubuntu</id>
+    <content type="html"><![CDATA[<h2>Installation von OpenVPN</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Installation von OpenVPN </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install openvpn</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Konfigurationsdateien von OpenVPN einspielen</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Konfigurationsdateien von OpenVPN einspielen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir ~/openvpn
+</span><span class='line'>unzip -d ~/openvpn uheller.zip</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Es werden Dateien wie diese abgelegt:</p>
+
+<ul>
+<li>openvpn/2E76.crt</li>
+<li>openvpn/2E76.key</li>
+<li>openvpn/ca.crt</li>
+<li>openvpn/ta.key</li>
+<li>openvpn/uheller.ovpn</li>
+</ul>
+
+
+<h2>OpenVPN starten</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>OpenVPN starten </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo openvpn ~/openvpn/uheller.ovpn
+</span><span class='line'>Enter Auth Username: uheller
+</span><span class='line'>Enter Auth Password: xxxx</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>VPN-Rechner nutzen</h2>
+
+<p>Das Hauptproblem ist nun die Namensauflösung.
+Meine VPN-Gegenstelle nennt mir keinen NameServer, also
+muß ich</p>
+
+<ul>
+<li>entweder immer via IP-Adresse &ldquo;arbeiten&rdquo;</li>
+<li>oder die Hosts selbst bei mir in /etc/hosts eintragen</li>
+</ul>
+
+
+<p>Zunächst verfolge ich mal den ersten Ansatz:</p>
+
+<ul>
+<li><a href="https://10.157.1.20/owa">https://10.157.1.20/owa</a> &hellip; öffnet den Webmailer,
+hier kann ich mich anmelden mit &ldquo;uheller&rdquo;/&ldquo;xxxx&rdquo;.</li>
+</ul>
+
+
+<p>SUPER!</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: HTTPS | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/https/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Herunterladen des HTTPS-Server-Zertifikats]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/04/21/herunterladen-des-https-server-zertifikats/"/>
+    <updated>2013-04-21T08:20:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/04/21/herunterladen-des-https-server-zertifikats</id>
+    <content type="html"><![CDATA[<h1>Herunterladen des HTTPS-Server-Zertifikats über die Kommandozeile</h1>
+
+<p>Den Trick habe ich von einem <a href="http://eclipsesource.com/blogs/2013/04/19/installing-eclipse-plug-ins-from-an-update-site-with-a-self-signed-certificate/">EclipseSource-Blog</a>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Herunterladen eines Server-Zertifikats </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> -n <span class="se">\</span>
+</span><span class='line'>| openssl s_client -connect HOST:PORTNUMBER <span class="se">\</span>
+</span><span class='line'>| sed -ne &amp;lsquo;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&amp;rsquo; <span class="se">\&lt;</span>/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;blockquote&gt;&lt;p&gt;my-custom-cert.cert
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote>
+
+<p>Prima, das erspart mir künftig einiges an Rumklickerei im Browser.</p>
+]]></content>
+  </entry>
+  
+</feed>

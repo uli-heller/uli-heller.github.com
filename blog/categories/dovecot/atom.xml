@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Dovecot | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/dovecot/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Dovecot: Aktualisierung mit Pigeonhole]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/04/19/pigeonhole/"/>
+    <updated>2013-04-19T06:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/04/19/pigeonhole</id>
+    <content type="html"><![CDATA[<h1>Dovecot: Aktualisierung des Debian-Paketes mit Pigeonhole</h1>
+
+<p>Gestern oder heute wurde die Version 2.2.1 von Dovecot veröffentlicht.
+Natürlich habe ich gleich versucht, mein Debian-Paket zu aktualisieren:</p>
+
+<ul>
+<li><code>cd .../dovecot-2.2.0</code></li>
+<li><code>uupdate -u ../dovecot-2.2.1.tar.gz</code></li>
+<li><code>cd ../dovecot-2.2.1</code></li>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<p>Dummerweise klappt das nicht! Pigeonhole scheint zu fehlen, so dass
+schon die Anwendung der Quilt-Patches scheitert.</p>
+
+<!-- more -->
+
+
+<p>Mein Dovecot-Debian-Paket beinhaltet u.a. auch Pigeonhole.
+Pigeonhole wird separat zum Herunterladen angeboten, im Debian-Paket
+erscheint es aber als Patch unterhalb von debian/patches. Das ist ein
+gewisses Problem, weil man das heruntergeladene Paket dann immer erst
+in einen Patch umwandeln muß.</p>
+
+<p>Deshalb mein Ziel: Ich würde das Pigeonhole-Paket gerne möglichst
+unverändert in&rsquo;s Dovecot-Debian-Paket einbinden!</p>
+
+<!-- more -->
+
+
+<h2>Ausgangspunkt</h2>
+
+<p>Ausgangspunkt ist das bestehende Dovecot-Debian-Paket in der Version 2.2.0.
+Es kann mit <code>dpkg-buildpackage</code> neu erzeugt werden.</p>
+
+<p>Wir wissen, dass es eine neue Version 2.2.1 von Dovecot gibt. Die haben wir
+auch schon heruntergeladen. Von Pigeonhole gibt es keine neue Version, also
+verwenden wir die alte einfach weiter.</p>
+
+<h2>Pigeonhole vorbereiten</h2>
+
+<ul>
+<li><code>cp dovecot_2.2.0.orig-pigeonhole.tar.bz2  dovecot_2.2.1.orig-pigeonhole.tar.bz2</code></li>
+</ul>
+
+
+<h2>Dovecot vorbereiten</h2>
+
+<ul>
+<li><code>cd .../dovecot-2.2.0</code></li>
+<li><code>uupdate -u ../dovecot-2.2.1.tar.gz</code></li>
+<li><code>cd ../dovecot-2.2.1</code></li>
+</ul>
+
+
+<h2>Dovecot/Pigeonhole sichten</h2>
+
+<p>Prüfen: Gibt es innerhalb des Dovecot-Verzeichnisses nun ein Verzeichnis für
+Pigeonhole? &ndash;> Nein!</p>
+
+<h2>Pigeonhole auspacken und umbenennen</h2>
+
+<ul>
+<li><code>bzip2 -cd ../dovecot_2.2.1.orig-pigeonhole.tar.bz2|tar xf -</code></li>
+<li><code>mv dovecot-2-2-pigeonhole-70f0b7140939 pigeonhole</code></li>
+</ul>
+
+
+<h2>Dovecot neu erzeugen</h2>
+
+<ul>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<p>Nun klappt&rsquo;s!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Pigeonhole für für mein Debian-Paket von Dovecot]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/04/15/pigeonhole/"/>
+    <updated>2013-04-15T06:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/04/15/pigeonhole</id>
+    <content type="html"><![CDATA[<h1>Dovecot: Einbinden von Pigeonhole</h1>
+
+<p>Mein Dovecot-Debian-Paket beinhaltet u.a. auch Pigeonhole.
+Pigeonhole wird separat zum Herunterladen angeboten, im Debian-Paket
+erscheint es aber als Patch unterhalb von debian/patches. Das ist ein
+gewisses Problem, weil man das heruntergeladene Paket dann immer erst
+in einen Patch umwandeln muß.</p>
+
+<p>Deshalb mein Ziel: Ich würde das Pigeonhole-Paket gerne möglichst
+unverändert in&rsquo;s Dovecot-Debian-Paket einbinden!</p>
+
+<!-- more -->
+
+
+<h2>Ausgangspunkt</h2>
+
+<p>Ausgangspunkt ist das bestehende Dovecot-Debian-Paket. Es kann mit
+<code>dpkg-buildpackage</code> neu erzeugt werden.</p>
+
+<h2>Pakete herunterladen</h2>
+
+<ul>
+<li><a href="http://dovecot.org/releases/2.2/dovecot-2.2.0.tar.gz">Dovecot-2.2.0</a></li>
+<li><a href="http://hg.rename-it.nl/dovecot-2.2-pigeonhole/archive/tip.tar.bz2">Pigeonhole für Dovecot-2.2.0</a></li>
+</ul>
+
+
+<h2>Dovecot-Debian-Paket anpassen auf neue Version</h2>
+
+<ul>
+<li><code>uupdate -u ../dovecot-2.2.0.tar.gz -v 2:2.2.0</code></li>
+<li><code>cd ../dovecot-2.2.0</code></li>
+</ul>
+
+
+<h2>Verweise auf Pigeonhole-Patch entfernen</h2>
+
+<ul>
+<li><code>cd ./dovecot-2.2.0</code></li>
+<li><code>rm debian/patches/pigeonhole.patch</code></li>
+<li><code>sed -i "s/pigeonhole.patch/#pigeonhole.patch/" debian/patches/series</code></li>
+</ul>
+
+
+<h2>Verwendung des Pigeonhole-Paketes vorbereiten</h2>
+
+<ul>
+<li><code>cp dovecot-2-2-pigeonhole-70f0b7140939.tar.bz2 dovecot_2.2.0.orig-pigeonhole.tar.bz2</code></li>
+<li><code>cd ./dovecot-2.2.0</code></li>
+<li><code>mkdir pigeonhole</code></li>
+<li><code>tar -C pigeonhole --strip-components=1 -jxf ../dovecot_2.2.0.orig-pigeonhole.tar.bz2</code></li>
+</ul>
+
+
+<h2>Paket neu erzeugen</h2>
+
+<ul>
+<li><code>cd ./dovecot-2.2.0</code></li>
+<li><code>dpkg-buildpackage</code></li>
+</ul>
+
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="http://raphaelhertzog.com/2010/09/07/how-to-use-multiple-upstream-tarballs-in-debian-source-packages/">http://raphaelhertzog.com/2010/09/07/how-to-use-multiple-upstream-tarballs-in-debian-source-packages/</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

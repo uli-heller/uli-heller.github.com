@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Chrome | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/chrome/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-08-05T06:36:20+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Chrome-Erweiterungen - Teil 2/2: CRX-Dateien einspielen]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/03/07/crx-install/"/>
+    <updated>2013-03-07T12:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/03/07/crx-install</id>
+    <content type="html"><![CDATA[<h1>Offline-Installation einer Chrome-Erweiterung &ndash; Teil 2: CRX-Dateien einspielen</h1>
+
+<p>Hier beschreibe ich kurz, wie man CRX-Dateien in Google-Chrome einspielt.
+Die CRX-Dateien müssen zuvor heruntergeladen worden sein, siehe hierzu
+<a href="/2013/03/04/chrome-extensions">CRX-Dateien herunterladen</a>.
+Getestet hab' ich&rsquo;s mit Google-Chrome 25 unter Linux.</p>
+
+<!-- more -->
+
+
+<p>Zunächst muß in Google-Chrome das Erweiterungsfenster geöffnet werden über
+&ldquo;Einstellungen&rdquo; &ndash; &ldquo;Tools&rdquo; &ndash; &ldquo;Erweiterungen&rdquo;:</p>
+
+<p><img src="/images/chrome/chrome-extensions-1.png" alt="Menü: Erweiterungen" /></p>
+
+<p>Nach dem Betätigen des Menüpunktes erscheint dieses Fenster:</p>
+
+<p><img src="/images/chrome/chrome-extensions-2.png" alt="Erweiterungen" /></p>
+
+<p>Als nächstes: CRX-Datei in Nautilus selektieren und auf das
+Google-Chrome-Erweiterungsfenster &ldquo;fallen lassen&rdquo;. Am unteren Rand
+erscheint ein Bestätigungsdialog:</p>
+
+<p><img src="/images/chrome/chrome-extensions-3.png" alt="Bestätigung" /></p>
+
+<p>Nachdem die Installationserlaubnis erteilt ist, wird die neue
+Erweiterung als &ldquo;installiert&rdquo; und &ldquo;aktiviert&rdquo; angezeigt:</p>
+
+<p><img src="/images/chrome/chrome-extensions-4.png" alt="Aktivierte Erweiterung" /></p>
+
+<p>Bei mir gibt&rsquo;s Probleme, wenn ich nun direkt noch eine weitere CRX-Datei
+einspielen möchte. Sie &ldquo;landet&rdquo; dann einfach nicht im Erweiterungsfenster.
+Abhilfe schafft schließen und neu öffnen des Fensters.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chrome-Erweiterungen - Teil 1/2: CRX-Dateien herunterladen]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/03/04/chrome-extensions/"/>
+    <updated>2013-03-04T07:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/03/04/chrome-extensions</id>
+    <content type="html"><![CDATA[<h1>Offline-Installation einer Chrome-Erweiterung &ndash; Teil 1: CRX-Dateien herunterladen</h1>
+
+<p>Mein aktueller Lieblingsbrowser ist zur Zeit Google-Chrome. Dumm nur, wenn
+bei manchen Unternehmen der ausgehende Internet-Verkehr so gefiltert wird,
+dass nur manch andere Browser (beispielsweise Internet Explorer) zugelassen
+sind.</p>
+
+<!-- more -->
+
+
+<p>Ein paar Tests zeigen, dann man durch Setzen des &ldquo;User-Agents&rdquo; relativ
+einfach auch mit Google-Chrome arbeiten kann. Den &ldquo;User-Agent&rdquo; setzt man
+in Google-Chrome auf diese Weise:</p>
+
+<ul>
+<li>Tools &ndash; Entwicklertools</li>
+<li>Settings (ganz unten rechts)</li>
+<li>Overrides &ndash; User Agent
+
+<ul>
+<li>aktivieren</li>
+<li>gewünschten User-Agent auswählen</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Grundsätzlich funktioniert dies, nur muß man die Einstellungen bei
+jedem Start von Google-Chrome neu durchführen. Zum Glück gibt&rsquo;s ja
+Erweiterungen wie
+<a href="https://chrome.google.com/webstore/detail/ultimate-user-agent-switc/ljfpjnehmoiabkefmnjegmpdddgcdnpo">Ultimate User Agent Switcher, URL sniffer</a>,
+die die Handhabung deutlich verbessern. Leider funktioniert
+der Zugriff auf Google-Play nicht, er wird bei meinem Unternehmen
+offenbar separat geblockt.</p>
+
+<p>Also: Wir brauchen eine Möglichkeit, Erweiterungen für Google-Chrome
+ohne Zugriff auf Google-Play zu installieren.</p>
+
+<h2>Verpacken und Entpacken &ndash; geht leider nicht</h2>
+
+<p>Erste Versuche laufen so:</p>
+
+<ul>
+<li>Rechner A:
+
+<ul>
+<li>Wechseln in&rsquo;s Erweiterungsgrundverzeichnis</li>
+<li>Verpacken einer installierten Erweiterung</li>
+</ul>
+</li>
+<li>Rechner B:
+
+<ul>
+<li>Wechseln in&rsquo;s Erweiterungsgrundverzeichnis</li>
+<li>Entpacken einer installierten Erweiterung</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Leider funktioniert dies nicht. Google-Chrome auf Rechner B scheint
+zu erkennen, dass ihm eine Erweiterung untergeschoben werden soll.
+Sie wird ignoriert und gelöscht beim Start von Google-Chrome.</p>
+
+<h2>Runterladen mittels Skript</h2>
+
+<ul>
+<li>Ermitteln der Applikations-Id</li>
+<li><code>./get-crx.sh ljfpjnehmoiabkefmnjegmpdddgcdnpo</code>: Ultimate-User-Agent-Switcher,-URL-sniffer_v0.9.2.2.crx</li>
+<li><code>./get-crx.sh loljledaigphbcpfhfmgopdkppkifgno</code>: Lazarus:_Form_Recovery-3.0.5.crx</li>
+</ul>
+
+
+<p>Das Skript <code>get-crx.sh</code> verwendet intern den Json-Parser
+<a href="https://github.com/dominictarr/JSON.sh/blob/master/JSON.sh">JSON.SH</a></p>
+
+<p>Die beiden Skripte liegen hier:</p>
+
+<ul>
+<li><a href="/downloads/code/get-crx.sh">get-crx.sh</a></li>
+<li><a href="/downloads/code/JSON.sh">JSON.sh</a> (wird nicht separat benötigt)</li>
+</ul>
+
+
+<p>Einfach <a href="/downloads/code/get-crx.sh">get-crx.sh</a>
+in einem Verzeichnis ablegen und &ldquo;ausführbar machen&rdquo;
+(bspw. mit <code>chmod +x *.sh</code>),
+dann sollte es funktionieren.
+Ach ja: <a href="http://www.gnu.org/software/wget/">wget</a> muß
+installiert sein&hellip;</p>
+
+<h2>Runterladen mittels <a href="http://chrome-extension-downloader.com/">Chrome Extension Downloader</a></h2>
+
+<p><img src="/images/chrome/chrome-extension-downloader.png" alt="ChromeExtensionDownloader" /></p>
+
+<ul>
+<li>Ermitteln der Applikations-Id</li>
+<li>Öffnen von <a href="http://chrome-extension-downloader.com/">Chrome Extension Downloader</a> im Browser</li>
+<li>Applikations-Id eingeben</li>
+<li>&ldquo;Download extension&rdquo;</li>
+<li>Das war&rsquo;s</li>
+</ul>
+
+
+<h2>Ermitteln der Applikations-Id</h2>
+
+<ul>
+<li>Browser: [Chrome Web Store]/<a href="https://chrome.google.com/webstore/category/extensions?utm_source=chrome-ntp-icon">https://chrome.google.com/webstore/category/extensions?utm_source=chrome-ntp-icon</a>) öffnen</li>
+<li>Gewünschte Erweiterung suchen und Details anzeigen</li>
+<li>Applikations-Id ist nun in der Adresszeile sichtbar (siehe Bildchen)</li>
+</ul>
+
+
+<p><img src="/images/chrome/chrome-application-id-2.png" alt="ChromeWebShop - Applikations-Id" /></p>
+
+<h2>Links:</h2>
+
+<ul>
+<li><a href="http://blog.gerardin.info/archives/763">Download Chrome extension from other browser (for offline installation)</a></li>
+<li><a href="https://chrome.google.com/webstore/detail/ultimate-user-agent-switc/ljfpjnehmoiabkefmnjegmpdddgcdnpo">Ultimate User Agent Switcher, URL sniffer</a></li>
+<li><a href="http://chrome-extension-downloader.com/">Chrome Extension Downloader</a></li>
+<li><a href="http://thameera.wordpress.com/2011/10/29/downloading-the-crx-of-a-chrome-extension/">Downloading the CRX of a Chrome extension</a></li>
+</ul>
+
+
+<h2>Notizen:</h2>
+
+<ul>
+<li>Linux: /home/username/.config/google-chrome/Default/Extensions</li>
+<li>Mac: /Users/username/Library/Application Support/Google/Chrome/Default/Extensions</li>
+<li>Windows 7: C:\Users\username\AppData\Local\Google\Chrome\User Data\Default\Extensions</li>
+<li>Windows XP: C:\Documents and Settings\YourUserName\Local Settings\Application Data\Google\Chrome\User Data\Default</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
