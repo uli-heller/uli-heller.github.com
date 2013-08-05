@@ -4,7 +4,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-05T07:12:34+02:00</updated>
+  <updated>2013-08-05T07:57:24+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,154 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress und Git ohne Umbenennung]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/08/05/octopress-git/"/>
+    <updated>2013-08-05T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/08/05/octopress-git</id>
+    <content type="html"><![CDATA[<p>Octopress hat die Eigenart, bei Verwendung von Git als &ldquo;Deployment-Methode&rdquo;
+die Zweige umzubenennen:</p>
+
+<ul>
+<li>Umbenennung: origin &ndash;> octopress</li>
+<li>Neuanlage:   origin &lt;&ndash; repo_url</li>
+<li>Umbenennung: master &ndash;> source</li>
+<li>etc.</li>
+</ul>
+
+
+<p>Die ganze Umbenennerei gefällt mir garnicht. Ich mag&rsquo;s so:</p>
+
+<ul>
+<li>uli-octopress: Das ist mein &ldquo;normales&rdquo; GitHub-Repository, in dem ich alle
+Quelltexte meiner Octopress-Installation halte</li>
+<li>uli-heller.github.com: Das ist das GitHub-Repository, in dem ich die
+generierten HTML-Seiten veröffentliche</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h2>uli-octopress</h2>
+
+<p>Hierbei gibt es keine Besonderheiten. Einfach das Repository in GitHub
+anlegen und klonen wie üblich.</p>
+
+<h2>uli-heller.github.com</h2>
+
+<p>Am besten erstmal einfach leer anlegen mit einem Branch namens &ldquo;master&rdquo;.</p>
+
+<h2>Deployment-Methode konfigurieren</h2>
+
+<h3>_deploy</h3>
+
+<figure class='code'><figcaption><span>Verzeichnis _deploy </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span><span class="nb">cd </span>uli-octopress
+</span><span class='line'>
+</span><span class='line'>uli-octopress<span class="nv">$ </span>git clone git@github.com:uli-heller/uli-heller.github.com.git
+</span><span class='line'>Klone nach <span class="s1">&#39;uli-heller.github.com&#39;</span>...
+</span><span class='line'>remote: Counting objects: 14438, <span class="k">done</span>.
+</span><span class='line'>remote: Compressing objects: 100% <span class="o">(</span>3999/3999<span class="o">)</span>, <span class="k">done</span>.
+</span><span class='line'>remote: Total 14438 <span class="o">(</span>delta 7274<span class="o">)</span>, reused 13662 <span class="o">(</span>delta 6502<span class="o">)</span>
+</span><span class='line'>Empfange Objekte: 100% <span class="o">(</span>14438/14438<span class="o">)</span>, 16.14 MiB | 218.00 KiB/s, <span class="k">done</span>.
+</span><span class='line'>Löse Unterschiede auf: 100% <span class="o">(</span>7274/7274<span class="o">)</span>, <span class="k">done</span>.
+</span><span class='line'>Checking connectivity... <span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'>uli-octopress<span class="nv">$ </span>mv uli-heller.github.com _deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Rakefile</h3>
+
+<p>Nun noch Anpassungen an Rakefile:</p>
+
+<figure class='code'><figcaption><span>Anpassungen am Rakefile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/Rakefile b/Rakefile</span>
+</span><span class='line'><span class="gh">index f3ada93..321c3c5 100644</span>
+</span><span class='line'><span class="gd">--- a/Rakefile</span>
+</span><span class='line'><span class="gi">+++ b/Rakefile</span>
+</span><span class='line'><span class="gu">@@ -9,10 +9,10 @@ ssh_port       = &quot;22&quot;</span>
+</span><span class='line'> document_root  = &quot;~/website.com/&quot;
+</span><span class='line'> rsync_delete   = false
+</span><span class='line'> rsync_args     = &quot;&quot;  # Any extra arguments to pass to rsync
+</span><span class='line'><span class="gd">-deploy_default = &quot;rsync&quot;</span>
+</span><span class='line'><span class="gi">+deploy_default = &quot;push&quot;</span>
+</span><span class='line'>
+</span><span class='line'> # This will be configured for you when you run config_deploy
+</span><span class='line'><span class="gd">-deploy_branch  = &quot;gh-pages&quot;</span>
+</span><span class='line'><span class="gi">+deploy_branch  = &quot;master&quot;</span>
+</span><span class='line'>
+</span><span class='line'> ## -- Misc Configs -- ##
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Test</h2>
+
+<figure class='code'><figcaption><span>Test </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli-octopress<span class="nv">$ </span>rake generate
+</span><span class='line'><span class="c">## Generating Site with Jekyll</span>
+</span><span class='line'>identical <span class="nb">source</span>/stylesheets/screen.css
+</span><span class='line'>Configuration from /home/uli/git/octopress/_config.yml
+</span><span class='line'>Building site: <span class="nb">source</span> -&gt; public
+</span><span class='line'>...
+</span><span class='line'>Successfully generated site: <span class="nb">source</span> -&gt; public
+</span><span class='line'>
+</span><span class='line'>uli-octopress<span class="nv">$ </span>rake preview
+</span><span class='line'>Starting to watch <span class="nb">source </span>with Jekyll and Compass. Starting Rack on port 4000
+</span><span class='line'><span class="o">[</span>2013-08-05 07:55:34<span class="o">]</span> INFO  WEBrick 1.3.1
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>uli-octopress<span class="nv">$ </span>rake deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post]]></title>
@@ -3302,415 +3450,6 @@ Loading initial ramdisk
 
 <p>Die Laufwerkslampe blinkt dabei permanent. Nachdem sich in 15 Minuten keine
 Änderung getan hat, habe ich den Boot-Vorgang abgebrochen.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[WLAN-Konfiguration beim Ubuntu-Server]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/06/14/ubuntu-server-wlan/"/>
-    <updated>2013-06-14T12:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/06/14/ubuntu-server-wlan</id>
-    <content type="html"><![CDATA[<p>Meinen alten EEEPC würde ich gerne als DHCP-Server weiterverwenden.
-Also: Ubuntu-12.04-Server drauf und los geht&rsquo;s. Dumm nur:
-Aktuell ist unklar, wie ich die WLAN-Konfiguration hinbekomme.
-Auf Desktop-Systemen macht man das ja mit dem NetworkManager,
-was auf dem Server ohne graphische Benutzerschnittstelle schwierig ist.</p>
-
-<!-- more -->
-
-
-<h2>Vorbereitungen</h2>
-
-<p>Auf dem EEEPC habe ich diese Grundinstallation vorgenommen:</p>
-
-<ul>
-<li>Ubuntu-12.04.2 Server, 32 bit</li>
-<li>Raring-Kernel</li>
-<li>Alle Aktualisierungen vom heutigen Tage (2013-06-14)</li>
-</ul>
-
-
-<h2>Grundtests</h2>
-
-<p>Die Grundtests habe ich von hier: <a href="http://ubuntuforums.org/showthread.php?t=1094204">http://ubuntuforums.org/showthread.php?t=1094204</a></p>
-
-<figure class='code'><figcaption><span>Grundtests </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo -s
-</span><span class='line'># ifconfig wlan0 up
-</span><span class='line'># iwlist scan
-</span><span class='line'>wlan0     Scan completed :
-</span><span class='line'>          Cell 01 - Address: 00:3f:c6:3c:dd:a2
-</span><span class='line'>                    Channel:1
-</span><span class='line'>                    Frequency:2.412 GHz (Channel 1)
-</span><span class='line'>                    Quality=37/70  Signal level=-73 dBm  
-</span><span class='line'>                    Encryption key:on
-</span><span class='line'>                    ESSID:"SiegfriedUndRoy"
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Konfiguration als WLAN-Client</h2>
-
-<p>Die Konfiguration habe ich hierher:
-<a href="http://ubuntuforums.org/showthread.php?t=2007475">http://ubuntuforums.org/showthread.php?t=2007475</a>.
-Sie ist gegenüber der Vorlage leicht abgewandelt.</p>
-
-<figure class='code'><figcaption><span>/etc/network/interfaces </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>auto wlan0
-</span><span class='line'>iface wlan0 inet dhcp
-</span><span class='line'>  wpa-ssid SiegfriedUndRoy
-</span><span class='line'>  wpa-psk  SharpTiger</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Hierbei muß nach &ldquo;wpa-ssid&rdquo; der Name des zu verwendenden Funknetzwerkes
-eingetragen werden und bei &ldquo;wpa-psk&rdquo; das dabei zu verwendende Kennwort.
-Bevor Fragen aufkommen: &ldquo;SiegfriedUndRoy&rdquo; und &ldquo;SharpTiger&rdquo; sind erfundene
-Werte.</p>
-
-<p>Nun muß nur noch das WLAN-Interface aktiviert werden.</p>
-
-<figure class='code'><figcaption><span>WLAN-Interface aktivieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># ifdown wlan0 # Fehlermeldung ignorieren</span>
-</span><span class='line'><span class="c"># ifup wlan0   # Hier darf keine Fehlermeldung erscheinen</span>
-</span><span class='line'>ssh stop/waiting
-</span><span class='line'>ssh start/running, process 1202
-</span><span class='line'><span class="c"># ifconfig wlan0</span>
-</span><span class='line'>wlan0     Link encap:Ethernet  HWaddr 00:3f:c6:3c:dd:a2
-</span><span class='line'>          inet addr:192.168.178.27  Bcast:192.168.178.255  Mask:255.255.255.0
-</span><span class='line'>          inet6 addr: fe80::215:afff:fe88:ab6d/64 Scope:Link
-</span><span class='line'>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-</span><span class='line'>          RX packets:696 errors:0 dropped:0 overruns:0 frame:0
-</span><span class='line'>          TX packets:496 errors:0 dropped:0 overruns:0 carrier:0
-</span><span class='line'>          collisions:0 txqueuelen:1000
-</span><span class='line'>          RX bytes:526709 <span class="o">(</span>526.7 KB<span class="o">)</span>  TX bytes:66404 <span class="o">(</span>66.4 KB<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Wichtig ist, dass bei &ldquo;inet addr:&rdquo; eine IP-Adresse ähnlich der bei
-mir angezeigten 192.168.178.27 steht. Wie&rsquo;s aussieht funktioniert&rsquo;s schon!</p>
-
-<h2>Konfiguration als Access-Point</h2>
-
-<p>Grob gehe ich nach dieser Anleitung vor: <a href="http://wiki.ubuntuusers.de/WLAN_Router">http://wiki.ubuntuusers.de/WLAN_Router</a></p>
-
-<h3>Zusatzpakete installieren</h3>
-
-<figure class='code'><figcaption><span>Zusatzpakete installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo apt-get install -y hostapd dnsmasq
-</span><span class='line'>Paketlisten werden gelesen... Fertig
-</span><span class='line'>Abhängigkeitsbaum wird aufgebaut
-</span><span class='line'>Statusinformationen werden eingelesen... Fertig
-</span><span class='line'>Die folgenden Pakete wurden automatisch installiert und werden nicht mehr benötigt:
-</span><span class='line'>  crda wireless-regdb
-</span><span class='line'>Verwenden Sie »apt-get autoremove«, um sie zu entfernen.
-</span><span class='line'>Die folgenden zusätzlichen Pakete werden installiert:
-</span><span class='line'>  dnsmasq-base libnetfilter-conntrack3
-</span><span class='line'>Die folgenden NEUEN Pakete werden installiert:
-</span><span class='line'>  dnsmasq dnsmasq-base hostapd libnetfilter-conntrack3
-</span><span class='line'>...
-</span><span class='line'>hostapd <span class="o">(</span>1:0.7.3-4ubuntu1<span class="o">)</span> wird eingerichtet ...
-</span><span class='line'>Trigger für libc-bin werden verarbeitet ...
-</span><span class='line'>ldconfig deferred processing now taking place
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Konfiguration von hostapd</h3>
-
-<p>Zunächst muß die Datei /etc/default/hostapd
-wie folgt modifiziert werden:</p>
-
-<figure class='code'><figcaption><span>/etc/default/hostapd </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'># diff -u /etc/default/hostapd.orig /etc/default/hostapd
-</span><span class='line'><span class="gd">--- hostapd.orig 2013-06-14 13:26:20.390584872 +0200</span>
-</span><span class='line'><span class="gi">+++ hostapd  2013-06-14 13:27:14.698854220 +0200</span>
-</span><span class='line'><span class="gu">@@ -7,7 +7,8 @@</span>
-</span><span class='line'> # file and hostapd will be started during system boot. An example configuration
-</span><span class='line'> # file can be found at /usr/share/doc/hostapd/examples/hostapd.conf.gz
-</span><span class='line'> #
-</span><span class='line'><span class="gd">-#DAEMON_CONF=&quot;&quot;</span>
-</span><span class='line'><span class="gi">+DAEMON_CONF=&quot;/etc/hostapd.conf&quot;</span>
-</span><span class='line'><span class="gi">+RUN_DAEMON=yes</span>
-</span><span class='line'>
-</span><span class='line'> # Additional daemon options to be appended to hostapd command:-
-</span><span class='line'> #    -d   show more debug messages (-dd for even more)
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Dann brauchen wir zusätzlich noch die Konfigurationsdatei
-/etc/hostapd.conf. Das Grundgerüst habe ich von hier:
-<a href="http://wiki.ubuntuusers.de/WLAN_Router">http://wiki.ubuntuusers.de/WLAN_Router</a></p>
-
-<figure class='code'><figcaption><span>/etc/hostapd.conf </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'># Schnittstelle und Treiber
-</span><span class='line'>interface=wlan0
-</span><span class='line'>driver=nl80211
-</span><span class='line'>
-</span><span class='line'># WLAN-Konfiguration
-</span><span class='line'>ssid=HaeberleUndPfleiderer
-</span><span class='line'>channel=1
-</span><span class='line'>
-</span><span class='line'># ESSID sichtbar
-</span><span class='line'>ignore_broadcast_ssid=0
-</span><span class='line'>
-</span><span class='line'># Ländereinstellungen
-</span><span class='line'>country_code=DE
-</span><span class='line'>ieee80211d=1
-</span><span class='line'>
-</span><span class='line'># Übertragungsmodus
-</span><span class='line'>hw_mode=g
-</span><span class='line'>
-</span><span class='line'># Optionale Einstellungen
-</span><span class='line'># supported_rates=10 20 55 110 60 90 120 180 240 360 480 540
-</span><span class='line'>
-</span><span class='line'># Draft-N Modus aktivieren / optional nur für entsprechende Karten
-</span><span class='line'># ieee80211n=1
-</span><span class='line'>
-</span><span class='line'># Übertragungsmodus / Bandbreite 40MHz
-</span><span class='line'># ht_capab=[HT40+][SHORT-GI-40][DSSS_CCK-40]
-</span><span class='line'>
-</span><span class='line'># Beacons
-</span><span class='line'>beacon_int=100
-</span><span class='line'>dtim_period=2
-</span><span class='line'>
-</span><span class='line'># MAC-Authentifizierung
-</span><span class='line'>macaddr_acl=0
-</span><span class='line'>
-</span><span class='line'># max. Anzahl der Clients
-</span><span class='line'>max_num_sta=20
-</span><span class='line'>
-</span><span class='line'># Größe der Datenpakete/Begrenzung
-</span><span class='line'>rts_threshold=2347
-</span><span class='line'>fragm_threshold=2346
-</span><span class='line'>
-</span><span class='line'># hostapd Log Einstellungen
-</span><span class='line'>logger_syslog=-1
-</span><span class='line'>logger_syslog_level=2
-</span><span class='line'>logger_stdout=-1
-</span><span class='line'>logger_stdout_level=2
-</span><span class='line'>
-</span><span class='line'># temporäre Konfigurationsdateien
-</span><span class='line'>dump_file=/tmp/hostapd.dump
-</span><span class='line'>ctrl_interface=/var/run/hostapd
-</span><span class='line'>ctrl_interface_group=0
-</span><span class='line'>
-</span><span class='line'># Authentifizierungsoptionen
-</span><span class='line'>auth_algs=3
-</span><span class='line'>
-</span><span class='line'># wmm-Funktionalität
-</span><span class='line'>wmm_enabled=0
-</span><span class='line'>
-</span><span class='line'># Verschlüsselung / hier rein WPA2
-</span><span class='line'>wpa=2
-</span><span class='line'>rsn_preauth=1
-</span><span class='line'>rsn_preauth_interfaces=wlan0
-</span><span class='line'>wpa_key_mgmt=WPA-PSK
-</span><span class='line'>rsn_pairwise=CCMP
-</span><span class='line'>
-</span><span class='line'># Schlüsselintervalle / Standardkonfiguration
-</span><span class='line'>wpa_group_rekey=600
-</span><span class='line'>wpa_ptk_rekey=600
-</span><span class='line'>wpa_gmk_rekey=86400
-</span><span class='line'>
-</span><span class='line'># Zugangsschlüssel (PSK) / hier in Klartext (ASCII)
-</span><span class='line'>wpa_passphrase=ScharfesTigerle
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Konfiguration der Netzwerkschnittstelle</h3>
-
-<figure class='code'><figcaption><span>/etc/network/interfaces </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>auto wlan0
-</span><span class='line'>iface wlan0 inet static
-</span><span class='line'>  address 192.168.3.1
-</span><span class='line'>  netmask 255.255.255.0
-</span><span class='line'>  broadcast 192.168.3.255
-</span><span class='line'>
-</span><span class='line'># hostap und dnsmasq neu starten
-</span><span class='line'>up /etc/init.d/hostapd restart
-</span><span class='line'>up /etc/init.d/dnsmasq restart</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Konfiguration von dnsmasq</h3>
-
-<figure class='code'><figcaption><span>/etc/dnsmasq.conf </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'># diff -u /etc/dnsmasq.conf.orig /etc/dnsmasq.conf
-</span><span class='line'><span class="gd">--- /etc/dnsmasq.conf.orig   2013-06-14 13:57:34.856639712 +0200</span>
-</span><span class='line'><span class="gi">+++ /etc/dnsmasq.conf    2013-06-14 13:58:18.400855636 +0200</span>
-</span><span class='line'><span class="gu">@@ -142,7 +142,7 @@</span>
-</span><span class='line'> # a lease time. If you have more than one network, you will need to
-</span><span class='line'> # repeat this for each network on which you want to supply DHCP
-</span><span class='line'> # service.
-</span><span class='line'><span class="gd">-#dhcp-range=192.168.0.50,192.168.0.150,12h</span>
-</span><span class='line'><span class="gi">+dhcp-range=192.168.3.50,192.168.3.150,12h</span>
-</span><span class='line'>
-</span><span class='line'> # This is an example of a DHCP range where the netmask is given. This
-</span><span class='line'> # is needed for networks we reach the dnsmasq DHCP server via a relay
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Test</h3>
-
-<p>Nach der Konfiguration erfolgt ein Neustart mit <code>sudo reboot</code>. Danach
-kann man sich am WLAN &ldquo;HaeberleUndPfleiderer&rdquo; mit
-dem Kennwort &ldquo;ScharfesTigerle&rdquo; anmelden.</p>
-
-<ul>
-<li>IP-Adresse: <code>ifconfig wlan0</code> &ndash; 192.168.3.115</li>
-<li>SSH-Zugriff: <code>ssh 192.168.3.1</code> &ndash; klappt</li>
-</ul>
-
 ]]></content>
   </entry>
   

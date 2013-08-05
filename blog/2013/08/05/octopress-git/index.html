@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Rails-2.3.15 - Was ich so treibe...</title>
+  <title>Octopress und Git ohne Umbenennung - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Rails-Update für Redmine-1.2 Einleitung Auf einem etwas älteren Linux-Server betreibe ich eine fast genauso alte
-Redmine-Instanz. Redmine ist eine &hellip;">
+  <meta name="description" content="Octopress hat die Eigenart, bei Verwendung von Git als &ldquo;Deployment-Methode&rdquo;
+die Zweige umzubenennen: Umbenennung: origin &ndash;> &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ Redmine-Instanz. Redmine ist eine &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/01/11/redmine-rails-update">
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/08/05/octopress-git">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -75,7 +75,7 @@ Redmine-Instanz. Redmine ist eine &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Rails-2.3.15</h1>
+      <h1 class="entry-title">Octopress und Git ohne Umbenennung</h1>
     
     
       <p class="meta">
@@ -91,38 +91,83 @@ Redmine-Instanz. Redmine ist eine &hellip;">
   
 
 
-
-  
-<time datetime="2013-01-11T07:00:00+01:00" pubdate data-updated="true">11. January 2013</time>
+<time datetime="2013-08-05T08:00:00+02:00" pubdate data-updated="true">05. August 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h1>Rails-Update für Redmine-1.2</h1>
+<div class="entry-content"><p>Octopress hat die Eigenart, bei Verwendung von Git als &ldquo;Deployment-Methode&rdquo;
+die Zweige umzubenennen:</p>
 
-<h2>Einleitung</h2>
+<ul>
+<li>Umbenennung: origin &ndash;> octopress</li>
+<li>Neuanlage:   origin &lt;&ndash; repo_url</li>
+<li>Umbenennung: master &ndash;> source</li>
+<li>etc.</li>
+</ul>
 
-<p>Auf einem etwas älteren Linux-Server betreibe ich eine fast genauso alte
-<a href="http://redmine.org">Redmine</a>-Instanz. Redmine ist eine
-<a href="http://rubyonrails.org">Rails</a>-Anwendung und
-weil ich so eine alte Version davon verwende, ist die Rails-Version anfällig
-gegen die diese Woche entdeckten kritischen
-<a href="http://weblog.rubyonrails.org/2013/1/8/Rails-3-2-11-3-1-10-3-0-19-and-2-3-15-have-been-released/">Schwachstellen</a>.</p>
 
-<p>Redmine selbst kann zur Zeit nicht auf die aktuelle Version 2.2 aktualisiert
-werden, weil ich ältere, mit der neuen Version nicht verträgliche Plugins
-verwende. Also heißt die Strategie: Redmine beibehalten, Rails aktualisieren
-auf Version 2.3.15.</p>
+<p>Die ganze Umbenennerei gefällt mir garnicht. Ich mag&rsquo;s so:</p>
 
-<h2>Gems herunterladen und zum Redmine-Server übertragen</h2>
+<ul>
+<li>uli-octopress: Das ist mein &ldquo;normales&rdquo; GitHub-Repository, in dem ich alle
+Quelltexte meiner Octopress-Installation halte</li>
+<li>uli-heller.github.com: Das ist das GitHub-Repository, in dem ich die
+generierten HTML-Seiten veröffentliche</li>
+</ul>
 
-<p>Der Redmine-Server hat keinen Zugang zum Internet. Deshalb müssen die Gems
-auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
-werden.</p>
 
-<figure class='code'><figcaption><span> (get-2.3.15.sh)</span> <a href='/downloads/code/get-2.3.15.sh'>download</a></figcaption>
+<!-- more -->
+
+
+<h2>uli-octopress</h2>
+
+<p>Hierbei gibt es keine Besonderheiten. Einfach das Repository in GitHub
+anlegen und klonen wie üblich.</p>
+
+<h2>uli-heller.github.com</h2>
+
+<p>Am besten erstmal einfach leer anlegen mit einem Branch namens &ldquo;master&rdquo;.</p>
+
+<h2>Deployment-Methode konfigurieren</h2>
+
+<h3>_deploy</h3>
+
+<figure class='code'><figcaption><span>Verzeichnis _deploy </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span><span class="nb">cd </span>uli-octopress
+</span><span class='line'>
+</span><span class='line'>uli-octopress<span class="nv">$ </span>git clone git@github.com:uli-heller/uli-heller.github.com.git
+</span><span class='line'>Klone nach <span class="s1">&#39;uli-heller.github.com&#39;</span>...
+</span><span class='line'>remote: Counting objects: 14438, <span class="k">done</span>.
+</span><span class='line'>remote: Compressing objects: 100% <span class="o">(</span>3999/3999<span class="o">)</span>, <span class="k">done</span>.
+</span><span class='line'>remote: Total 14438 <span class="o">(</span>delta 7274<span class="o">)</span>, reused 13662 <span class="o">(</span>delta 6502<span class="o">)</span>
+</span><span class='line'>Empfange Objekte: 100% <span class="o">(</span>14438/14438<span class="o">)</span>, 16.14 MiB | 218.00 KiB/s, <span class="k">done</span>.
+</span><span class='line'>Löse Unterschiede auf: 100% <span class="o">(</span>7274/7274<span class="o">)</span>, <span class="k">done</span>.
+</span><span class='line'>Checking connectivity... <span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'>uli-octopress<span class="nv">$ </span>mv uli-heller.github.com _deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Rakefile</h3>
+
+<p>Nun noch Anpassungen an Rakefile:</p>
+
+<figure class='code'><figcaption><span>Anpassungen am Rakefile </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -139,50 +184,28 @@ werden.</p>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.15
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/Rakefile b/Rakefile</span>
+</span><span class='line'><span class="gh">index f3ada93..321c3c5 100644</span>
+</span><span class='line'><span class="gd">--- a/Rakefile</span>
+</span><span class='line'><span class="gi">+++ b/Rakefile</span>
+</span><span class='line'><span class="gu">@@ -9,10 +9,10 @@ ssh_port       = &quot;22&quot;</span>
+</span><span class='line'> document_root  = &quot;~/website.com/&quot;
+</span><span class='line'> rsync_delete   = false
+</span><span class='line'> rsync_args     = &quot;&quot;  # Any extra arguments to pass to rsync
+</span><span class='line'><span class="gd">-deploy_default = &quot;rsync&quot;</span>
+</span><span class='line'><span class="gi">+deploy_default = &quot;push&quot;</span>
 </span><span class='line'>
-</span><span class='line'>fetch<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="o">(</span>
-</span><span class='line'>  <span class="nv">GN</span><span class="o">=</span><span class="s2">&quot;$1-$2.gem&quot;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -s <span class="s2">&quot;${GN}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
-</span><span class='line'><span class="k">    </span>gem fetch <span class="s2">&quot;$1&quot;</span> -v <span class="s2">&quot;$2&quot;</span>
-</span><span class='line'>  <span class="k">fi</span>
-</span><span class='line'>  <span class="o">)</span>
-</span><span class='line'><span class="o">}</span>
+</span><span class='line'> # This will be configured for you when you run config_deploy
+</span><span class='line'><span class="gd">-deploy_branch  = &quot;gh-pages&quot;</span>
+</span><span class='line'><span class="gi">+deploy_branch  = &quot;master&quot;</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">for </span>i in actionmailer actionpack activerecord activeresource activesupport rails; <span class="k">do</span>
-</span><span class='line'><span class="k">  </span>fetch <span class="s2">&quot;${i}&quot;</span> <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'><span class="k">done</span>
-</span><span class='line'>fetch rack 1.1.3
+</span><span class='line'> ## -- Misc Configs -- ##
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Die Dateien werden danach mit SCP auf den Redmine-Server übertragen.</p>
+<h2>Test</h2>
 
-<h2>Basissystem aktualisieren</h2>
-
-<figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
-</span><span class='line'>apt-get upgrade
-</span><span class='line'>apt-get dist-upgrade
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Gems einspielen</h2>
-
-<figure class='code'><figcaption><span>Gems einspielen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.15.gem
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Alte Gems deininstallieren</h2>
-
-<figure class='code'><figcaption><span> (uninstall-2.3.11.sh)</span> <a href='/downloads/code/uninstall-2.3.11.sh'>download</a></figcaption>
+<figure class='code'><figcaption><span>Test </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -193,17 +216,27 @@ werden.</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.11
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli-octopress<span class="nv">$ </span>rake generate
+</span><span class='line'><span class="c">## Generating Site with Jekyll</span>
+</span><span class='line'>identical <span class="nb">source</span>/stylesheets/screen.css
+</span><span class='line'>Configuration from /home/uli/git/octopress/_config.yml
+</span><span class='line'>Building site: <span class="nb">source</span> -&gt; public
+</span><span class='line'>...
+</span><span class='line'>Successfully generated site: <span class="nb">source</span> -&gt; public
 </span><span class='line'>
-</span><span class='line'>gem uninstall rails -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall actionmailer -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall actionpack -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activerecord -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activeresource -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activesupport -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall rack -v 1.1.1
+</span><span class='line'>uli-octopress<span class="nv">$ </span>rake preview
+</span><span class='line'>Starting to watch <span class="nb">source </span>with Jekyll and Compass. Starting Rack on port 4000
+</span><span class='line'><span class="o">[</span>2013-08-05 07:55:34<span class="o">]</span> INFO  WEBrick 1.3.1
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>uli-octopress<span class="nv">$ </span>rake deploy
 </span></code></pre></td></tr></table></div></figure>
+
+
 
 </div>
 
@@ -227,14 +260,12 @@ werden.</p>
   
 
 
-
-  
-<time datetime="2013-02-14T06:10:00+01:00" class="updated">Updated 14. February 2013</time>
+<time datetime="2013-08-05T08:00:00+02:00" pubdate data-updated="true">05. August 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/lucid/'>Lucid</a>, <a class='category' href='/blog/categories/redmine/'>Redmine</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/octopress/'>Octopress</a>
   
 </span>
 
@@ -250,10 +281,8 @@ werden.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/11/30/wsgen/" title="Voriger Beitrag: WSGEN - Wie man's mit Interfaces macht">&laquo; WSGEN - Wie man's mit Interfaces macht</a>
+        <a class="basic-alignment left" href="/blog/2013/08/04/octopress-category-generator/" title="Voriger Beitrag: Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post">&laquo; Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/02/12/github-downloads/" title="Nächster Beitrag: GitHub - Downloads">GitHub - Downloads &raquo;</a>
       
     </p>
   </footer>
@@ -340,8 +369,8 @@ werden.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/01/11/redmine-rails-update/';
-        var disqus_url = 'http://uli-heller.github.com/blog/2013/01/11/redmine-rails-update/';
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/08/05/octopress-git/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/08/05/octopress-git/';
         var disqus_script = 'embed.js';
       
     (function () {

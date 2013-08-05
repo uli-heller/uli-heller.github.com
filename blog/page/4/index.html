@@ -9,9 +9,9 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Auf einem meiner Rechner habe ich gestern diverse Updates eingespielt mit apt-get update
-apt-get upgrade
-apt-get dist-upgrade Dabei wurde auch MySQL &hellip;">
+  <meta name="description" content="Üblicherweise starte ich meine diversen VMs einfach mit sudo reboot
+neu. Dabei wird dann der Standard-Eintrag im Grub-Menü selektiert und
+das &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +73,53 @@ apt-get dist-upgrade Dabei wurde auch MySQL &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/11/grub-reboot/">GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-11T06:31:00+02:00" pubdate data-updated="true">11. May 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Üblicherweise starte ich meine diversen VMs einfach mit <code>sudo reboot</code>
+neu. Dabei wird dann der Standard-Eintrag im Grub-Menü selektiert und
+das betreffende Betriebssystem hochgefahren.</p>
+
+<p>Manchmal möchte ich aber einen anderen Eintrag aktivieren und ein
+alternatives Betriebssystem oder einen anderen Linux-Kernel starten.
+Das Verfahren habe ich mir von <a href="http://michael-prokop.at/blog/2013/05/10/how-to-get-grub-reboot-working/">Michael Prokop&rsquo;s Blog</a> &lsquo;geklaut&rsquo;.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/11/grub-reboot/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -789,55 +836,6 @@ los geht&rsquo;s mit <code>dpkg-buildpackage</code> (&hellip; das dauert)</li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/22/localhost-jmx/">JMX auf Localhost</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-22T08:00:00+01:00" pubdate data-updated="true">22. March 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
-
-<p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&rsquo;s Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
-
-<p><img src="/images/java/jconsole.png"></p>
-
-<p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich &ndash; die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden &ndash; sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
-
-<p>Ziel: Wir wollen die JMX-Schnittstelle so in Betrieb nehmen, dass nur von &ldquo;localhost&rdquo; aus auf sie zugegriffen werden kann!</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/22/localhost-jmx/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Älter</a>
@@ -855,6 +853,10 @@ los geht&rsquo;s mit <code>dpkg-buildpackage</code> (&hellip; das dauert)</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/05/octopress-git/">Octopress und Git ohne Umbenennung</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!&#8217; for nil:NilClass in post</a>
       </li>
     
@@ -868,10 +870,6 @@ los geht&rsquo;s mit <code>dpkg-buildpackage</code> (&hellip; das dauert)</li>
     
       <li class="post">
         <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/27/lxc-kernel-310/">LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar</a>
       </li>
     
   </ul>
