@@ -4,7 +4,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:40+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -55,7 +55,10 @@ anlegen und klonen wie üblich.</p>
 
 <h3>_deploy</h3>
 
-<figure class='code'><figcaption><span>Verzeichnis _deploy </span></figcaption>
+<p>Das Verzeichnis &ldquo;_deploy&rdquo; wird angelegt durch <code>git clone ...</code> und
+anschließendes Umbenennen mit <code>mv ...</code>.</p>
+
+<figure class='code'><figcaption><span>Anlegen des Verzeichnisses _deploy </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>

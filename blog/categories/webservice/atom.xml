@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Webservice | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/webservice/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -24,31 +24,79 @@
 
 <p>Ausgangspunkt ist dieses Interface für unseren Webservice:</p>
 
-<p>{% include_code java/wsdl/SampleWebService.java %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (SampleWebService.java)</span> <a href='/downloads/code/java/wsdl/SampleWebService.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebMethod</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebParam</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;sampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'>   <span class="nd">@WebMethod</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span>
+</span><span class='line'>            <span class="nd">@WebParam</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;msg&quot;</span><span class="o">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">WebParam</span><span class="o">.</span><span class="na">Mode</span><span class="o">.</span><span class="na">IN</span><span class="o">)</span> <span class="n">String</span> <span class="n">msg</span>
+</span><span class='line'>   <span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Zusätzlich gibt&rsquo;s auch schon eine Implementierung dafür, nämlich diese:</p>
 
-<p>{% include_code java/wsdl/SampleWebServiceImpl.java %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (SampleWebServiceImpl.java)</span> <a href='/downloads/code/java/wsdl/SampleWebServiceImpl.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleWebServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span><span class="n">String</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>       <span class="k">return</span> <span class="s">&quot;Echo: &quot;</span><span class="o">+</span><span class="n">msg</span><span class="o">;</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Da wir nur zwei Quelldateien haben, können wir die schnell manuell durchkompilieren:</p>
 
-<p>{% codeblock Kompilieren der Quelldateien lang:sh %}
-$ javac SampleWebServiceImpl.java  # &hellip; kompiliert beide Dateien
-$ ls
-SampleWebService.class      SampleWebServiceImpl.java
-SampleWebServiceImpl.class  SampleWebService.java
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Kompilieren der Quelldateien </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>javac SampleWebServiceImpl.java  <span class="c"># &amp;hellip; kompiliert beide Dateien</span>
+</span><span class='line'><span class="nv">$ </span>ls
+</span><span class='line'>SampleWebService.class      SampleWebServiceImpl.java
+</span><span class='line'>SampleWebServiceImpl.class  SampleWebService.java
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>WSGEN &ndash; das übliche Vorgehen</h2>
 
 <p>Das übliche Vorgehen basiert auf dem Tool <code>wsgen</code>, welches dem JDK beiliegt:</p>
 
-<p>{% codeblock Vorgehen mit WSGEN lang:sh %}
-$ wsgen -cp . SampleWebServiceImpl -wsdl -inlineSchemas
-$ ls
-jaxws                   SampleWebServiceImpl.class  SampleWebService.java
-SampleWebService.class  SampleWebServiceImpl.java   SampleWebService.wsdl
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Vorgehen mit WSGEN </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>wsgen -cp . SampleWebServiceImpl -wsdl -inlineSchemas
+</span><span class='line'><span class="nv">$ </span>ls
+</span><span class='line'>jaxws                   SampleWebServiceImpl.class  SampleWebService.java
+</span><span class='line'>SampleWebService.class  SampleWebServiceImpl.java   SampleWebService.wsdl
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Da haben wir sie, die WSDL-Datei mit dem Namen &ldquo;SampleWebService.wsdl&rdquo;.</p>
 
@@ -56,19 +104,30 @@ SampleWebService.class  SampleWebServiceImpl.java   SampleWebService.wsdl
 
 <p>Manchmal steht nur das Interface für den Webservice zur Verfügung, also nur die Datei <a href="/downloads/code/java/wsdl/SampleWebService.java">SampleWebService.java</a>. Wenn wir versuchen, daraus eine WSDL-Datei zu erzeugen, erscheint so eine Fehlermeldung:</p>
 
-<p>{% codeblock WSGEN und ServiceInterface lang:sh %}
-$ wsgen -cp . SampleWebService -wsdl -inlineSchemas
-The class &ldquo;SampleWebService&rdquo; is not an endpoint implementation class.</p>
-
-<p>Usage: WSGEN [options] <SEI></p>
-
-<p>where [options] include:
-  -classpath <path>          specify where to find input class files
-&hellip;
-Examples:
-  wsgen -cp . example.Stock
-  wsgen -cp . example.Stock -wsdl -servicename {<a href="http://mynamespace">http://mynamespace</a>}MyService
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WSGEN und ServiceInterface </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>wsgen -cp . SampleWebService -wsdl -inlineSchemas
+</span><span class='line'>The class &amp;ldquo;SampleWebService&amp;rdquo; is not an endpoint implementation class.&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Usage: WSGEN <span class="o">[</span>options<span class="o">]</span> &lt;SEI&gt;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;where <span class="o">[</span>options<span class="o">]</span> include:
+</span><span class='line'>  -classpath &lt;path&gt;          specify where to find input class files
+</span><span class='line'>&amp;hellip;
+</span><span class='line'>Examples:
+</span><span class='line'>  wsgen -cp . example.Stock
+</span><span class='line'>  wsgen -cp . example.Stock -wsdl -servicename <span class="o">{</span>&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://mynamespace&quot;</span>&gt;http://mynamespace&lt;/a&gt;<span class="o">}</span>MyService
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Wie&rsquo;s aussieht funktioniert WSGEN also nicht mit Interface-Klassen, es wird eine Implementierungsklasse benötigt:</p>
 
@@ -81,17 +140,33 @@ Examples:
 
 <p>Hier eine abstrakte Implementierungsklasse:</p>
 
-<p>{% include_code java/wsdl/AbstractSampleWebServiceImpl.java %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (AbstractSampleWebServiceImpl.java)</span> <a href='/downloads/code/java/wsdl/AbstractSampleWebServiceImpl.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">abstract</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AbstractSampleWebServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Leider klappt&rsquo;s auch nicht:</p>
 
-<p>{% codeblock WSGEN mit abstrakter Implementierungsklasse lang:sh %}
-$ javac AbstractSampleWebServiceImpl.java
-$ wsgen -cp . AbstractSampleWebServiceImpl -wsdl -inlineSchemas
-&hellip;
-com.sun.tools.internal.ws.processor.modeler.ModelerException: modeler error: Classes annotated with @javax.jws.WebService must not be abstract. Class: AbstractSampleWebServiceImpl
-&hellip;
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WSGEN mit abstrakter Implementierungsklasse </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>javac AbstractSampleWebServiceImpl.java
+</span><span class='line'><span class="nv">$ </span>wsgen -cp . AbstractSampleWebServiceImpl -wsdl -inlineSchemas
+</span><span class='line'>&amp;hellip;
+</span><span class='line'>com.sun.tools.internal.ws.processor.modeler.ModelerException: modeler error: Classes annotated with @javax.jws.WebService must not be abstract. Class: AbstractSampleWebServiceImpl
+</span><span class='line'>&amp;hellip;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Dynamische Erstellung einer Implementierungsklasse</h2>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Macbook Air 2013 | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/macbook-air-2013/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -193,16 +193,23 @@ dann beschreibe ich die Korrektur hier.</p>
 
 <p>Analog zu <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/942184">https://bugs.launchpad.net/ubuntu/+source/linux/+bug/942184</a>:</p>
 
-<p>{% codeblock dmesg|grep hid %}
-uli@uli-MacBookAir-11:~$ dmesg|grep hid
-[    3.956709] usbcore: registered new interface driver usbhid
-[    3.956715] usbhid: USB HID core driver
-[    4.056298] hid-generic 0003:05AC:0290.0001: hiddev0,hidraw0: USB HID v1.10 Device [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input0
-[    4.056947] hid-generic 0003:05AC:0290.0002: input,hiddev0,hidraw1: USB HID v1.10 Keyboard [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input1
-[    4.057971] hid-generic 0003:05AC:0290.0003: input,hiddev0,hidraw2: USB HID v1.10 Mouse [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input2
-[    4.287766] hid-generic 0003:05AC:820A.0004: input,hidraw3: USB HID v1.11 Keyboard [HID 05ac:820a] on usb-0000:00:14.0-3.1/input0
-[    4.379176] hid-generic 0003:05AC:820B.0005: input,hidraw4: USB HID v1.11 Mouse [HID 05ac:820b] on usb-0000:00:14.0-3.2/input0
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>dmesg|grep hid </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>uli@uli-MacBookAir-11:~$ dmesg|grep hid
+</span><span class='line'>[    3.956709] usbcore: registered new interface driver usbhid
+</span><span class='line'>[    3.956715] usbhid: USB HID core driver
+</span><span class='line'>[    4.056298] hid-generic 0003:05AC:0290.0001: hiddev0,hidraw0: USB HID v1.10 Device [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input0
+</span><span class='line'>[    4.056947] hid-generic 0003:05AC:0290.0002: input,hiddev0,hidraw1: USB HID v1.10 Keyboard [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input1
+</span><span class='line'>[    4.057971] hid-generic 0003:05AC:0290.0003: input,hiddev0,hidraw2: USB HID v1.10 Mouse [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input2
+</span><span class='line'>[    4.287766] hid-generic 0003:05AC:820A.0004: input,hidraw3: USB HID v1.11 Keyboard [HID 05ac:820a] on usb-0000:00:14.0-3.1/input0
+</span><span class='line'>[    4.379176] hid-generic 0003:05AC:820B.0005: input,hidraw4: USB HID v1.11 Mouse [HID 05ac:820b] on usb-0000:00:14.0-3.2/input0</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Sieht so aus, als wäre bei meiner Tastatur die &ldquo;0290&rdquo; die magische Konstante. Mit einem Patch
 analog zu <a href="https://launchpadlibrarian.net/94610947/alu2011.patch">https://launchpadlibrarian.net/94610947/alu2011.patch</a>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Pakete | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/pakete/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -20,9 +20,9 @@
     <id>http://uli-heller.github.com/blog/2013/05/12/lxc-ubuntu-build</id>
     <content type="html"><![CDATA[<h2>Installation von LXC</h2>
 
-<p>{% codeblock Installation von LXC %}
-sudo apt-get install lxc
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Installation von LXC </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install lxc</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Container-Partition /lxc</h2>
 
@@ -33,23 +33,29 @@ verfügt.</p>
 
 <h3>Partition anlegen</h3>
 
-<p>{% codeblock %}
-sudo lvcreate -n lxclv -L10G datavg
-sudo mkfs.btrfs /dev/datavg/lxclv
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lvcreate -n lxclv -L10G datavg
+</span><span class='line'>sudo mkfs.btrfs /dev/datavg/lxclv</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Partition einbinden</h3>
 
-<p>{% codeblock %}
-sudo -s
-mkdir /lxc
-echo &ldquo;/dev/datavg/lxclv /lxc btrfs defaults 0 3&rdquo; >>/etc/fstab
-mount /lxc
-rmdir /var/lib/lxc
-ln -s /lxc/lib /var/lib/lxc
-rm -rf /var/cache/lxc
-ln -s /lxc/cache /var/cache/lxc
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -s
+</span><span class='line'>mkdir /lxc
+</span><span class='line'>echo &ldquo;/dev/datavg/lxclv /lxc btrfs defaults 0 3&rdquo; >>/etc/fstab
+</span><span class='line'>mount /lxc
+</span><span class='line'>rmdir /var/lib/lxc
+</span><span class='line'>ln -s /lxc/lib /var/lib/lxc
+</span><span class='line'>rm -rf /var/cache/lxc
+</span><span class='line'>ln -s /lxc/cache /var/cache/lxc</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <!--
 Verwendung vom lokalen Apt-Cacher-Ng
@@ -57,9 +63,8 @@ Verwendung vom lokalen Apt-Cacher-Ng
 
 Datei /etc/default/lxc editieren:
 
-{% codeblock %}
-MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 ... funktioniert nicht, es werden viele Pakete als "nicht verifizierbar" ausgewiesen.
 -->
@@ -69,41 +74,56 @@ MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"
 
 <h3>12.04, 32bit</h3>
 
-<p>{% codeblock %}
-sudo lxc-create -t ubuntu -n ubuntu1204-32-build &mdash; -r precise -a i386
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-32-build &mdash; -r precise -a i386</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Das Komando liefert typischerweise Ausgaben dieser Art:</p>
 
-<p>{% codeblock %}
-$ sudo lxc-create -t ubuntu -n ubuntu1204-32 &mdash; -r precise -a i386
-[sudo] password for uli:</p>
-
-<p>No config file specified, using the default config
-debootstrap ist /usr/sbin/debootstrap
-Checking cache download in /var/cache/lxc/precise/rootfs-i386 &hellip;
-Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs &hellip;
-Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs &hellip;</p>
-
-<h1>#</h1>
-
-<h1>The default user is &lsquo;ubuntu&rsquo; with password &lsquo;ubuntu&rsquo;!</h1>
-
-<h1>Use the &lsquo;sudo&rsquo; command to run tasks as root in the container.</h1>
-
-<h1>#</h1>
-
-<p>&lsquo;ubuntu&rsquo; template installed
-&lsquo;ubuntu1204-32&rsquo; created
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo lxc-create -t ubuntu -n ubuntu1204-32 &mdash; -r precise -a i386
+</span><span class='line'>[sudo] password for uli:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>No config file specified, using the default config
+</span><span class='line'>debootstrap ist /usr/sbin/debootstrap
+</span><span class='line'>Checking cache download in /var/cache/lxc/precise/rootfs-i386 &hellip;
+</span><span class='line'>Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs &hellip;
+</span><span class='line'>Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs &hellip;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>#&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>The default user is &lsquo;ubuntu&rsquo; with password &lsquo;ubuntu&rsquo;!&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Use the &lsquo;sudo&rsquo; command to run tasks as root in the container.&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>#&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lsquo;ubuntu&rsquo; template installed
+</span><span class='line'>&lsquo;ubuntu1204-32&rsquo; created</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>12.04, 64bit</h3>
 
 <p>64-bit Container können nur erstellt werden, wenn das Basissystem auch ein 64-bit-System ist!</p>
 
-<p>{% codeblock %}
-sudo lxc-create -t ubuntu -n ubuntu1204-64-build &mdash; -r precise -a amd64
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-64-build &mdash; -r precise -a amd64</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Arbeit mit Containern</h2>
 
@@ -132,48 +152,62 @@ sudo lxc-create -t ubuntu -n ubuntu1204-64-build &mdash; -r precise -a amd64
 
 <p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
 
-<p>{% codeblock /etc/apt/apt.conf.d/01proxy %}
-Acquire::<a href="http::Proxy">http::Proxy</a> &ldquo;<a href="http://10.0.3.1:3142">http://10.0.3.1:3142</a>&rdquo;;
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/apt/apt.conf.d/01proxy </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">Acquire</span><span class="p">::&lt;</span><span class="n">a</span> <span class="n">href</span><span class="p">=</span><span class="s">&quot;http::Proxy&quot;</span><span class="p">&gt;</span><span class="n">http</span><span class="p">::</span><span class="n">Proxy</span><span class="p">&lt;/</span><span class="n">a</span><span class="p">&gt;</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="p">=</span><span class="s">&quot;http://10.0.3.1:3142&quot;</span><span class="p">&gt;</span><span class="n">http</span><span class="p">:</span><span class="c1">//10.0.3.1:3142&lt;/a&gt;&amp;rdquo;;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Installation von JOE/JMACS</h3>
 
-<p>{% codeblock %}
-sudo apt-get install joe
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install joe</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Paketquellen ergänzen um Source-Repositories</h3>
 
-<p>{% codeblock /etc/apt/sources.list lang:diff %}
-diff -u sources.list.orig sources.list
-&mdash;&ndash; sources.list.orig   2012-09-30 09:41:15.000000000 +0200
-+++ sources.list    2013-05-12 18:27:29.615640758 +0200
-@@ -1,3 +1,6 @@
- deb <a href="http://archive.ubuntu.com/ubuntu">http://archive.ubuntu.com/ubuntu</a> precise main restricted universe multiverse
-+deb-src <a href="http://archive.ubuntu.com/ubuntu">http://archive.ubuntu.com/ubuntu</a> precise main restricted universe multiverse
- deb <a href="http://archive.ubuntu.com/ubuntu">http://archive.ubuntu.com/ubuntu</a> precise-updates main restricted universe multiverse
-+deb-src <a href="http://archive.ubuntu.com/ubuntu">http://archive.ubuntu.com/ubuntu</a> precise-updates main restricted universe multiverse
- deb <a href="http://security.ubuntu.com/ubuntu">http://security.ubuntu.com/ubuntu</a> precise-security main restricted universe multiverse
-+deb-src <a href="http://security.ubuntu.com/ubuntu">http://security.ubuntu.com/ubuntu</a> precise-security main restricted universe multiverse
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/apt/sources.list </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u sources.list.orig sources.list</span>
+</span><span class='line'>&amp;mdash;&amp;ndash; sources.list.orig   2012-09-30 09:41:15.000000000 +0200
+</span><span class='line'><span class="gi">+++ sources.list    2013-05-12 18:27:29.615640758 +0200</span>
+</span><span class='line'><span class="gu">@@ -1,3 +1,6 @@</span>
+</span><span class='line'> deb &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise main restricted universe multiverse</span>
+</span><span class='line'> deb &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise-updates main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise-updates main restricted universe multiverse</span>
+</span><span class='line'> deb &lt;a href=&quot;http://security.ubuntu.com/ubuntu&quot;&gt;http://security.ubuntu.com/ubuntu&lt;/a&gt; precise-security main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src &lt;a href=&quot;http://security.ubuntu.com/ubuntu&quot;&gt;http://security.ubuntu.com/ubuntu&lt;/a&gt; precise-security main restricted universe multiverse</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Aktualisierung auf den neuesten Stand</h3>
 
-<p>{% codeblock %}
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get clean
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get upgrade
+</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Build-Tools einspielen</h2>
 
-<p>{% codeblock %}
-sudo apt-get update
-sudo apt-get install build-essential fakeroot dpkg-dev devscripts
-sudo apt-get install autotools-dev debhelper pkg-config
-sudo apt-get install dh-autoreconf
-sudo apt-get clean
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install build-essential fakeroot dpkg-dev devscripts
+</span><span class='line'>sudo apt-get install autotools-dev debhelper pkg-config
+</span><span class='line'>sudo apt-get install dh-autoreconf
+</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>GPG-Schlüssel übernehmen</h2>
 
@@ -182,45 +216,61 @@ DEB-Pakete zu erzeugen!</p>
 
 <p>Auf dem bestehenden Build-System wird der GPG-Schlüssel exportiert:</p>
 
-<p>{% codeblock GPG-Schlüssel exportieren %}
-gpg &mdash;export-secret-keys >gpg.keys
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>GPG-Schl</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg &mdash;export-secret-keys >gpg.keys</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Auf dem neuen LXC-Build-System wird der GPG-Schlüssel importiert:</p>
 
-<p>{% codeblock GPG-Schlüssel importieren %}
-gpg &mdash;import &lt;gpg.keys
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>GPG-Schl</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg &mdash;import &lt;gpg.keys</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Durchführen eines Builds</h2>
 
 <h3>nginx</h3>
 
-<p>{% codeblock %}
-mkdir nginx
-cd nginx
-apt-get source nginx
-sudo apt-get build-dep nginx
-cd nginx-1.1.19
-dpkg-buildpackage
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir nginx
+</span><span class='line'>cd nginx
+</span><span class='line'>apt-get source nginx
+</span><span class='line'>sudo apt-get build-dep nginx
+</span><span class='line'>cd nginx-1.1.19
+</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>libseccomp</h3>
 
-<p>{% codeblock %}</p>
-
-<h1>Kopieren der nachfolgenden Dateien:</h1>
-
-<h1>libseccomp_0.1.0-1dp01~precise2.debian.tar.gz</h1>
-
-<h1>libseccomp_0.1.0-1dp01~precise2.dsc</h1>
-
-<h1>libseccomp_0.1.0.orig.tar.gz</h1>
-
-<p>dpkg-source -x  libseccomp_0.1.0-1dp01~precise2.dsc
-cd libseccomp-0.1.0
-dpkg-buildpackage
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Kopieren der nachfolgenden Dateien:&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>libseccomp_0.1.0-1dp01~precise2.debian.tar.gz&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>libseccomp_0.1.0-1dp01~precise2.dsc&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>libseccomp_0.1.0.orig.tar.gz&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>dpkg-source -x  libseccomp_0.1.0-1dp01~precise2.dsc
+</span><span class='line'>cd libseccomp-0.1.0
+</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>lxc</h3>
 
@@ -230,17 +280,17 @@ dpkg-buildpackage
 
 <h3>Sichern</h3>
 
-<p>{% codeblock %}
-cd /lxc
-sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lxc
+</span><span class='line'>sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Rückspielen</h3>
 
-<p>{% codeblock %}
-cd /lxc
-sudo tar -xvjpf /backups/lxc/20121119.tar.bz2
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lxc
+</span><span class='line'>sudo tar -xvjpf /backups/lxc/20121119.tar.bz2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Probleme</h2>
 

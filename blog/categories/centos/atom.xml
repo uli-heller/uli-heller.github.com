@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CentOS | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/centos/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -30,17 +30,19 @@ zum Einsatz kommen wird.</p>
 
 <h2>Grundinstallation</h2>
 
-<p>{{ &lsquo;centos&rsquo; | image_list }}</p>
+<p></p>
 
 <h2>Netzwerk konfigurieren</h2>
 
 <p>Hierzu muß die Datei /etc/sysconfig/network-scripts/ifcfg-eth0
 angepasst werden:</p>
 
-<p>{% codeblock /etc/sysconfig/network-scripts/ifcfg-eth0 lang:diff %}
-&ndash; ONBOOT=no
-+ ONBOOT=yes
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/sysconfig/network-scripts/ifcfg-eth0 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;ndash; ONBOOT=no
+</span><span class='line'><span class="gi">+ ONBOOT=yes</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Nach einem Reboot oder nach <code>/etc/init.d/network restart</code>
  wird die Schnittstelle dann automatisch konfiguriert
@@ -65,11 +67,13 @@ die Aktualisierungen eingespielt werden.</p>
 
 <h3>Zusatzpakete</h3>
 
-<p>{% codeblock Zusatzpakete einspielen %}
-yum install openssh-clients
-yum install joe
-yum install httpd # apache httpd 2.2.15
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Zusatzpakete einspielen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum install openssh-clients
+</span><span class='line'>yum install joe
+</span><span class='line'>yum install httpd # apache httpd 2.2.15</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Sichtung von Apache HTTPD</h2>
 
@@ -154,36 +158,59 @@ unter /etc/httpd/modules:</p>
 
 <h3>Automatischer Start</h3>
 
-<p>{% codeblock Automatischer Start lang:sh %}</p>
-
-<h1>chkconfig | grep httpd</h1>
-
-<p>httpd           0:off   1:off   2:off   3:off   4:off   5:off   6:off</p>
-
-<h1>chkconfig httpd on</h1>
-
-<h1>chkconfig | grep httpd</h1>
-
-<p>httpd           0:off   1:off   2:on    3:on    4:on    5:on    6:off
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Automatischer Start </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;chkconfig | grep httpd&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;httpd           0:off   1:off   2:off   3:off   4:off   5:off   6:off&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;chkconfig httpd on&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;chkconfig | grep httpd&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;httpd           0:off   1:off   2:on    3:on    4:on    5:on    6:off
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Danach: Reboot und Test, ob der Prozess &ldquo;httpd&rdquo; läuft.</p>
 
 <h3>Firewall öffnen</h3>
 
-<p>{% codeblock /etc/sysconfig/iptables lang:diff %}
-&mdash;&ndash; iptables~   2013-06-26 08:07:03.000000000 +0200
-+++ iptables    2013-06-26 09:34:09.638267508 +0200
-@@ -8,6 +8,8 @@
- -A INPUT -p icmp -j ACCEPT
- -A INPUT -i lo -j ACCEPT
- -A INPUT -m state &mdash;state NEW -m tcp -p tcp &mdash;dport 22 -j ACCEPT
-+-A INPUT -m state &mdash;state NEW -m tcp -p tcp &mdash;dport 80 -j ACCEPT
-+-A INPUT -m state &mdash;state NEW -m tcp -p tcp &mdash;dport 443 -j ACCEPT
- -A INPUT -j REJECT &mdash;reject-with icmp-host-prohibited
- -A FORWARD -j REJECT &mdash;reject-with icmp-host-prohibited
- COMMIT
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/sysconfig/iptables </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;mdash;&amp;ndash; iptables~   2013-06-26 08:07:03.000000000 +0200
+</span><span class='line'><span class="gi">+++ iptables    2013-06-26 09:34:09.638267508 +0200</span>
+</span><span class='line'><span class="gu">@@ -8,6 +8,8 @@</span>
+</span><span class='line'> -A INPUT -p icmp -j ACCEPT
+</span><span class='line'> -A INPUT -i lo -j ACCEPT
+</span><span class='line'> -A INPUT -m state &amp;mdash;state NEW -m tcp -p tcp &amp;mdash;dport 22 -j ACCEPT
+</span><span class='line'><span class="gi">+-A INPUT -m state &amp;mdash;state NEW -m tcp -p tcp &amp;mdash;dport 80 -j ACCEPT</span>
+</span><span class='line'><span class="gi">+-A INPUT -m state &amp;mdash;state NEW -m tcp -p tcp &amp;mdash;dport 443 -j ACCEPT</span>
+</span><span class='line'> -A INPUT -j REJECT &amp;mdash;reject-with icmp-host-prohibited
+</span><span class='line'> -A FORWARD -j REJECT &amp;mdash;reject-with icmp-host-prohibited
+</span><span class='line'> COMMIT
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Danach dann Neustart der Firewall mit <code>/etc/init.d/iptables restart</code>.
 Jetzt sollte man im Browser die Begrüßungsseite sehen können:
@@ -202,7 +229,7 @@ VM installiert habe.</p>
 <!-- more -->
 
 
-<p>{{ &lsquo;centos&rsquo; | image_list }}</p>
+<p></p>
 ]]></content>
   </entry>
   

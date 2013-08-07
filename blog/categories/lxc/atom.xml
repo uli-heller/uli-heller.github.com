@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lxc | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/lxc/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -46,16 +46,24 @@ BTRFS-Dateisystem</li>
 meiner BTRFS-Partition: Sie kann <em>nicht</em> umgehängt werden mit
 Nur-Lesen-Zugriff.</p>
 
-<p>{% codeblock Runterfahren mit Kernel 3.8 lang:sh %}
-~$ sudo poweroff
-&hellip;
-umount: /run/lock: not mounted
-umount: /run/shm: not mounted
-mount: cannot mount block device /dev/mapper/datavg-lxclv read-only
- * Will now halt
-~$ sudo touch  /lxc/x
-~$ sudo rm  /lxc/x
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Runterfahren mit Kernel 3.8 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>~<span class="nv">$ </span>sudo poweroff
+</span><span class='line'>&amp;hellip;
+</span><span class='line'>umount: /run/lock: not mounted
+</span><span class='line'>umount: /run/shm: not mounted
+</span><span class='line'>mount: cannot mount block device /dev/mapper/datavg-lxclv <span class="nb">read</span>-only
+</span><span class='line'> * Will now halt
+</span><span class='line'>~<span class="nv">$ </span>sudo touch  /lxc/x
+</span><span class='line'>~<span class="nv">$ </span>sudo rm  /lxc/x
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Runterfahren eines LXC-Containers unter 3.10</h2>
 
@@ -65,28 +73,43 @@ Nur-Lesen-Zugriff. Dementsprechend ist sie danach &ldquo;nur-lesend&rdquo;
 eingehängt und der Inhalt von /lxc kann nicht mehr modifiziert
 werden.</p>
 
-<p>{% codeblock Runterfahren mit Kernel 3.10 lang:sh %}
-~$ sudo poweroff
-&hellip;
-umount: /run/lock: not mounted
-umount: /run/shm: not mounted
- * Will now halt
-~$ sudo touch /lxc/x
-touch: »/lxc/x“ kann nicht berührt werden: Das Dateisystem ist nur lesbar
-~$ LANG=C sudo touch /lxc/x
-touch: cannot touch `/lxc/x': Read-only file system
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Runterfahren mit Kernel 3.10 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>~<span class="nv">$ </span>sudo poweroff
+</span><span class='line'>&amp;hellip;
+</span><span class='line'>umount: /run/lock: not mounted
+</span><span class='line'>umount: /run/shm: not mounted
+</span><span class='line'> * Will now halt
+</span><span class='line'>~<span class="nv">$ </span>sudo touch /lxc/x
+</span><span class='line'>touch: »/lxc/x“ kann nicht berührt werden: Das Dateisystem ist nur lesbar
+</span><span class='line'>~<span class="nv">$ LANG</span><span class="o">=</span>C sudo touch /lxc/x
+</span><span class='line'>touch: cannot touch <span class="sb">`</span>/lxc/x<span class="err">&#39;</span>: Read-only file system
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Dateisysteme innerhalb der LXC-Container</h2>
 
-<p>{% codeblock Dateisysteme lang:sh %}
-container~$ df
-Filesystem               1K-blocks     Used Available Use% Mounted on
-/dev/mapper/datavg-lxclv  41943040 13871816  26684544  35% /
-none                        816864       76    816788   1% /run
-none                          5120        0      5120   0% /run/lock
-none                       4084308        0   4084308   0% /run/shm
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dateisysteme </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>container~<span class="nv">$ </span>df
+</span><span class='line'>Filesystem               1K-blocks     Used Available Use% Mounted on
+</span><span class='line'>/dev/mapper/datavg-lxclv  41943040 13871816  26684544  35% /
+</span><span class='line'>none                        816864       76    816788   1% /run
+</span><span class='line'>none                          5120        0      5120   0% /run/lock
+</span><span class='line'>none                       4084308        0   4084308   0% /run/shm
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Korrekturen</h2>
 
@@ -119,32 +142,49 @@ die früher anstandslos gelaufen sind.</p>
 
 <h3>Host: /var/Log/syslog</h3>
 
-<p>{% codeblock Host:/var/log/syslog %}
-Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-Jul 26 13:13:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Host:/var/log/syslog </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
+</span><span class='line'>Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
+</span><span class='line'>Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
+</span><span class='line'>Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
+</span><span class='line'>Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
+</span><span class='line'>Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
+</span><span class='line'>Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
+</span><span class='line'>Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
+</span><span class='line'>Jul 26 13:13:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Container: /var/log/syslog</h3>
 
-<p>{% codeblock Container:/var/log/syslog %}
-Jul 26 11:12:53 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 17
-Jul 26 11:12:53 localhost dhclient: 5 bad udp checksums in 5 packets
-Jul 26 11:13:10 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 14
-Jul 26 11:13:24 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
-Jul 26 11:13:35 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
-Jul 26 11:13:50 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
-Jul 26 11:14:01 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 10
-Jul 26 11:14:01 localhost dhclient: 5 bad udp checksums in 5 packets
-Jul 26 11:14:11 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
-Jul 26 11:14:26 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Container:/var/log/syslog </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Jul 26 11:12:53 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 17
+</span><span class='line'>Jul 26 11:12:53 localhost dhclient: 5 bad udp checksums in 5 packets
+</span><span class='line'>Jul 26 11:13:10 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 14
+</span><span class='line'>Jul 26 11:13:24 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
+</span><span class='line'>Jul 26 11:13:35 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
+</span><span class='line'>Jul 26 11:13:50 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
+</span><span class='line'>Jul 26 11:14:01 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 10
+</span><span class='line'>Jul 26 11:14:01 localhost dhclient: 5 bad udp checksums in 5 packets
+</span><span class='line'>Jul 26 11:14:11 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
+</span><span class='line'>Jul 26 11:14:26 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Abhilfe</h2>
 
@@ -191,20 +231,31 @@ bricht ab mit der Meldung &ldquo;ERROR: can&rsquo;t access to &lsquo;/var/lib/ly
 <!-- more -->
 
 
-<p>{% codeblock lang:diff %}
-diff -u /usr/bin/lxc-clone~ /usr/bin/lxc-clone
-&mdash;&ndash; lxc-clone~  2013-06-01 16:16:01.000000000 +0200
-+++ lxc-clone   2013-06-10 17:46:19.520162107 +0200
-@@ -193,7 +193,7 @@</p>
-
-<p> echo &ldquo;Copying rootfs&hellip;&rdquo;
- oldroot=<code>grep lxc.rootfs $lxc_path/$lxc_orig/config | awk -F'[= \t]+' '{ print $2 }'</code>
--rootfs=<code>echo $oldroot |sed "s/$lxc_orig/$lxc_new/"</code>
-+rootfs=<code>echo $oldroot |sed "s@$lxc_path/$lxc_orig@$lxc_path/$lxc_new@"</code></p>
-
-<p> container_running=True
- lxc-info -n $lxc_orig &mdash;state-is RUNNING || container_running=False
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u /usr/bin/lxc-clone~ /usr/bin/lxc-clone</span>
+</span><span class='line'>&amp;mdash;&amp;ndash; lxc-clone~  2013-06-01 16:16:01.000000000 +0200
+</span><span class='line'><span class="gi">+++ lxc-clone   2013-06-10 17:46:19.520162107 +0200</span>
+</span><span class='line'><span class="gu">@@ -193,7 +193,7 @@&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt; echo &amp;ldquo;Copying rootfs&amp;hellip;&amp;rdquo;
+</span><span class='line'> oldroot=&lt;code&gt;grep lxc.rootfs $lxc_path/$lxc_orig/config | awk -F&#39;[= \t]+&#39; &#39;{ print $2 }&#39;&lt;/code&gt;
+</span><span class='line'><span class="gd">-rootfs=&lt;code&gt;echo $oldroot |sed &quot;s/$lxc_orig/$lxc_new/&quot;&lt;/code&gt;</span>
+</span><span class='line'><span class="gi">+rootfs=&lt;code&gt;echo $oldroot |sed &quot;s@$lxc_path/$lxc_orig@$lxc_path/$lxc_new@&quot;&lt;/code&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt; container_running=True
+</span><span class='line'> lxc-info -n $lxc_orig &amp;mdash;state-is RUNNING || container_running=False
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
@@ -303,22 +354,37 @@ Updating rootfs...
 durchgeführt werden. Hier ein kurzes Skript, welches dies für mich
 erledigt:</p>
 
-<p>{% codeblock lang:sh %}</p>
-
-<h1>!/bin/sh</h1>
-
-<p>for rootfs in /var/lib/lxc/*/rootfs; do
-  sudo btrfs subvolume list &ldquo;${rootfs}&rdquo; >/dev/null 2>&amp;1 || {</p>
-
-<pre><code>sudo mv "${rootfs}" "${rootfs}.saved" \
-&amp;&amp; sudo btrfs subvolume create "${rootfs}" \
-&amp;&amp; sudo mv "${rootfs}.saved"/* "${rootfs}" \
-&amp;&amp; sudo rmdir "${rootfs}.saved"
-</code></pre>
-
-<p>  }
-done
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;!/bin/sh&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;for rootfs in /var/lib/lxc/*/rootfs; <span class="k">do</span>
+</span><span class='line'><span class="k">  </span>sudo btrfs subvolume list &amp;ldquo;<span class="k">${</span><span class="nv">rootfs</span><span class="k">}</span>&amp;rdquo; &gt;/dev/null 2&gt;&amp;amp;1 <span class="o">||</span> <span class="o">{</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;sudo mv <span class="s2">&quot;${rootfs}&quot;</span> <span class="s2">&quot;${rootfs}.saved&quot;</span> <span class="se">\</span>
+</span><span class='line'>&amp;amp;&amp;amp; sudo btrfs subvolume create <span class="s2">&quot;${rootfs}&quot;</span> <span class="se">\</span>
+</span><span class='line'>&amp;amp;&amp;amp; sudo mv <span class="s2">&quot;${rootfs}.saved&quot;</span>/* <span class="s2">&quot;${rootfs}&quot;</span> <span class="se">\</span>
+</span><span class='line'>&amp;amp;&amp;amp; sudo rmdir <span class="s2">&quot;${rootfs}.saved&quot;</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;  <span class="o">}</span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
@@ -329,9 +395,9 @@ done
     <id>http://uli-heller.github.com/blog/2013/05/12/lxc-ubuntu-build</id>
     <content type="html"><![CDATA[<h2>Installation von LXC</h2>
 
-<p>{% codeblock Installation von LXC %}
-sudo apt-get install lxc
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Installation von LXC </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install lxc</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Container-Partition /lxc</h2>
 
@@ -342,23 +408,29 @@ verfügt.</p>
 
 <h3>Partition anlegen</h3>
 
-<p>{% codeblock %}
-sudo lvcreate -n lxclv -L10G datavg
-sudo mkfs.btrfs /dev/datavg/lxclv
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lvcreate -n lxclv -L10G datavg
+</span><span class='line'>sudo mkfs.btrfs /dev/datavg/lxclv</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Partition einbinden</h3>
 
-<p>{% codeblock %}
-sudo -s
-mkdir /lxc
-echo &ldquo;/dev/datavg/lxclv /lxc btrfs defaults 0 3&rdquo; >>/etc/fstab
-mount /lxc
-rmdir /var/lib/lxc
-ln -s /lxc/lib /var/lib/lxc
-rm -rf /var/cache/lxc
-ln -s /lxc/cache /var/cache/lxc
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -s
+</span><span class='line'>mkdir /lxc
+</span><span class='line'>echo &ldquo;/dev/datavg/lxclv /lxc btrfs defaults 0 3&rdquo; >>/etc/fstab
+</span><span class='line'>mount /lxc
+</span><span class='line'>rmdir /var/lib/lxc
+</span><span class='line'>ln -s /lxc/lib /var/lib/lxc
+</span><span class='line'>rm -rf /var/cache/lxc
+</span><span class='line'>ln -s /lxc/cache /var/cache/lxc</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <!--
 Verwendung vom lokalen Apt-Cacher-Ng
@@ -366,9 +438,8 @@ Verwendung vom lokalen Apt-Cacher-Ng
 
 Datei /etc/default/lxc editieren:
 
-{% codeblock %}
-MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"</span></code></pre></td></tr></table></div></figure></notextile></div>
 
 ... funktioniert nicht, es werden viele Pakete als "nicht verifizierbar" ausgewiesen.
 -->
@@ -378,41 +449,56 @@ MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"
 
 <h3>12.04, 32bit</h3>
 
-<p>{% codeblock %}
-sudo lxc-create -t ubuntu -n ubuntu1204-32-build &mdash; -r precise -a i386
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-32-build &mdash; -r precise -a i386</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Das Komando liefert typischerweise Ausgaben dieser Art:</p>
 
-<p>{% codeblock %}
-$ sudo lxc-create -t ubuntu -n ubuntu1204-32 &mdash; -r precise -a i386
-[sudo] password for uli:</p>
-
-<p>No config file specified, using the default config
-debootstrap ist /usr/sbin/debootstrap
-Checking cache download in /var/cache/lxc/precise/rootfs-i386 &hellip;
-Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs &hellip;
-Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs &hellip;</p>
-
-<h1>#</h1>
-
-<h1>The default user is &lsquo;ubuntu&rsquo; with password &lsquo;ubuntu&rsquo;!</h1>
-
-<h1>Use the &lsquo;sudo&rsquo; command to run tasks as root in the container.</h1>
-
-<h1>#</h1>
-
-<p>&lsquo;ubuntu&rsquo; template installed
-&lsquo;ubuntu1204-32&rsquo; created
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo lxc-create -t ubuntu -n ubuntu1204-32 &mdash; -r precise -a i386
+</span><span class='line'>[sudo] password for uli:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>No config file specified, using the default config
+</span><span class='line'>debootstrap ist /usr/sbin/debootstrap
+</span><span class='line'>Checking cache download in /var/cache/lxc/precise/rootfs-i386 &hellip;
+</span><span class='line'>Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs &hellip;
+</span><span class='line'>Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs &hellip;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>#&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>The default user is &lsquo;ubuntu&rsquo; with password &lsquo;ubuntu&rsquo;!&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Use the &lsquo;sudo&rsquo; command to run tasks as root in the container.&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>#&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lsquo;ubuntu&rsquo; template installed
+</span><span class='line'>&lsquo;ubuntu1204-32&rsquo; created</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>12.04, 64bit</h3>
 
 <p>64-bit Container können nur erstellt werden, wenn das Basissystem auch ein 64-bit-System ist!</p>
 
-<p>{% codeblock %}
-sudo lxc-create -t ubuntu -n ubuntu1204-64-build &mdash; -r precise -a amd64
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-64-build &mdash; -r precise -a amd64</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Arbeit mit Containern</h2>
 
@@ -441,48 +527,62 @@ sudo lxc-create -t ubuntu -n ubuntu1204-64-build &mdash; -r precise -a amd64
 
 <p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
 
-<p>{% codeblock /etc/apt/apt.conf.d/01proxy %}
-Acquire::<a href="http::Proxy">http::Proxy</a> &ldquo;<a href="http://10.0.3.1:3142">http://10.0.3.1:3142</a>&rdquo;;
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/apt/apt.conf.d/01proxy </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">Acquire</span><span class="p">::&lt;</span><span class="n">a</span> <span class="n">href</span><span class="p">=</span><span class="s">&quot;http::Proxy&quot;</span><span class="p">&gt;</span><span class="n">http</span><span class="p">::</span><span class="n">Proxy</span><span class="p">&lt;/</span><span class="n">a</span><span class="p">&gt;</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="p">=</span><span class="s">&quot;http://10.0.3.1:3142&quot;</span><span class="p">&gt;</span><span class="n">http</span><span class="p">:</span><span class="c1">//10.0.3.1:3142&lt;/a&gt;&amp;rdquo;;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Installation von JOE/JMACS</h3>
 
-<p>{% codeblock %}
-sudo apt-get install joe
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install joe</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Paketquellen ergänzen um Source-Repositories</h3>
 
-<p>{% codeblock /etc/apt/sources.list lang:diff %}
-diff -u sources.list.orig sources.list
-&mdash;&ndash; sources.list.orig   2012-09-30 09:41:15.000000000 +0200
-+++ sources.list    2013-05-12 18:27:29.615640758 +0200
-@@ -1,3 +1,6 @@
- deb <a href="http://archive.ubuntu.com/ubuntu">http://archive.ubuntu.com/ubuntu</a> precise main restricted universe multiverse
-+deb-src <a href="http://archive.ubuntu.com/ubuntu">http://archive.ubuntu.com/ubuntu</a> precise main restricted universe multiverse
- deb <a href="http://archive.ubuntu.com/ubuntu">http://archive.ubuntu.com/ubuntu</a> precise-updates main restricted universe multiverse
-+deb-src <a href="http://archive.ubuntu.com/ubuntu">http://archive.ubuntu.com/ubuntu</a> precise-updates main restricted universe multiverse
- deb <a href="http://security.ubuntu.com/ubuntu">http://security.ubuntu.com/ubuntu</a> precise-security main restricted universe multiverse
-+deb-src <a href="http://security.ubuntu.com/ubuntu">http://security.ubuntu.com/ubuntu</a> precise-security main restricted universe multiverse
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/apt/sources.list </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u sources.list.orig sources.list</span>
+</span><span class='line'>&amp;mdash;&amp;ndash; sources.list.orig   2012-09-30 09:41:15.000000000 +0200
+</span><span class='line'><span class="gi">+++ sources.list    2013-05-12 18:27:29.615640758 +0200</span>
+</span><span class='line'><span class="gu">@@ -1,3 +1,6 @@</span>
+</span><span class='line'> deb &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise main restricted universe multiverse</span>
+</span><span class='line'> deb &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise-updates main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src &lt;a href=&quot;http://archive.ubuntu.com/ubuntu&quot;&gt;http://archive.ubuntu.com/ubuntu&lt;/a&gt; precise-updates main restricted universe multiverse</span>
+</span><span class='line'> deb &lt;a href=&quot;http://security.ubuntu.com/ubuntu&quot;&gt;http://security.ubuntu.com/ubuntu&lt;/a&gt; precise-security main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src &lt;a href=&quot;http://security.ubuntu.com/ubuntu&quot;&gt;http://security.ubuntu.com/ubuntu&lt;/a&gt; precise-security main restricted universe multiverse</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Aktualisierung auf den neuesten Stand</h3>
 
-<p>{% codeblock %}
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get clean
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get upgrade
+</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Build-Tools einspielen</h2>
 
-<p>{% codeblock %}
-sudo apt-get update
-sudo apt-get install build-essential fakeroot dpkg-dev devscripts
-sudo apt-get install autotools-dev debhelper pkg-config
-sudo apt-get install dh-autoreconf
-sudo apt-get clean
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install build-essential fakeroot dpkg-dev devscripts
+</span><span class='line'>sudo apt-get install autotools-dev debhelper pkg-config
+</span><span class='line'>sudo apt-get install dh-autoreconf
+</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>GPG-Schlüssel übernehmen</h2>
 
@@ -491,45 +591,61 @@ DEB-Pakete zu erzeugen!</p>
 
 <p>Auf dem bestehenden Build-System wird der GPG-Schlüssel exportiert:</p>
 
-<p>{% codeblock GPG-Schlüssel exportieren %}
-gpg &mdash;export-secret-keys >gpg.keys
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>GPG-Schl</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg &mdash;export-secret-keys >gpg.keys</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Auf dem neuen LXC-Build-System wird der GPG-Schlüssel importiert:</p>
 
-<p>{% codeblock GPG-Schlüssel importieren %}
-gpg &mdash;import &lt;gpg.keys
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>GPG-Schl</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg &mdash;import &lt;gpg.keys</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Durchführen eines Builds</h2>
 
 <h3>nginx</h3>
 
-<p>{% codeblock %}
-mkdir nginx
-cd nginx
-apt-get source nginx
-sudo apt-get build-dep nginx
-cd nginx-1.1.19
-dpkg-buildpackage
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir nginx
+</span><span class='line'>cd nginx
+</span><span class='line'>apt-get source nginx
+</span><span class='line'>sudo apt-get build-dep nginx
+</span><span class='line'>cd nginx-1.1.19
+</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>libseccomp</h3>
 
-<p>{% codeblock %}</p>
-
-<h1>Kopieren der nachfolgenden Dateien:</h1>
-
-<h1>libseccomp_0.1.0-1dp01~precise2.debian.tar.gz</h1>
-
-<h1>libseccomp_0.1.0-1dp01~precise2.dsc</h1>
-
-<h1>libseccomp_0.1.0.orig.tar.gz</h1>
-
-<p>dpkg-source -x  libseccomp_0.1.0-1dp01~precise2.dsc
-cd libseccomp-0.1.0
-dpkg-buildpackage
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Kopieren der nachfolgenden Dateien:&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>libseccomp_0.1.0-1dp01~precise2.debian.tar.gz&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>libseccomp_0.1.0-1dp01~precise2.dsc&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>libseccomp_0.1.0.orig.tar.gz&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>dpkg-source -x  libseccomp_0.1.0-1dp01~precise2.dsc
+</span><span class='line'>cd libseccomp-0.1.0
+</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>lxc</h3>
 
@@ -539,17 +655,17 @@ dpkg-buildpackage
 
 <h3>Sichern</h3>
 
-<p>{% codeblock %}
-cd /lxc
-sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lxc
+</span><span class='line'>sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Rückspielen</h3>
 
-<p>{% codeblock %}
-cd /lxc
-sudo tar -xvjpf /backups/lxc/20121119.tar.bz2
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lxc
+</span><span class='line'>sudo tar -xvjpf /backups/lxc/20121119.tar.bz2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Probleme</h2>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Eclipse | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/eclipse/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -58,33 +58,52 @@ auch Markdown angezeigt.</p>
 
 <h2>Neue Eclipse-Installation</h2>
 
-<p>{% codeblock Neue Eclipse-Installation lang:sh %}
-cd /opt
-gzip -cd &ldquo;${HOME}/Downloads/eclipse/eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz |sudo tar xf &ndash;
-sudo chown -R uli.uli eclipse
-sudo mv eclipse eclipse-botst
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Eclipse-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /opt
+</span><span class='line'>gzip -cd &amp;ldquo;<span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/eclipse/eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz |sudo tar xf &amp;ndash;
+</span><span class='line'>sudo chown -R uli.uli eclipse
+</span><span class='line'>sudo mv eclipse eclipse-botst
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Test der neuen Eclipse-Installation</h2>
 
-<p>{% codeblock Test der Eclipse-Installation lang:sh %}
-/opt/eclipse-botst/eclipse &amp;</p>
-
-<h1>Eclipse wird gestartet</h1>
-
-<h1>&ndash;> wieder stoppen</h1>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Test der Eclipse-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/opt/eclipse-botst/eclipse &amp;amp;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Eclipse wird gestartet&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;&amp;ndash;&gt; wieder stoppen&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Einspielen des Plugins</h2>
 
-<p>{% codeblock Einspielen des Plugins lang:sh %}</p>
-
-<h1>Sicherstellen: Eclipse ist gestoppt</h1>
-
-<p>cd /opt/eclipse-botst
-cp &ldquo;${HOME}/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen des Plugins </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;Sicherstellen: Eclipse ist gestoppt&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;cd /opt/eclipse-botst
+</span><span class='line'>cp &amp;ldquo;<span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Kurztest des Plugins</h2>
 
@@ -95,7 +114,7 @@ cp &ldquo;${HOME}/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
 </ul>
 
 
-<p>{% img /images/java/eclipse/bytecode-outline.png &lsquo;Eclipse mit Bytecode-View&rsquo; %}</p>
+<p><img src="/images/java/eclipse/bytecode-outline.png" title="&lsquo;Eclipse mit Bytecode-View&rsquo;" ></p>
 ]]></content>
   </entry>
   

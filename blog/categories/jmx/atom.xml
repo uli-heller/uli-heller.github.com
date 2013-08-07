@@ -4,7 +4,7 @@
   <title><![CDATA[Category: JMX | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/jmx/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -22,7 +22,7 @@
 
 <p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&rsquo;s Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
 
-<p>{% img /images/java/jconsole.png %}</p>
+<p><img src="/images/java/jconsole.png"></p>
 
 <p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich &ndash; die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden &ndash; sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
 
@@ -35,13 +35,18 @@
 
 <p>Hier das klassische Vorgehen mittels Java-Properties:</p>
 
-<p>{% codeblock tomcat/bin/setenv.sh %}
-CATALINA_OPTS=&ldquo;-Djava.rmi.server.hostname=localhost&rdquo;
-CATALINA_OPTS=&ldquo;-Dcom.sun.management.jmxremote ${CATALINA_OPTS}&rdquo;
-CATALINA_OPTS=&ldquo;-Dcom.sun.management.jmxremote.port=11223 ${CATALINA_OPTS}&rdquo;
-CATALINA_OPTS=&ldquo;-Dcom.sun.management.jmxremote.authenticate=false ${CATALINA_OPTS}&rdquo;
-CATALINA_OPTS=&ldquo;-Dcom.sun.management.jmxremote.ssl=false ${CATALINA_OPTS}&rdquo;
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>tomcat/bin/setenv.sh </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Djava.rmi.server.hostname<span class="o">=</span>localhost&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote.port<span class="o">=</span>11223 <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote.authenticate<span class="o">=</span><span class="nb">false</span> <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span><span class='line'><span class="nv">CATALINA_OPTS</span><span class="o">=</span>&amp;ldquo;-Dcom.sun.management.jmxremote.ssl<span class="o">=</span><span class="nb">false</span> <span class="k">${</span><span class="nv">CATALINA_OPTS</span><span class="k">}</span>&amp;rdquo;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Nachteile:</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Perl | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/perl/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -46,145 +46,274 @@ Wenn was schief läuft: <code>rm -rf ~/.cpan</code> und erneut starten!</p>
 
 <p>Hier das Konsolen-Log der Grundeinrichtung:</p>
 
-<p>{% codeblock Grundeinrichtung von CPAN %}
-Sorry, we have to rerun the configuration dialog for CPAN.pm due to
-some missing parameters. Configuration will be written to
- &lt;&lt;/home/ubuntu/.cpan/CPAN/MyConfig.pm>></p>
-
-<p>CPAN.pm requires configuration, but most of it can be done automatically.
-If you answer &lsquo;no&rsquo; below, you will enter an interactive dialog for each
-configuration option instead.</p>
-
-<p>Would you like to configure as much as possible automatically? [yes]</p>
-
-<p> &lt;install_help></p>
-
-<p>Warning: You do not have write permission for Perl library directories.</p>
-
-<p>To install modules, you need to configure a local Perl library directory or
-escalate your privileges.  CPAN can help you by bootstrapping the local::lib
-module or by configuring itself to use &lsquo;sudo&rsquo; (if available).  You may also
-resolve this problem manually if you need to customize your setup.</p>
-
-<p>What approach do you want?  (Choose &lsquo;local::lib&rsquo;, &lsquo;sudo&rsquo; or &lsquo;manual&rsquo;)
- [local::lib]</p>
-
-<p>ALERT: &lsquo;make&rsquo; is an essential tool for building perl Modules.
-Please make sure you have &lsquo;make&rsquo; (or some equivalent) working.</p>
-
-<p>Autoconfigured everything but &lsquo;urllist&rsquo;.</p>
-
-<p>Now you need to choose your CPAN mirror sites.  You can let me
-pick mirrors for you, you can select them from a list or you
-can enter them by hand.</p>
-
-<p>Would you like me to automatically choose some CPAN mirror
-sites for you? (This means connecting to the Internet) [yes]</p>
-
-<p>Trying to fetch a mirror list from the Internet
-Fetching with <a href="HTTP::Tiny:">HTTP::Tiny:</a>
-<a href="http://www.perl.org/CPAN/MIRRORED.BY">http://www.perl.org/CPAN/MIRRORED.BY</a></p>
-
-<p>Looking for CPAN mirrors near you (please be patient)
-&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;. done!</p>
-
-<p>New urllist
-  <a href="http://httpupdate37.cpanel.net/CPAN/">http://httpupdate37.cpanel.net/CPAN/</a>
-  <a href="http://cpan.mirrors.uk2.net/">http://cpan.mirrors.uk2.net/</a>
-  <a href="http://ftp.spbu.ru/CPAN/">http://ftp.spbu.ru/CPAN/</a></p>
-
-<p>Autoconfiguration complete.</p>
-
-<p>Attempting to bootstrap local::lib&hellip;</p>
-
-<p>Writing /home/ubuntu/.cpan/CPAN/MyConfig.pm for bootstrap&hellip;
-commit: wrote &lsquo;/home/ubuntu/.cpan/CPAN/MyConfig.pm&rsquo;
-Fetching with <a href="HTTP::Tiny:">HTTP::Tiny:</a>
-<a href="http://httpupdate37.cpanel.net/CPAN/authors/01mailrc.txt.gz">http://httpupdate37.cpanel.net/CPAN/authors/01mailrc.txt.gz</a>
-Going to read &lsquo;/home/ubuntu/.cpan/sources/authors/01mailrc.txt.gz&rsquo;
-&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;.DONE
-Fetching with <a href="HTTP::Tiny:">HTTP::Tiny:</a>
-<a href="http://httpupdate37.cpanel.net/CPAN/modules/02packages.details.txt.gz">http://httpupdate37.cpanel.net/CPAN/modules/02packages.details.txt.gz</a>
-Going to read &lsquo;/home/ubuntu/.cpan/sources/modules/02packages.details.txt.gz&rsquo;
-  Database was generated on Mon, 10 Jun 2013 03:53:02 GMT
-  <a href="HTTP::Date">HTTP::Date</a> not available
-&hellip;&hellip;&hellip;&hellip;..
-  New CPAN.pm version (v2.00) available.
-  [Currently running version is v1.960001]
-  You might want to try</p>
-
-<pre><code>install CPAN
-reload cpan
-</code></pre>
-
-<p>  to both upgrade CPAN.pm and run the new version without leaving
-  the current session.</p>
-
-<p>&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..DONE
-Fetching with <a href="HTTP::Tiny:">HTTP::Tiny:</a>
-<a href="http://httpupdate37.cpanel.net/CPAN/modules/03modlist.data.gz">http://httpupdate37.cpanel.net/CPAN/modules/03modlist.data.gz</a>
-Going to read &lsquo;/home/ubuntu/.cpan/sources/modules/03modlist.data.gz&rsquo;
-&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;.DONE
-Going to write /home/ubuntu/.cpan/Metadata
-Running make for E/ET/ETHER/local-lib-1.008010.tar.gz
-Fetching with <a href="HTTP::Tiny:">HTTP::Tiny:</a>
-<a href="http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/local-lib-1.008010.tar.gz">http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/local-lib-1.008010.tar.gz</a>
-Fetching with <a href="HTTP::Tiny:">HTTP::Tiny:</a>
-<a href="http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/CHECKSUMS">http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/CHECKSUMS</a>
-Checksum for /home/ubuntu/.cpan/sources/authors/id/E/ET/ETHER/local-lib-1.008010.tar.gz ok
-&mdash;&mdash; Unsatisfied dependencies detected during &mdash;&mdash;
-&mdash;&mdash;      ETHER/local-lib-1.008010.tar.gz     &mdash;&mdash;</p>
-
-<pre><code>ExtUtils::MakeMaker [build_requires]
-</code></pre>
-
-<p>Running make test
-  Make had some problems, won&rsquo;t test
-  Delayed until after prerequisites
-Running make install
-  Make had some problems, won&rsquo;t install
-  Delayed until after prerequisites
-Tried to deactivate inactive local::lib &lsquo;/home/ubuntu/perl5&rsquo;</p>
-
-<p>local::lib is installed. You must now add the following environment variables
-to your shell configuration files (or registry, if you are on Windows) and
-then restart your command line shell and CPAN before installing modules:</p>
-
-<p>Use of uninitialized value $deactivating in numeric eq (==) at /usr/share/perl5/local/lib.pm line 354.
-Use of uninitialized value $deactivating in numeric eq (==) at /usr/share/perl5/local/lib.pm line 356.
-Use of uninitialized value $interpolate in numeric eq (==) at /usr/share/perl5/local/lib.pm line 366.
-export PERL_LOCAL_LIB_ROOT=&ldquo;/home/ubuntu/perl5&rdquo;;
-export PERL_MB_OPT=&ldquo;&mdash;install_base /home/ubuntu/perl5&rdquo;;
-export PERL_MM_OPT=&ldquo;INSTALL_BASE=/home/ubuntu/perl5&rdquo;;
-export PERL5LIB=&ldquo;/home/ubuntu/perl5/lib/perl5/i686-linux-gnu-thread-multi-64int:/home/ubuntu/perl5/lib/perl5&rdquo;;
-export PATH=&ldquo;/home/ubuntu/perl5/bin:$PATH&rdquo;;</p>
-
-<p>Would you like me to append that to /home/ubuntu/.bashrc now? [yes]</p>
-
-<p>commit: wrote &lsquo;/home/ubuntu/.cpan/CPAN/MyConfig.pm&rsquo;</p>
-
-<p>You can re-run configuration any time with &lsquo;o conf init&rsquo; in the CPAN shell
-Terminal does not support AddHistory.</p>
-
-<p>cpan shell &mdash; CPAN exploration and modules installation (v1.960001)
-Enter &lsquo;h&rsquo; for help.</p>
-
-<p>cpan[1]> quit
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Grundeinrichtung von CPAN </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Sorry, we have to rerun the configuration dialog for CPAN.pm due to
+</span><span class='line'>some missing parameters. Configuration will be written to
+</span><span class='line'> &lt;&lt;/home/ubuntu/.cpan/CPAN/MyConfig.pm>>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>CPAN.pm requires configuration, but most of it can be done automatically.
+</span><span class='line'>If you answer &lsquo;no&rsquo; below, you will enter an interactive dialog for each
+</span><span class='line'>configuration option instead.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Would you like to configure as much as possible automatically? [yes]&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p> &lt;install_help>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Warning: You do not have write permission for Perl library directories.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>To install modules, you need to configure a local Perl library directory or
+</span><span class='line'>escalate your privileges.  CPAN can help you by bootstrapping the local::lib
+</span><span class='line'>module or by configuring itself to use &lsquo;sudo&rsquo; (if available).  You may also
+</span><span class='line'>resolve this problem manually if you need to customize your setup.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>What approach do you want?  (Choose &lsquo;local::lib&rsquo;, &lsquo;sudo&rsquo; or &lsquo;manual&rsquo;)
+</span><span class='line'> [local::lib]&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>ALERT: &lsquo;make&rsquo; is an essential tool for building perl Modules.
+</span><span class='line'>Please make sure you have &lsquo;make&rsquo; (or some equivalent) working.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Autoconfigured everything but &lsquo;urllist&rsquo;.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Now you need to choose your CPAN mirror sites.  You can let me
+</span><span class='line'>pick mirrors for you, you can select them from a list or you
+</span><span class='line'>can enter them by hand.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Would you like me to automatically choose some CPAN mirror
+</span><span class='line'>sites for you? (This means connecting to the Internet) [yes]&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Trying to fetch a mirror list from the Internet
+</span><span class='line'>Fetching with &lt;a href="HTTP::Tiny:">HTTP::Tiny:&lt;/a>
+</span><span class='line'>&lt;a href="http://www.perl.org/CPAN/MIRRORED.BY">http://www.perl.org/CPAN/MIRRORED.BY&lt;/a>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Looking for CPAN mirrors near you (please be patient)
+</span><span class='line'>&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;. done!&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>New urllist
+</span><span class='line'>  &lt;a href="http://httpupdate37.cpanel.net/CPAN/">http://httpupdate37.cpanel.net/CPAN/&lt;/a>
+</span><span class='line'>  &lt;a href="http://cpan.mirrors.uk2.net/">http://cpan.mirrors.uk2.net/&lt;/a>
+</span><span class='line'>  &lt;a href="http://ftp.spbu.ru/CPAN/">http://ftp.spbu.ru/CPAN/&lt;/a>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Autoconfiguration complete.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Attempting to bootstrap local::lib&hellip;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Writing /home/ubuntu/.cpan/CPAN/MyConfig.pm for bootstrap&hellip;
+</span><span class='line'>commit: wrote &lsquo;/home/ubuntu/.cpan/CPAN/MyConfig.pm&rsquo;
+</span><span class='line'>Fetching with &lt;a href="HTTP::Tiny:">HTTP::Tiny:&lt;/a>
+</span><span class='line'>&lt;a href="http://httpupdate37.cpanel.net/CPAN/authors/01mailrc.txt.gz">http://httpupdate37.cpanel.net/CPAN/authors/01mailrc.txt.gz&lt;/a>
+</span><span class='line'>Going to read &lsquo;/home/ubuntu/.cpan/sources/authors/01mailrc.txt.gz&rsquo;
+</span><span class='line'>&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;.DONE
+</span><span class='line'>Fetching with &lt;a href="HTTP::Tiny:">HTTP::Tiny:&lt;/a>
+</span><span class='line'>&lt;a href="http://httpupdate37.cpanel.net/CPAN/modules/02packages.details.txt.gz">http://httpupdate37.cpanel.net/CPAN/modules/02packages.details.txt.gz&lt;/a>
+</span><span class='line'>Going to read &lsquo;/home/ubuntu/.cpan/sources/modules/02packages.details.txt.gz&rsquo;
+</span><span class='line'>  Database was generated on Mon, 10 Jun 2013 03:53:02 GMT
+</span><span class='line'>  &lt;a href="HTTP::Date">HTTP::Date&lt;/a> not available
+</span><span class='line'>&hellip;&hellip;&hellip;&hellip;..
+</span><span class='line'>  New CPAN.pm version (v2.00) available.
+</span><span class='line'>  [Currently running version is v1.960001]
+</span><span class='line'>  You might want to try&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>install CPAN
+</span><span class='line'>reload cpan
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>  to both upgrade CPAN.pm and run the new version without leaving
+</span><span class='line'>  the current session.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..DONE
+</span><span class='line'>Fetching with &lt;a href="HTTP::Tiny:">HTTP::Tiny:&lt;/a>
+</span><span class='line'>&lt;a href="http://httpupdate37.cpanel.net/CPAN/modules/03modlist.data.gz">http://httpupdate37.cpanel.net/CPAN/modules/03modlist.data.gz&lt;/a>
+</span><span class='line'>Going to read &lsquo;/home/ubuntu/.cpan/sources/modules/03modlist.data.gz&rsquo;
+</span><span class='line'>&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;.DONE
+</span><span class='line'>Going to write /home/ubuntu/.cpan/Metadata
+</span><span class='line'>Running make for E/ET/ETHER/local-lib-1.008010.tar.gz
+</span><span class='line'>Fetching with &lt;a href="HTTP::Tiny:">HTTP::Tiny:&lt;/a>
+</span><span class='line'>&lt;a href="http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/local-lib-1.008010.tar.gz">http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/local-lib-1.008010.tar.gz&lt;/a>
+</span><span class='line'>Fetching with &lt;a href="HTTP::Tiny:">HTTP::Tiny:&lt;/a>
+</span><span class='line'>&lt;a href="http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/CHECKSUMS">http://httpupdate37.cpanel.net/CPAN/authors/id/E/ET/ETHER/CHECKSUMS&lt;/a>
+</span><span class='line'>Checksum for /home/ubuntu/.cpan/sources/authors/id/E/ET/ETHER/local-lib-1.008010.tar.gz ok
+</span><span class='line'>&mdash;&mdash; Unsatisfied dependencies detected during &mdash;&mdash;
+</span><span class='line'>&mdash;&mdash;      ETHER/local-lib-1.008010.tar.gz     &mdash;&mdash;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>ExtUtils::MakeMaker [build_requires]
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Running make test
+</span><span class='line'>  Make had some problems, won&rsquo;t test
+</span><span class='line'>  Delayed until after prerequisites
+</span><span class='line'>Running make install
+</span><span class='line'>  Make had some problems, won&rsquo;t install
+</span><span class='line'>  Delayed until after prerequisites
+</span><span class='line'>Tried to deactivate inactive local::lib &lsquo;/home/ubuntu/perl5&rsquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>local::lib is installed. You must now add the following environment variables
+</span><span class='line'>to your shell configuration files (or registry, if you are on Windows) and
+</span><span class='line'>then restart your command line shell and CPAN before installing modules:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Use of uninitialized value $deactivating in numeric eq (==) at /usr/share/perl5/local/lib.pm line 354.
+</span><span class='line'>Use of uninitialized value $deactivating in numeric eq (==) at /usr/share/perl5/local/lib.pm line 356.
+</span><span class='line'>Use of uninitialized value $interpolate in numeric eq (==) at /usr/share/perl5/local/lib.pm line 366.
+</span><span class='line'>export PERL_LOCAL_LIB_ROOT=&ldquo;/home/ubuntu/perl5&rdquo;;
+</span><span class='line'>export PERL_MB_OPT=&ldquo;&mdash;install_base /home/ubuntu/perl5&rdquo;;
+</span><span class='line'>export PERL_MM_OPT=&ldquo;INSTALL_BASE=/home/ubuntu/perl5&rdquo;;
+</span><span class='line'>export PERL5LIB=&ldquo;/home/ubuntu/perl5/lib/perl5/i686-linux-gnu-thread-multi-64int:/home/ubuntu/perl5/lib/perl5&rdquo;;
+</span><span class='line'>export PATH=&ldquo;/home/ubuntu/perl5/bin:$PATH&rdquo;;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Would you like me to append that to /home/ubuntu/.bashrc now? [yes]&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>commit: wrote &lsquo;/home/ubuntu/.cpan/CPAN/MyConfig.pm&rsquo;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>You can re-run configuration any time with &lsquo;o conf init&rsquo; in the CPAN shell
+</span><span class='line'>Terminal does not support AddHistory.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>cpan shell &mdash; CPAN exploration and modules installation (v1.960001)
+</span><span class='line'>Enter &lsquo;h&rsquo; for help.&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>cpan[1]> quit</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Moose installieren</h2>
 
 <p>Nun installiere ich das Perl-Modul Moose via CPAN. Läuft ohne Probleme durch!</p>
 
-<p>{% codeblock Moose installieren mit CPAN lang:sh %}
-$ cpan install Moose
-&hellip;
-Installing /home/ubuntu/perl5/man/man3/Moose::Manual::Classes.3pm
-Installing /home/ubuntu/perl5/bin/moose-outdated
-Appending installation info to /home/ubuntu/perl5/lib/perl5/i686-linux-gnu-thread-multi-64int/perllocal.pod
-  ETHER/Moose-2.0802.tar.gz
-  /usr/bin/make install  &mdash; OK
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Moose installieren mit CPAN </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>cpan install Moose
+</span><span class='line'>&amp;hellip;
+</span><span class='line'>Installing /home/ubuntu/perl5/man/man3/Moose::Manual::Classes.3pm
+</span><span class='line'>Installing /home/ubuntu/perl5/bin/moose-outdated
+</span><span class='line'>Appending installation info to /home/ubuntu/perl5/lib/perl5/i686-linux-gnu-thread-multi-64int/perllocal.pod
+</span><span class='line'>  ETHER/Moose-2.0802.tar.gz
+</span><span class='line'>  /usr/bin/make install  &amp;mdash; OK
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   

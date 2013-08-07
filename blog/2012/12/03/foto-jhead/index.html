@@ -5,12 +5,16 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Neuer Kernel für Ubuntu-12.04 - Was ich so treibe...</title>
+  <title>Fotos - Aufnahmezeitpunkt als Dateiname - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Kommt ein Kernel geflogen &hellip; Hardware Enablement Stack für Ubuntu-12.04 Eben hab&#8217; ich mir die Zeit genommen und die
-Ankündigung für &hellip;">
+  <meta name="description" content="Fotos &ndash; Aufnahmezeitpunkt als Dateiname Vorbereitung 1
+$ sudo apt-get install jhead Umbenennung aller Fotos 1
+2
+3
+$ cd {bilderverzeichnis}
+$ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +23,7 @@ Ankündigung für &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/02/20/precise-hardware-enablement">
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2012/12/03/foto-jhead">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -75,7 +79,7 @@ Ankündigung für &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Neuer Kernel für Ubuntu-12.04</h1>
+      <h1 class="entry-title">Fotos - Aufnahmezeitpunkt als Dateiname</h1>
     
     
       <p class="meta">
@@ -93,84 +97,41 @@ Ankündigung für &hellip;">
 
 
   
-<time datetime="2013-02-20T07:00:00+01:00" pubdate data-updated="true">20. February 2013</time>
+<time datetime="2012-12-03T10:00:00+01:00" pubdate data-updated="true">03. December 2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h1>Kommt ein Kernel geflogen &hellip; Hardware Enablement Stack für Ubuntu-12.04</h1>
+<div class="entry-content"><h1>Fotos &ndash; Aufnahmezeitpunkt als Dateiname</h1>
 
-<p>Eben hab&#8217; ich mir die Zeit genommen und die
-<a href="https://wiki.ubuntu.com/PrecisePangolin/ReleaseNotes/UbuntuDesktop">Ankündigung für Ubuntu-12.04.2</a>
-ein wenig näher angeschaut. Offenbar gibt&rsquo;s im Zuge des
-<a href="https://wiki.ubuntu.com/Kernel/LTSEnablementStack">LTS Enablement Stacks</a> einen
-neuen Kernel (3.5 statt 3.2). Dieser soll die Verwendung von neueren Geräten
-ermöglichen.</p>
+<h2>Vorbereitung</h2>
 
-<p>Eigentlich bin ich mit dem Alt-Kernel recht zufrieden. Alle meine
-Rechner laufen &ndash; sogar der Problemfall eines AMD-basierten Samsung-Notebooks.
-Bei diesem mußte ich allerdings den Grafiktreiber selbst kompilieren, der bei
-12.04 ausgelieferte Treiber unterstützt die verbaute Radeon-Karte nicht.</p>
-
-<!-- more -->
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo apt-get install jhead
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Trotzdem habe ich vor, den neuen Kernel einfach mal auszuprobieren.
-Mit etwas Glück läuft er ja genauso gut wie der alte und eventuell
-bringt der LTS Enablement Stack ja auch einen funktionierenden
-Grafiktreiber für das Samsung-Notebook mit und erspart mit so etwas Arbeit.</p>
+<h2>Umbenennung aller Fotos</h2>
 
-<p>Eingespielt werden die ganzen Pakete so:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install linux-generic-lts-quantal xserver-xorg-lts-quantal </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Da ich eine langsame Internetanbindung habe, dauert das ewig.
-Danach habe ich den Rechner einfach neu gestartet und siehe da: Alles
-funktioniert noch genauso, wie zuvor. Sogar VirtualBox läuft.</p>
-
-<p>Jetzt sammle ich noch etwas Mut, dann spiele ich&rsquo;s auch auf dem
-Samsung-Notebook ein.</p>
-
-<h2>Nachtrag</h2>
-
-<p>Leider gibt&rsquo;s jetzt doch ein paar negative Auffälligkeiten:</p>
-
-<ul>
-<li><p>Nach dem &ldquo;Aufwachen&rdquo; aus &ldquo;Bereitschaft&rdquo; laufen die Lüfter auf Höchstdrehzahl.
-Beobachtet habe ich dies auf meinem HP-Desktop. Auch mit der Kernel-Version
-3.5.0-27 von April 2013 existiert das Problem noch. Eine Aktualisierung
-des BIOS bringt auch keine Besserung. Mein Sony-Notebook hat
-dieses Problem nicht.</p>
-
-<ul>
-<li>3.5.0-32 vom Juni 2013 bringt auch keine Besserung</li>
-<li>3.5.0-34 vom Juni 2013 bringt auch keine Besserung</li>
-<li>3.8.0-23 vom Juni 2013 bringt auch keine Besserung (da funktioniert nach dem Aufwachen der X-Server nicht mehr)</li>
-<li>3.8.0-25 vom Juni 2013 bringt auch keine Besserung (da funktioniert nach dem Aufwachen der X-Server nicht mehr)</li>
-<li>3.8.0-26 vom Juli 2013 bringt auch keine Besserung (da funktioniert nach dem Aufwachen der X-Server nicht mehr)</li>
-<li>3.10.4 vom Juli 2013 bringt auch keine Besserung (da funktioniert nach dem Aufwachen der X-Server nicht mehr)</li>
-</ul>
-</li>
-<li><p>Starten mit dem alten 3.2-er-Kernel funktioniert nicht mehr &ndash; man sieht
-scheinbar die Konsole mit Mauszeiger und kann keine Eingaben vornehmen</p></li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span><span class="nb">cd</span> <span class="o">{</span>bilderverzeichnis<span class="o">}</span>
+</span><span class='line'><span class="nv">$ </span>jhead -n<span class="s2">&quot;%Y%m%d-%H%M%S&quot;</span> *.jpg
+</span><span class='line'><span class="c"># Benennt die Bilder um nach bspw. &quot;20121006-174624.jpg&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Positiv: Ich habe mich nun getraut, das Samsung-Problem-Notebook mit der
-Aktualisierung zu versehen. Grundsätzlich läuft&rsquo;s damit deutlich besser:</p>
+<h2>Geotagging</h2>
 
-<ul>
-<li>&ldquo;Bereitschaft&rdquo; und &ldquo;Aufwachen&rdquo; funktioniert tadellos</li>
-<li>Die WLAN-Karte bucht sich nun deutlich schneller in&rsquo;s Netzwerk ein</li>
-<li>Die Akku-Laufzeit ist deutlich länger</li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo apt-get install libimage-exiftool-perl
+</span><span class='line'><span class="nv">$ </span>java -jar geotag-0.082.jar
+</span></code></pre></td></tr></table></div></figure>
 
-
-<p>Negativ bleibt nur die längere Startzeit zu erwähnen, also insgesamt alles gut!</p>
 </div>
 
 
@@ -195,12 +156,12 @@ Aktualisierung zu versehen. Grundsätzlich läuft&rsquo;s damit deutlich besser:
 
 
   
-<time datetime="2013-07-29T08:00:00+02:00" class="updated">Updated 29. July 2013</time>
+<time datetime="2012-12-03T10:00:00+01:00" class="updated">Updated 03. December 2012</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/kernel/'>Kernel</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+    <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
   
 </span>
 
@@ -216,10 +177,10 @@ Aktualisierung zu versehen. Grundsätzlich läuft&rsquo;s damit deutlich besser:
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/15/quilt/" title="Voriger Beitrag: Patchverwaltung mit Quilt">&laquo; Patchverwaltung mit Quilt</a>
+        <a class="basic-alignment left" href="/blog/2012/11/30/wsgen/" title="Voriger Beitrag: WSGEN - Wie man's mit Interfaces macht">&laquo; WSGEN - Wie man's mit Interfaces macht</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/02/21/tcpmon/" title="Nächster Beitrag: TCPMON">TCPMON &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/01/11/redmine-rails-update/" title="Nächster Beitrag: Rails-2.3.15">Rails-2.3.15 &raquo;</a>
       
     </p>
   </footer>
@@ -306,30 +267,14 @@ Aktualisierung zu versehen. Grundsätzlich läuft&rsquo;s damit deutlich besser:
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/02/20/precise-hardware-enablement/';
-        var disqus_url = 'http://uli-heller.github.com/blog/2013/02/20/precise-hardware-enablement/';
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2012/12/03/foto-jhead/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2012/12/03/foto-jhead/';
         var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
       dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-
-
-
-
-
-
-
-
-</body>
-</html>
-)[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
 

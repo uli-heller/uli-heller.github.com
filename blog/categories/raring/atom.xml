@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Raring | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/raring/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -37,14 +37,19 @@ Erfolg.</p>
 </ul>
 
 
-<p>{% codeblock /var/log/syslog %}
-Jun 19 06:54:46 . usb 2-1.2: new high-speed USB device number 5 using ehci-pci
-Jun 19 06:54:46 . usb 2-1.2: New USB device found, idVendor=0bda, idProduct=8179
-Jun 19 06:54:46 . usb 2-1.2: New USB device strings: Mfr=1, Product=2, SerialNumJur=3
-Jun 19 06:54.46 . usb 2-1.2: Product: 802.11n NIC
-Jun 19 06:54:46 . usb 2-1.2: Manufacturer: Realtek
-Jun 19 06:54:46 . usb 2-1.2: SerialNumber: 00E04C0001
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/var/log/syslog </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Jun 19 06:54:46 . usb 2-1.2: new high-speed USB device number 5 using ehci-pci
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: New USB device found, idVendor=0bda, idProduct=8179
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: New USB device strings: Mfr=1, Product=2, SerialNumJur=3
+</span><span class='line'>Jun 19 06:54.46 . usb 2-1.2: Product: 802.11n NIC
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: Manufacturer: Realtek
+</span><span class='line'>Jun 19 06:54:46 . usb 2-1.2: SerialNumber: 00E04C0001</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Zusätzliche Treiber</h2>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Redmine | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/redmine/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -43,56 +43,81 @@ gut funktioniert:</p>
 
 <p>Soweit sieht alles ganz OK aus. Nun: Sichtung der Programmstände.</p>
 
-<p>{% codeblock lang:sh %}
-$ ruby -v
-ruby 1.8.7 (2010-01-10 patchlevel 249) [i486-linux]
-$ gem list</p>
-
-<p><strong><em> LOCAL GEMS </em></strong></p>
-
-<p>actionmailer (2.3.17)
-actionpack (2.3.17)
-activerecord (2.3.17)
-activeresource (2.3.17)
-activesupport (2.3.17)
-i18n (0.4.2)
-mysql (2.8.1)
-rack (1.1.3)
-rails (2.3.17)
-rake (0.8.7)
-rubygems-update (1.6.2)
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>ruby -v
+</span><span class='line'>ruby 1.8.7 <span class="o">(</span>2010-01-10 patchlevel 249<span class="o">)</span> <span class="o">[</span>i486-linux<span class="o">]</span>
+</span><span class='line'><span class="nv">$ </span>gem list&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;&lt;strong&gt;&lt;em&gt; LOCAL GEMS &lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;actionmailer <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>actionpack <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>activerecord <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>activeresource <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>activesupport <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>i18n <span class="o">(</span>0.4.2<span class="o">)</span>
+</span><span class='line'>mysql <span class="o">(</span>2.8.1<span class="o">)</span>
+</span><span class='line'>rack <span class="o">(</span>1.1.3<span class="o">)</span>
+</span><span class='line'>rails <span class="o">(</span>2.3.17<span class="o">)</span>
+</span><span class='line'>rake <span class="o">(</span>0.8.7<span class="o">)</span>
+</span><span class='line'>rubygems-update <span class="o">(</span>1.6.2<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Ruby-Gems herunterladen und installieren</h2>
 
 <p>Mit diesen Befehlen werden die Ruby-Gems heruntergeladen:</p>
 
-<p>{% codeblock lang:sh %}
-gem fetch passenger</p>
-
-<h1>gem fetch passenger -v 4.0.10</h1>
-
-<p>gem fetch daemon_controller -v &ldquo;>= 1.1.0&rdquo;</p>
-
-<h1>gem fetch daemon_controller -v 1.1.4</h1>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem fetch passenger&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;gem fetch passenger -v 4.0.10&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;gem fetch daemon_controller -v &amp;ldquo;&gt;<span class="o">=</span> 1.1.0&amp;rdquo;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;gem fetch daemon_controller -v 1.1.4&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Die *.gem-Dateien müssen auf die Redmine-VM übertragen werden, am besten
 mit <code>scp</code>. Danach spielt man sie ein mit</p>
 
-<p>{% codeblock lang:sh %}
-gem install passenger-4.0.10.gem
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install passenger-4.0.10.gem
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Apache-Modul installieren</h2>
 
 <p>Mit nachfolgendem Befehl wird das Passenger-Modul für Apache2
 installiert und auch gleich aktiviert:</p>
 
-<p>{% codeblock lang:sh %}
-apt-get install libapache2-mod-passenger
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install libapache2-mod-passenger
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Apache konfigurieren</h2>
 
@@ -100,45 +125,84 @@ apt-get install libapache2-mod-passenger
 <li><p>Konfigurationsdatei kopieren und anpassen:
 <code>cp /etc/apache2/sites-available/default /etc/apache2/sites-available/passenger</code></p>
 
-<pre><code>{% codeblock /etc/apache2/sites-available/passenger lang:text %}
-</code></pre>
-
-<h1>NameVirtualHost *:80</h1>
-
-<p><VirtualHost *:80>
-      ServerAdmin webmaster@localhost</p>
-
-<pre><code>  PassengerDefaultUser www-data
-  RailsEnv production
-</code></pre>
-
-<h1>RailsBaseURI /redmine</h1>
-
-<pre><code>  DocumentRoot /srv/redmine-1.2.1/public/
-</code></pre>
-
-<h1>DocumentRoot /var/www/</h1>
-
-<pre><code>  Alias /redmine "/srv/redmine-1.2.1/public/"
-  &lt;Directory "/srv/redmine-1.2.1/public/"&gt;   
-   Options FollowSymLinks -MultiViews  
-    AllowOverride none  
-    Order allow,deny
-    allow from all
-  &lt;/Directory&gt;
-
-  ErrorLog /var/log/apache2/error.log
-
-  # Possible values include: debug, info, notice, warn, error, crit,
-  # alert, emerg.
-  LogLevel warn  
-
-  CustomLog /var/log/apache2/access.log combined
-  ServerSignature On
-</code></pre>
-
-<p></VirtualHost>
-    {% endcodeblock %}</p></li>
+<pre><code><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/apache2/sites-available/passenger </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;NameVirtualHost *:80&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;&lt;VirtualHost *:80&gt;
+</span><span class='line'>      ServerAdmin webmaster@localhost&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;  PassengerDefaultUser www-data
+</span><span class='line'>  RailsEnv production
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;RailsBaseURI /redmine&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;  DocumentRoot /srv/redmine-1.2.1/public/
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;DocumentRoot /var/www/&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;  Alias /redmine &quot;/srv/redmine-1.2.1/public/&quot;
+</span><span class='line'>  &amp;lt;Directory &quot;/srv/redmine-1.2.1/public/&quot;&amp;gt;
+</span><span class='line'>   Options FollowSymLinks -MultiViews
+</span><span class='line'>    AllowOverride none
+</span><span class='line'>    Order allow,deny
+</span><span class='line'>    allow from all
+</span><span class='line'>  &amp;lt;/Directory&amp;gt;
+</span><span class='line'>
+</span><span class='line'>  ErrorLog /var/log/apache2/error.log
+</span><span class='line'>
+</span><span class='line'>  # Possible values include: debug, info, notice, warn, error, crit,
+</span><span class='line'>  # alert, emerg.
+</span><span class='line'>  LogLevel warn
+</span><span class='line'>
+</span><span class='line'>  CustomLog /var/log/apache2/access.log combined
+</span><span class='line'>  ServerSignature On
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;&lt;/VirtualHost&gt;
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
 <li><p>Alte Datei &ldquo;abklemmen&rdquo;: <code>a2dissite default</code></p></li>
 <li><p>Neue Datei aktivieren: <code>a2ensite passenger</code></p></li>
 <li><p>Apache neu starten: <code>/etc/init.d/apache2 restart</code></p></li>
@@ -187,27 +251,85 @@ entdeckt worden.</p>
 auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
 werden.</p>
 
-<p>{% include_code get-2.3.17.sh %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (get-2.3.17.sh)</span> <a href='/downloads/code/get-2.3.17.sh'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.17
+</span><span class='line'>
+</span><span class='line'>fetch<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="o">(</span>
+</span><span class='line'>  <span class="nv">GN</span><span class="o">=</span><span class="s2">&quot;$1-$2.gem&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -s <span class="s2">&quot;${GN}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span>gem fetch <span class="s2">&quot;$1&quot;</span> -v <span class="s2">&quot;$2&quot;</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>  <span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>i in actionmailer actionpack activerecord activeresource activesupport rails; <span class="k">do</span>
+</span><span class='line'><span class="k">  </span>fetch <span class="s2">&quot;${i}&quot;</span> <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>fetch rack 1.1.3
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Die Dateien werden danach mit SCP auf den Redmine-Server übertragen.</p>
 
 <h2>Basissystem aktualisieren</h2>
 
-<p>{% codeblock Basissystem aktualisieren lang:sh %}
-apt-get update
-apt-get upgrade
-apt-get dist-upgrade
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
+</span><span class='line'>apt-get upgrade
+</span><span class='line'>apt-get dist-upgrade
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Gems einspielen</h2>
 
-<p>{% codeblock Gems einspielen lang:sh %}
-gem install rails-2.3.17.gem
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gems einspielen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.17.gem
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Alte Gems deininstallieren</h2>
 
-<p>{% include_code uninstall-2.3.15.sh %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (uninstall-2.3.15.sh)</span> <a href='/downloads/code/uninstall-2.3.15.sh'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.15
+</span><span class='line'>
+</span><span class='line'>gem uninstall rails -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall actionmailer -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall actionpack -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activerecord -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activeresource -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activesupport -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'><span class="c">#gem uninstall rack -v 1.1.1</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
@@ -238,27 +360,85 @@ auf Version 2.3.15.</p>
 auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
 werden.</p>
 
-<p>{% include_code get-2.3.15.sh %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (get-2.3.15.sh)</span> <a href='/downloads/code/get-2.3.15.sh'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.15
+</span><span class='line'>
+</span><span class='line'>fetch<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="o">(</span>
+</span><span class='line'>  <span class="nv">GN</span><span class="o">=</span><span class="s2">&quot;$1-$2.gem&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -s <span class="s2">&quot;${GN}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span>gem fetch <span class="s2">&quot;$1&quot;</span> -v <span class="s2">&quot;$2&quot;</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>  <span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>i in actionmailer actionpack activerecord activeresource activesupport rails; <span class="k">do</span>
+</span><span class='line'><span class="k">  </span>fetch <span class="s2">&quot;${i}&quot;</span> <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>fetch rack 1.1.3
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Die Dateien werden danach mit SCP auf den Redmine-Server übertragen.</p>
 
 <h2>Basissystem aktualisieren</h2>
 
-<p>{% codeblock Basissystem aktualisieren lang:sh %}
-apt-get update
-apt-get upgrade
-apt-get dist-upgrade
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
+</span><span class='line'>apt-get upgrade
+</span><span class='line'>apt-get dist-upgrade
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Gems einspielen</h2>
 
-<p>{% codeblock Gems einspielen lang:sh %}
-gem install rails-2.3.15.gem
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gems einspielen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.15.gem
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Alte Gems deininstallieren</h2>
 
-<p>{% include_code uninstall-2.3.11.sh %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (uninstall-2.3.11.sh)</span> <a href='/downloads/code/uninstall-2.3.11.sh'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.11
+</span><span class='line'>
+</span><span class='line'>gem uninstall rails -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall actionmailer -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall actionpack -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activerecord -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activeresource -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activesupport -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall rack -v 1.1.1
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   

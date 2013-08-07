@@ -4,7 +4,7 @@
   <title><![CDATA[Category: OpenVPN | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/openvpn/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:00:49+02:00</updated>
+  <updated>2013-08-07T10:06:55+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -20,16 +20,17 @@
     <id>http://uli-heller.github.com/blog/2013/05/14/openvpn-ubuntu</id>
     <content type="html"><![CDATA[<h2>Installation von OpenVPN</h2>
 
-<p>{% codeblock Installation von OpenVPN %}
-sudo apt-get install openvpn
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Installation von OpenVPN </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install openvpn</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Konfigurationsdateien von OpenVPN einspielen</h2>
 
-<p>{% codeblock Konfigurationsdateien von OpenVPN einspielen %}
-mkdir ~/openvpn
-unzip -d ~/openvpn uheller.zip
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Konfigurationsdateien von OpenVPN einspielen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir ~/openvpn
+</span><span class='line'>unzip -d ~/openvpn uheller.zip</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Es werden Dateien wie diese abgelegt:</p>
 
@@ -44,11 +45,13 @@ unzip -d ~/openvpn uheller.zip
 
 <h2>OpenVPN starten</h2>
 
-<p>{% codeblock OpenVPN starten %}
-$ sudo openvpn ~/openvpn/uheller.ovpn
-Enter Auth Username: uheller
-Enter Auth Password: xxxx
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>OpenVPN starten </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo openvpn ~/openvpn/uheller.ovpn
+</span><span class='line'>Enter Auth Username: uheller
+</span><span class='line'>Enter Auth Password: xxxx</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>VPN-Rechner nutzen</h2>
 
