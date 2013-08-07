@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ubuntu | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-05T07:57:24+02:00</updated>
+  <updated>2013-08-07T10:00:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -77,120 +77,65 @@ tcl85 an der richtigen Stelle ausgelesen wird</li>
 
 <h2>Kurztests: Installation und Funktionsweise</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dpkg -i subversion_1.8.1-3dp12~precise1_amd64.deb libsvn1_1.8.1-3dp12~precise1_amd64.deb libserf1_1.2.1-0dp01~precise1_amd64.deb
-</span><span class='line'>$ sudo dpkg -i sqlite3_3.7.15.2-1dp01~precise1_amd64.deb libsqlite3-0_3.7.15.2-1dp01~precise1_amd64.deb
-</span><span class='line'>$ svn &mdash;version
-</span><span class='line'>svn, Version 1.8.1 (r1503906)
-</span><span class='line'>   übersetzt am Jul 26 2013, um 15:38:27 auf x86_64-pc-linux-gnu&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Copyright &copy; 2013 The Apache Software Foundation.
-</span><span class='line'>Diese Software besteht aus Beiträgen vieler Personen;
-</span><span class='line'>siehe Datei NOTICE für weitere Informationen.
-</span><span class='line'>Subversion ist Open Source Software, siehe &lt;a href="http://subversion.apache.org/">http://subversion.apache.org/&lt;/a>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Die folgenden ZugriffsModule (ZM) für Projektarchive stehen zur Verfügung:&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;ul>
-</span><span class='line'>&lt;li>ra_svn : Modul zum Zugriff auf ein Projektarchiv über das svn-Netzwerkprotokoll.
-</span><span class='line'>
-</span><span class='line'>&lt;ul>
-</span><span class='line'>&lt;li>mit Cyrus-SASL-Authentifizierung&lt;/li>
-</span><span class='line'>&lt;li>behandelt Schema »svn«&lt;/li>
-</span><span class='line'>&lt;/ul>
-</span><span class='line'>&lt;/li>
-</span><span class='line'>&lt;li>ra_local : Modul zum Zugriff auf ein Projektarchiv auf der lokalen Festplatte
-</span><span class='line'>
-</span><span class='line'>&lt;ul>
-</span><span class='line'>&lt;li>behandelt Schema »file«&lt;/li>
-</span><span class='line'>&lt;/ul>
-</span><span class='line'>&lt;/li>
-</span><span class='line'>&lt;li>ra_serf : Modul zum Zugriff auf ein Projektarchiv über das Protokoll WebDAV mittels serf.
-</span><span class='line'>
-</span><span class='line'>&lt;ul>
-</span><span class='line'>&lt;li>behandelt Schema »http«&lt;/li>
-</span><span class='line'>&lt;li>behandelt Schema »https«
-</span><span class='line'>$ cd svn/my-project
-</span><span class='line'>$ svn status
-</span><span class='line'>svn: E155036: Please see the &lsquo;svn upgrade&rsquo; command
-</span><span class='line'>svn: E155036: The working copy at &lsquo;/home/uli/svn/my-project&rsquo;
-</span><span class='line'>is too old (format 29) to work with client version &lsquo;1.8.1 (r1503906)&rsquo; (expects format 31). You need to upgrade the working copy first.
-</span><span class='line'>$ svn upgrade
-</span><span class='line'>Upgraded &lsquo;.&rsquo;
-</span><span class='line'>$ svn status
-</span><span class='line'>$ svn update
-</span><span class='line'>Updating &lsquo;.&rsquo;:
-</span><span class='line'>A    minianwendungjsf/.classpath
-</span><span class='line'>A    minianwendungjsf/ant
-</span><span class='line'>A    minianwendungjsf/ant/build.xml
-</span><span class='line'>A    minianwendungjsf/.project
-</span><span class='line'>&hellip;
-</span><span class='line'>A    EJB3.1_Test/login.config
-</span><span class='line'>Updated to revision 13.
-</span><span class='line'>$ svn checkout &lt;a href="https://.....">https://.....&lt;/a>
-</span><span class='line'>A    my-project2/git-test
-</span><span class='line'>A    my-project2/git-test/Hello.txt
-</span><span class='line'>A    my-project2/git-test/01-git-neu.txt
-</span><span class='line'>&hellip;
-</span><span class='line'>A    my-project2/testfolder2
-</span><span class='line'>A    my-project2/testfolder2/testbin-ticket9.odt
-</span><span class='line'>Checked out revision 78.</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<p>{% codeblock %}
+$ sudo dpkg -i subversion_1.8.1-3dp12~precise1_amd64.deb libsvn1_1.8.1-3dp12~precise1_amd64.deb libserf1_1.2.1-0dp01~precise1_amd64.deb
+$ sudo dpkg -i sqlite3_3.7.15.2-1dp01~precise1_amd64.deb libsqlite3-0_3.7.15.2-1dp01~precise1_amd64.deb
+$ svn &mdash;version
+svn, Version 1.8.1 (r1503906)
+   übersetzt am Jul 26 2013, um 15:38:27 auf x86_64-pc-linux-gnu</p>
+
+<p>Copyright &copy; 2013 The Apache Software Foundation.
+Diese Software besteht aus Beiträgen vieler Personen;
+siehe Datei NOTICE für weitere Informationen.
+Subversion ist Open Source Software, siehe <a href="http://subversion.apache.org/">http://subversion.apache.org/</a></p>
+
+<p>Die folgenden ZugriffsModule (ZM) für Projektarchive stehen zur Verfügung:</p>
+
+<ul>
+<li>ra_svn : Modul zum Zugriff auf ein Projektarchiv über das svn-Netzwerkprotokoll.
+
+<ul>
+<li>mit Cyrus-SASL-Authentifizierung</li>
+<li>behandelt Schema »svn«</li>
+</ul>
+</li>
+<li>ra_local : Modul zum Zugriff auf ein Projektarchiv auf der lokalen Festplatte
+
+<ul>
+<li>behandelt Schema »file«</li>
+</ul>
+</li>
+<li>ra_serf : Modul zum Zugriff auf ein Projektarchiv über das Protokoll WebDAV mittels serf.
+
+<ul>
+<li>behandelt Schema »http«</li>
+<li>behandelt Schema »https«
+$ cd svn/my-project
+$ svn status
+svn: E155036: Please see the &lsquo;svn upgrade&rsquo; command
+svn: E155036: The working copy at &lsquo;/home/uli/svn/my-project&rsquo;
+is too old (format 29) to work with client version &lsquo;1.8.1 (r1503906)&rsquo; (expects format 31). You need to upgrade the working copy first.
+$ svn upgrade
+Upgraded &lsquo;.&rsquo;
+$ svn status
+$ svn update
+Updating &lsquo;.&rsquo;:
+A    minianwendungjsf/.classpath
+A    minianwendungjsf/ant
+A    minianwendungjsf/ant/build.xml
+A    minianwendungjsf/.project
+&hellip;
+A    EJB3.1_Test/login.config
+Updated to revision 13.
+$ svn checkout <a href="https://.....">https://.....</a>
+A    my-project2/git-test
+A    my-project2/git-test/Hello.txt
+A    my-project2/git-test/01-git-neu.txt
+&hellip;
+A    my-project2/testfolder2
+A    my-project2/testfolder2/testbin-ticket9.odt
+Checked out revision 78.
+{% endcodeblock %}</li>
 </ul>
 </li>
 </ul>
@@ -233,24 +178,16 @@ BTRFS-Dateisystem</li>
 meiner BTRFS-Partition: Sie kann <em>nicht</em> umgehängt werden mit
 Nur-Lesen-Zugriff.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Runterfahren mit Kernel 3.8 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>~<span class="nv">$ </span>sudo poweroff
-</span><span class='line'>&amp;hellip;
-</span><span class='line'>umount: /run/lock: not mounted
-</span><span class='line'>umount: /run/shm: not mounted
-</span><span class='line'>mount: cannot mount block device /dev/mapper/datavg-lxclv <span class="nb">read</span>-only
-</span><span class='line'> * Will now halt
-</span><span class='line'>~<span class="nv">$ </span>sudo touch  /lxc/x
-</span><span class='line'>~<span class="nv">$ </span>sudo rm  /lxc/x
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Runterfahren mit Kernel 3.8 lang:sh %}
+~$ sudo poweroff
+&hellip;
+umount: /run/lock: not mounted
+umount: /run/shm: not mounted
+mount: cannot mount block device /dev/mapper/datavg-lxclv read-only
+ * Will now halt
+~$ sudo touch  /lxc/x
+~$ sudo rm  /lxc/x
+{% endcodeblock %}</p>
 
 <h2>Runterfahren eines LXC-Containers unter 3.10</h2>
 
@@ -260,43 +197,28 @@ Nur-Lesen-Zugriff. Dementsprechend ist sie danach &ldquo;nur-lesend&rdquo;
 eingehängt und der Inhalt von /lxc kann nicht mehr modifiziert
 werden.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Runterfahren mit Kernel 3.10 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>~<span class="nv">$ </span>sudo poweroff
-</span><span class='line'>&amp;hellip;
-</span><span class='line'>umount: /run/lock: not mounted
-</span><span class='line'>umount: /run/shm: not mounted
-</span><span class='line'> * Will now halt
-</span><span class='line'>~<span class="nv">$ </span>sudo touch /lxc/x
-</span><span class='line'>touch: »/lxc/x“ kann nicht berührt werden: Das Dateisystem ist nur lesbar
-</span><span class='line'>~<span class="nv">$ LANG</span><span class="o">=</span>C sudo touch /lxc/x
-</span><span class='line'>touch: cannot touch <span class="sb">`</span>/lxc/x<span class="err">&#39;</span>: Read-only file system
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Runterfahren mit Kernel 3.10 lang:sh %}
+~$ sudo poweroff
+&hellip;
+umount: /run/lock: not mounted
+umount: /run/shm: not mounted
+ * Will now halt
+~$ sudo touch /lxc/x
+touch: »/lxc/x“ kann nicht berührt werden: Das Dateisystem ist nur lesbar
+~$ LANG=C sudo touch /lxc/x
+touch: cannot touch `/lxc/x': Read-only file system
+{% endcodeblock %}</p>
 
 <h2>Dateisysteme innerhalb der LXC-Container</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dateisysteme </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>container~<span class="nv">$ </span>df
-</span><span class='line'>Filesystem               1K-blocks     Used Available Use% Mounted on
-</span><span class='line'>/dev/mapper/datavg-lxclv  41943040 13871816  26684544  35% /
-</span><span class='line'>none                        816864       76    816788   1% /run
-</span><span class='line'>none                          5120        0      5120   0% /run/lock
-</span><span class='line'>none                       4084308        0   4084308   0% /run/shm
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Dateisysteme lang:sh %}
+container~$ df
+Filesystem               1K-blocks     Used Available Use% Mounted on
+/dev/mapper/datavg-lxclv  41943040 13871816  26684544  35% /
+none                        816864       76    816788   1% /run
+none                          5120        0      5120   0% /run/lock
+none                       4084308        0   4084308   0% /run/shm
+{% endcodeblock %}</p>
 
 <h2>Korrekturen</h2>
 
@@ -329,49 +251,32 @@ die früher anstandslos gelaufen sind.</p>
 
 <h3>Host: /var/Log/syslog</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Host:/var/log/syslog </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Host:/var/log/syslog %}
+Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
+Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
+Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
+Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
+Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
+Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
+Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
+Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
+Jul 26 13:13:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
+{% endcodeblock %}</p>
 
 <h3>Container: /var/log/syslog</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Container:/var/log/syslog </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Jul 26 11:12:53 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 17
-</span><span class='line'>Jul 26 11:12:53 localhost dhclient: 5 bad udp checksums in 5 packets
-</span><span class='line'>Jul 26 11:13:10 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 14
-</span><span class='line'>Jul 26 11:13:24 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
-</span><span class='line'>Jul 26 11:13:35 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
-</span><span class='line'>Jul 26 11:13:50 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
-</span><span class='line'>Jul 26 11:14:01 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 10
-</span><span class='line'>Jul 26 11:14:01 localhost dhclient: 5 bad udp checksums in 5 packets
-</span><span class='line'>Jul 26 11:14:11 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
-</span><span class='line'>Jul 26 11:14:26 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Container:/var/log/syslog %}
+Jul 26 11:12:53 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 17
+Jul 26 11:12:53 localhost dhclient: 5 bad udp checksums in 5 packets
+Jul 26 11:13:10 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 14
+Jul 26 11:13:24 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
+Jul 26 11:13:35 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
+Jul 26 11:13:50 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
+Jul 26 11:14:01 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 10
+Jul 26 11:14:01 localhost dhclient: 5 bad udp checksums in 5 packets
+Jul 26 11:14:11 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
+Jul 26 11:14:26 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port
+{% endcodeblock %}</p>
 
 <h2>Abhilfe</h2>
 
@@ -448,7 +353,7 @@ Fehlermeldungen wie diese:</p>
 <p>Sie tauchen immer dann auf, wenn ich Dateien ohne Extension mittels <code>include_code</code>
 einbinde:</p>
 
-<pre><code>{% include_code redmine/passenger/passenger %}
+<pre><code>{{ "{% include_code redmine/passenger/passenger" }} %}
 </code></pre>
 
 <!-- more -->
@@ -458,260 +363,135 @@ einbinde:</p>
 
 <h3>Wie sieht&rsquo;s mit der Version von Github/master aus?</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git clone &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/imathis/octopress.git&quot;</span>&gt;https://github.com/imathis/octopress.git&lt;/a&gt;
-</span><span class='line'>Klone nach &amp;lsquo;octopress&amp;rsquo;&amp;hellip;
-</span><span class='line'>remote: Counting objects: 10661, <span class="k">done</span>.
-</span><span class='line'>remote: Compressing objects: 100% <span class="o">(</span>4588/4588<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>remote: Total 10661 <span class="o">(</span>delta 5839<span class="o">)</span>, reused 9830 <span class="o">(</span>delta 5212<span class="o">)</span>
-</span><span class='line'>Empfange Objekte: 100% <span class="o">(</span>10661/10661<span class="o">)</span>, 2.30 MiB | 773.00 KiB/s, <span class="k">done</span>.
-</span><span class='line'>Löse Unterschiede auf: 100% <span class="o">(</span>5839/5839<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>Checking connectivity&amp;hellip; <span class="k">done</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span><span class="nb">cd </span>octopress/
-</span><span class='line'>You are using &amp;lsquo;.rvmrc&amp;rsquo;, it requires trusting, it is slower and it is not compatible with other ruby managers,
-</span><span class='line'>you can switch to &amp;lsquo;.ruby-version&amp;rsquo; using &amp;lsquo;rvm rvmrc to <span class="o">[</span>.<span class="o">]</span>ruby-version&amp;rsquo;
-</span><span class='line'>or ignore this warnings with &amp;lsquo;rvm rvmrc warning ignore &amp;hellip;/octopress/.rvmrc&amp;rsquo;,
-</span><span class='line'>&amp;lsquo;.rvmrc&amp;rsquo; will <span class="k">continue </span>to be the default project file in RVM 1 and RVM 2,
-</span><span class='line'>to ignore the warning <span class="k">for </span>all files run &amp;lsquo;rvm rvmrc warning ignore all.rvmrcs&amp;rsquo;.&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;hr /&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;ul&gt;
-</span><span class='line'>&lt;li&gt;NOTICE                                                                       *&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;hr /&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;ul&gt;
-</span><span class='line'>&lt;li&gt;RVM has encountered a new or modified .rvmrc file in the current directory,  *&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;this is a shell script and therefore may contain any shell commands.         *&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;&lt;pre&gt;&lt;code&gt;                                                                       *
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;Examine the contents of this file carefully to be sure the contents are      *&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;safe before trusting it!                                                     *&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;Do you wish to trust &amp;lsquo;&amp;hellip;/octopress/.rvmrc&amp;rsquo;?                                 *&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;Choose v<span class="o">[</span>iew<span class="o">]</span> below to view the contents                                     *&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;hr /&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;y<span class="o">[</span>es<span class="o">]</span>, n<span class="o">[</span>o<span class="o">]</span>, v<span class="o">[</span>iew<span class="o">]</span>, c<span class="o">[</span>ancel<span class="o">]</span>&gt; yes
-</span><span class='line'>Using &amp;hellip;/.rvm/gems/ruby-1.9.3-p392&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>bundle install
-</span><span class='line'>Fetching gem metadata from &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://rubygems.org/........&quot;</span>&gt;https://rubygems.org/........&lt;/a&gt;
-</span><span class='line'>Fetching gem metadata from &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://rubygems.org/..&quot;</span>&gt;https://rubygems.org/..&lt;/a&gt;
-</span><span class='line'>Resolving dependencies&amp;hellip;
-</span><span class='line'>Using rake <span class="o">(</span>0.9.2.2<span class="o">)</span>
-</span><span class='line'>Using RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>
-</span><span class='line'>Using chunky_png <span class="o">(</span>1.2.5<span class="o">)</span>
-</span><span class='line'>Using fast-stemmer <span class="o">(</span>1.0.1<span class="o">)</span>
-</span><span class='line'>Using classifier <span class="o">(</span>1.3.3<span class="o">)</span>
-</span><span class='line'>Using fssm <span class="o">(</span>0.2.9<span class="o">)</span>
-</span><span class='line'>Installing sass <span class="o">(</span>3.2.9<span class="o">)</span>
-</span><span class='line'>Installing compass <span class="o">(</span>0.12.2<span class="o">)</span>
-</span><span class='line'>Using directory_watcher <span class="o">(</span>1.4.1<span class="o">)</span>
-</span><span class='line'>Installing haml <span class="o">(</span>3.1.7<span class="o">)</span>
-</span><span class='line'>Installing kramdown <span class="o">(</span>0.13.8<span class="o">)</span>
-</span><span class='line'>Using liquid <span class="o">(</span>2.3.0<span class="o">)</span>
-</span><span class='line'>Using syntax <span class="o">(</span>1.0.0<span class="o">)</span>
-</span><span class='line'>Installing maruku <span class="o">(</span>0.6.1<span class="o">)</span>
-</span><span class='line'>Using posix-spawn <span class="o">(</span>0.3.6<span class="o">)</span>
-</span><span class='line'>Installing yajl-ruby <span class="o">(</span>1.1.0<span class="o">)</span>
-</span><span class='line'>Installing pygments.rb <span class="o">(</span>0.3.4<span class="o">)</span>
-</span><span class='line'>Installing jekyll <span class="o">(</span>0.12.0<span class="o">)</span>
-</span><span class='line'>Installing rack <span class="o">(</span>1.5.2<span class="o">)</span>
-</span><span class='line'>Installing rack-protection <span class="o">(</span>1.5.0<span class="o">)</span>
-</span><span class='line'>Using rb-fsevent <span class="o">(</span>0.9.1<span class="o">)</span>
-</span><span class='line'>Installing rdiscount <span class="o">(</span>2.0.7.3<span class="o">)</span>
-</span><span class='line'>Using rubypants <span class="o">(</span>0.2.0<span class="o">)</span>
-</span><span class='line'>Installing sass-globbing <span class="o">(</span>1.0.0<span class="o">)</span>
-</span><span class='line'>Installing tilt <span class="o">(</span>1.3.7<span class="o">)</span>
-</span><span class='line'>Installing sinatra <span class="o">(</span>1.4.2<span class="o">)</span>
-</span><span class='line'>Using stringex <span class="o">(</span>1.4.0<span class="o">)</span>
-</span><span class='line'>Using bundler <span class="o">(</span>1.3.5<span class="o">)</span>
-</span><span class='line'>Your bundle is <span class="nb">complete</span>!
-</span><span class='line'>Use &lt;code&gt;bundle show <span class="o">[</span>gemname<span class="o">]</span>&lt;/code&gt; to see where a bundled gem is installed.&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>rake install&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;Copying classic theme into ./source and ./sass&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;mkdir -p <span class="nb">source</span>
-</span><span class='line'>cp -r .themes/classic/source/. <span class="nb">source</span>
-</span><span class='line'>mkdir -p sass
-</span><span class='line'>cp -r .themes/classic/sass/. sass
-</span><span class='line'>mkdir -p <span class="nb">source</span>/_posts
-</span><span class='line'>mkdir -p public&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>rake generate&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;Generating Site with Jekyll&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;directory <span class="nb">source</span>/stylesheets/
-</span><span class='line'>   create <span class="nb">source</span>/stylesheets/screen.css
-</span><span class='line'>Configuration from &amp;hellip;/octopress/_config.yml
-</span><span class='line'>Building site: <span class="nb">source</span> &amp;ndash;&gt; public
-</span><span class='line'>Successfully generated site: <span class="nb">source</span> &amp;ndash;&gt; public&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>mkdir -p <span class="nb">source</span>/downloads/code&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span><span class="nb">echo</span> &amp;ldquo;Uli war da&amp;rdquo; &gt;source/downloads/code/mytest&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>mkdir -p <span class="nb">source</span>/downloads/code/redmine/passenger&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>cp &amp;hellip;/source/downloads/code/redmine/passenger/passenger <span class="nb">source</span>/downloads/code/redmine/passenger/.&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:sh %}
+$ git clone <a href="https://github.com/imathis/octopress.git">https://github.com/imathis/octopress.git</a>
+Klone nach &lsquo;octopress&rsquo;&hellip;
+remote: Counting objects: 10661, done.
+remote: Compressing objects: 100% (4588/4588), done.
+remote: Total 10661 (delta 5839), reused 9830 (delta 5212)
+Empfange Objekte: 100% (10661/10661), 2.30 MiB | 773.00 KiB/s, done.
+Löse Unterschiede auf: 100% (5839/5839), done.
+Checking connectivity&hellip; done</p>
+
+<p>$ cd octopress/
+You are using &lsquo;.rvmrc&rsquo;, it requires trusting, it is slower and it is not compatible with other ruby managers,
+you can switch to &lsquo;.ruby-version&rsquo; using &lsquo;rvm rvmrc to [.]ruby-version&rsquo;
+or ignore this warnings with &lsquo;rvm rvmrc warning ignore &hellip;/octopress/.rvmrc&rsquo;,
+&lsquo;.rvmrc&rsquo; will continue to be the default project file in RVM 1 and RVM 2,
+to ignore the warning for all files run &lsquo;rvm rvmrc warning ignore all.rvmrcs&rsquo;.</p>
+
+<hr />
+
+<ul>
+<li>NOTICE                                                                       *</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>RVM has encountered a new or modified .rvmrc file in the current directory,  *</li>
+<li>this is a shell script and therefore may contain any shell commands.         *</li>
+<li><pre><code>                                                                       *
+</code></pre></li>
+<li>Examine the contents of this file carefully to be sure the contents are      *</li>
+<li>safe before trusting it!                                                     *</li>
+<li>Do you wish to trust &lsquo;&hellip;/octopress/.rvmrc&rsquo;?                                 *</li>
+<li>Choose v[iew] below to view the contents                                     *</li>
+</ul>
+
+
+<hr />
+
+<p>y[es], n[o], v[iew], c[ancel]> yes
+Using &hellip;/.rvm/gems/ruby-1.9.3-p392</p>
+
+<p>$ bundle install
+Fetching gem metadata from <a href="https://rubygems.org/........">https://rubygems.org/........</a>
+Fetching gem metadata from <a href="https://rubygems.org/..">https://rubygems.org/..</a>
+Resolving dependencies&hellip;
+Using rake (0.9.2.2)
+Using RedCloth (4.2.9)
+Using chunky_png (1.2.5)
+Using fast-stemmer (1.0.1)
+Using classifier (1.3.3)
+Using fssm (0.2.9)
+Installing sass (3.2.9)
+Installing compass (0.12.2)
+Using directory_watcher (1.4.1)
+Installing haml (3.1.7)
+Installing kramdown (0.13.8)
+Using liquid (2.3.0)
+Using syntax (1.0.0)
+Installing maruku (0.6.1)
+Using posix-spawn (0.3.6)
+Installing yajl-ruby (1.1.0)
+Installing pygments.rb (0.3.4)
+Installing jekyll (0.12.0)
+Installing rack (1.5.2)
+Installing rack-protection (1.5.0)
+Using rb-fsevent (0.9.1)
+Installing rdiscount (2.0.7.3)
+Using rubypants (0.2.0)
+Installing sass-globbing (1.0.0)
+Installing tilt (1.3.7)
+Installing sinatra (1.4.2)
+Using stringex (1.4.0)
+Using bundler (1.3.5)
+Your bundle is complete!
+Use <code>bundle show [gemname]</code> to see where a bundled gem is installed.</p>
+
+<p>$ rake install</p>
+
+<h2>Copying classic theme into ./source and ./sass</h2>
+
+<p>mkdir -p source
+cp -r .themes/classic/source/. source
+mkdir -p sass
+cp -r .themes/classic/sass/. sass
+mkdir -p source/_posts
+mkdir -p public</p>
+
+<p>$ rake generate</p>
+
+<h2>Generating Site with Jekyll</h2>
+
+<p>directory source/stylesheets/
+   create source/stylesheets/screen.css
+Configuration from &hellip;/octopress/_config.yml
+Building site: source &ndash;> public
+Successfully generated site: source &ndash;> public</p>
+
+<p>$ mkdir -p source/downloads/code</p>
+
+<p>$ echo &ldquo;Uli war da&rdquo; >source/downloads/code/mytest</p>
+
+<p>$ mkdir -p source/downloads/code/redmine/passenger</p>
+
+<p>$ cp &hellip;/source/downloads/code/redmine/passenger/passenger source/downloads/code/redmine/passenger/.</p>
+
+<p>{% endcodeblock %}</p>
 
 <p>Jetzt noch ein Testdokument anlegen:</p>
 
-<h2><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>&hellip;/source/_posts/2013-07-20-octopress.md </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;layout: post
-</span><span class='line'>author: Uli Heller
-</span><span class='line'>published: yes
-</span><span class='line'>title: &amp;ldquo;Octopress-Test&amp;rdquo;
-</span><span class='line'>date: 2013-07-20 07:00&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;comments: true&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Test:&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; %}&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Test2:&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; %}
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<h2>{% codeblock &hellip;/source/_posts/2013-07-20-octopress.md lang:text %}</h2>
+
+<p>layout: post
+author: Uli Heller
+published: yes
+title: &ldquo;Octopress-Test&rdquo;
+date: 2013-07-20 07:00</p>
+
+<h2>comments: true</h2>
+
+<p>Test:</p>
+
+<p>{{ &ldquo;{% include_code mytest&rdquo; }} %}</p>
+
+<p>Test2:</p>
+
+<p>{{ &ldquo;{% include_code redmine/passenger/passenger&rdquo; }} %}
+{% endcodeblock %}</p>
 
 <p>Sichten mit</p>
 

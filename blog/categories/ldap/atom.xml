@@ -4,7 +4,7 @@
   <title><![CDATA[Category: LDAP | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/ldap/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-05T07:57:24+02:00</updated>
+  <updated>2013-08-07T10:00:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -28,47 +28,35 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 
 <p>Zunächst sollte der Rechner aktualisiert werden.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Rechner aktualisieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get update
-</span><span class='line'>sudo apt-get dist-upgrade
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Rechner aktualisieren lang:sh %}
+sudo apt-get update
+sudo apt-get dist-upgrade
+{% endcodeblock %}</p>
 
 <h2>LDAP-Pakete installieren</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Pakete installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install slapd ldap-utils cpu whois&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;LDAP-Administrator-Passwort: uli&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock LDAP-Pakete installieren lang:sh %}
+sudo apt-get install slapd ldap-utils cpu whois</p>
+
+<h1>LDAP-Administrator-Passwort: uli</h1>
+
+<p>{% endcodeblock %}</p>
 
 <h2>LDAP-Schemas definieren</h2>
 
 <p>Standard-Schemas:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Schemas definieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
-</span><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
-</span><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock LDAP-Schemas definieren lang:sh %}
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+{% endcodeblock %}</p>
 
 <p>Zusatz-Schema:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Zusatzschema definieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/backend_dp.ldif
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock LDAP-Zusatzschema definieren lang:sh %}
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/backend_dp.ldif
+{% endcodeblock %}</p>
 
 <p>Das Zusatzschema gibt&rsquo;s <a href="/downloads/code/backend_dp.ldif">hier</a></p>
 
@@ -79,28 +67,22 @@ der Datenbestand eines anderen LDAP-Servers.</p>
 
 <h3>Grunddaten importieren</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Grunddaten importieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
-</span><span class='line'>sudo slapadd -c -l /root/base.ldif
-</span><span class='line'>sudo service slapd start
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Grunddaten importieren lang:sh %}
+sudo service slapd stop
+sudo slapadd -c -l /root/base.ldif
+sudo service slapd start
+{% endcodeblock %}</p>
 
 <h3>Datenbestand importieren</h3>
 
 <p>Dieser Schritt ist optional. Er dient primär der Übernahme eines Datenbestandes
 von einem bestehenden LDAP-Server.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Daten importieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
-</span><span class='line'>sudo slapadd -c -l 94.out.ldif  <span class="c"># 94.out.ldif ist eine ältere LDAP-Sicherung</span>
-</span><span class='line'>sudo service slapd start
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock LDAP-Daten importieren lang:sh %}
+sudo service slapd stop
+sudo slapadd -c -l 94.out.ldif  # 94.out.ldif ist eine ältere LDAP-Sicherung
+sudo service slapd start
+{% endcodeblock %}</p>
 
 <h2>Hilfsskripte installieren</h2>
 
@@ -123,39 +105,26 @@ von einem bestehenden LDAP-Server.</p>
 <p>Unsere Web-Anwendung soll mit dem Apache2 betrieben werden,
 also spielen wir den Apache2 ein und konfigurieren ihn auch gleich.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Apache2 installieren und konfigurieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install apache2 <span class="c"># Web-Server Apache-2.2.22 einspielen</span>
-</span><span class='line'>sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/changepass
-</span><span class='line'>sudo jmacs  /etc/apache2/sites-available/changepass&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Einige Anpassungen vornehmen&amp;hellip;&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;&amp;ndash; CGI: ldap/cgi-bin &amp;ndash;&gt; cgi-bin/ldap&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;sudo a2dissite default
-</span><span class='line'>sudo a2ensite changepass
-</span><span class='line'>sudo service apache2 restart
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Apache2 installieren und konfigurieren lang:sh %}
+sudo apt-get install apache2 # Web-Server Apache-2.2.22 einspielen
+sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/changepass
+sudo jmacs  /etc/apache2/sites-available/changepass</p>
+
+<h1>Einige Anpassungen vornehmen&hellip;</h1>
+
+<h1>&ndash; CGI: ldap/cgi-bin &ndash;> cgi-bin/ldap</h1>
+
+<p>sudo a2dissite default
+sudo a2ensite changepass
+sudo service apache2 restart
+{% endcodeblock %}</p>
 
 <p>Die Web-Anwendung benötigt noch einige Perl-Module.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Perl-Module installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install libconfig-tiny-perl
-</span><span class='line'>sudo apt-get install libnet-ldap-perl
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Perl-Module installieren lang:sh %}
+sudo apt-get install libconfig-tiny-perl
+sudo apt-get install libnet-ldap-perl
+{% endcodeblock %}</p>
 
 <p>Zuletzt: Web-Anwendung einspielen. Folgende Dateien werden dabei benötigt:</p>
 
@@ -173,14 +142,11 @@ also spielen wir den Apache2 ein und konfigurieren ihn auch gleich.</p>
 <p>Sofern die UFW-Firewall installiert und aktiviert ist, muß der LDAP-Port
 freigeschaltet werden.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP in Firewall freischalten </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ufw allow 389/tcp
-</span><span class='line'>sudo ufw allow 80/tcp
-</span><span class='line'>sudo ufw status
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock LDAP in Firewall freischalten lang:sh %}
+sudo ufw allow 389/tcp
+sudo ufw allow 80/tcp
+sudo ufw status
+{% endcodeblock %}</p>
 
 <h2>Tipps und Tricks</h2>
 
@@ -188,36 +154,27 @@ freigeschaltet werden.</p>
 
 <h4>Sichern</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Daten sichern </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo slapcat -l /tmp/slapcat.ldif
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock LDAP-Daten sichern lang:sh %}
+sudo slapcat -l /tmp/slapcat.ldif
+{% endcodeblock %}</p>
 
 <h4>Zurückspielen</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Daten zur</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
-</span><span class='line'>sudo rm -rf /var/lib/ldap/&lt;em&gt;
-</span><span class='line'>sudo slapadd -c -l /tmp/slapcat.ldif
-</span><span class='line'>sudo chown -R openldap.openldap /var/lib/ldap/&lt;/em&gt;
-</span><span class='line'>sudo service slapd start
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock LDAP-Daten zurückspielen lang:sh %}
+sudo service slapd stop
+sudo rm -rf /var/lib/ldap/<em>
+sudo slapadd -c -l /tmp/slapcat.ldif
+sudo chown -R openldap.openldap /var/lib/ldap/</em>
+sudo service slapd start
+{% endcodeblock %}</p>
 
 <h4>Neustart mit einem leeren LDAP-Bestand</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neustart mit leerem LDAP-Bestand </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
-</span><span class='line'>sudo rm -rf /var/lib/ldap/*
-</span><span class='line'>sudo service slapd start
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Neustart mit leerem LDAP-Bestand lang:sh %}
+sudo service slapd stop
+sudo rm -rf /var/lib/ldap/*
+sudo service slapd start
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Quilt | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/quilt/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-05T07:57:24+02:00</updated>
+  <updated>2013-08-07T10:00:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -77,190 +77,99 @@ Bei &ldquo;debian/stamp-configure&rdquo; wird ein Verweis auf &ldquo;patches&rdq
 
 <p>Die Änderungen sind im nachfolgenden DIFF zusammengefasst.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen an debian/rules </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;mdash;&amp;ndash; ../git-1.8.2.1_ok/debian/rules  2013-04-13 19:55:00.061153212 +0200
-</span><span class='line'><span class="gi">+++ debian/rules    2013-04-14 09:36:24.782564149 +0200</span>
-</span><span class='line'><span class="gu">@@ -37,19 +37,30 @@</span>
-</span><span class='line'> TMP =$(shell pwd)/tmp
-</span><span class='line'> GIT =$(shell pwd)/debian/git&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;-patch: deb-checkdir patch-stamp
-</span><span class='line'><span class="gd">-patch-stamp:</span>
-</span><span class='line'>&amp;ndash;   cp gitk-git/gitk gitk-git/gitk.uli.orig
-</span><span class='line'>&amp;ndash;   for i in &lt;code&gt;ls -1 debian/diff/*.diff debian/diff/*.patch \
-</span><span class='line'><span class="gd">-       2&amp;gt;/dev/null || :&lt;/code&gt;; do \</span>
-</span><span class='line'>&amp;ndash;     patch -p1 -N -r- &amp;lt;$$i || test $$? = 1 || exit 1; \
-</span><span class='line'>&amp;ndash;   done
-</span><span class='line'>&amp;ndash;   touch patch-stamp
-</span><span class='line'><span class="gi">+include /usr/share/quilt/quilt.make</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+debian/stamp-autogen:  $(QUILT_STAMPFN)</span>
-</span><span class='line'><span class="gi">+   $(DONT_BE_ROOT)</span>
-</span><span class='line'><span class="gi">+   ./autogen.sh</span>
-</span><span class='line'><span class="gi">+   touch $@</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+debian/stamp-configure:    $(QUILT_STAMPFN) debian/stamp-autogen</span>
-</span><span class='line'><span class="gi">+   dh_testdir</span>
-</span><span class='line'><span class="gi">+   test -e patches || ln -s debian/patches patches</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+#patch: deb-checkdir patch-stamp</span>
-</span><span class='line'><span class="gi">+#patch-stamp:</span>
-</span><span class='line'><span class="gi">+#  cp gitk-git/gitk gitk-git/gitk.uli.orig</span>
-</span><span class='line'><span class="gi">+#  for i in &lt;code&gt;ls -1 debian/diff/*.diff debian/diff/*.patch \</span>
-</span><span class='line'><span class="gi">+#      2&amp;gt;/dev/null || :&lt;/code&gt;; do \</span>
-</span><span class='line'><span class="gi">+#    patch -p1 -N -r- &amp;lt;$$i || test $$? = 1 || exit 1; \</span>
-</span><span class='line'><span class="gi">+#  done</span>
-</span><span class='line'><span class="gi">+#  touch patch-stamp&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; build: build-arch build-indep&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; build-arch: deb-checkdir build-arch-stamp
-</span><span class='line'><span class="gd">-build-arch-stamp: patch-stamp</span>
-</span><span class='line'><span class="gi">+build-arch-stamp: $(QUILT_STAMPFN)&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;-$(CC) -v
-</span><span class='line'>DESTDIR=&#39;$(GIT)&#39; $(MAKE) all $(OPTS)
-</span><span class='line'>cd contrib/subtree; DESTDIR=&#39;$(GIT)&#39; $(MAKE) all $(OPTS)
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;@@ -66,7 +77,7 @@&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;touch build-arch-stamp
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; build-indep: deb-checkdir build-indep-stamp
-</span><span class='line'><span class="gd">-build-indep-stamp: patch-stamp build-arch-stamp</span>
-</span><span class='line'><span class="gi">+build-indep-stamp: $(QUILT_STAMPFN) build-arch-stamp&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;: &#39;Work around bug #478524&#39;
-</span><span class='line'>set -e; if test &#39;$(BUILD_DOCS)&#39; = 1; \
-</span><span class='line'>then \
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;@@ -74,14 +85,17 @@&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;fi
-</span><span class='line'>touch build-indep-stamp
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;-clean: deb-checkdir
-</span><span class='line'><span class="gi">+clean: deb-checkdir unpatch</span>
-</span><span class='line'><span class="gi">+   dh_testdir</span>
-</span><span class='line'><span class="gi">+   dh_clean</span>
-</span><span class='line'><span class="gi">+   $(RM) patches&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;$(MAKE) clean $(OPTS)
-</span><span class='line'>cd contrib/subtree; $(MAKE) clean $(OPTS)
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;ul&gt;
-</span><span class='line'>&lt;li&gt;! test -e patch-stamp || \&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;  for i in `ls -1r debian/diff/&lt;em&gt;.diff debian/diff/&lt;/em&gt;.patch \&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;&lt;pre&gt;&lt;code&gt;  2&amp;gt;/dev/null || :`; do \
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;&lt;pre&gt;&lt;code&gt;patch -p1 -NR -r- &amp;lt;$$i || test $$? = 1 || exit 1; \
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;  done
-</span><span class='line'><span class="gi">+#  ! test -e patch-stamp || \</span>
-</span><span class='line'><span class="gi">+#    for i in &lt;code&gt;ls -1r debian/diff/*.diff debian/diff/*.patch \</span>
-</span><span class='line'><span class="gi">+#        2&amp;gt;/dev/null || :&lt;/code&gt;; do \</span>
-</span><span class='line'><span class="gi">+#      patch -p1 -NR -r- &amp;lt;$$i || test $$? = 1 || exit 1; \</span>
-</span><span class='line'><span class="gi">+#    done</span>
-</span><span class='line'>rm -rf &amp;lsquo;$(TMP)&amp;rsquo;
-</span><span class='line'>rm -f patch-stamp build-arch-stamp build-indep-stamp
-</span><span class='line'>rm -rf &amp;lsquo;$(GIT)&amp;rsquo; &amp;lsquo;$(GIT)&amp;rsquo;-doc &amp;lsquo;$(GIT)&amp;rsquo;-arch &amp;lsquo;$(GIT)&amp;rsquo;-cvs
-</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<p>{% codeblock Anpassungen an debian/rules lang:diff %}
+&mdash;&ndash; ../git-1.8.2.1_ok/debian/rules  2013-04-13 19:55:00.061153212 +0200
++++ debian/rules    2013-04-14 09:36:24.782564149 +0200
+@@ -37,19 +37,30 @@
+ TMP =$(shell pwd)/tmp
+ GIT =$(shell pwd)/debian/git</p>
+
+<p>-patch: deb-checkdir patch-stamp
+-patch-stamp:
+&ndash;   cp gitk-git/gitk gitk-git/gitk.uli.orig
+&ndash;   for i in <code>ls -1 debian/diff/*.diff debian/diff/*.patch \
+-       2&gt;/dev/null || :</code>; do \
+&ndash;     patch -p1 -N -r- &lt;$$i || test $$? = 1 || exit 1; \
+&ndash;   done
+&ndash;   touch patch-stamp
++include /usr/share/quilt/quilt.make
++
++debian/stamp-autogen:  $(QUILT_STAMPFN)
++   $(DONT_BE_ROOT)
++   ./autogen.sh
++   touch $@
++
++debian/stamp-configure:    $(QUILT_STAMPFN) debian/stamp-autogen
++   dh_testdir
++   test -e patches || ln -s debian/patches patches
++
++#patch: deb-checkdir patch-stamp
++#patch-stamp:
++#  cp gitk-git/gitk gitk-git/gitk.uli.orig
++#  for i in <code>ls -1 debian/diff/*.diff debian/diff/*.patch \
++#      2&gt;/dev/null || :</code>; do \
++#    patch -p1 -N -r- &lt;$$i || test $$? = 1 || exit 1; \
++#  done
++#  touch patch-stamp</p>
+
+<p> build: build-arch build-indep</p>
+
+<p> build-arch: deb-checkdir build-arch-stamp
+-build-arch-stamp: patch-stamp
++build-arch-stamp: $(QUILT_STAMPFN)</p>
+
+<pre><code>-$(CC) -v
+DESTDIR='$(GIT)' $(MAKE) all $(OPTS)
+cd contrib/subtree; DESTDIR='$(GIT)' $(MAKE) all $(OPTS)
+</code></pre>
+
+<p>@@ -66,7 +77,7 @@</p>
+
+<pre><code>touch build-arch-stamp
+</code></pre>
+
+<p> build-indep: deb-checkdir build-indep-stamp
+-build-indep-stamp: patch-stamp build-arch-stamp
++build-indep-stamp: $(QUILT_STAMPFN) build-arch-stamp</p>
+
+<pre><code>: 'Work around bug #478524'
+set -e; if test '$(BUILD_DOCS)' = 1; \
+then \
+</code></pre>
+
+<p>@@ -74,14 +85,17 @@</p>
+
+<pre><code>fi
+touch build-indep-stamp
+</code></pre>
+
+<p>-clean: deb-checkdir
++clean: deb-checkdir unpatch
++   dh_testdir
++   dh_clean
++   $(RM) patches</p>
+
+<pre><code>$(MAKE) clean $(OPTS)
+cd contrib/subtree; $(MAKE) clean $(OPTS)
+</code></pre>
+
+<ul>
+<li>! test -e patch-stamp || \</li>
+<li>  for i in `ls -1r debian/diff/<em>.diff debian/diff/</em>.patch \</li>
+<li><pre><code>  2&gt;/dev/null || :`; do \
+</code></pre></li>
+<li><pre><code>patch -p1 -NR -r- &lt;$$i || test $$? = 1 || exit 1; \
+</code></pre></li>
+<li>  done
++#  ! test -e patch-stamp || \
++#    for i in <code>ls -1r debian/diff/*.diff debian/diff/*.patch \
++#        2&gt;/dev/null || :</code>; do \
++#      patch -p1 -NR -r- &lt;$$i || test $$? = 1 || exit 1; \
++#    done
+rm -rf &lsquo;$(TMP)&rsquo;
+rm -f patch-stamp build-arch-stamp build-indep-stamp
+rm -rf &lsquo;$(GIT)&rsquo; &lsquo;$(GIT)&rsquo;-doc &lsquo;$(GIT)&rsquo;-arch &lsquo;$(GIT)&rsquo;-cvs
+{% endcodeblock %}</li>
 </ul>
 
 
@@ -302,48 +211,27 @@ durchlaufen. Korrigiert habe ich das so:</p>
 <p>Heute hatte ich die Idee, eine neue Version von NGINX zu erzeugen.
 Grob sollte es nach diesem Muster klappen:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Paket aktualisieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Quellen zum Ubuntu-Paket runterladen&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;apt-get <span class="nb">source </span>nginx&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Aktuelle Nginx-Quellen runterladen&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;wget -c &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://nginx.org/download/nginx-1.2.7.tar.gz&quot;</span>&gt;http://nginx.org/download/nginx-1.2.7.tar.gz&lt;/a&gt;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Paket aktualisieren&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;cd nginx-1.1.19
-</span><span class='line'>uupdate -u ../nginx-1.2.7.tar.gz
-</span><span class='line'><span class="nb">cd</span> ..&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Paket neu erzeugen&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;cd nginx-1.2.7
-</span><span class='line'>dpkg-buildpackage
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Paket aktualisieren lang:sh %}</p>
+
+<h1>Quellen zum Ubuntu-Paket runterladen</h1>
+
+<p>apt-get source nginx</p>
+
+<h1>Aktuelle Nginx-Quellen runterladen</h1>
+
+<p>wget -c <a href="http://nginx.org/download/nginx-1.2.7.tar.gz">http://nginx.org/download/nginx-1.2.7.tar.gz</a></p>
+
+<h1>Paket aktualisieren</h1>
+
+<p>cd nginx-1.1.19
+uupdate -u ../nginx-1.2.7.tar.gz
+cd ..</p>
+
+<h1>Paket neu erzeugen</h1>
+
+<p>cd nginx-1.2.7
+dpkg-buildpackage
+{% endcodeblock %}</p>
 
 <p>Danach sollten die neuen Paketdateien bereit zur Installation sein.</p>
 
@@ -351,32 +239,20 @@ Grob sollte es nach diesem Muster klappen:</p>
 
 <p>Leider klappt&rsquo;s nicht, es gibt fatale Fehlermeldungen:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fatale Fehler bei der Paketerzeugung </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli@ubuntu-120464:/build/nginx/nginx-1.2.7<span class="nv">$ </span>dpkg-buildpackage
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2 -fstack-protector &amp;mdash;param<span class="o">=</span>ssp-buffer-size<span class="o">=</span>4 -Wformat -Wformat-security
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CPPFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -D_FORTIFY_SOURCE<span class="o">=</span>2
-</span><span class='line'>&amp;hellip;
-</span><span class='line'> dpkg-source -b nginx-1.2.7
-</span><span class='line'>dpkg-source: Information: Quellformat »3.0 <span class="o">(</span>quilt<span class="o">)</span>« wird verwendet
-</span><span class='line'>dpkg-source: Information: nginx wird unter Benutzung des existierenden ./nginx_1.2.7.orig.tar.gz gebaut
-</span><span class='line'>patching file src/http/modules/perl/Makefile.PL
-</span><span class='line'>Hunk <span class="c">#2 FAILED at 14.</span>
-</span><span class='line'>1 out of 2 hunks FAILED &amp;mdash; saving rejects to file src/http/modules/perl/Makefile.PL.rej
-</span><span class='line'>dpkg-source: Fehler: Fehler-Exitstatus von <span class="nv">LC_ALL</span><span class="o">=</span>C patch -t -F 0 -N -p1 -u -V never -g0 -E -b -B .pc/perl-use-dpkg-buildflags.patch/ &amp;lt; nginx-1.2.7.orig.OjasVr/debian/patches/perl-use-dpkg-buildflags.patch war 1
-</span><span class='line'>dpkg-buildpackage: Fehler: Fehler-Exitstatus von dpkg-source -b nginx-1.2.7 war 2
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Fatale Fehler bei der Paketerzeugung lang:sh %}
+uli@ubuntu-120464:/build/nginx/nginx-1.2.7$ dpkg-buildpackage
+dpkg-buildpackage: export CFLAGS from dpkg-buildflags (origin: vendor): -g -O2 -fstack-protector &mdash;param=ssp-buffer-size=4 -Wformat -Wformat-security
+dpkg-buildpackage: export CPPFLAGS from dpkg-buildflags (origin: vendor): -D_FORTIFY_SOURCE=2
+&hellip;
+ dpkg-source -b nginx-1.2.7
+dpkg-source: Information: Quellformat »3.0 (quilt)« wird verwendet
+dpkg-source: Information: nginx wird unter Benutzung des existierenden ./nginx_1.2.7.orig.tar.gz gebaut
+patching file src/http/modules/perl/Makefile.PL
+Hunk #2 FAILED at 14.
+1 out of 2 hunks FAILED &mdash; saving rejects to file src/http/modules/perl/Makefile.PL.rej
+dpkg-source: Fehler: Fehler-Exitstatus von LC_ALL=C patch -t -F 0 -N -p1 -u -V never -g0 -E -b -B .pc/perl-use-dpkg-buildflags.patch/ &lt; nginx-1.2.7.orig.OjasVr/debian/patches/perl-use-dpkg-buildflags.patch war 1
+dpkg-buildpackage: Fehler: Fehler-Exitstatus von dpkg-source -b nginx-1.2.7 war 2
+{% endcodeblock %}</p>
 
 <h2>Korrektur</h2>
 
@@ -386,28 +262,18 @@ der fehlerhaften Anpassungen verwendet werden.</p>
 
 <p>Hier der Korrekturablauf:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Patch aktualisieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">export </span><span class="nv">QUILT_PATCHES</span><span class="o">=</span>debian/patches
-</span><span class='line'>quilt push -f <span class="c"># &amp;hellip; eigentlich hätte ich hier einen Fehler erwartet,&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;stattdessen erscheint eine Meldung mit &amp;ldquo;succeeded with fuzz&amp;hellip;&amp;rdquo;&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Glück gehabt!&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;quilt refresh
-</span><span class='line'>quilt pop -a
-</span><span class='line'>dpkg-buildpackage
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Patch aktualisieren lang:sh %}
+export QUILT_PATCHES=debian/patches
+quilt push -f # &hellip; eigentlich hätte ich hier einen Fehler erwartet,</p>
+
+<h1>stattdessen erscheint eine Meldung mit &ldquo;succeeded with fuzz&hellip;&rdquo;</h1>
+
+<h1>Glück gehabt!</h1>
+
+<p>quilt refresh
+quilt pop -a
+dpkg-buildpackage
+{% endcodeblock %}</p>
 
 <p>Nun läuft die Erzeugung durch, DEB-Dateien werden erstellt.</p>
 
@@ -423,90 +289,49 @@ der fehlerhaften Anpassungen verwendet werden.</p>
 
 <h3>Protokoll</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Protokoll: Fehler und Korrektur </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>dpkg-buildpackage
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2 -fstack-protector &amp;mdash;param<span class="o">=</span>ssp-buffer-size<span class="o">=</span>4 -Wformat -Wformat-security
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CPPFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -D_FORTIFY_SOURCE<span class="o">=</span>2
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>CXXFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2 -fstack-protector &amp;mdash;param<span class="o">=</span>ssp-buffer-size<span class="o">=</span>4 -Wformat -Wformat-security
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>FFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -g -O2
-</span><span class='line'>dpkg-buildpackage: <span class="nb">export </span>LDFLAGS from dpkg-buildflags <span class="o">(</span>origin: vendor<span class="o">)</span>: -Wl,-Bsymbolic-functions -Wl,-z,relro
-</span><span class='line'>dpkg-buildpackage: <span class="nb">source </span>package nginx
-</span><span class='line'>dpkg-buildpackage: <span class="nb">source </span>version 1.2.7-0dp01~precise1
-</span><span class='line'>dpkg-buildpackage: <span class="nb">source </span>changed by Uli Heller &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#x3a;&amp;#x75;&amp;#108;&amp;#x69;&amp;#46;&amp;#104;&amp;#x65;&amp;#x6c;&amp;#108;&amp;#x65;&amp;#114;&amp;#64;&amp;#x64;&amp;#x61;&amp;#101;&amp;#x6d;&amp;#111;&amp;#x6e;&amp;#x73;&amp;#x2d;&amp;#x70;&amp;#111;&amp;#105;&amp;#x6e;&amp;#116;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&quot;</span>&gt;&amp;#117;&amp;#x6c;&amp;#105;&amp;#46;&amp;#x68;&amp;#x65;&amp;#108;&amp;#x6c;&amp;#101;&amp;#x72;&amp;#64;&amp;#x64;&amp;#x61;&amp;#101;&amp;#x6d;&amp;#x6f;&amp;#110;&amp;#115;&amp;#x2d;&amp;#x70;&amp;#x6f;&amp;#x69;&amp;#x6e;&amp;#116;&amp;#x2e;&amp;#99;&amp;#111;&amp;#x6d;&lt;/a&gt;
-</span><span class='line'>dpkg-buildpackage: host architecture i386
-</span><span class='line'> dpkg-source &amp;mdash;before-build nginx-1.2.7
-</span><span class='line'> fakeroot debian/rules clean
-</span><span class='line'>dh_testdir
-</span><span class='line'>dh_testroot
-</span><span class='line'>rm -f build-stamp
-</span><span class='line'>rm -f config.sub config.guess
-</span><span class='line'>dh_clean
-</span><span class='line'>rm -rf /build/nginx/nginx-1.2.7/debian/modules/naxsi
-</span><span class='line'>rm -rf /build/nginx/nginx-1.2.7/debian/build-*
-</span><span class='line'> dpkg-source -b nginx-1.2.7
-</span><span class='line'>dpkg-source: info: using <span class="nb">source </span>format <span class="sb">`</span>3.0 <span class="o">(</span>quilt<span class="o">)</span>&amp;lsquo;
-</span><span class='line'>dpkg-source: info: building nginx using existing ./nginx_1.2.7.orig.tar.gz
-</span><span class='line'>patching file src/http/modules/perl/Makefile.PL
-</span><span class='line'>Hunk <span class="c">#2 FAILED at 14.</span>
-</span><span class='line'>1 out of 2 hunks FAILED &amp;mdash; saving rejects to file src/http/modules/perl/Makefile.PL.rej
-</span><span class='line'>dpkg-source: error: <span class="nv">LC_ALL</span><span class="o">=</span>C patch -t -F 0 -N -p1 -u -V never -g0 -E -b -B .pc/perl-use-dpkg-buildflags.patch/ &amp;lt; nginx-1.2.7.orig.G94ZuW/debian/patches/perl-use-dpkg-buildflags.patch gave error <span class="nb">exit </span>status 1
-</span><span class='line'>dpkg-buildpackage: error: dpkg-source -b nginx-1.2.7 gave error <span class="nb">exit </span>status 2
-</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span><span class="nb">export </span><span class="nv">QUILT_PATCHES</span><span class="o">=</span>debian/patches
-</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>quilt push -f
-</span><span class='line'>Applying patch perl-use-dpkg-buildflags.patch
-</span><span class='line'>patching file src/http/modules/perl/Makefile.PL
-</span><span class='line'>Hunk <span class="c">#2 succeeded at 14 with fuzz 1.&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Now at patch perl-use-dpkg-buildflags.patch
-</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>quilt refresh
-</span><span class='line'>Refreshed patch perl-use-dpkg-buildflags.patch
-</span><span class='line'>uli@ubuntu1204:/build/nginx/nginx-1.2.7<span class="nv">$ </span>quilt pop -a
-</span><span class='line'>Removing patch perl-use-dpkg-buildflags.patch
-</span><span class='line'>Restoring src/http/modules/perl/Makefile.PL&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;No patches applied
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Protokoll: Fehler und Korrektur lang:sh %}
+uli@ubuntu1204:/build/nginx/nginx-1.2.7$ dpkg-buildpackage
+dpkg-buildpackage: export CFLAGS from dpkg-buildflags (origin: vendor): -g -O2 -fstack-protector &mdash;param=ssp-buffer-size=4 -Wformat -Wformat-security
+dpkg-buildpackage: export CPPFLAGS from dpkg-buildflags (origin: vendor): -D_FORTIFY_SOURCE=2
+dpkg-buildpackage: export CXXFLAGS from dpkg-buildflags (origin: vendor): -g -O2 -fstack-protector &mdash;param=ssp-buffer-size=4 -Wformat -Wformat-security
+dpkg-buildpackage: export FFLAGS from dpkg-buildflags (origin: vendor): -g -O2
+dpkg-buildpackage: export LDFLAGS from dpkg-buildflags (origin: vendor): -Wl,-Bsymbolic-functions -Wl,-z,relro
+dpkg-buildpackage: source package nginx
+dpkg-buildpackage: source version 1.2.7-0dp01~precise1
+dpkg-buildpackage: source changed by Uli Heller <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#x75;&#x6c;&#105;&#x2e;&#104;&#101;&#108;&#x6c;&#101;&#x72;&#x40;&#x64;&#x61;&#x65;&#x6d;&#x6f;&#110;&#115;&#45;&#x70;&#111;&#105;&#110;&#116;&#46;&#x63;&#111;&#x6d;">&#117;&#108;&#x69;&#46;&#x68;&#x65;&#x6c;&#x6c;&#x65;&#x72;&#64;&#x64;&#x61;&#x65;&#x6d;&#111;&#110;&#115;&#x2d;&#x70;&#111;&#105;&#110;&#x74;&#46;&#99;&#x6f;&#109;</a>
+dpkg-buildpackage: host architecture i386
+ dpkg-source &mdash;before-build nginx-1.2.7
+ fakeroot debian/rules clean
+dh_testdir
+dh_testroot
+rm -f build-stamp
+rm -f config.sub config.guess
+dh_clean
+rm -rf /build/nginx/nginx-1.2.7/debian/modules/naxsi
+rm -rf /build/nginx/nginx-1.2.7/debian/build-*
+ dpkg-source -b nginx-1.2.7
+dpkg-source: info: using source format `3.0 (quilt)&lsquo;
+dpkg-source: info: building nginx using existing ./nginx_1.2.7.orig.tar.gz
+patching file src/http/modules/perl/Makefile.PL
+Hunk #2 FAILED at 14.
+1 out of 2 hunks FAILED &mdash; saving rejects to file src/http/modules/perl/Makefile.PL.rej
+dpkg-source: error: LC_ALL=C patch -t -F 0 -N -p1 -u -V never -g0 -E -b -B .pc/perl-use-dpkg-buildflags.patch/ &lt; nginx-1.2.7.orig.G94ZuW/debian/patches/perl-use-dpkg-buildflags.patch gave error exit status 1
+dpkg-buildpackage: error: dpkg-source -b nginx-1.2.7 gave error exit status 2
+uli@ubuntu1204:/build/nginx/nginx-1.2.7$ export QUILT_PATCHES=debian/patches
+uli@ubuntu1204:/build/nginx/nginx-1.2.7$ quilt push -f
+Applying patch perl-use-dpkg-buildflags.patch
+patching file src/http/modules/perl/Makefile.PL
+Hunk #2 succeeded at 14 with fuzz 1.</p>
+
+<p>Now at patch perl-use-dpkg-buildflags.patch
+uli@ubuntu1204:/build/nginx/nginx-1.2.7$ quilt refresh
+Refreshed patch perl-use-dpkg-buildflags.patch
+uli@ubuntu1204:/build/nginx/nginx-1.2.7$ quilt pop -a
+Removing patch perl-use-dpkg-buildflags.patch
+Restoring src/http/modules/perl/Makefile.PL</p>
+
+<p>No patches applied
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   

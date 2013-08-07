@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Grub | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/grub/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-05T07:57:24+02:00</updated>
+  <updated>2013-08-07T10:00:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -31,89 +31,51 @@ Das Verfahren habe ich mir von <a href="http://michael-prokop.at/blog/2013/05/10
 
 <h2>Sichten: Welche Menüeinträge gibt es?</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Liste der Men</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;grep &amp;ldquo;^menuentry&amp;rdquo; /boot/grub/grub.cfg&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;menuentry &amp;lsquo;Ubuntu, with Linux 3.2.0-36-virtual&amp;rsquo; &amp;mdash;class ubuntu &amp;mdash;class gnu-linux &amp;mdash;class gnu &amp;mdash;class os <span class="o">{</span>
-</span><span class='line'>menuentry &amp;lsquo;Ubuntu, with Linux 3.2.0-36-virtual <span class="o">(</span>recovery mode<span class="o">)</span>&amp;rsquo; &amp;mdash;class ubuntu &amp;mdash;class gnu-linux &amp;mdash;class gnu &amp;mdash;class os <span class="o">{</span>
-</span><span class='line'>menuentry &amp;ldquo;Memory <span class="nb">test</span> <span class="o">(</span>memtest86+<span class="o">)</span>&amp;rdquo; <span class="o">{</span>
-</span><span class='line'>menuentry &amp;ldquo;Memory <span class="nb">test</span> <span class="o">(</span>memtest86+, serial console 115200<span class="o">)</span>&amp;rdquo; <span class="o">{</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Liste der Menüeinträge in Grub lang:sh %}</p>
+
+<h1>grep &ldquo;^menuentry&rdquo; /boot/grub/grub.cfg</h1>
+
+<p>menuentry &lsquo;Ubuntu, with Linux 3.2.0-36-virtual&rsquo; &mdash;class ubuntu &mdash;class gnu-linux &mdash;class gnu &mdash;class os {
+menuentry &lsquo;Ubuntu, with Linux 3.2.0-36-virtual (recovery mode)&rsquo; &mdash;class ubuntu &mdash;class gnu-linux &mdash;class gnu &mdash;class os {
+menuentry &ldquo;Memory test (memtest86+)&rdquo; {
+menuentry &ldquo;Memory test (memtest86+, serial console 115200)&rdquo; {
+{% endcodeblock %}</p>
 
 <h2>Umstellen des Standard-Boot-Eintrages</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Umstellen der Standard-Boot-Eintrages </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;grep GRUB_DEFAULT /etc/default/grub&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;GRUB_DEFAULT<span class="o">=</span>0&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;sed -i &amp;rsquo;s/^GRUB_DEFAULT.*/GRUB_DEFAULT<span class="o">=</span>saved/&amp;lsquo; /etc/default/grub&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;grep GRUB_DEFAULT /etc/default/grub&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;GRUB_DEFAULT<span class="o">=</span>saved&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;update-grub&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Generating grub.cfg &amp;hellip;
-</span><span class='line'>Found linux image: /boot/vmlinuz-3.2.0-36-virtual
-</span><span class='line'>Found initrd image: /boot/initrd.img-3.2.0-36-virtual
-</span><span class='line'>Found memtest86+ image: /memtest86+.bin
-</span><span class='line'><span class="k">done</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Umstellen der Standard-Boot-Eintrages lang:sh %}</p>
+
+<h1>grep GRUB_DEFAULT /etc/default/grub</h1>
+
+<p>GRUB_DEFAULT=0</p>
+
+<h1>sed -i &rsquo;s/^GRUB_DEFAULT.*/GRUB_DEFAULT=saved/&lsquo; /etc/default/grub</h1>
+
+<h1>grep GRUB_DEFAULT /etc/default/grub</h1>
+
+<p>GRUB_DEFAULT=saved</p>
+
+<h1>update-grub</h1>
+
+<p>Generating grub.cfg &hellip;
+Found linux image: /boot/vmlinuz-3.2.0-36-virtual
+Found initrd image: /boot/initrd.img-3.2.0-36-virtual
+Found memtest86+ image: /memtest86+.bin
+done
+{% endcodeblock %}</p>
 
 <h2>Neustart eines anderen Eintrages</h2>
 
 <p>Ich möchte den Eintrag &ldquo;Memory test (memtest86+)&rdquo;
 starten, das ist der dritte Eintrag im Boot-Menü:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neustart mit dem dritten Standard-Boot-Eintrag </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;grub-reboot 2&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;reboot&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Neustart mit dem dritten Standard-Boot-Eintrag lang:sh %}</p>
+
+<h1>grub-reboot 2</h1>
+
+<h1>reboot</h1>
+
+<p>{% endcodeblock %}</p>
 
 <p>Nun wird der dritte Eintrag gestartet, der blaue Bildschirm von
 &ldquo;Memory Test&rdquo; erscheint.</p>

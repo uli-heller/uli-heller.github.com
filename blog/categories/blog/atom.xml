@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Blog | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/blog/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-05T07:57:24+02:00</updated>
+  <updated>2013-08-07T10:00:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -27,7 +27,7 @@ Fehlermeldungen wie diese:</p>
 <p>Sie tauchen immer dann auf, wenn ich Dateien ohne Extension mittels <code>include_code</code>
 einbinde:</p>
 
-<pre><code>{% include_code redmine/passenger/passenger %}
+<pre><code>{{ "{% include_code redmine/passenger/passenger" }} %}
 </code></pre>
 
 <!-- more -->
@@ -37,260 +37,135 @@ einbinde:</p>
 
 <h3>Wie sieht&rsquo;s mit der Version von Github/master aus?</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git clone &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/imathis/octopress.git&quot;</span>&gt;https://github.com/imathis/octopress.git&lt;/a&gt;
-</span><span class='line'>Klone nach &amp;lsquo;octopress&amp;rsquo;&amp;hellip;
-</span><span class='line'>remote: Counting objects: 10661, <span class="k">done</span>.
-</span><span class='line'>remote: Compressing objects: 100% <span class="o">(</span>4588/4588<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>remote: Total 10661 <span class="o">(</span>delta 5839<span class="o">)</span>, reused 9830 <span class="o">(</span>delta 5212<span class="o">)</span>
-</span><span class='line'>Empfange Objekte: 100% <span class="o">(</span>10661/10661<span class="o">)</span>, 2.30 MiB | 773.00 KiB/s, <span class="k">done</span>.
-</span><span class='line'>Löse Unterschiede auf: 100% <span class="o">(</span>5839/5839<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>Checking connectivity&amp;hellip; <span class="k">done</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span><span class="nb">cd </span>octopress/
-</span><span class='line'>You are using &amp;lsquo;.rvmrc&amp;rsquo;, it requires trusting, it is slower and it is not compatible with other ruby managers,
-</span><span class='line'>you can switch to &amp;lsquo;.ruby-version&amp;rsquo; using &amp;lsquo;rvm rvmrc to <span class="o">[</span>.<span class="o">]</span>ruby-version&amp;rsquo;
-</span><span class='line'>or ignore this warnings with &amp;lsquo;rvm rvmrc warning ignore &amp;hellip;/octopress/.rvmrc&amp;rsquo;,
-</span><span class='line'>&amp;lsquo;.rvmrc&amp;rsquo; will <span class="k">continue </span>to be the default project file in RVM 1 and RVM 2,
-</span><span class='line'>to ignore the warning <span class="k">for </span>all files run &amp;lsquo;rvm rvmrc warning ignore all.rvmrcs&amp;rsquo;.&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;hr /&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;ul&gt;
-</span><span class='line'>&lt;li&gt;NOTICE                                                                       *&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;hr /&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;ul&gt;
-</span><span class='line'>&lt;li&gt;RVM has encountered a new or modified .rvmrc file in the current directory,  *&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;this is a shell script and therefore may contain any shell commands.         *&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;&lt;pre&gt;&lt;code&gt;                                                                       *
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;Examine the contents of this file carefully to be sure the contents are      *&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;safe before trusting it!                                                     *&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;Do you wish to trust &amp;lsquo;&amp;hellip;/octopress/.rvmrc&amp;rsquo;?                                 *&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;Choose v<span class="o">[</span>iew<span class="o">]</span> below to view the contents                                     *&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;hr /&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;y<span class="o">[</span>es<span class="o">]</span>, n<span class="o">[</span>o<span class="o">]</span>, v<span class="o">[</span>iew<span class="o">]</span>, c<span class="o">[</span>ancel<span class="o">]</span>&gt; yes
-</span><span class='line'>Using &amp;hellip;/.rvm/gems/ruby-1.9.3-p392&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>bundle install
-</span><span class='line'>Fetching gem metadata from &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://rubygems.org/........&quot;</span>&gt;https://rubygems.org/........&lt;/a&gt;
-</span><span class='line'>Fetching gem metadata from &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://rubygems.org/..&quot;</span>&gt;https://rubygems.org/..&lt;/a&gt;
-</span><span class='line'>Resolving dependencies&amp;hellip;
-</span><span class='line'>Using rake <span class="o">(</span>0.9.2.2<span class="o">)</span>
-</span><span class='line'>Using RedCloth <span class="o">(</span>4.2.9<span class="o">)</span>
-</span><span class='line'>Using chunky_png <span class="o">(</span>1.2.5<span class="o">)</span>
-</span><span class='line'>Using fast-stemmer <span class="o">(</span>1.0.1<span class="o">)</span>
-</span><span class='line'>Using classifier <span class="o">(</span>1.3.3<span class="o">)</span>
-</span><span class='line'>Using fssm <span class="o">(</span>0.2.9<span class="o">)</span>
-</span><span class='line'>Installing sass <span class="o">(</span>3.2.9<span class="o">)</span>
-</span><span class='line'>Installing compass <span class="o">(</span>0.12.2<span class="o">)</span>
-</span><span class='line'>Using directory_watcher <span class="o">(</span>1.4.1<span class="o">)</span>
-</span><span class='line'>Installing haml <span class="o">(</span>3.1.7<span class="o">)</span>
-</span><span class='line'>Installing kramdown <span class="o">(</span>0.13.8<span class="o">)</span>
-</span><span class='line'>Using liquid <span class="o">(</span>2.3.0<span class="o">)</span>
-</span><span class='line'>Using syntax <span class="o">(</span>1.0.0<span class="o">)</span>
-</span><span class='line'>Installing maruku <span class="o">(</span>0.6.1<span class="o">)</span>
-</span><span class='line'>Using posix-spawn <span class="o">(</span>0.3.6<span class="o">)</span>
-</span><span class='line'>Installing yajl-ruby <span class="o">(</span>1.1.0<span class="o">)</span>
-</span><span class='line'>Installing pygments.rb <span class="o">(</span>0.3.4<span class="o">)</span>
-</span><span class='line'>Installing jekyll <span class="o">(</span>0.12.0<span class="o">)</span>
-</span><span class='line'>Installing rack <span class="o">(</span>1.5.2<span class="o">)</span>
-</span><span class='line'>Installing rack-protection <span class="o">(</span>1.5.0<span class="o">)</span>
-</span><span class='line'>Using rb-fsevent <span class="o">(</span>0.9.1<span class="o">)</span>
-</span><span class='line'>Installing rdiscount <span class="o">(</span>2.0.7.3<span class="o">)</span>
-</span><span class='line'>Using rubypants <span class="o">(</span>0.2.0<span class="o">)</span>
-</span><span class='line'>Installing sass-globbing <span class="o">(</span>1.0.0<span class="o">)</span>
-</span><span class='line'>Installing tilt <span class="o">(</span>1.3.7<span class="o">)</span>
-</span><span class='line'>Installing sinatra <span class="o">(</span>1.4.2<span class="o">)</span>
-</span><span class='line'>Using stringex <span class="o">(</span>1.4.0<span class="o">)</span>
-</span><span class='line'>Using bundler <span class="o">(</span>1.3.5<span class="o">)</span>
-</span><span class='line'>Your bundle is <span class="nb">complete</span>!
-</span><span class='line'>Use &lt;code&gt;bundle show <span class="o">[</span>gemname<span class="o">]</span>&lt;/code&gt; to see where a bundled gem is installed.&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>rake install&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;Copying classic theme into ./source and ./sass&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;mkdir -p <span class="nb">source</span>
-</span><span class='line'>cp -r .themes/classic/source/. <span class="nb">source</span>
-</span><span class='line'>mkdir -p sass
-</span><span class='line'>cp -r .themes/classic/sass/. sass
-</span><span class='line'>mkdir -p <span class="nb">source</span>/_posts
-</span><span class='line'>mkdir -p public&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>rake generate&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;Generating Site with Jekyll&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;directory <span class="nb">source</span>/stylesheets/
-</span><span class='line'>   create <span class="nb">source</span>/stylesheets/screen.css
-</span><span class='line'>Configuration from &amp;hellip;/octopress/_config.yml
-</span><span class='line'>Building site: <span class="nb">source</span> &amp;ndash;&gt; public
-</span><span class='line'>Successfully generated site: <span class="nb">source</span> &amp;ndash;&gt; public&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>mkdir -p <span class="nb">source</span>/downloads/code&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span><span class="nb">echo</span> &amp;ldquo;Uli war da&amp;rdquo; &gt;source/downloads/code/mytest&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>mkdir -p <span class="nb">source</span>/downloads/code/redmine/passenger&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>cp &amp;hellip;/source/downloads/code/redmine/passenger/passenger <span class="nb">source</span>/downloads/code/redmine/passenger/.&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:sh %}
+$ git clone <a href="https://github.com/imathis/octopress.git">https://github.com/imathis/octopress.git</a>
+Klone nach &lsquo;octopress&rsquo;&hellip;
+remote: Counting objects: 10661, done.
+remote: Compressing objects: 100% (4588/4588), done.
+remote: Total 10661 (delta 5839), reused 9830 (delta 5212)
+Empfange Objekte: 100% (10661/10661), 2.30 MiB | 773.00 KiB/s, done.
+Löse Unterschiede auf: 100% (5839/5839), done.
+Checking connectivity&hellip; done</p>
+
+<p>$ cd octopress/
+You are using &lsquo;.rvmrc&rsquo;, it requires trusting, it is slower and it is not compatible with other ruby managers,
+you can switch to &lsquo;.ruby-version&rsquo; using &lsquo;rvm rvmrc to [.]ruby-version&rsquo;
+or ignore this warnings with &lsquo;rvm rvmrc warning ignore &hellip;/octopress/.rvmrc&rsquo;,
+&lsquo;.rvmrc&rsquo; will continue to be the default project file in RVM 1 and RVM 2,
+to ignore the warning for all files run &lsquo;rvm rvmrc warning ignore all.rvmrcs&rsquo;.</p>
+
+<hr />
+
+<ul>
+<li>NOTICE                                                                       *</li>
+</ul>
+
+
+<hr />
+
+<ul>
+<li>RVM has encountered a new or modified .rvmrc file in the current directory,  *</li>
+<li>this is a shell script and therefore may contain any shell commands.         *</li>
+<li><pre><code>                                                                       *
+</code></pre></li>
+<li>Examine the contents of this file carefully to be sure the contents are      *</li>
+<li>safe before trusting it!                                                     *</li>
+<li>Do you wish to trust &lsquo;&hellip;/octopress/.rvmrc&rsquo;?                                 *</li>
+<li>Choose v[iew] below to view the contents                                     *</li>
+</ul>
+
+
+<hr />
+
+<p>y[es], n[o], v[iew], c[ancel]> yes
+Using &hellip;/.rvm/gems/ruby-1.9.3-p392</p>
+
+<p>$ bundle install
+Fetching gem metadata from <a href="https://rubygems.org/........">https://rubygems.org/........</a>
+Fetching gem metadata from <a href="https://rubygems.org/..">https://rubygems.org/..</a>
+Resolving dependencies&hellip;
+Using rake (0.9.2.2)
+Using RedCloth (4.2.9)
+Using chunky_png (1.2.5)
+Using fast-stemmer (1.0.1)
+Using classifier (1.3.3)
+Using fssm (0.2.9)
+Installing sass (3.2.9)
+Installing compass (0.12.2)
+Using directory_watcher (1.4.1)
+Installing haml (3.1.7)
+Installing kramdown (0.13.8)
+Using liquid (2.3.0)
+Using syntax (1.0.0)
+Installing maruku (0.6.1)
+Using posix-spawn (0.3.6)
+Installing yajl-ruby (1.1.0)
+Installing pygments.rb (0.3.4)
+Installing jekyll (0.12.0)
+Installing rack (1.5.2)
+Installing rack-protection (1.5.0)
+Using rb-fsevent (0.9.1)
+Installing rdiscount (2.0.7.3)
+Using rubypants (0.2.0)
+Installing sass-globbing (1.0.0)
+Installing tilt (1.3.7)
+Installing sinatra (1.4.2)
+Using stringex (1.4.0)
+Using bundler (1.3.5)
+Your bundle is complete!
+Use <code>bundle show [gemname]</code> to see where a bundled gem is installed.</p>
+
+<p>$ rake install</p>
+
+<h2>Copying classic theme into ./source and ./sass</h2>
+
+<p>mkdir -p source
+cp -r .themes/classic/source/. source
+mkdir -p sass
+cp -r .themes/classic/sass/. sass
+mkdir -p source/_posts
+mkdir -p public</p>
+
+<p>$ rake generate</p>
+
+<h2>Generating Site with Jekyll</h2>
+
+<p>directory source/stylesheets/
+   create source/stylesheets/screen.css
+Configuration from &hellip;/octopress/_config.yml
+Building site: source &ndash;> public
+Successfully generated site: source &ndash;> public</p>
+
+<p>$ mkdir -p source/downloads/code</p>
+
+<p>$ echo &ldquo;Uli war da&rdquo; >source/downloads/code/mytest</p>
+
+<p>$ mkdir -p source/downloads/code/redmine/passenger</p>
+
+<p>$ cp &hellip;/source/downloads/code/redmine/passenger/passenger source/downloads/code/redmine/passenger/.</p>
+
+<p>{% endcodeblock %}</p>
 
 <p>Jetzt noch ein Testdokument anlegen:</p>
 
-<h2><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>&hellip;/source/_posts/2013-07-20-octopress.md </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;layout: post
-</span><span class='line'>author: Uli Heller
-</span><span class='line'>published: yes
-</span><span class='line'>title: &amp;ldquo;Octopress-Test&amp;rdquo;
-</span><span class='line'>date: 2013-07-20 07:00&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;comments: true&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Test:&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; %}&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Test2:&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; %}
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<h2>{% codeblock &hellip;/source/_posts/2013-07-20-octopress.md lang:text %}</h2>
+
+<p>layout: post
+author: Uli Heller
+published: yes
+title: &ldquo;Octopress-Test&rdquo;
+date: 2013-07-20 07:00</p>
+
+<h2>comments: true</h2>
+
+<p>Test:</p>
+
+<p>{{ &ldquo;{% include_code mytest&rdquo; }} %}</p>
+
+<p>Test2:</p>
+
+<p>{{ &ldquo;{% include_code redmine/passenger/passenger&rdquo; }} %}
+{% endcodeblock %}</p>
 
 <p>Sichten mit</p>
 
@@ -344,142 +219,84 @@ mache ich mit &ldquo;master&rdquo; und &ldquo;source-2.1&rdquo;.</p>
 
 <h2>Aktuelle Octopress-Version runterladen</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Octropress runterladen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>git clone git://github.com/imathis/octopress.git octopress
-</span><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>git branch -a
-</span><span class='line'>  * master&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;remotes/origin/2.1
-</span><span class='line'>remotes/origin/HEAD -&amp;gt; origin/master
-</span><span class='line'>remotes/origin/colorize
-</span><span class='line'>remotes/origin/gh-pages
-</span><span class='line'>remotes/origin/guard
-</span><span class='line'>remotes/origin/linklog
-</span><span class='line'>remotes/origin/master
-</span><span class='line'>remotes/origin/migrator
-</span><span class='line'>remotes/origin/refactor_with_tests
-</span><span class='line'>remotes/origin/rubygemcli
-</span><span class='line'>remotes/origin/site
-</span><span class='line'>remotes/origin/site-2.1
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Octropress runterladen lang:sh %}
+git clone git://github.com/imathis/octopress.git octopress
+cd octopress
+git branch -a
+  * master</p>
+
+<pre><code>remotes/origin/2.1
+remotes/origin/HEAD -&gt; origin/master
+remotes/origin/colorize
+remotes/origin/gh-pages
+remotes/origin/guard
+remotes/origin/linklog
+remotes/origin/master
+remotes/origin/migrator
+remotes/origin/refactor_with_tests
+remotes/origin/rubygemcli
+remotes/origin/site
+remotes/origin/site-2.1
+</code></pre>
+
+<p>{% endcodeblock %}</p>
 
 <h2>Kurztest Octopress-2.0</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Kurztest Octropress-2.0 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>gem install bundler
-</span><span class='line'>bundle install
-</span><span class='line'>rake install
-</span><span class='line'>rake generate
-</span><span class='line'>rake preview
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Kurztest Octropress-2.0 lang:sh %}
+cd octopress
+gem install bundler
+bundle install
+rake install
+rake generate
+rake preview
+{% endcodeblock %}</p>
 
 <p>&hellip; danach dann im Browser den Link <a href="http://localhost:4000">http://localhost:4000</a> öffnen &ndash; es
 wird die Octopress-Grundseite angezeigt.</p>
 
 <h2>Kurztest Octopress-2.1</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Kurztest Octropress-2.1 &ndash; Mecker wegen JavaScript runtime </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>git checkout 2.1
-</span><span class='line'>gem install bundler
-</span><span class='line'>bundle install
-</span><span class='line'>rake install
-</span><span class='line'>  rake aborted!
-</span><span class='line'>  Could not find a JavaScript runtime. See &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/sstephenson/execjs&quot;</span>&gt;https://github.com/sstephenson/execjs&lt;/a&gt; <span class="k">for </span>a list of available runtimes.
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs/runtimes.rb:51:in &lt;code&gt;autodetect<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs.rb:5:in&lt;/code&gt;&amp;lt;module:ExecJS&gt;&amp;lsquo;</span>
-</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs.rb:4:in &lt;code&gt;&amp;lt;top (required)&amp;gt;&#39;</span>
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/uglifier-1.2.6/lib/uglifier.rb:3:in&lt;/code&gt;require&amp;rsquo;
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/uglifier-1.2.6/lib/uglifier.rb:3:in &lt;code&gt;&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/lib/octopress/js_asset_manager.rb:4:in&lt;/code&gt;require&#39;</span>
-</span><span class='line'>  /home/uli/tmp/o/octopress/lib/octopress/js_asset_manager.rb:4:in &lt;code&gt;&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/lib/octopress.rb:5:in&lt;/code&gt;require&#39;</span>
-</span><span class='line'>  /home/uli/tmp/o/octopress/lib/octopress.rb:5:in &lt;code&gt;&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/Rakefile:9:in&lt;/code&gt;require&#39;</span>
-</span><span class='line'>  /home/uli/tmp/o/octopress/Rakefile:9:in &lt;code&gt;&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/bin/ruby_noexec_wrapper:14:in&lt;/code&gt;eval&#39;</span>
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/bin/ruby_noexec_wrapper:14:in <span class="sb">`</span>&lt;main&gt;&amp;lsquo;
-</span><span class='line'>  <span class="o">(</span>See full trace by running task with &amp;mdash;trace<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Kurztest Octropress-2.1 &ndash; Mecker wegen JavaScript runtime lang:sh %}
+cd octopress
+git checkout 2.1
+gem install bundler
+bundle install
+rake install
+  rake aborted!
+  Could not find a JavaScript runtime. See <a href="https://github.com/sstephenson/execjs">https://github.com/sstephenson/execjs</a> for a list of available runtimes.
+  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs/runtimes.rb:51:in <code>autodetect'
+  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs.rb:5:in</code>&lt;module:ExecJS>&lsquo;
+  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs.rb:4:in <code>&lt;top (required)&gt;'
+  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/uglifier-1.2.6/lib/uglifier.rb:3:in</code>require&rsquo;
+  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/uglifier-1.2.6/lib/uglifier.rb:3:in <code>&lt;top (required)&gt;'
+  /home/uli/tmp/o/octopress/lib/octopress/js_asset_manager.rb:4:in</code>require'
+  /home/uli/tmp/o/octopress/lib/octopress/js_asset_manager.rb:4:in <code>&lt;top (required)&gt;'
+  /home/uli/tmp/o/octopress/lib/octopress.rb:5:in</code>require'
+  /home/uli/tmp/o/octopress/lib/octopress.rb:5:in <code>&lt;top (required)&gt;'
+  /home/uli/tmp/o/octopress/Rakefile:9:in</code>require'
+  /home/uli/tmp/o/octopress/Rakefile:9:in <code>&lt;top (required)&gt;'
+  /home/uli/.rvm/gems/ruby-1.9.3-p327/bin/ruby_noexec_wrapper:14:in</code>eval'
+  /home/uli/.rvm/gems/ruby-1.9.3-p327/bin/ruby_noexec_wrapper:14:in `<main>&lsquo;
+  (See full trace by running task with &mdash;trace)
+{% endcodeblock %}</p>
 
 <p>&hellip; funktioniert also nicht so richtig.</p>
 
 <p>Am einfachsten korrigiert man&rsquo;s durch Anpassung vom Gemfile:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen am Gemfile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff &amp;mdash;git a/Gemfile b/Gemfile</span>
-</span><span class='line'><span class="gu">@@ -15,6 +15,7 @@</span>
-</span><span class='line'> group :development do
-</span><span class='line'>   gem &amp;lsquo;tzinfo&amp;rsquo;, &amp;lsquo;~&gt; 0.3.35&amp;rsquo;
-</span><span class='line'>   gem &amp;lsquo;stitch-rb&amp;rsquo;
-</span><span class='line'>   gem &amp;lsquo;uglifier&amp;rsquo;
-</span><span class='line'><span class="gi">+  gem &amp;lsquo;therubyracer&amp;rsquo;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;   # Guard related
-</span><span class='line'>   gem &amp;lsquo;guard&amp;rsquo;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Anpassungen am Gemfile lang:diff %}
+diff &mdash;git a/Gemfile b/Gemfile
+@@ -15,6 +15,7 @@
+ group :development do
+   gem &lsquo;tzinfo&rsquo;, &lsquo;~> 0.3.35&rsquo;
+   gem &lsquo;stitch-rb&rsquo;
+   gem &lsquo;uglifier&rsquo;
++  gem &lsquo;therubyracer&rsquo;</p>
+
+<p>   # Guard related
+   gem &lsquo;guard&rsquo;
+{% endcodeblock %}</p>
 
 <p>Danach dann <code>bundle install</code> und alles wird gut! Nach <code>rake install</code>, <code>rake generate</code>
 und <code>rake preview</code> kann man wie üblich
@@ -497,65 +314,38 @@ wird die Octopress-Grundseite angezeigt.</p>
 
 <p>Ausgangspunkt ist meine &ldquo;normale&rdquo; Octopress-Installation:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Normale Octopress-Installation </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span>git branch -a
-</span><span class='line'>  master
-</span><span class='line'>* <span class="nb">source</span>
-</span><span class='line'><span class="nb">  </span>remotes/octopress/2.1
-</span><span class='line'>  remotes/octopress/gh-pages
-</span><span class='line'>  remotes/octopress/linklog
-</span><span class='line'>  remotes/octopress/master
-</span><span class='line'>  remotes/octopress/refactor_with_tests
-</span><span class='line'>  remotes/octopress/rubygemcli
-</span><span class='line'>  remotes/octopress/site
-</span><span class='line'>  remotes/origin/HEAD &amp;ndash;&gt; origin/master
-</span><span class='line'>  remotes/origin/gh-pages
-</span><span class='line'>  remotes/origin/master
-</span><span class='line'>  remotes/origin/source
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Normale Octopress-Installation lang:sh %}
+octopress$ git branch -a
+  master
+* source
+  remotes/octopress/2.1
+  remotes/octopress/gh-pages
+  remotes/octopress/linklog
+  remotes/octopress/master
+  remotes/octopress/refactor_with_tests
+  remotes/octopress/rubygemcli
+  remotes/octopress/site
+  remotes/origin/HEAD &ndash;> origin/master
+  remotes/origin/gh-pages
+  remotes/origin/master
+  remotes/origin/source
+{% endcodeblock %}</p>
 
 <p>Mit diesem Setup kann man nun umschalten auf Version 2.1:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Umstellen auf Octopress-2.1 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span><span class="nb">export </span><span class="nv">LANG</span><span class="o">=</span>C.UTF-8
-</span><span class='line'>octopress<span class="nv">$ </span>git checkout -t remotes/octopress/2.1
-</span><span class='line'>Branch 2.1 <span class="nb">set </span>up to track remote branch 2.1 from octopress by rebasing.
-</span><span class='line'>Switched to a new branch &amp;lsquo;2.1&amp;rsquo;
-</span><span class='line'>octopress<span class="nv">$ </span>bundle install
-</span><span class='line'>octopress<span class="nv">$ </span>rake install
-</span><span class='line'>octopress<span class="nv">$ </span>rake generate
-</span><span class='line'>octopress<span class="nv">$ </span>rake preview&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Browser: &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://localhost:4000&quot;</span>&gt;http://localhost:4000&lt;/a&gt;&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Umstellen auf Octopress-2.1 lang:sh %}
+octopress$ export LANG=C.UTF-8
+octopress$ git checkout -t remotes/octopress/2.1
+Branch 2.1 set up to track remote branch 2.1 from octopress by rebasing.
+Switched to a new branch &lsquo;2.1&rsquo;
+octopress$ bundle install
+octopress$ rake install
+octopress$ rake generate
+octopress$ rake preview</p>
+
+<h1>Browser: <a href="http://localhost:4000">http://localhost:4000</a></h1>
+
+<p>{% endcodeblock %}</p>
 
 <p>Hier meine ersten Eindrücke:</p>
 
@@ -569,27 +359,21 @@ wird die Octopress-Grundseite angezeigt.</p>
 </ul>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen an Octopress-2.1 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>git branch -m 2.1 <span class="nb">source</span>-2.1
-</span><span class='line'>git checkout <span class="nb">source</span>-2.1
-</span><span class='line'>git push -u origin <span class="nb">source</span>-2.1
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Anpassungen an Octopress-2.1 lang:sh %}
+git branch -m 2.1 source-2.1
+git checkout source-2.1
+git push -u origin source-2.1
+{% endcodeblock %}</p>
 
 <h2>Eigenes Darstellungsthema erzeugen</h2>
 
 <h3>Kopie des Standards-Themas anlegen</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Eigenes Darstellungsthema f</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>cp -a .themes/classic .themes/uli
-</span><span class='line'>git add .themes/uli
-</span><span class='line'>git commit -m &amp;ldquo;.themes: classic &amp;ndash;&gt; uli&amp;rdquo;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Eigenes Darstellungsthema für Octopress-2.1 lang:sh %}
+cp -a .themes/classic .themes/uli
+git add .themes/uli
+git commit -m &ldquo;.themes: classic &ndash;> uli&rdquo;
+{% endcodeblock %}</p>
 
 <h3>Anpassungen von Octopress-2.0 übernehmen</h3>
 
@@ -599,158 +383,93 @@ wird die Octopress-Grundseite angezeigt.</p>
 </ul>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Sichten der Historie&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;octopress<span class="nv">$ </span>git log &amp;mdash;oneline ..source &amp;mdash; .themes/uli
-</span><span class='line'>b941c1c Anpassungen am Layout
-</span><span class='line'>1cfd652 cp -a .themes/classic .themes/uli&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Änderungen in <span class="nb">source</span>-2.1 übernehmen&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;octopress<span class="nv">$ </span>git rebase -i &amp;mdash;onto <span class="nb">source</span>-2.1 1cfd652 b941c1c&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Konflikt wird angezeigt &amp;ndash;&gt; auflösen und festschreiben <span class="o">(</span>committen<span class="o">)</span>&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;octopress<span class="nv">$ </span>&amp;hellip;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Zustand sichten&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;octopress<span class="nv">$ </span>gitk&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;&amp;ldquo;Detached head&amp;rdquo;, <span class="nb">source</span>-2.1 liegt ein wenig &amp;ldquo;zurück&amp;rdquo;&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;octopress<span class="nv">$ </span>git checkout -b tmp
-</span><span class='line'>octopress<span class="nv">$ </span>git checkout -B <span class="nb">source</span>-2.1 tmp
-</span><span class='line'>octopress<span class="nv">$ </span>git branch -d tmp
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Anpassungen des Darstellungsthemas von Octopress-2.0 übernehmen lang:sh %}</p>
+
+<h1>Sichten der Historie</h1>
+
+<p>octopress$ git log &mdash;oneline ..source &mdash; .themes/uli
+b941c1c Anpassungen am Layout
+1cfd652 cp -a .themes/classic .themes/uli</p>
+
+<h1>Änderungen in source-2.1 übernehmen</h1>
+
+<p>octopress$ git rebase -i &mdash;onto source-2.1 1cfd652 b941c1c</p>
+
+<h1>Konflikt wird angezeigt &ndash;> auflösen und festschreiben (committen)</h1>
+
+<p>octopress$ &hellip;</p>
+
+<h1>Zustand sichten</h1>
+
+<p>octopress$ gitk</p>
+
+<h1>&ldquo;Detached head&rdquo;, source-2.1 liegt ein wenig &ldquo;zurück&rdquo;</h1>
+
+<p>octopress$ git checkout -b tmp
+octopress$ git checkout -B source-2.1 tmp
+octopress$ git branch -d tmp
+{% endcodeblock %}</p>
 
 <h3>Darstellungsthema aktivieren</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span>rake install<span class="o">[</span>&amp;lsquo;uli&amp;rsquo;<span class="o">]</span>
-</span><span class='line'>A theme is already installed, proceeding will overwrite existing files. Are you sure? <span class="o">[</span>y/n<span class="o">]</span> y&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;Copying uli theme into ./source and ./sass&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;mkdir -p <span class="nb">source</span>
-</span><span class='line'>cp -r .themes/uli/source/. <span class="nb">source</span>
-</span><span class='line'>mkdir -p sass
-</span><span class='line'>cp -r .themes/uli/sass/. sass
-</span><span class='line'>mkdir -p <span class="nb">source</span>/_posts
-</span><span class='line'>mkdir -p public
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Anpassungen des Darstellungsthemas von Octopress-2.0 übernehmen lang:sh %}
+octopress$ rake install[&lsquo;uli&rsquo;]
+A theme is already installed, proceeding will overwrite existing files. Are you sure? [y/n] y</p>
+
+<h2>Copying uli theme into ./source and ./sass</h2>
+
+<p>mkdir -p source
+cp -r .themes/uli/source/. source
+mkdir -p sass
+cp -r .themes/uli/sass/. sass
+mkdir -p source/_posts
+mkdir -p public
+{% endcodeblock %}</p>
 
 <h2>Blog-Einträge von Octopress-2.0 übernehmen</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dokumente von Octopress-2.0 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>git add <span class="nb">source</span>
-</span><span class='line'>git commit -m &amp;ldquo;Quelltexte in&amp;rsquo;s Repository aufgenommen&amp;rdquo; .
-</span><span class='line'>git checkout <span class="nb">source</span> &amp;mdash; ./source/_posts
-</span><span class='line'>git commit -m &amp;ldquo;Blog-Einträge kopiert von &amp;lsquo;source&amp;rsquo;&amp;rdquo; ./source
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Dokumente von Octopress-2.0 übernehmen lang:sh %}
+git add source
+git commit -m &ldquo;Quelltexte in&rsquo;s Repository aufgenommen&rdquo; .
+git checkout source &mdash; ./source/_posts
+git commit -m &ldquo;Blog-Einträge kopiert von &lsquo;source&rsquo;&rdquo; ./source
+{% endcodeblock %}</p>
 
 <h2>Einstellungen anpassen</h2>
 
 <h3>Grundeinstellungen</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einstellungen anpassen &ndash; _config.yml </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -2,10 +2,10 @@</span>
-</span><span class='line'> #      Main Configs       #
-</span><span class='line'> # &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash; #&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;-url: &lt;a href=&quot;http://yoursite.com&quot;&gt;http://yoursite.com&lt;/a&gt;
-</span><span class='line'><span class="gd">-title: My Octopress Blog</span>
-</span><span class='line'><span class="gd">-subtitle: A blogging framework for hackers.</span>
-</span><span class='line'><span class="gd">-author: Your Name</span>
-</span><span class='line'><span class="gi">+url: &lt;a href=&quot;http://uli-heller.github.com&quot;&gt;http://uli-heller.github.com&lt;/a&gt;</span>
-</span><span class='line'><span class="gi">+title: Was ich so treibe&amp;hellip;</span>
-</span><span class='line'><span class="gi">+subtitle: Java, Linux und Groovy</span>
-</span><span class='line'><span class="gi">+author: Uli Heller</span>
-</span><span class='line'> simple_search: &lt;a href=&quot;http://google.com/search&quot;&gt;http://google.com/search&lt;/a&gt;
-</span><span class='line'> description:
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Einstellungen anpassen &ndash; _config.yml lang:diff %}
+@@ -2,10 +2,10 @@
+ #      Main Configs       #
+ # &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; #</p>
+
+<p>-url: <a href="http://yoursite.com">http://yoursite.com</a>
+-title: My Octopress Blog
+-subtitle: A blogging framework for hackers.
+-author: Your Name
++url: <a href="http://uli-heller.github.com">http://uli-heller.github.com</a>
++title: Was ich so treibe&hellip;
++subtitle: Java, Linux und Groovy
++author: Uli Heller
+ simple_search: <a href="http://google.com/search">http://google.com/search</a>
+ description:
+{% endcodeblock %}</p>
 
 <h3>Überschriften &ndash; keine Großbuchstaben</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Keine Gro</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -49,7 +49,7 @@</span>
-</span><span class='line'> linklog_marker_position: after
-</span><span class='line'> linklog_marker_position_feed: after
-</span><span class='line'> standard_post_marker:&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;-titlecase: true       # Converts page and post titles to titlecase
-</span><span class='line'><span class="gi">+titlecase: false       # Converts page and post titles to titlecase&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; # To change the layout&amp;rsquo;s default sidebar Add a new sidebar source/_includes/sid
-</span><span class='line'> # then make changes below, eg. post_sidebar: your_sidebar.html
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Keine Großbuchstaben in Überschriften &ndash; _config.yml lang:diff %}
+@@ -49,7 +49,7 @@
+ linklog_marker_position: after
+ linklog_marker_position_feed: after
+ standard_post_marker:</p>
+
+<p>-titlecase: true       # Converts page and post titles to titlecase
++titlecase: false       # Converts page and post titles to titlecase</p>
+
+<p> # To change the layout&rsquo;s default sidebar Add a new sidebar source/_includes/sid
+ # then make changes below, eg. post_sidebar: your_sidebar.html
+{% endcodeblock %}</p>
 
 <h3>Deutsche Übersetzungen</h3>
 
@@ -781,220 +500,119 @@ source/archives/index.html</li>
 
 <p>Das grundätzliche Vorgehen kommt von <a href="http://home-server-mind.com/deutsche-lokalisation-in-octopress-seiten/">Marc </a>. Er schreibt allerdings, dass man als Einstellung für das Format &ldquo;ordinal&rdquo; verwenden muß. Grund hierfür ist eine Unschönheit in seiner Implementierung der Methode &ldquo;format_date&rdquo;. Bei meiner Variante kann man auch beliebige andere Einstellungen verwenden. Ich verwende beispielsweise &ldquo;%d. %B %Y&rdquo;.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Deutsche Datumsangaben &ndash; plugins/date.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -1,5 +1,57 @@</span>
-</span><span class='line'><span class="gi">+# &amp;ndash;&lt;em&gt;&amp;ndash; coding: utf-8 &amp;ndash;&lt;/em&gt;&amp;ndash;</span>
-</span><span class='line'> module Octopress
-</span><span class='line'>   module Date
-</span><span class='line'><span class="gi">+    #Deutsche Lokalisation:</span>
-</span><span class='line'><span class="gi">+    MONTHNAMES_DE = [nil,</span>
-</span><span class='line'><span class="gi">+      &amp;ldquo;Januar&amp;rdquo;, &amp;ldquo;Februar&amp;rdquo;, &amp;ldquo;März&amp;rdquo;, &amp;ldquo;April&amp;rdquo;, &amp;ldquo;Mai&amp;rdquo;, &amp;ldquo;Juni&amp;rdquo;,</span>
-</span><span class='line'><span class="gi">+      &amp;ldquo;Juli&amp;rdquo;, &amp;ldquo;August&amp;rdquo;, &amp;ldquo;September&amp;rdquo;, &amp;ldquo;Oktober&amp;rdquo;, &amp;ldquo;November&amp;rdquo;, &amp;ldquo;Dezember&amp;rdquo; ]</span>
-</span><span class='line'><span class="gi">+    ABBR_MONTHNAMES_DE = [nil,</span>
-</span><span class='line'><span class="gi">+      &amp;ldquo;Jan&amp;rdquo;, &amp;ldquo;Feb&amp;rdquo;, &amp;ldquo;Mär&amp;rdquo;, &amp;ldquo;Apr&amp;rdquo;, &amp;ldquo;Mai&amp;rdquo;, &amp;ldquo;Jun&amp;rdquo;,</span>
-</span><span class='line'><span class="gi">+      &amp;ldquo;Jul&amp;rdquo;, &amp;ldquo;Aug&amp;rdquo;, &amp;ldquo;Sep&amp;rdquo;, &amp;ldquo;Okt&amp;rdquo;, &amp;ldquo;Nov&amp;rdquo;, &amp;ldquo;Dez&amp;rdquo; ]</span>
-</span><span class='line'><span class="gi">+    DAYNAMES_DE = [</span>
-</span><span class='line'><span class="gi">+      &amp;ldquo;Sonntag&amp;rdquo;, &amp;ldquo;Montag&amp;rdquo;, &amp;ldquo;Dienstag&amp;rdquo;, &amp;ldquo;Mittwoch&amp;rdquo;,</span>
-</span><span class='line'><span class="gi">+      &amp;ldquo;Donnerstag&amp;rdquo;, &amp;ldquo;Freitag&amp;rdquo;, &amp;ldquo;Samstag&amp;rdquo; ]</span>
-</span><span class='line'><span class="gi">+    ABBR_DAYNAMES_DE = [</span>
-</span><span class='line'><span class="gi">+      &amp;ldquo;So&amp;rdquo;, &amp;ldquo;Mo&amp;rdquo;, &amp;ldquo;Di&amp;rdquo;, &amp;ldquo;Mi&amp;rdquo;,</span>
-</span><span class='line'><span class="gi">+      &amp;ldquo;Do&amp;rdquo;, &amp;ldquo;Fr&amp;rdquo;, &amp;ldquo;Sa&amp;rdquo; ]</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+    # Returns a datetime if the input is a string</span>
-</span><span class='line'><span class="gi">+    def datetime(date)</span>
-</span><span class='line'><span class="gi">+      if date.class == String</span>
-</span><span class='line'><span class="gi">+        date = Time.parse(date)</span>
-</span><span class='line'><span class="gi">+      end</span>
-</span><span class='line'><span class="gi">+      date</span>
-</span><span class='line'><span class="gi">+    end</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+    # in _config.yml muss stehen: date_format: ordinal</span>
-</span><span class='line'><span class="gi">+    def ordinalize(date)</span>
-</span><span class='line'><span class="gi">+      #**** hier Format bei Bedarf ändern, z.B. %A für ausgeschriebenen Wochent</span>
-</span><span class='line'><span class="gi">+      format_date(date, &amp;ldquo;%a, %e. %B %Y&amp;rdquo;) # SA, 10. MÄRZ 2012</span>
-</span><span class='line'><span class="gi">+    end</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+    # Formats date either as ordinal or by given date format</span>
-</span><span class='line'><span class="gi">+    # Adds %o as ordinal representation of the day</span>
-</span><span class='line'><span class="gi">+    def format_date(date, format)</span>
-</span><span class='line'><span class="gi">+      myformat = format.dup</span>
-</span><span class='line'><span class="gi">+      date = datetime(date)</span>
-</span><span class='line'><span class="gi">+      if format.nil? || format.empty? || format == &amp;ldquo;ordinal&amp;rdquo;</span>
-</span><span class='line'><span class="gi">+        date_formatted = ordinalize(date)</span>
-</span><span class='line'><span class="gi">+      else</span>
-</span><span class='line'><span class="gi">+        myformat.gsub!(/%a/, ABBR_DAYNAMES_DE[date.wday])</span>
-</span><span class='line'><span class="gi">+        myformat.gsub!(/%A/, DAYNAMES_DE[date.wday])</span>
-</span><span class='line'><span class="gi">+        myformat.gsub!(/%b/, ABBR_MONTHNAMES_DE[date.mon])</span>
-</span><span class='line'><span class="gi">+        myformat.gsub!(/%B/, MONTHNAMES_DE[date.mon])</span>
-</span><span class='line'><span class="gi">+        date_formatted = date.strftime(myformat)</span>
-</span><span class='line'><span class="gi">+        # date_formatted = date.strftime(format)</span>
-</span><span class='line'><span class="gi">+        # date_formatted.gsub!(/%o/, ordinal(date.strftime(&amp;lsquo;%e&amp;rsquo;).to_i))</span>
-</span><span class='line'><span class="gi">+      end</span>
-</span><span class='line'><span class="gi">+      date_formatted #+&amp;ldquo; ULI:#{date.mon}&amp;rdquo;</span>
-</span><span class='line'><span class="gi">+    end</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+  end</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+  module DateEn&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt; # Returns a datetime if the input is a string
-</span><span class='line'> def datetime(date)
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;@@ -95,4 +147,11 @@ module Jekyll&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;   self.data[&#39;updated_formatted&#39;] = format_date(self.data[&#39;updated&#39;], date_format) if self.data.has_key?(&#39;updated&#39;)
-</span><span class='line'> end
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;   end
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+  module Filters</span>
-</span><span class='line'><span class="gi">+    include Octopress::Date</span>
-</span><span class='line'><span class="gi">+    def date(date, format)</span>
-</span><span class='line'><span class="gi">+      format_date(date, format)</span>
-</span><span class='line'><span class="gi">+    end</span>
-</span><span class='line'><span class="gi">+  end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Deutsche Datumsangaben &ndash; plugins/date.rb lang:diff %}
+@@ -1,5 +1,57 @@
++# &ndash;<em>&ndash; coding: utf-8 &ndash;</em>&ndash;
+ module Octopress
+   module Date
++    #Deutsche Lokalisation:
++    MONTHNAMES_DE = [nil,
++      &ldquo;Januar&rdquo;, &ldquo;Februar&rdquo;, &ldquo;März&rdquo;, &ldquo;April&rdquo;, &ldquo;Mai&rdquo;, &ldquo;Juni&rdquo;,
++      &ldquo;Juli&rdquo;, &ldquo;August&rdquo;, &ldquo;September&rdquo;, &ldquo;Oktober&rdquo;, &ldquo;November&rdquo;, &ldquo;Dezember&rdquo; ]
++    ABBR_MONTHNAMES_DE = [nil,
++      &ldquo;Jan&rdquo;, &ldquo;Feb&rdquo;, &ldquo;Mär&rdquo;, &ldquo;Apr&rdquo;, &ldquo;Mai&rdquo;, &ldquo;Jun&rdquo;,
++      &ldquo;Jul&rdquo;, &ldquo;Aug&rdquo;, &ldquo;Sep&rdquo;, &ldquo;Okt&rdquo;, &ldquo;Nov&rdquo;, &ldquo;Dez&rdquo; ]
++    DAYNAMES_DE = [
++      &ldquo;Sonntag&rdquo;, &ldquo;Montag&rdquo;, &ldquo;Dienstag&rdquo;, &ldquo;Mittwoch&rdquo;,
++      &ldquo;Donnerstag&rdquo;, &ldquo;Freitag&rdquo;, &ldquo;Samstag&rdquo; ]
++    ABBR_DAYNAMES_DE = [
++      &ldquo;So&rdquo;, &ldquo;Mo&rdquo;, &ldquo;Di&rdquo;, &ldquo;Mi&rdquo;,
++      &ldquo;Do&rdquo;, &ldquo;Fr&rdquo;, &ldquo;Sa&rdquo; ]
++
++    # Returns a datetime if the input is a string
++    def datetime(date)
++      if date.class == String
++        date = Time.parse(date)
++      end
++      date
++    end
++
++    # in _config.yml muss stehen: date_format: ordinal
++    def ordinalize(date)
++      #**** hier Format bei Bedarf ändern, z.B. %A für ausgeschriebenen Wochent
++      format_date(date, &ldquo;%a, %e. %B %Y&rdquo;) # SA, 10. MÄRZ 2012
++    end
++
++
++    # Formats date either as ordinal or by given date format
++    # Adds %o as ordinal representation of the day
++    def format_date(date, format)
++      myformat = format.dup
++      date = datetime(date)
++      if format.nil? || format.empty? || format == &ldquo;ordinal&rdquo;
++        date_formatted = ordinalize(date)
++      else
++        myformat.gsub!(/%a/, ABBR_DAYNAMES_DE[date.wday])
++        myformat.gsub!(/%A/, DAYNAMES_DE[date.wday])
++        myformat.gsub!(/%b/, ABBR_MONTHNAMES_DE[date.mon])
++        myformat.gsub!(/%B/, MONTHNAMES_DE[date.mon])
++        date_formatted = date.strftime(myformat)
++        # date_formatted = date.strftime(format)
++        # date_formatted.gsub!(/%o/, ordinal(date.strftime(&lsquo;%e&rsquo;).to_i))
++      end
++      date_formatted #+&ldquo; ULI:#{date.mon}&rdquo;
++    end
++
++  end
++
++  module DateEn</p>
+
+<pre><code> # Returns a datetime if the input is a string
+ def datetime(date)
+</code></pre>
+
+<p>@@ -95,4 +147,11 @@ module Jekyll</p>
+
+<pre><code>   self.data['updated_formatted'] = format_date(self.data['updated'], date_format) if self.data.has_key?('updated')
+ end
+</code></pre>
+
+<p>   end
++
++  module Filters
++    include Octopress::Date
++    def date(date, format)
++      format_date(date, format)
++    end
++  end
+{% endcodeblock %}</p>
 
 <p>Änderung an _config.yml, damit das Datum so angegeben wird: &ldquo;25. Dezember 2012&rdquo;</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Datumsangaben &lsquo;TT. Monat JJJJ&rsquo; &ndash; _config.yml </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -13,7 +13,11 @@ description:</span>
-</span><span class='line'> # You can customize the format as defined in
-</span><span class='line'> # &lt;a href=&quot;http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime&quot;&gt;http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime&lt;/a&gt;
-</span><span class='line'> # Additionally, %o will give you the ordinal representation of the day
-</span><span class='line'><span class="gd">-date_format: &amp;ldquo;ordinal&amp;rdquo;</span>
-</span><span class='line'><span class="gi">+#  %d.%m.%Y&quot; &amp;ndash;&gt; 25.12.2012</span>
-</span><span class='line'><span class="gi">+#  %d. %B %Y&quot; &amp;ndash;&gt; 25. December 2012 (oder 25. Dezember 2012)</span>
-</span><span class='line'><span class="gi">+date_format: &amp;ldquo;%d. %B %Y&amp;rdquo;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; # RSS / Email (optional) subscription links (change if using something like Fee
-</span><span class='line'> subscribe_rss: /atom.xml
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Datumsangaben &lsquo;TT. Monat JJJJ&rsquo; &ndash; _config.yml lang:diff %}
+@@ -13,7 +13,11 @@ description:
+ # You can customize the format as defined in
+ # <a href="http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime">http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime</a>
+ # Additionally, %o will give you the ordinal representation of the day
+-date_format: &ldquo;ordinal&rdquo;
++#  %d.%m.%Y" &ndash;> 25.12.2012
++#  %d. %B %Y" &ndash;> 25. December 2012 (oder 25. Dezember 2012)
++date_format: &ldquo;%d. %B %Y&rdquo;</p>
+
+<p> # RSS / Email (optional) subscription links (change if using something like Fee
+ subscribe_rss: /atom.xml
+{% endcodeblock %}</p>
 
 <h2>GitHub-Pages reaktivieren</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>GutHub-Pages reaktivieren &ndash; Rakefile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -9,13 +9,13 @@</span>
-</span><span class='line'> ssh_user       = &amp;ldquo;&lt;a href=&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#x6f;&amp;#58;&amp;#117;&amp;#115;&amp;#x65;&amp;#x72;&amp;#64;&amp;#x64;&amp;#111;&amp;#109;&amp;#x61;&amp;#x69;&amp;#110;&amp;#x2e;&amp;#x63;&amp;#111;&amp;#109;&quot;&gt;&amp;#x75;&amp;#x73;&amp;#101;&amp;#x72;&amp;#64;&amp;#x64;&amp;#111;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#110;&amp;#46;&amp;#x63;&amp;#111;&amp;#x6d;&lt;/a&gt;&amp;rdquo;
-</span><span class='line'> ssh_port       = &amp;ldquo;22&amp;rdquo;
-</span><span class='line'> document_root  = &amp;ldquo;~/website.com/&amp;rdquo;
-</span><span class='line'> rsync_delete   = false
-</span><span class='line'><span class="gd">-deploy_default = &amp;ldquo;rsync&amp;rdquo;</span>
-</span><span class='line'><span class="gi">+deploy_default = &amp;ldquo;push&amp;rdquo;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; # Hidden &amp;ldquo;dot&amp;rdquo; files that should be included with the deployed site (see task c
-</span><span class='line'> copy_dot_files = []&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; # This will be configured for you when you run config_deploy
-</span><span class='line'><span class="gd">-deploy_branch  = &amp;ldquo;gh-pages&amp;rdquo;</span>
-</span><span class='line'><span class="gi">+deploy_branch  = &amp;ldquo;master&amp;rdquo;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; ## &amp;mdash; Misc Configs &amp;mdash; ##
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock GutHub-Pages reaktivieren &ndash; Rakefile lang:diff %}
+@@ -9,13 +9,13 @@
+ ssh_user       = &ldquo;<a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#x3a;&#x75;&#115;&#x65;&#114;&#x40;&#x64;&#111;&#x6d;&#x61;&#105;&#110;&#x2e;&#99;&#111;&#x6d;">&#x75;&#115;&#x65;&#x72;&#64;&#x64;&#x6f;&#x6d;&#97;&#105;&#x6e;&#46;&#99;&#x6f;&#109;</a>&rdquo;
+ ssh_port       = &ldquo;22&rdquo;
+ document_root  = &ldquo;~/website.com/&rdquo;
+ rsync_delete   = false
+-deploy_default = &ldquo;rsync&rdquo;
++deploy_default = &ldquo;push&rdquo;</p>
+
+<p> # Hidden &ldquo;dot&rdquo; files that should be included with the deployed site (see task c
+ copy_dot_files = []</p>
+
+<p> # This will be configured for you when you run config_deploy
+-deploy_branch  = &ldquo;gh-pages&rdquo;
++deploy_branch  = &ldquo;master&rdquo;</p>
+
+<p> ## &mdash; Misc Configs &mdash; ##
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   
@@ -1020,56 +638,39 @@ source/archives/index.html</li>
 </ul>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Partition vergr</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo lvextend -L+400M /dev/systemvg/usrlv
-</span><span class='line'>sudo resize2fs /dev/systemvg/usrlv
-</span><span class='line'>sudo lvextend -L+200M /dev/systemvg/tmplv
-</span><span class='line'>sudo resize2fs /dev/systemvg/tmplv
-</span><span class='line'>sudo lvextend -L+200M /dev/systemvg/homelv
-</span><span class='line'>sudo resize2fs /dev/systemvg/homelv
-</span><span class='line'>sudo apt-get install gcc build-essential
-</span><span class='line'>sudo apt-get install libyaml-dev libz-dev libssl-dev
-</span><span class='line'>sudo apt-get install curl
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Partition vergrößern und diverse Pakete installieren lang:sh %}
+sudo lvextend -L+400M /dev/systemvg/usrlv
+sudo resize2fs /dev/systemvg/usrlv
+sudo lvextend -L+200M /dev/systemvg/tmplv
+sudo resize2fs /dev/systemvg/tmplv
+sudo lvextend -L+200M /dev/systemvg/homelv
+sudo resize2fs /dev/systemvg/homelv
+sudo apt-get install gcc build-essential
+sudo apt-get install libyaml-dev libz-dev libssl-dev
+sudo apt-get install curl
+{% endcodeblock %}</p>
 
 <h3>Basispakete</h3>
 
 <h4>Git</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Git installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install -y git
-</span><span class='line'>sudo apt-get clean
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Git installieren lang:sh %}
+sudo apt-get install -y git
+sudo apt-get clean
+{% endcodeblock %}</p>
 
 <p>Für GIT wird die Version 1.8.0-0dp3~precise01 vom DPREPO angezogen.</p>
 
 <h4>Ruby mittels RVM</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ruby installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>curl -L &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://get.rvm.io&quot;</span>&gt;https://get.rvm.io&lt;/a&gt; | bash -s stable &amp;mdash;ruby
-</span><span class='line'>. ./.rvm/scripts/rvm
-</span><span class='line'>rvm install 1.9.3 <span class="c"># Zeigt eine Fehlermeldung, weil 1.9.3 bereits installiert ist</span>
-</span><span class='line'>rvm use 1.9.3
-</span><span class='line'>rvm rubygems latest
-</span><span class='line'>ruby &amp;mdash;version    <span class="c"># ruby 1.9.3p327 (2012-11-10 revision 37606) [i686-linux]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Ruby installieren lang:sh %}
+curl -L <a href="https://get.rvm.io">https://get.rvm.io</a> | bash -s stable &mdash;ruby
+. ./.rvm/scripts/rvm
+rvm install 1.9.3 # Zeigt eine Fehlermeldung, weil 1.9.3 bereits installiert ist
+rvm use 1.9.3
+rvm rubygems latest
+ruby &mdash;version    # ruby 1.9.3p327 (2012-11-10 revision 37606) [i686-linux]
+{% endcodeblock %}</p>
 
 <h3>Octopress</h3>
 
@@ -1079,74 +680,46 @@ source/archives/index.html</li>
 
 <h5>Octopress und Pakete</h5>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Octropress installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>git clone git://github.com/imathis/octopress.git octopress
-</span><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>gem install bundler
-</span><span class='line'>bundle install
-</span><span class='line'>rake install
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Octropress installieren lang:sh %}
+git clone git://github.com/imathis/octopress.git octopress
+cd octopress
+gem install bundler
+bundle install
+rake install
+{% endcodeblock %}</p>
 
 <h5>Textile statt Markdown</h5>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Textile statt Markdown &ndash; Rakefile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -22,8 +22,8 @@ deploy_dir      = &amp;ldquo;&lt;em&gt;deploy&amp;rdquo;   # deploy directory (for Github p</span>
-</span><span class='line'> stash_dir       = &amp;ldquo;&lt;/em&gt;stash&amp;rdquo;    # directory to stash posts for speedy generation
-</span><span class='line'> posts_dir       = &amp;ldquo;_posts&amp;rdquo;    # directory for blog files
-</span><span class='line'> themes_dir      = &amp;ldquo;.themes&amp;rdquo;   # directory for blog files
-</span><span class='line'><span class="gd">-new_post_ext    = &amp;ldquo;markdown&amp;rdquo;  # default new post file extension when using the</span>
-</span><span class='line'><span class="gd">-new_page_ext    = &amp;ldquo;markdown&amp;rdquo;  # default new page file extension when using the</span>
-</span><span class='line'><span class="gi">+new_post_ext    = &amp;ldquo;textile&amp;rdquo;   # default new post file extension when using the</span>
-</span><span class='line'><span class="gi">+new_page_ext    = &amp;ldquo;textile&amp;rdquo;   # default new page file extension when using the</span>
-</span><span class='line'> server_port     = &amp;ldquo;4000&amp;rdquo;      # port for preview server eg. localhost:4000
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Textile statt Markdown &ndash; Rakefile lang:diff %}
+@@ -22,8 +22,8 @@ deploy_dir      = &ldquo;<em>deploy&rdquo;   # deploy directory (for Github p
+ stash_dir       = &ldquo;</em>stash&rdquo;    # directory to stash posts for speedy generation
+ posts_dir       = &ldquo;_posts&rdquo;    # directory for blog files
+ themes_dir      = &ldquo;.themes&rdquo;   # directory for blog files
+-new_post_ext    = &ldquo;markdown&rdquo;  # default new post file extension when using the
+-new_page_ext    = &ldquo;markdown&rdquo;  # default new page file extension when using the
++new_post_ext    = &ldquo;textile&rdquo;   # default new post file extension when using the
++new_page_ext    = &ldquo;textile&rdquo;   # default new page file extension when using the
+ server_port     = &ldquo;4000&rdquo;      # port for preview server eg. localhost:4000
+{% endcodeblock %}</p>
 
 <h5>Autor und Titel</h5>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Autor und Tutel &ndash; _config.yml </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -2,10 +2,10 @@</span>
-</span><span class='line'> #      Main Configs       #
-</span><span class='line'> # &amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash; #&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;-url: &lt;a href=&quot;http://yoursite.com&quot;&gt;http://yoursite.com&lt;/a&gt;
-</span><span class='line'><span class="gd">-title: My Octopress Blog</span>
-</span><span class='line'><span class="gd">-subtitle: A blogging framework for hackers.</span>
-</span><span class='line'><span class="gd">-author: Your Name</span>
-</span><span class='line'><span class="gi">+url: &lt;a href=&quot;http://uli-heller.github.com&quot;&gt;http://uli-heller.github.com&lt;/a&gt;</span>
-</span><span class='line'><span class="gi">+title: Was ich so treibe&amp;hellip;</span>
-</span><span class='line'><span class="gi">+subtitle: Linux, Java und Groovy</span>
-</span><span class='line'><span class="gi">+author: Uli Heller</span>
-</span><span class='line'> simple_search: &lt;a href=&quot;http://google.com/search&quot;&gt;http://google.com/search&lt;/a&gt;
-</span><span class='line'> description:
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Autor und Tutel &ndash; _config.yml lang:diff %}
+@@ -2,10 +2,10 @@
+ #      Main Configs       #
+ # &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; #</p>
+
+<p>-url: <a href="http://yoursite.com">http://yoursite.com</a>
+-title: My Octopress Blog
+-subtitle: A blogging framework for hackers.
+-author: Your Name
++url: <a href="http://uli-heller.github.com">http://uli-heller.github.com</a>
++title: Was ich so treibe&hellip;
++subtitle: Linux, Java und Groovy
++author: Uli Heller
+ simple_search: <a href="http://google.com/search">http://google.com/search</a>
+ description:
+{% endcodeblock %}</p>
 
 <h4>Veröffentlichung auf GitHub</h4>
 
@@ -1194,147 +767,98 @@ source/archives/index.html</li>
 
 <h5>Anpassungen im Octopress-Verzeichnis</h5>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Octopress f</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>rake setup_github_pages&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Repository url: git@github.com:uli-heller/uli-heller.github.com&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;rake generate
-</span><span class='line'>rake deploy
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Octopress für Veröffentlichung vorbereiten lang:sh %}
+cd octopress
+rake setup_github_pages</p>
+
+<h1>Repository url: git@github.com:uli-heller/uli-heller.github.com</h1>
+
+<p>rake generate
+rake deploy
+{% endcodeblock %}</p>
 
 <h5>Quellverzeichnis zur Sicherung hinzufügen</h5>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Sicherung vorbereiten </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>git add <span class="nb">source</span>
-</span><span class='line'>git commit -m &amp;ldquo;Quelltexte sichern&amp;rdquo;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Sicherung vorbereiten lang:sh %}
+git add source
+git commit -m &ldquo;Quelltexte sichern&rdquo;
+{% endcodeblock %}</p>
 
 <h5>Neue Artikel sichern</h5>
 
 <p>Neue Artikel werden mit diesem Befehl auf GitHub gesichert:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Quellverzeichnis sichern </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>git commit -m &amp;ldquo;Sprechende Nachricht mit Änderungsbeschreibungen&amp;rdquo;
-</span><span class='line'>git push origin <span class="nb">source</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Quellverzeichnis sichern lang:sh %}
+cd octopress
+git commit -m &ldquo;Sprechende Nachricht mit Änderungsbeschreibungen&rdquo;
+git push origin source
+{% endcodeblock %}</p>
 
 <h5>Neue Veröffentlichungen</h5>
 
 <p>Immer dann, wenn neue Artikel veröffentlicht werden sollen, muß man so vorgehen:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Ver</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>rake generate
-</span><span class='line'>rake deploy
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Neue Veröffentlichungen lang:sh %}
+cd octopress
+rake generate
+rake deploy
+{% endcodeblock %}</p>
 
 <h4>Folgeinstallation</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Folgeinstallation </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>git clone  git@github.com:uli-heller/uli-heller.github.com octopress
-</span><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>git checkout <span class="nb">source</span>
-</span><span class='line'>gem install bundler
-</span><span class='line'>bundle install
-</span><span class='line'>rake install<span class="o">[</span>&amp;lsquo;uli&amp;rsquo;<span class="o">]</span>
-</span><span class='line'>git remote add octopress git://github.com/imathis/octopress.git
-</span><span class='line'>git fetch octopress&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;&amp;hellip; nachfolgend nur für GitHub-Veröffentlichungen&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;rm -rf &lt;em&gt;deploy
-</span><span class='line'>git init &lt;/em&gt;deploy
-</span><span class='line'><span class="nb">cd </span>_deploy
-</span><span class='line'>git remote add -t master -f origin git@github.com:uli-heller/uli-heller.github.com
-</span><span class='line'>git checkout master
-</span><span class='line'><span class="nb">cd</span> ..
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Folgeinstallation lang:sh %}
+git clone  git@github.com:uli-heller/uli-heller.github.com octopress
+cd octopress
+git checkout source
+gem install bundler
+bundle install
+rake install[&lsquo;uli&rsquo;]
+git remote add octopress git://github.com/imathis/octopress.git
+git fetch octopress</p>
+
+<h1>&hellip; nachfolgend nur für GitHub-Veröffentlichungen</h1>
+
+<p>rm -rf <em>deploy
+git init </em>deploy
+cd _deploy
+git remote add -t master -f origin git@github.com:uli-heller/uli-heller.github.com
+git checkout master
+cd ..
+{% endcodeblock %}</p>
 
 <h2>Anpassungen</h2>
 
 <h3>Darstellung</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Meinen Darstellungsstil aktivieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>rake install<span class="o">[</span>&amp;lsquo;uli&amp;rsquo;<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Meinen Darstellungsstil aktivieren lang:sh %}
+cd octopress
+rake install[&lsquo;uli&rsquo;]
+{% endcodeblock %}</p>
 
 <p>Zurück zur Standard-Darstellung geht&rsquo;s so:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Standarddarstellung aktivieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>rake install
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Standarddarstellung aktivieren lang:sh %}
+cd octopress
+rake install
+{% endcodeblock %}</p>
 
 <h2>Ein erster Blog-Eintrag</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ersten Blog-Eintrag erstellen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>rake new_post<span class="o">[</span>&amp;ldquo;Octopress&amp;rdquo;<span class="o">]</span>
-</span><span class='line'><span class="nv">$ </span>mkdir -p <span class="nb">source</span>/&lt;em&gt;posts
-</span><span class='line'>Creating new post: <span class="nb">source</span>/&lt;/em&gt;posts/2012-11-10-octopress.textile&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Datei <span class="nb">source</span>/_posts/2012-11-10-octopress.textile editieren&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>rake generate
-</span><span class='line'><span class="nv">$ </span>rake preview&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Sichten mit &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://localhost:4000&quot;</span>&gt;http://localhost:4000&lt;/a&gt;&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;<span class="nv">$ </span>git commit -m &amp;ldquo;Erster Blog-Eintrag ist fertig&amp;rdquo;
-</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Ersten Blog-Eintrag erstellen lang:sh %}
+$ rake new_post[&ldquo;Octopress&rdquo;]
+$ mkdir -p source/<em>posts
+Creating new post: source/</em>posts/2012-11-10-octopress.textile</p>
+
+<h1>Datei source/_posts/2012-11-10-octopress.textile editieren</h1>
+
+<p>$ rake generate
+$ rake preview</p>
+
+<h1>Sichten mit <a href="http://localhost:4000">http://localhost:4000</a></h1>
+
+<p>$ git commit -m &ldquo;Erster Blog-Eintrag ist fertig&rdquo;
+$ git push origin source
+{% endcodeblock %}</p>
 
 <h2>Probleme</h2>
 
@@ -1358,138 +882,73 @@ source/archives/index.html</li>
 
 <p>Die Beschreibung ist obsolet! Verwende besser: <code>rake install['uli']</code>!</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Hellere Farben &ndash; sass/custom/<em>colors.scss </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>uli@uli-hp:~/git/octopress$ diff -u sass/custom/&lt;/em&gt;colors.scss~ sass/custom/&lt;em&gt;colors.scss
-</span><span class='line'>&amp;mdash;&amp;ndash; sass/custom/&lt;/em&gt;colors.scss~   2012-11-10 19:45:17.000000000 +0100
-</span><span class='line'><span class="gi">+++ sass/custom/_colors.scss    2012-11-18 11:21:14.913856809 +0100</span>
-</span><span class='line'><span class="gu">@@ -41,3 +41,61 @@</span>
-</span><span class='line'> //$pre-bg: $base03;
-</span><span class='line'> //$pre-border: darken($base02, 5);
-</span><span class='line'> //$pre-color: $base1;
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+// 2012-11-18</span>
-</span><span class='line'><span class="gi">+// &lt;a href=&quot;http://aijazansari.com/2012/08/27/how-to-customize-octopress-theme/&quot;&gt;http://aijazansari.com/2012/08/27/how-to-customize-octopress-theme/&lt;/a&gt;</span>
-</span><span class='line'><span class="gi">+// ////////////////////////////////////////</span>
-</span><span class='line'><span class="gi">+// change the background colors</span>
-</span><span class='line'><span class="gi">+//</span>
-</span><span class='line'><span class="gi">+html {</span>
-</span><span class='line'><span class="gi">+  background: #fff !important;</span>
-</span><span class='line'><span class="gi">+}</span>
-</span><span class='line'><span class="gi">+body {</span>
-</span><span class='line'><span class="gi">+  &gt; div {</span>
-</span><span class='line'><span class="gi">+    background: #fff !important;</span>
-</span><span class='line'><span class="gi">+    &gt; div {</span>
-</span><span class='line'><span class="gi">+      background: #fff !important;</span>
-</span><span class='line'><span class="gi">+      }</span>
-</span><span class='line'><span class="gi">+  }</span>
-</span><span class='line'><span class="gi">+}</span>
-</span><span class='line'><span class="gi">+$main-bg: #ffffff !default;</span>
-</span><span class='line'><span class="gi">+$page-bg: #ffffff !default;</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+// ////////////////////////////////////////</span>
-</span><span class='line'><span class="gi">+// change the header colors</span>
-</span><span class='line'><span class="gi">+//</span>
-</span><span class='line'><span class="gi">+$header-bg: #fff;</span>
-</span><span class='line'><span class="gi">+$title-color: #000000 !default;</span>
-</span><span class='line'><span class="gi">+$text-color: #333 !default;</span>
-</span><span class='line'><span class="gi">+$text-color-light: #777 !default;</span>
-</span><span class='line'><span class="gi">+$subtitle-color: darken($header-bg, 58);</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+// ////////////////////////////////////////</span>
-</span><span class='line'><span class="gi">+// change the nav bar</span>
-</span><span class='line'><span class="gi">+//</span>
-</span><span class='line'><span class="gi">+$nav-bg: #fff;</span>
-</span><span class='line'><span class="gi">+$nav-bg-front: #fff;</span>
-</span><span class='line'><span class="gi">+$nav-bg-back: #fff;</span>
-</span><span class='line'><span class="gi">+$nav-color: darken($nav-bg, 78) !default;</span>
-</span><span class='line'><span class="gi">+$nav-color-hover: darken($nav-color, 25) !default;</span>
-</span><span class='line'><span class="gi">+$nav-border: darken($nav-bg, 50) !default;</span>
-</span><span class='line'><span class="gi">+$nav-border-top: darken($nav-bg, 33) !default;</span>
-</span><span class='line'><span class="gi">+$nav-border-bottom: darken($nav-bg, 33) !default;</span>
-</span><span class='line'><span class="gi">+$nav-border-left: darken($nav-bg, 11) !default;</span>
-</span><span class='line'><span class="gi">+$nav-border-right: lighten($nav-bg, 7) !default;</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+// ////////////////////////////////////////</span>
-</span><span class='line'><span class="gi">+// change the footer</span>
-</span><span class='line'><span class="gi">+//</span>
-</span><span class='line'><span class="gi">+$footer-color: #888 !default;</span>
-</span><span class='line'><span class="gi">+$footer-bg: #fff !default;</span>
-</span><span class='line'><span class="gi">+$footer-bg-front: #fff !default;</span>
-</span><span class='line'><span class="gi">+$footer-bg-back: #fff !default;</span>
-</span><span class='line'><span class="gi">+$footer-color: darken($footer-bg, 38) !default;</span>
-</span><span class='line'><span class="gi">+$footer-color-hover: darken($footer-color, 10) !default;</span>
-</span><span class='line'><span class="gi">+$footer-border-top: lighten($footer-bg, 15) !default;</span>
-</span><span class='line'><span class="gi">+$footer-border-bottom: darken($footer-bg, 15) !default;</span>
-</span><span class='line'><span class="gi">+$footer-link-color: darken($footer-bg, 38) !default;</span>
-</span><span class='line'><span class="gi">+$footer-link-color-hover: darken($footer-color, 25) !default;</span>
-</span><span class='line'><span class="gi">+$page-border-bottom: darken($footer-bg, 5) !default;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Hellere Farben &ndash; sass/custom/<em>colors.scss lang:diff %}
+uli@uli-hp:~/git/octopress$ diff -u sass/custom/</em>colors.scss~ sass/custom/<em>colors.scss
+&mdash;&ndash; sass/custom/</em>colors.scss~   2012-11-10 19:45:17.000000000 +0100
++++ sass/custom/_colors.scss    2012-11-18 11:21:14.913856809 +0100
+@@ -41,3 +41,61 @@
+ //$pre-bg: $base03;
+ //$pre-border: darken($base02, 5);
+ //$pre-color: $base1;
++
++// 2012-11-18
++// <a href="http://aijazansari.com/2012/08/27/how-to-customize-octopress-theme/">http://aijazansari.com/2012/08/27/how-to-customize-octopress-theme/</a>
++// ////////////////////////////////////////
++// change the background colors
++//
++html {
++  background: #fff !important;
++}
++body {
++  > div {
++    background: #fff !important;
++    > div {
++      background: #fff !important;
++      }
++  }
++}
++$main-bg: #ffffff !default;
++$page-bg: #ffffff !default;
++
++// ////////////////////////////////////////
++// change the header colors
++//
++$header-bg: #fff;
++$title-color: #000000 !default;
++$text-color: #333 !default;
++$text-color-light: #777 !default;
++$subtitle-color: darken($header-bg, 58);
++
++// ////////////////////////////////////////
++// change the nav bar
++//
++$nav-bg: #fff;
++$nav-bg-front: #fff;
++$nav-bg-back: #fff;
++$nav-color: darken($nav-bg, 78) !default;
++$nav-color-hover: darken($nav-color, 25) !default;
++$nav-border: darken($nav-bg, 50) !default;
++$nav-border-top: darken($nav-bg, 33) !default;
++$nav-border-bottom: darken($nav-bg, 33) !default;
++$nav-border-left: darken($nav-bg, 11) !default;
++$nav-border-right: lighten($nav-bg, 7) !default;
++
++
++// ////////////////////////////////////////
++// change the footer
++//
++$footer-color: #888 !default;
++$footer-bg: #fff !default;
++$footer-bg-front: #fff !default;
++$footer-bg-back: #fff !default;
++$footer-color: darken($footer-bg, 38) !default;
++$footer-color-hover: darken($footer-color, 10) !default;
++$footer-border-top: lighten($footer-bg, 15) !default;
++$footer-border-bottom: darken($footer-bg, 15) !default;
++$footer-link-color: darken($footer-bg, 38) !default;
++$footer-link-color-hover: darken($footer-color, 25) !default;
++$page-border-bottom: darken($footer-bg, 5) !default;
+{% endcodeblock %}</p>
 
 <h4>Listen sind nicht eingerückt</h4>
 
@@ -1507,32 +966,20 @@ source/archives/index.html</li>
 
 <p>Korrektur: Editiere sass/custom/_layout.scss wie folgt:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einger</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u sass/custom/&lt;/em&gt;layout.scss~  sass/custom/&lt;em&gt;layout.scss</span>
-</span><span class='line'>&amp;mdash;&amp;ndash; sass/custom/&lt;/em&gt;layout.scss~   2012-11-10 19:45:17.000000000 +0100
-</span><span class='line'><span class="gi">+++ sass/custom/_layout.scss    2012-11-18 11:05:43.661813157 +0100</span>
-</span><span class='line'><span class="gu">@@ -6,7 +6,7 @@</span>
-</span><span class='line'> //$header-padding-bottom: 1.5em;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; //$max-width: 1350px;
-</span><span class='line'>&amp;ndash;//$indented-lists: true;
-</span><span class='line'><span class="gi">+$indented-lists: true;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; // Padding used for layout margins
-</span><span class='line'> //$pad-min: 18px;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Eingerückte Listen &ndash; sass/custom/<em>layout.scss lang:diff %}
+diff -u sass/custom/</em>layout.scss~  sass/custom/<em>layout.scss
+&mdash;&ndash; sass/custom/</em>layout.scss~   2012-11-10 19:45:17.000000000 +0100
++++ sass/custom/_layout.scss    2012-11-18 11:05:43.661813157 +0100
+@@ -6,7 +6,7 @@
+ //$header-padding-bottom: 1.5em;</p>
+
+<p> //$max-width: 1350px;
+&ndash;//$indented-lists: true;
++$indented-lists: true;</p>
+
+<p> // Padding used for layout margins
+ //$pad-min: 18px;
+{% endcodeblock %}</p>
 
 <h4>Ruby mittels RBENV</h4>
 
@@ -1540,127 +987,80 @@ source/archives/index.html</li>
 
 <h5>RBENV</h5>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>RBENV </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span>
-</span><span class='line'>git clone git://github.com/sstephenson/rbenv.git .rbenv
-</span><span class='line'><span class="nb">echo</span> &amp;lsquo;export <span class="nv">PATH</span><span class="o">=</span>&amp;ldquo;<span class="nv">$HOME</span>/.rbenv/bin:<span class="nv">$PATH</span>&amp;rdquo;&amp;rsquo; &gt;&gt; ~/.bash_profile
-</span><span class='line'><span class="nb">echo</span> &amp;lsquo;eval &amp;ldquo;<span class="k">$(</span>rbenv init &amp;ndash;<span class="k">)</span>&amp;rdquo;&amp;rsquo; &gt;&gt; ~/.bash_profile
-</span><span class='line'>git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-</span><span class='line'><span class="nb">source</span> ~/.bash_profile
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock RBENV lang:sh %}
+cd
+git clone git://github.com/sstephenson/rbenv.git .rbenv
+echo &lsquo;export PATH=&ldquo;$HOME/.rbenv/bin:$PATH&rdquo;&rsquo; >> ~/.bash_profile
+echo &lsquo;eval &ldquo;$(rbenv init &ndash;)&rdquo;&rsquo; >> ~/.bash_profile
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+source ~/.bash_profile
+{% endcodeblock %}</p>
 
 <h5>RUBY</h5>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>RUBY </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>rbenv install 1.9.3-p0
-</span><span class='line'>rbenv rehash
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock RUBY lang:sh %}
+rbenv install 1.9.3-p0
+rbenv rehash
+{% endcodeblock %}</p>
 
 <p>Danach sollte dann <code>ruby --version</code> irgendwas mit 1.9.3 anzeigen, funktioniert aber nicht!</p>
 
 <h4>YAML und zlib</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fehlermeldung yaml und zlib </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>gem install bundler
-</span><span class='line'>/home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/yaml.rb:56:in <span class="sb">`</span>&lt;top <span class="o">(</span>required<span class="o">)</span>&gt;&amp;lsquo;:
-</span><span class='line'>It seems your ruby installation is missing psych <span class="o">(</span><span class="k">for </span>YAML output<span class="o">)</span>.
-</span><span class='line'>To eliminate this warning, please install libyaml and reinstall your ruby.
-</span><span class='line'>ERROR:  Loading <span class="nb">command</span>: install <span class="o">(</span>LoadError<span class="o">)</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;cannot load such file -- zlib
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;ERROR:  While executing gem &amp;hellip; <span class="o">(</span>NameError<span class="o">)</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;uninitialized constant Gem::Commands::InstallCommand
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Fehlermeldung yaml und zlib lang:sh %}
+$ gem install bundler
+/home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/yaml.rb:56:in `<top (required)>&lsquo;:
+It seems your ruby installation is missing psych (for YAML output).
+To eliminate this warning, please install libyaml and reinstall your ruby.
+ERROR:  Loading command: install (LoadError)</p>
+
+<pre><code>cannot load such file -- zlib
+</code></pre>
+
+<p>ERROR:  While executing gem &hellip; (NameError)</p>
+
+<pre><code>uninitialized constant Gem::Commands::InstallCommand
+</code></pre>
+
+<p>{% endcodeblock %}</p>
 
 <p>Lösungsversuch mit libyaml-dev und libz-dev:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>yaml und zlib installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install libyaml-dev libz-dev
-</span><span class='line'>rvm reinstall 1.9.3
-</span><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>gem install bundler
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock yaml und zlib installieren lang:sh %}
+sudo apt-get install libyaml-dev libz-dev
+rvm reinstall 1.9.3
+cd octopress
+gem install bundler
+{% endcodeblock %}</p>
 
 <p>&hellip; funktioniert.</p>
 
 <h4>OpenSSL</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fehlermeldung OpenSSL </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli@ubuntu1204:~/octopress<span class="nv">$ </span>rake generate&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;Generating Site with Jekyll&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;directory <span class="nb">source</span>/stylesheets/
-</span><span class='line'>   create <span class="nb">source</span>/stylesheets/screen.css
-</span><span class='line'>/home/uli/.rvm/gems/ruby-1.9.3-p327/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in &lt;code&gt;&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="s1">&#39;: iconv will be deprecated in the future, use String#encode instead.</span>
-</span><span class='line'><span class="s1">Configuration from /home/uli/octopress/_config.yml</span>
-</span><span class='line'><span class="s1">/home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/net/https.rb:22:in&lt;/code&gt;require&#39;</span>: cannot load such file &amp;mdash; openssl <span class="o">(</span>LoadError<span class="o">)</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;from /home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/net/https.rb:22:in <span class="sb">`</span>&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="err">&#39;</span>
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Fehlermeldung OpenSSL lang:sh %}
+uli@ubuntu1204:~/octopress$ rake generate</p>
+
+<h2>Generating Site with Jekyll</h2>
+
+<p>directory source/stylesheets/
+   create source/stylesheets/screen.css
+/home/uli/.rvm/gems/ruby-1.9.3-p327/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in <code>&lt;top (required)&gt;': iconv will be deprecated in the future, use String#encode instead.
+Configuration from /home/uli/octopress/_config.yml
+/home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/net/https.rb:22:in</code>require': cannot load such file &mdash; openssl (LoadError)</p>
+
+<pre><code>from /home/uli/.rvm/rubies/ruby-1.9.3-p327/lib/ruby/1.9.1/net/https.rb:22:in `&lt;top (required)&gt;'
+</code></pre>
+
+<p>{% endcodeblock %}</p>
 
 <p>Lösungsversuch mit libssl-dev:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>libssl-dev installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install libssl-dev
-</span><span class='line'>rvm reinstall 1.9.3
-</span><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>rake generate
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock libssl-dev installieren lang:sh %}
+sudo apt-get install libssl-dev
+rvm reinstall 1.9.3
+cd octopress
+rake generate
+{% endcodeblock %}</p>
 
 <p>&hellip; funktioniert.</p>
 ]]></content>
@@ -1681,7 +1081,7 @@ source/archives/index.html</li>
 <p>Quellen:</p>
 
 <ul>
-<li><a href="http://daringfireball.net/projects/markdown/">DaringFireball</a> &ndash; (besser lesbare lokale <a href="/articles/daringfireball-markdown.html">Kopie</a> davon)</li>
+<li><a href="http://daringfireball.net/projects/markdown/">DaringFireball</a> &ndash; (besser lesbare lokale <a href="{{%20root_url%20}}/articles/daringfireball-markdown.html">Kopie</a> davon)</li>
 </ul>
 
 
@@ -1722,33 +1122,19 @@ source/archives/index.html</li>
 
 <h3>Codeblock</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Here&rsquo;s an example .rvmrc file. </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Here&rsquo;s an example .rvmrc file. lang:ruby %}
+rvm ruby-1.8.6 # ZOMG, seriously? We still use this version?
+{% endcodeblock %}</p>
 
 <p>Nach gegenwärtigem Kenntnisstand kann so ein Codeblock nicht Bestandteil einer Liste sein! (Octopress-2.0 und 2.1)</p>
 
 <h3>Datei</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (Beispiel.java)</span> <a href='/downloads/code/Beispiel.java'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Beispiel</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>     <span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;Dies ist ein Beispiel&quot;</span><span class="o">;</span>
-</span><span class='line'>     <span class="k">return</span> <span class="n">s</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% include_code Beispiel.java %}</p>
 
 <h3>Bild</h3>
 
-<p><img src="/images/cc-by-sa-3.0_88x31.png" title="&lsquo;CC-Icon&rsquo;" ></p>
+<p>{% img /images/cc-by-sa-3.0_88x31.png &lsquo;CC-Icon&rsquo; %}</p>
 
 <h2>Tests</h2>
 
@@ -1757,12 +1143,9 @@ source/archives/index.html</li>
 <ul>
 <li>Liste</li>
 <li>mit Codeblock
-  <div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Here&rsquo;s an example .rvmrc file. </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+  {% codeblock Here&rsquo;s an example .rvmrc file. lang:ruby %}
+  rvm ruby-1.8.6 # ZOMG, seriously? We still use this version?
+  {% endcodeblock %}</li>
 </ul>
 
 ]]></content>

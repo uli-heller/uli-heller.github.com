@@ -4,7 +4,7 @@
   <title><![CDATA[Category: GitHub | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/github/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-05T07:57:24+02:00</updated>
+  <updated>2013-08-07T10:00:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -39,53 +39,33 @@ die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
 </ul>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Download-Zweig anlegen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout master
-</span><span class='line'><span class="nv">$ </span>git status&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;On branch master&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;nothing to commit, working directory clean
-</span><span class='line'><span class="nv">$ </span>git checkout &amp;mdash;orphan downloads
-</span><span class='line'><span class="nv">$ </span>git rm -rf .
-</span><span class='line'><span class="nv">$ </span>jmacs README.txt <span class="c"># Enter description of the branch</span>
-</span><span class='line'><span class="nv">$ </span>git add README.txt
-</span><span class='line'><span class="nv">$ </span>git commit -m &amp;ldquo;Created branch: downloads&amp;rdquo;
-</span><span class='line'><span class="nv">$ </span>git push &amp;mdash;set-upstream origin downloads
-</span><span class='line'><span class="nv">$ </span>git checkout master
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Download-Zweig anlegen lang:sh %}
+$ git checkout master
+$ git status</p>
+
+<h1>On branch master</h1>
+
+<p>nothing to commit, working directory clean
+$ git checkout &mdash;orphan downloads
+$ git rm -rf .
+$ jmacs README.txt # Enter description of the branch
+$ git add README.txt
+$ git commit -m &ldquo;Created branch: downloads&rdquo;
+$ git push &mdash;set-upstream origin downloads
+$ git checkout master
+{% endcodeblock %}</p>
 
 <h2>Dateien ablegen</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dateien ablegen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout downloads
-</span><span class='line'><span class="nv">$ </span>cp &amp;hellip;/my-project-0.1-bin.tar.xz .
-</span><span class='line'><span class="nv">$ </span>cp &amp;hellip;/my-project-0.1-bin.zip .
-</span><span class='line'><span class="nv">$ </span>git add my-project-0.1-bin.tar.xz my-project-0.1-bin.zip
-</span><span class='line'><span class="nv">$ </span>git commit -m &amp;ldquo;Added downloads of version 0.1&amp;rdquo; .
-</span><span class='line'><span class="nv">$ </span>git push <span class="c"># might take some time depending on your internet connection bandwidth</span>
-</span><span class='line'><span class="nv">$ </span>git checkout master <span class="c"># switch back to master</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Dateien ablegen lang:sh %}
+$ git checkout downloads
+$ cp &hellip;/my-project-0.1-bin.tar.xz .
+$ cp &hellip;/my-project-0.1-bin.zip .
+$ git add my-project-0.1-bin.tar.xz my-project-0.1-bin.zip
+$ git commit -m &ldquo;Added downloads of version 0.1&rdquo; .
+$ git push # might take some time depending on your internet connection bandwidth
+$ git checkout master # switch back to master
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   

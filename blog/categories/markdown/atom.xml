@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Markdown | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/markdown/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-05T07:57:24+02:00</updated>
+  <updated>2013-08-07T10:00:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -193,7 +193,7 @@ Leider kommt Context nicht mit Markdown-Tabellen zurecht!</p>
 <p>Quellen:</p>
 
 <ul>
-<li><a href="http://daringfireball.net/projects/markdown/">DaringFireball</a> &ndash; (besser lesbare lokale <a href="/articles/daringfireball-markdown.html">Kopie</a> davon)</li>
+<li><a href="http://daringfireball.net/projects/markdown/">DaringFireball</a> &ndash; (besser lesbare lokale <a href="{{%20root_url%20}}/articles/daringfireball-markdown.html">Kopie</a> davon)</li>
 </ul>
 
 
@@ -234,33 +234,19 @@ Leider kommt Context nicht mit Markdown-Tabellen zurecht!</p>
 
 <h3>Codeblock</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Here&rsquo;s an example .rvmrc file. </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Here&rsquo;s an example .rvmrc file. lang:ruby %}
+rvm ruby-1.8.6 # ZOMG, seriously? We still use this version?
+{% endcodeblock %}</p>
 
 <p>Nach gegenwärtigem Kenntnisstand kann so ein Codeblock nicht Bestandteil einer Liste sein! (Octopress-2.0 und 2.1)</p>
 
 <h3>Datei</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (Beispiel.java)</span> <a href='/downloads/code/Beispiel.java'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Beispiel</span> <span class="o">{</span>
-</span><span class='line'>  <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>     <span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;Dies ist ein Beispiel&quot;</span><span class="o">;</span>
-</span><span class='line'>     <span class="k">return</span> <span class="n">s</span><span class="o">;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% include_code Beispiel.java %}</p>
 
 <h3>Bild</h3>
 
-<p><img src="/images/cc-by-sa-3.0_88x31.png" title="&lsquo;CC-Icon&rsquo;" ></p>
+<p>{% img /images/cc-by-sa-3.0_88x31.png &lsquo;CC-Icon&rsquo; %}</p>
 
 <h2>Tests</h2>
 
@@ -269,12 +255,9 @@ Leider kommt Context nicht mit Markdown-Tabellen zurecht!</p>
 <ul>
 <li>Liste</li>
 <li>mit Codeblock
-  <div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Here&rsquo;s an example .rvmrc file. </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+  {% codeblock Here&rsquo;s an example .rvmrc file. lang:ruby %}
+  rvm ruby-1.8.6 # ZOMG, seriously? We still use this version?
+  {% endcodeblock %}</li>
 </ul>
 
 ]]></content>

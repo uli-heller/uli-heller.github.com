@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Kernel | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/kernel/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-05T07:57:24+02:00</updated>
+  <updated>2013-08-07T10:00:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -34,20 +34,14 @@ den neueren XServer. Details dazu stehen hier:
 muß man seinen Rechner neu starten, damit der neue Kernel auch
 verwendet wird:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen des Raring-Kernels </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo apt-get install linux-generic-lts-raring
-</span><span class='line'>&amp;hellip;
-</span><span class='line'>Error! Could not locate dkms.conf file.
-</span><span class='line'>File:  does not exist.
-</span><span class='line'>&amp;hellip;
-</span><span class='line'><span class="nv">$ </span>reboot
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Einspielen des Raring-Kernels lang:sh %}
+$ sudo apt-get install linux-generic-lts-raring
+&hellip;
+Error! Could not locate dkms.conf file.
+File:  does not exist.
+&hellip;
+$ reboot
+{% endcodeblock %}</p>
 
 <p>Wie oben angedeutet erschien bei mir u.a. eine Fehlermeldung bzgl. &ldquo;dkms.conf&rdquo;.
 Die habe ich einfach ignoriert und noch keinen Fehler festgestellt (auch nicht
@@ -55,16 +49,12 @@ mit &ldquo;VirtualBox&rdquo; und anderen Dingen, die Kernel-Module benötigen).<
 
 <p>Nachdem der neue Kernel gut funktioniert, lösche ich nun die alten Kernels:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Entfernen der Alt-Kernel </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get purge linux-generic
-</span><span class='line'>sudo apt-get purge linux-generic-lts-quantal
-</span><span class='line'>dpkg &amp;mdash;get-selections &amp;ldquo;linux&lt;em&gt;-3.2&lt;/em&gt;&amp;rdquo;|cut -f1|xargs sudo apt-get purge -y
-</span><span class='line'>dpkg &amp;mdash;get-selections &amp;ldquo;linux&lt;em&gt;-3.5&lt;/em&gt;&amp;rdquo;|cut -f1|xargs sudo apt-get purge -y
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock Entfernen der Alt-Kernel lang:sh %}
+sudo apt-get purge linux-generic
+sudo apt-get purge linux-generic-lts-quantal
+dpkg &mdash;get-selections &ldquo;linux<em>-3.2</em>&rdquo;|cut -f1|xargs sudo apt-get purge -y
+dpkg &mdash;get-selections &ldquo;linux<em>-3.5</em>&rdquo;|cut -f1|xargs sudo apt-get purge -y
+{% endcodeblock %}</p>
 
 <h2>Fehlermeldung bzgl. dkms.conf</h2>
 
@@ -75,30 +65,19 @@ auch VirtualBox-VMs können gestartet werden.</p>
 <p>Die Fehlermeldung erscheint auch beim Neukompilieren der Kernel-Module
 von VirtualBox:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neukompilieren der Kernel-Module von VirtualBox </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo /etc/init.d/vboxdrv setup
-</span><span class='line'> * Stopping VirtualBox kernel modules                                    <span class="o">[</span> OK <span class="o">]</span>
-</span><span class='line'> * Uninstalling old VirtualBox DKMS kernel modules                              Error! Could not locate dkms.conf file.
-</span><span class='line'>File:  does not exist.&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;                                                                     <span class="o">[</span> OK <span class="o">]</span>
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;ul&gt;
-</span><span class='line'>&lt;li&gt;Trying to register the VirtualBox kernel modules using DKMS           <span class="o">[</span> OK <span class="o">]</span>&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;Starting VirtualBox kernel modules                                    <span class="o">[</span> OK <span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<p>{% codeblock Neukompilieren der Kernel-Module von VirtualBox lang:sh %}
+$ sudo /etc/init.d/vboxdrv setup
+ * Stopping VirtualBox kernel modules                                    [ OK ]
+ * Uninstalling old VirtualBox DKMS kernel modules                              Error! Could not locate dkms.conf file.
+File:  does not exist.</p>
+
+<pre><code>                                                                     [ OK ]
+</code></pre>
+
+<ul>
+<li>Trying to register the VirtualBox kernel modules using DKMS           [ OK ]</li>
+<li>Starting VirtualBox kernel modules                                    [ OK ]
+{% endcodeblock %}</li>
 </ul>
 
 
