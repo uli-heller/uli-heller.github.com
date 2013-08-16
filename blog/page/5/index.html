@@ -9,7 +9,8 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&rsquo;s Monitoringittels &hellip;">
+  <meta name="description" content="Git Subtree &ndash; Neues DEB-Paket bereitstellen Einleitung Kurze Erklärung: Warum will ich&rsquo;s verwenden? Warum kann ich&rsquo;s nicht
+direkt &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +72,168 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/12/git-subtree/">Git Subtree (1/2)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-12T07:14:00+02:00" pubdate data-updated="true">12. April 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Git Subtree &ndash; Neues DEB-Paket bereitstellen</h1>
+
+<h2>Einleitung</h2>
+
+<p>Kurze Erklärung: Warum will ich&rsquo;s verwenden? Warum kann ich&rsquo;s nicht
+direkt verwenden?</p>
+
+<p>Leider ist <code>git subtree</code> in den von mir verwendeten Pakete standardmässig
+nicht aktiv:</p>
+
+<figure class='code'><figcaption><span>git-subtree fehlt </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
+</span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Entweder wir aktivieren es manuell oder wir bauen neue Pakete, bei denen <code>git subtree</code> aktiviert ist.</p>
+
+<h2>Manuelles Aktivieren von Git Subtree</h2>
+
+<figure class='code'><figcaption><span>git-subtree manuell installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
+</span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
+</span><span class='line'><span class="nv">$ </span>sudo cp /usr/share/doc/git/contrib/subtree/git-subtree.sh /usr/lib/git-core/git-subtree
+</span><span class='line'><span class="nv">$ </span>sudo chmod +x  /usr/lib/git-core/git-subtree
+</span><span class='line'><span class="nv">$ </span>git subtree
+</span><span class='line'>usage: git subtree add   --prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
+</span><span class='line'>   or: git subtree add   --prefix<span class="o">=</span>&lt;prefix&gt; &lt;repository&gt; &lt;commit&gt;
+</span><span class='line'>   or: git subtree merge --prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nachteil beim manuellen Aktivieren: Es gibt keine Online-Dokumentation,
+d.h. <code>git help subtree</code> läuft in&rsquo;s Leere.</p>
+
+<h2>Erzeugung neuer DEB-Pakete</h2>
+
+<ul>
+<li>Ausgangspunkt: Build-Verzeichnis für Git-1.8.2.1 liegt vor, d.h. ich
+kann mit <code>dpkg-buildpackage</code> neue DEB-Pakete erzeugen</li>
+<li>Sichtung: Wie funktioniert die Einbindung von &ldquo;subtree&rdquo;?
+
+<ul>
+<li>Die Implementierung liegt unter contrib/subtree</li>
+<li>Eine Einspielanleitung gibt&rsquo;s dort auch</li>
+<li>Diese müssen wir &ldquo;eigentlich&rdquo; nur noch in debian/rules einbauen
+und fertig!</li>
+</ul>
+</li>
+<li>Also: Änderungen an debian/changelog und debian/rules durchführen und
+los geht&rsquo;s mit <code>dpkg-buildpackage</code> (&hellip; das dauert)</li>
+<li>Sichtung: Ist git-subtree in den erstellten Paketen enthalten?
+
+<ul>
+<li><code>dpkg-deb -c git_1.8.2.1*deb|grep git-core/git-subtree</code></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Probleme</h3>
+
+<h4>Falscher Installationspfad</h4>
+
+<ul>
+<li>Verwendet wird: /build/git/git-1.8.2.1/debian/git/usr/libexec/git-core</li>
+<li>Richtig wäre:  /build/git/git-1.8.2.1/debian/git/usr/lib/git-core</li>
+<li>Korrektur durch: Setzen von libexecdir in debian/rules</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/03/gpg-signaturen/">GPG: Signaturen</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-04-03T15:00:00+02:00" pubdate data-updated="true">03. April 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>GPG/PGP-Signatur von Quelltext-Dateien prüfen</h1>
+
+<p>Quelltextdateien werden oftmals mit GPG/PGP-Signaturen bereitgestellt, über die die Integrität der Dateien geprüft werrden kann. Hier zeige ich exemplarisch, wie dies für Subversion und Nginx gemacht wird.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/04/03/gpg-signaturen/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -370,67 +533,6 @@ sind.</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/02/21/tcpmon/">TCPMON</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-02-21T12:00:00+01:00" pubdate data-updated="true">21. February 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Analyse von TCP-Datenströmen</h1>
-
-<p>Früher gab&rsquo;s mal ein Programm von Apache, welches sich in TCP-Datenströme
-einklinken ließ. Das Teil hieß TCPMON und war u.a. als Bestandteil von AXIS
-verfügbar.</p>
-
-<h2>TCPMON auf GoogleCode</h2>
-
-<ul>
-<li>Version 1.1 runtergeladen</li>
-<li>Gestartet</li>
-<li>Beobachtung: Funktioniert, aber Pakete werden nicht angezeigt. Damit
-ist das Paket ziemlich sinnfrei</li>
-</ul>
-
-
-<h2>Notizen</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>git svn clone -r 700000:HEAD http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/tcpmon
-</span><span class='line'><span class="c"># ... das dauert</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2013/02/20/precise-hardware-enablement/">Neuer Kernel für Ubuntu-12.04</a></h1>
     
     
@@ -710,147 +812,6 @@ der fehlerhaften Anpassungen verwendet werden.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/14/redmine-rails-update/">Rails-2.3.17</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-02-14T06:10:00+01:00" pubdate data-updated="true">14. February 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Rails-Update für Redmine-1.2</h1>
-
-<p>Leider ist schon wieder eine <a href="http://www.heise.de/security/meldung/Neues-Sicherheits-Update-fuer-Ruby-on-Rails-1802557.html">Sicherheitslücke</a> in Rails
-entdeckt worden.</p>
-
-<p>Analog zur Aktualisierung auf 2.3.15 erfolgt nun die auf 2.3.17:</p>
-
-<ul>
-<li>Gems runterladen und auf Redmine-Rechner kopieren</li>
-<li>Betriebssystem aktualisieren</li>
-<li>Gems einspielen</li>
-<li>Alte Gems löschen</li>
-</ul>
-
-
-<h2>Gems herunterladen und zum Redmine-Server übertragen</h2>
-
-<p>Der Redmine-Server hat keinen Zugang zum Internet. Deshalb müssen die Gems
-auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
-werden.</p>
-
-<figure class='code'><figcaption><span> (get-2.3.17.sh)</span> <a href='/downloads/code/get-2.3.17.sh'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.17
-</span><span class='line'>
-</span><span class='line'>fetch<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="o">(</span>
-</span><span class='line'>  <span class="nv">GN</span><span class="o">=</span><span class="s2">&quot;$1-$2.gem&quot;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -s <span class="s2">&quot;${GN}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
-</span><span class='line'><span class="k">    </span>gem fetch <span class="s2">&quot;$1&quot;</span> -v <span class="s2">&quot;$2&quot;</span>
-</span><span class='line'>  <span class="k">fi</span>
-</span><span class='line'>  <span class="o">)</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for </span>i in actionmailer actionpack activerecord activeresource activesupport rails; <span class="k">do</span>
-</span><span class='line'><span class="k">  </span>fetch <span class="s2">&quot;${i}&quot;</span> <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'><span class="k">done</span>
-</span><span class='line'>fetch rack 1.1.3
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Die Dateien werden danach mit SCP auf den Redmine-Server übertragen.</p>
-
-<h2>Basissystem aktualisieren</h2>
-
-<figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
-</span><span class='line'>apt-get upgrade
-</span><span class='line'>apt-get dist-upgrade
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Gems einspielen</h2>
-
-<figure class='code'><figcaption><span>Gems einspielen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.17.gem
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Alte Gems deininstallieren</h2>
-
-<figure class='code'><figcaption><span> (uninstall-2.3.15.sh)</span> <a href='/downloads/code/uninstall-2.3.15.sh'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.15
-</span><span class='line'>
-</span><span class='line'>gem uninstall rails -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall actionmailer -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall actionpack -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activerecord -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activeresource -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'>gem uninstall activesupport -v <span class="s2">&quot;${VERSION}&quot;</span>
-</span><span class='line'><span class="c">#gem uninstall rack -v 1.1.1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Älter</a>
@@ -868,6 +829,14 @@ werden.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei &#8216;dcommit&#8217;</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/05/octopress-git/">Octopress und Git ohne Umbenennung</a>
       </li>
     
@@ -877,14 +846,6 @@ werden.</p>
     
       <li class="post">
         <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
       </li>
     
   </ul>

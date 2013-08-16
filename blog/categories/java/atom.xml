@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:06:55+02:00</updated>
+  <updated>2013-08-16T08:19:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -150,38 +150,6 @@ angezeigt werden.</li>
 <p>Seitens des Operatings sind keinerlei Eingriffe erforderlich. Auch das lästige Setzen des Java-Properties erübrigt sich.</p>
 
 <p>Den Quelltext zu dem ganzen gibt&rsquo;s auf <a href="https://github.com/uli-heller/uli-java-prototypes/tree/master/localhost-jmx">GitHub</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[TCPMON]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/02/21/tcpmon/"/>
-    <updated>2013-02-21T12:00:00+01:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/02/21/tcpmon</id>
-    <content type="html"><![CDATA[<h1>Analyse von TCP-Datenströmen</h1>
-
-<p>Früher gab&rsquo;s mal ein Programm von Apache, welches sich in TCP-Datenströme
-einklinken ließ. Das Teil hieß TCPMON und war u.a. als Bestandteil von AXIS
-verfügbar.</p>
-
-<h2>TCPMON auf GoogleCode</h2>
-
-<ul>
-<li>Version 1.1 runtergeladen</li>
-<li>Gestartet</li>
-<li>Beobachtung: Funktioniert, aber Pakete werden nicht angezeigt. Damit
-ist das Paket ziemlich sinnfrei</li>
-</ul>
-
-
-<h2>Notizen</h2>
-
-<p>```sh
-git svn clone -r 700000:HEAD <a href="http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/tcpmon">http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/tcpmon</a></p>
-
-<h1>&hellip; das dauert</h1>
-
-<p>```</p>
 ]]></content>
   </entry>
   

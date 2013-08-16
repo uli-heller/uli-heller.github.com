@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lxc | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/lxc/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:06:55+02:00</updated>
+  <updated>2013-08-16T08:19:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -116,8 +116,21 @@ werden.</p>
 <ul>
 <li>Bei Verwendung des 3.10-er-Kernels nach dem Stoppen eines Containers: <code>sudo mount -o remount,rw /dev/mapper/datavg-lxclv</code> ausführen</li>
 <li>Immer nur den 3.8-er-Kernel verwenden</li>
-<li>Innerhalb des Containers /etc/init.d/umountroot &ldquo;abklemmen&rdquo;:
-<code>sudo update-rc.d -f umountroot remove</code></li>
+<li><p>Innerhalb des Containers /etc/init.d/umountroot &ldquo;abklemmen&rdquo;:</p>
+
+<pre><code>sudo update-rc.d -f umountroot remove
+</code></pre>
+
+<p>Leider muß man dies in regelmässigen Abständen wiederholen. Heute habe ich
+bspw. im Container <code>apt-get update; apt-get upgrade</code> ausgeführt mit der Folge,
+dass /etc/init.d/umountroot wieder aktiviert wurde.</p></li>
+</ul>
+
+
+<h2>Historie</h2>
+
+<ul>
+<li>2013-08-13: /etc/init.d/umountroot wird durch <code>apt-get upgrade</code> manchmal wieder aktiviert.</li>
 </ul>
 
 ]]></content>

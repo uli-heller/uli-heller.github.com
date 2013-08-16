@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Precise | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/precise/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:06:55+02:00</updated>
+  <updated>2013-08-16T08:19:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,463 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Git-Svn: Absturz bei 'dcommit']]></title>
+    <link href="http://uli-heller.github.com/blog/2013/08/08/git-svn-absturz/"/>
+    <updated>2013-08-08T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/08/08/git-svn-absturz</id>
+    <content type="html"><![CDATA[<p>Seit der Aktualisierung auf Subversion-1.8.1 gibt es immer wieder
+Fehler bei der Ausführung von Git-Svn-Kommandos. Beobachtet habe ich
+die Fehler bei</p>
+
+<ul>
+<li><code>git svn dcommit</code></li>
+<li><code>git svn rebase</code></li>
+<li><code>git svn clone</code></li>
+</ul>
+
+
+<p>Der Fehler tritt nur beim &ldquo;Aufräumen&rdquo; auf, d.h. nachdem das betreffende
+Kommando abgearbeitet ist und der Git-Svn-Prozess nur noch beendet werden
+muß. Er tritt auch nur auf, wenn Daten über die Leitung geschickt werden,
+also wenn:</p>
+
+<ul>
+<li>das lokale Git-Repo geändert wurde (dcommit)</li>
+<li>das Svn-Repository geändert wurde (rebase)</li>
+</ul>
+
+
+<p>Wenn man den Fehler einfach ignoriert, kann man &ldquo;normal&rdquo; weiterarbeiten.</p>
+
+<!-- more -->
+
+
+<h2>Reproduzieren des Problems</h2>
+
+<p>Am einfachsten läßt sich das Problem reproduzieren, wenn man ein
+Subversion-Repository mit Testdaten verfügbar hat. Bei mir hat das den Namen
+&ldquo;sandbox&rdquo;.</p>
+
+<p>Ach ja: Das Subversion-Repository muß via &ldquo;<a href="https://...">https://...</a>&rdquo; angesprochen werden.
+Mit einem lokalen Subversion-Repository,
+das mittels &ldquo;file://&hellip;&rdquo; angesprochen wird,
+tritt das Problem nicht auf!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Clonen des Svn-Repositories </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>~/git<span class="nv">$ </span>git svn clone &amp;mdash;stdlayout &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://&quot;</span>&gt;https://&lt;/a&gt;<span class="o">{</span>servername<span class="o">}</span>/<span class="o">{</span>pfad<span class="o">}</span>/sandbox
+</span><span class='line'>Initialisierte leeres Git-Projektarchiv in &amp;hellip;/git/sandbox/.git/
+</span><span class='line'><span class="nv">r1</span> <span class="o">=</span> 7ebd17bca2c5e3ead4816e93371d695eb3e19a36 <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;A   bug-fix.ticket18
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;r2 <span class="o">=</span> 77410a5f40f2eaeaf666f9fbda5261a521acb33f <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   bug-fix.ticket18
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;&amp;hellip;
+</span><span class='line'><span class="nv">r81</span> <span class="o">=</span> 32ebfb3669331a5a5b60d27dbf54e0b6c7a601da <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>
+</span><span class='line'>Checked out HEAD:
+</span><span class='line'>  &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://83.236.132.107/svn/sandbox/trunk&quot;</span>&gt;https://83.236.132.107/svn/sandbox/trunk&lt;/a&gt; r81
+</span><span class='line'>creating empty directory: baumkonflikt/dir1
+</span><span class='line'>creating empty directory: danyi_tests
+</span><span class='line'>error: git-svn died of signal 11
+</span><span class='line'>~/git<span class="nv">$ </span><span class="nb">cd </span>sandbox
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Hierbei tritt der Fehler auf. Der Ablauf ist aber verhältnismässig aufwändig,
+weil immer das ganze Repository kopiert wird.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Datei git-svn-absturz.txt </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>~/git/sandbox<span class="nv">$ </span>date &gt;&gt;git-svn-absturz.txt
+</span><span class='line'>~/git/sandbox<span class="nv">$ </span>git add git-svn-absturz.txt
+</span><span class='line'>~/git/sandbox<span class="nv">$ </span>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
+</span><span class='line'><span class="o">[</span>master b984d2a<span class="o">]</span> Aktualisiert: git-svn-absturz.txt
+</span><span class='line'> 1 file changed, 1 insertion<span class="o">(</span>+<span class="o">)</span>
+</span><span class='line'> create mode 100644 git-svn-absturz.txt
+</span><span class='line'>~/git/sandbox<span class="nv">$ </span>git svn dcommit
+</span><span class='line'>Committing to &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://83.236.132.107/svn/sandbox/trunk&quot;</span>&gt;https://83.236.132.107/svn/sandbox/trunk&lt;/a&gt; &amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;A   git-svn-absturz.txt
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Committed r82&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;A   git-svn-absturz.txt
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;r82 <span class="o">=</span> 610e72f25af787a95e3d2bc6c243bcdef720c40d <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>
+</span><span class='line'>No changes between b984d2a7c45c9b7e94fe5edc3b765b84a3b2ed7d and refs/remotes/trunk
+</span><span class='line'>Resetting to the latest refs/remotes/trunk
+</span><span class='line'>error: git-svn died of signal 11
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Der Fehler ist erneut aufgetreten. Der Ablauf ist auch ungeeignet, weil ich
+nicht für jeden Test eine neue Datei anlegen möchte.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einfache Reproduktion des Problems </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>~/git/sandbox<span class="nv">$ </span>date &gt;&gt;git-svn-absturz.txt
+</span><span class='line'>~/git/sandbox<span class="nv">$ </span>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
+</span><span class='line'><span class="o">[</span>master 10629a2<span class="o">]</span> Aktualisiert: git-svn-absturz.txt
+</span><span class='line'> 1 file changed, 1 insertion<span class="o">(</span>+<span class="o">)</span>
+</span><span class='line'>~/git/sandbox<span class="nv">$ </span>git svn dcommit
+</span><span class='line'>Committing to &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://83.236.132.107/svn/sandbox/trunk&quot;</span>&gt;https://83.236.132.107/svn/sandbox/trunk&lt;/a&gt; &amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   git-svn-absturz.txt
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Committed r83&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   git-svn-absturz.txt
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;r83 <span class="o">=</span> 5260be6684059d7b8416c011dfa644d837f317a9 <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>
+</span><span class='line'>No changes between 10629a268ed877ba48fa2a70ed387b04bacd18cb and refs/remotes/trunk
+</span><span class='line'>Resetting to the latest refs/remotes/trunk
+</span><span class='line'>error: git-svn died of signal 11
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Der Fehler ist erneut aufgetreten. Der Ablauf ist schnell wiederholt
+durchführbar.</p>
+
+<p>Hier nochmal die abzusetzenden Befehle ohne Ausgaben zur einfachen
+Wiederholung mit &ldquo;Ausschneiden und Einfügen&rdquo;:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einfache Reproduktion &ndash; abzusetzende Befehle </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
+</span><span class='line'>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
+</span><span class='line'>git svn dcommit
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Analyse</h2>
+
+<h3>strace</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Reproduktion mit &lsquo;strace&rsquo; </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
+</span><span class='line'>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
+</span><span class='line'>strace git svn dcommit
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Diese Ausgaben werden geliefert:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ausgabe von &lsquo;strace git svn&rsquo; </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   git-svn-absturz.txt
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Committed r84&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   git-svn-absturz.txt
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;r84 <span class="o">=</span> af8102dc59c40c47b56a404b5ceffa7c5892bc06 <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>
+</span><span class='line'>No changes between 191f43c2a02d86825f946de62f6fd8f56b5aa74b and refs/remotes/trunk
+</span><span class='line'>Resetting to the latest refs/remotes/trunk
+</span><span class='line'><span class="o">[{</span>WIFSIGNALED<span class="o">(</span>s<span class="o">)</span> &amp;amp;&amp;amp; WTERMSIG<span class="o">(</span>s<span class="o">)</span> <span class="o">==</span> SIGSEGV &amp;amp;&amp;amp; WCOREDUMP<span class="o">(</span>s<span class="o">)}]</span>, 0, NULL<span class="o">)</span> <span class="o">=</span> 14979
+</span><span class='line'>&amp;mdash;&amp;ndash; SIGCHLD <span class="o">(</span>Child exited<span class="o">)</span> @ 0 <span class="o">(</span>0<span class="o">)</span> &amp;mdash;&amp;ndash;
+</span><span class='line'>write<span class="o">(</span>2, &amp;ldquo;error: git-svn died of signal 11&amp;rdquo;&amp;hellip;, 33error: git-svn died of signal 11
+</span><span class='line'><span class="o">)</span> <span class="o">=</span> 33
+</span><span class='line'>exit_group<span class="o">(</span>139<span class="o">)</span>                         <span class="o">=</span> ?
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Dieser Trace hat wenig Aussagekraft, weil einfach nur ein Unterprozess
+anstürzt. Nun könnte man den Test nochmals laufen lassen mit &lsquo;strace -F&rsquo;
+oder wir füttern &lsquo;strace&rsquo; direkt mit &lsquo;git-svn&rsquo;:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Reproduktion mit &lsquo;strace&rsquo; und &lsquo;git-svn&rsquo; </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
+</span><span class='line'>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
+</span><span class='line'>strace /usr/lib/git-core/git-svn dcommit
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Dies führt zu folgender Ausgabe:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ausgabe von &lsquo;strace git-svn&rsquo; </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>execve<span class="o">(</span>&amp;ldquo;/usr/lib/git-core/git-svn&amp;rdquo;, <span class="o">[</span>&amp;ldquo;/usr/lib/git-core/git-svn&amp;rdquo;, &amp;ldquo;dcommit&amp;rdquo;<span class="o">]</span>, <span class="o">[</span>/&lt;em&gt; 59 vars &lt;/em&gt;/<span class="o">])</span> <span class="o">=</span> 0
+</span><span class='line'>brk<span class="o">(</span>0<span class="o">)</span>                                  <span class="o">=</span> 0x25fd000
+</span><span class='line'>access<span class="o">(</span>&amp;ldquo;/etc/ld.so.nohwcap&amp;rdquo;, F_OK<span class="o">)</span>      <span class="o">=</span> -1 ENOENT <span class="o">(</span>No such file or directory<span class="o">)</span>
+</span><span class='line'>&amp;hellip;
+</span><span class='line'>chmod<span class="o">(</span>&amp;ldquo;.git/Git_zUlsP8&amp;rdquo;, 0600<span class="o">)</span>          <span class="o">=</span> 0
+</span><span class='line'>unlink<span class="o">(</span>&amp;ldquo;.git/Git_zUlsP8&amp;rdquo;<span class="o">)</span>               <span class="o">=</span> 0
+</span><span class='line'>close<span class="o">(</span>14<span class="o">)</span>                               <span class="o">=</span> 0
+</span><span class='line'>close<span class="o">(</span>4294967295<span class="o">)</span>                       <span class="o">=</span> -1 EBADF <span class="o">(</span>Bad file descriptor<span class="o">)</span>
+</span><span class='line'>close<span class="o">(</span>13<span class="o">)</span>                               <span class="o">=</span> 0
+</span><span class='line'>munmap<span class="o">(</span>0x7f03f9fc3000, 2113912<span class="o">)</span>         <span class="o">=</span> 0
+</span><span class='line'>munmap<span class="o">(</span>0x7f03fb641000, 2105608<span class="o">)</span>         <span class="o">=</span> 0
+</span><span class='line'>&amp;hellip;
+</span><span class='line'>munmap<span class="o">(</span>0x7f0402cd6000, 8192<span class="o">)</span>            <span class="o">=</span> 0
+</span><span class='line'>munmap<span class="o">(</span>0x7f0402cf3000, 8192<span class="o">)</span>            <span class="o">=</span> 0
+</span><span class='line'>munmap<span class="o">(</span>0x7f0402d03000, 8192<span class="o">)</span>            <span class="o">=</span> 0
+</span><span class='line'>munmap<span class="o">(</span>0x7f0402cef000, 8192<span class="o">)</span>            <span class="o">=</span> 0
+</span><span class='line'>&amp;mdash;&amp;ndash; SIGSEGV <span class="o">(</span>Segmentation fault<span class="o">)</span> @ 0 <span class="o">(</span>0<span class="o">)</span> &amp;mdash;&amp;ndash;
+</span><span class='line'>+++ killed by SIGSEGV <span class="o">(</span>core dumped<span class="o">)</span> +++
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Devel:Trace</h3>
+
+<h4>Perl-Modul Devel::Trace installieren</h4>
+
+<p><code>sudo apt-get install libdevel-trace-perl</code></p>
+
+<h4>Test</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Reproduktion mit &lsquo;Devel::Trace&rsquo; und &lsquo;git-svn&rsquo; </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
+</span><span class='line'>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
+</span><span class='line'>perl -d::Trace -f /usr/lib/git-core/git-svn dcommit
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Dabei wird diese Ausgabe geliefert:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ausgabe mit &lsquo;Devel::Trace&rsquo; </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&amp;hellip;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;/usr/share/perl5/Git/SVN.pm:1659:    unmemoize_svn_mergeinfo_functions<span class="o">()</span>;
+</span><span class='line'>/usr/share/perl5/Git/SVN.pm:1626:        <span class="k">return if </span>not <span class="nv">$memoized</span>;
+</span><span class='line'>/usr/share/perl5/Git/SVN.pm:85:  unlink keys %LOCKFILES <span class="k">if</span> %LOCKFILES;
+</span><span class='line'>/usr/share/perl5/Git/SVN.pm:86:  unlink keys %INDEX_FILES <span class="k">if</span> %INDEX_FILES;
+</span><span class='line'>/usr/lib/perl5/SVN/Core.pm:390:     <span class="nv">$globaldestroy</span> <span class="o">=</span> 1;
+</span><span class='line'>/usr/lib/perl5/SVN/Core.pm:58:     SVN::_Core::apr_terminate<span class="o">()</span>;
+</span><span class='line'>Speicherzugriffsfehler <span class="o">(</span>Speicherabzug geschrieben<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote>
+
+<p>Richtig &ldquo;weiter&rdquo; kommen wir damit nicht &ndash; &ldquo;apr_terminate()&rdquo; ist
+eine C-Funktion, die per SWIG in Perl eingebunden ist.</p>
+
+<h2>Korrekturversuche</h2>
+
+<h3>Neueste Version von serf-1.2.1</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Patch erzeugen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git svn clone &amp;mdash;stdlayout &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://serf.googlecode.com/svn&quot;</span>&gt;http://serf.googlecode.com/svn&lt;/a&gt;
+</span><span class='line'>&amp;hellip;
+</span><span class='line'><span class="nv">r2111</span> <span class="o">=</span> 6e0d690806e4796d2d698e5fd6a33b91832b9fd3 <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   auth/auth_spnego.c
+</span><span class='line'>M   outgoing.c
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;r2112 <span class="o">=</span> 40194aec74ce32ba844aafc0a5dbdda334f2abfb <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>
+</span><span class='line'>Checked out HEAD:
+</span><span class='line'>  &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://serf.googlecode.com/svn/trunk&quot;</span>&gt;http://serf.googlecode.com/svn/trunk&lt;/a&gt; r2112
+</span><span class='line'><span class="nv">$ </span>mv svn serf
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>serf
+</span><span class='line'><span class="nv">$ </span>git diff remotes/tags/1.2.1 remotes/1.2.x &gt;serf-1.2.1-r2112.patch
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Den dabei erzeugten Patch habe ich in die Patch-Serie von
+SERF aufgenommen und ein neues SERF-Paket erzeugt und dieses
+dann installiert mit</p>
+
+<ul>
+<li><code>sudo dpkg -i libserf1_1.2.1-0dp04~precise1_amd64.deb</code></li>
+</ul>
+
+
+<p>Ein Nachtest ergibt: Keine Besserung.</p>
+
+<h3>Neueste Version von apr-1.4.8</h3>
+
+<p>Der übliche Ablauf mittels</p>
+
+<pre><code>* `uupdate -u ../apr-1.4.8.tar.gz`
+* `cd ../apr-1.4.8`
+* `dpkg-buildpackage`
+</code></pre>
+
+<p>funktioniert nicht &ndash; es werden viele fehlende Funktionen angemeckert von
+<code>dh_makeshlibs</code>/<code>dpkg-gensymbols</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fehlende Funktionen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA384_Data@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA384_End@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA384_Final@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA384_Init@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA384_Update@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA512_Data@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA512_End@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA512_Final@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA512_Init@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA512_Last@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA512_Transform@Base 1.2.7
+</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA512_Update@Base 1.2.7</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Nach Anpassung von &hellip;/debian/symbols.common funktioniert&rsquo;s. Klar, die neue
+Version ist nicht so richtig kompatibel zur alten Version. Muß ich im
+Hinterkopf behalten.</p>
+
+<p>Ein Nachtest ergibt: Keine Besserung, <code>git-svn</code> stürzt noch immer ab.
+Also: Wieder die alte Version installieren: <code>sudo apt-get install libapr1=1.4.6\*</code>.</p>
+
+<h3>Neueste Version von aprutil-1.5.2</h3>
+
+<p>Auf <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/subversion.html">LinuxFromScratch</a> gibt es einen Hinweis zur Verwendung der neuesten Version von aprutil.</p>
+
+<ul>
+<li>Alt:  1.3.12+dfsg-3</li>
+<li>Neu:  1.5.2-1</li>
+</ul>
+
+
+<p>Paket erzeugt und installiert gefolgt vom Nachtest ergibt: Keine Besserung.
+Also: Wieder die alte Version installieren: <code>sudo apt-get install libaprutil1=1.3.12*</code></p>
+
+<h2>Änderungen</h2>
+
+<ul>
+<li>2013-08-15: Test mit aprutil-1.5.2</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Subversion 1.8.1 für Ubuntu-12.04]]></title>
@@ -303,8 +760,21 @@ werden.</p>
 <ul>
 <li>Bei Verwendung des 3.10-er-Kernels nach dem Stoppen eines Containers: <code>sudo mount -o remount,rw /dev/mapper/datavg-lxclv</code> ausführen</li>
 <li>Immer nur den 3.8-er-Kernel verwenden</li>
-<li>Innerhalb des Containers /etc/init.d/umountroot &ldquo;abklemmen&rdquo;:
-<code>sudo update-rc.d -f umountroot remove</code></li>
+<li><p>Innerhalb des Containers /etc/init.d/umountroot &ldquo;abklemmen&rdquo;:</p>
+
+<pre><code>sudo update-rc.d -f umountroot remove
+</code></pre>
+
+<p>Leider muß man dies in regelmässigen Abständen wiederholen. Heute habe ich
+bspw. im Container <code>apt-get update; apt-get upgrade</code> ausgeführt mit der Folge,
+dass /etc/init.d/umountroot wieder aktiviert wurde.</p></li>
+</ul>
+
+
+<h2>Historie</h2>
+
+<ul>
+<li>2013-08-13: /etc/init.d/umountroot wird durch <code>apt-get upgrade</code> manchmal wieder aktiviert.</li>
 </ul>
 
 ]]></content>
@@ -708,62 +1178,6 @@ Er ist dort also nicht korrigiert.</p>
 <p>Für mich sieht&rsquo;s so aus, als wäre das Aufsetzen auf &ldquo;source-2.1&rdquo; eine echt blöde
 Entscheidung gewesen. Werde mein Octopress wohl in nächster Zeit umstellen müssen
 auf &ldquo;master&rdquo;.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Analyse des Systemstarts]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/18/bootchart/"/>
-    <updated>2013-07-18T10:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/18/bootchart</id>
-    <content type="html"><![CDATA[<p>Mein Samsung-Laptop benötigt sehr lange für den Systemstart.
-Gefühlt dauert&rsquo;s 5 Minuten vom Einschalten bis zum Login-Prompt.
-Das sollte doch irgendwie schneller gehen &ndash; nur wie?</p>
-
-<!-- more -->
-
-
-<h2>Bootchart</h2>
-
-<h3>Installieren</h3>
-
-<p><code>
-sudo apt-get install bootchart pybootchartgui
-</code></p>
-
-<h3>Neustart</h3>
-
-<p><code>
-sudo reboot
-</code></p>
-
-<h3>Sichten</h3>
-
-<ul>
-<li>Verzeichnis: /var/log/bootchart</li>
-<li>Dateien: uli-samsung-precise-20130718-1.tgz und uli-samsung-precise-20130718-1.png</li>
-</ul>
-
-
-<p><img src="/images/bootchart/uli-samsung-precise-20130718-1.png" alt="Bootchart vom Samsung-Laptop" /></p>
-
-<p>Es fällt auf, dass ein Großteil der Zeit in IOWAIT verbracht wird (dicke rotbraune Balken). Somit liegt die Vermutung nahe, dass die interne Festplatte wohl schnarchlahm ist. Das deckt sich auch wunderbar mit meinen Beobachtungen bei der täglichen Arbeit:</p>
-
-<ul>
-<li>Editieren eines Shell-Skriptes</li>
-<li>Speichern</li>
-<li>Fenster-Wechsel + Start des Skriptes</li>
-<li>Start scheitert mit einer Fehlermeldung (sinngemäß: &ldquo;Skript gesperrt&rdquo;)</li>
-<li>2 Sekunden warten + nochmaliger Start</li>
-<li>Start klappt</li>
-</ul>
-
-
-<h3>Versuch: SSD an USB-3</h3>
-
-<p>Eine externe SSD angeschlossen an die USB-3-Schnittstelle startet &ldquo;schnell&rdquo; (&hellip; gefühlt dauert&rsquo;s ähnlich lang wie beim Macbook Air 2013).</p>
-
-<p>Also: Scheint wirklich an der lahmen Platte zu liegen.</p>
 ]]></content>
   </entry>
   

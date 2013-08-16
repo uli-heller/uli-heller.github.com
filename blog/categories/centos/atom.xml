@@ -4,7 +4,7 @@
   <title><![CDATA[Category: CentOS | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/centos/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-08-07T10:06:55+02:00</updated>
+  <updated>2013-08-16T08:19:49+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,50 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Experimente mit CentOS-5.9]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/08/16/centos59/"/>
+    <updated>2013-08-16T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/08/16/centos59</id>
+    <content type="html"><![CDATA[<p>Heute habe ich mir vorgenommen, ein paar Experimente mit CentOS-5.9
+durchzuführen. CentOS ist eine Linux-Distribution, die den Anspruch
+hat, weitgehend kompatibel zu RedHat Enterprise Linux (RHEL) ist.
+Meine Hoffnung ist, dass sich die Erkenntnisse, die ich heute sammle,
+auch in einem anstehenden Kundenprojekt anwenden lassen, bei dem RHEL
+zum Einsatz kommen wird.</p>
+
+<!-- more -->
+
+
+<h2>VirtualBox</h2>
+
+<p>Bei der Installation als Gastsystem innerhalb von VirtualBox
+sind folgende Besonderheiten zu beachten:</p>
+
+<ul>
+<li><p>Bei &ldquo;System&rdquo; muß folgendes aktiviert werden:</p>
+
+<ul>
+<li>Chipsatz: ICH9</li>
+<li>IO-APIC aktivieren</li>
+</ul>
+
+
+<p>Mit anderen Einstellungen blieb bei mir das Gastsystem immer hängen</p></li>
+<li><p>Für den Massenspeicher sollte nur ein IDE-Controller verwendet werden</p>
+
+<p>Bei mir blieb das Gastsystem immer hängen, wenn ich einen SATA-Controller verwendet habe</p></li>
+</ul>
+
+
+<h2>Grundinstallation</h2>
+
+<p></p>
+
+<h2>TBC</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Experimente mit CentOS-6.4]]></title>

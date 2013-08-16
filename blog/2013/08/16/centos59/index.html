@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Experimente mit CentOS-5.9 - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+
+  
+  <meta name="description" content="Heute habe ich mir vorgenommen, ein paar Experimente mit CentOS-5.9
+durchzuführen. CentOS ist eine Linux-Distribution, die den Anspruch
+hat, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/08/16/centos59">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Uli's IT-Blog - Konzeption, Entwicklung, Betrieb</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Experimente mit CentOS-5.9</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-16T08:00:00+02:00" pubdate data-updated="true">16. August 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Heute habe ich mir vorgenommen, ein paar Experimente mit CentOS-5.9
+durchzuführen. CentOS ist eine Linux-Distribution, die den Anspruch
+hat, weitgehend kompatibel zu RedHat Enterprise Linux (RHEL) ist.
+Meine Hoffnung ist, dass sich die Erkenntnisse, die ich heute sammle,
+auch in einem anstehenden Kundenprojekt anwenden lassen, bei dem RHEL
+zum Einsatz kommen wird.</p>
+
+<!-- more -->
+
+
+<h2>VirtualBox</h2>
+
+<p>Bei der Installation als Gastsystem innerhalb von VirtualBox
+sind folgende Besonderheiten zu beachten:</p>
+
+<ul>
+<li><p>Bei &ldquo;System&rdquo; muß folgendes aktiviert werden:</p>
+
+<ul>
+<li>Chipsatz: ICH9</li>
+<li>IO-APIC aktivieren</li>
+</ul>
+
+
+<p>Mit anderen Einstellungen blieb bei mir das Gastsystem immer hängen</p></li>
+<li><p>Für den Massenspeicher sollte nur ein IDE-Controller verwendet werden</p>
+
+<p>Bei mir blieb das Gastsystem immer hängen, wenn ich einen SATA-Controller verwendet habe</p></li>
+</ul>
+
+
+<h2>Grundinstallation</h2>
+
+<script src="/javascripts/fotorama/jquery-1.10.2.min.js"></script>
+
+
+<p><link href="/javascripts/fotorama/fotorama.css" rel="stylesheet"><script src="/javascripts/fotorama/fotorama.js"></script><div class="fotorama" data-autoplay="3000" data-transition="dissolve" data-nav="thumbs" data-allow-full-screen="true" data-keyboard="true" data-width="80%" data-thumb-with="64" data-thumb-height="48"><a href="/images/galleries/centos59/001-create-vm.png"><img src="/images/galleries/centos59/thumbs/001-create-vm.png"/></a><a href="/images/galleries/centos59/002-memory-size.png"><img src="/images/galleries/centos59/thumbs/002-memory-size.png"/></a><a href="/images/galleries/centos59/003-harddisk.png"><img src="/images/galleries/centos59/thumbs/003-harddisk.png"/></a><a href="/images/galleries/centos59/004-harddisk-type.png"><img src="/images/galleries/centos59/thumbs/004-harddisk-type.png"/></a><a href="/images/galleries/centos59/005-harddisk-storage.png"><img src="/images/galleries/centos59/thumbs/005-harddisk-storage.png"/></a><a href="/images/galleries/centos59/006-harddisk-size.png"><img src="/images/galleries/centos59/thumbs/006-harddisk-size.png"/></a><a href="/images/galleries/centos59/007-vm.png"><img src="/images/galleries/centos59/thumbs/007-vm.png"/></a><a href="/images/galleries/centos59/008-vm.png"><img src="/images/galleries/centos59/thumbs/008-vm.png"/></a><a href="/images/galleries/centos59/009-settings.png"><img src="/images/galleries/centos59/thumbs/009-settings.png"/></a><a href="/images/galleries/centos59/010-settings-2.png"><img src="/images/galleries/centos59/thumbs/010-settings-2.png"/></a><a href="/images/galleries/centos59/010-settings-3.png"><img src="/images/galleries/centos59/thumbs/010-settings-3.png"/></a><a href="/images/galleries/centos59/011-vm-2.png"><img src="/images/galleries/centos59/thumbs/011-vm-2.png"/></a><a href="/images/galleries/centos59/012-boot.png"><img src="/images/galleries/centos59/thumbs/012-boot.png"/></a><a href="/images/galleries/centos59/013-boot.png"><img src="/images/galleries/centos59/thumbs/013-boot.png"/></a><a href="/images/galleries/centos59/014-boot.png"><img src="/images/galleries/centos59/thumbs/014-boot.png"/></a><a href="/images/galleries/centos59/015-boot.png"><img src="/images/galleries/centos59/thumbs/015-boot.png"/></a><a href="/images/galleries/centos59/016-skip-test.png"><img src="/images/galleries/centos59/thumbs/016-skip-test.png"/></a><a href="/images/galleries/centos59/017-anaconda.png"><img src="/images/galleries/centos59/thumbs/017-anaconda.png"/></a><a href="/images/galleries/centos59/018-welcome.png"><img src="/images/galleries/centos59/thumbs/018-welcome.png"/></a><a href="/images/galleries/centos59/019-english-ok.png"><img src="/images/galleries/centos59/thumbs/019-english-ok.png"/></a><a href="/images/galleries/centos59/019-english.png"><img src="/images/galleries/centos59/thumbs/019-english.png"/></a><a href="/images/galleries/centos59/020-keyboard.png"><img src="/images/galleries/centos59/thumbs/020-keyboard.png"/></a><a href="/images/galleries/centos59/021-harddisk.png"><img src="/images/galleries/centos59/thumbs/021-harddisk.png"/></a><a href="/images/galleries/centos59/022-harddisk-ok.png"><img src="/images/galleries/centos59/thumbs/022-harddisk-ok.png"/></a><a href="/images/galleries/centos59/023-harddisk-ok.png"><img src="/images/galleries/centos59/thumbs/023-harddisk-ok.png"/></a><a href="/images/galleries/centos59/024-partition-no.png"><img src="/images/galleries/centos59/thumbs/024-partition-no.png"/></a><a href="/images/galleries/centos59/025-network-yes.png"><img src="/images/galleries/centos59/thumbs/025-network-yes.png"/></a><a href="/images/galleries/centos59/026-eth0.png"><img src="/images/galleries/centos59/thumbs/026-eth0.png"/></a><a href="/images/galleries/centos59/027-eth0-ipv4.png"><img src="/images/galleries/centos59/thumbs/027-eth0-ipv4.png"/></a><a href="/images/galleries/centos59/028-eth0-ipv6.png"><img src="/images/galleries/centos59/thumbs/028-eth0-ipv6.png"/></a><a href="/images/galleries/centos59/029-hostname.png"><img src="/images/galleries/centos59/thumbs/029-hostname.png"/></a><a href="/images/galleries/centos59/030-timezone.png"><img src="/images/galleries/centos59/thumbs/030-timezone.png"/></a><a href="/images/galleries/centos59/031-password.png"><img src="/images/galleries/centos59/thumbs/031-password.png"/></a><a href="/images/galleries/centos59/032-packages.png"><img src="/images/galleries/centos59/thumbs/032-packages.png"/></a><a href="/images/galleries/centos59/033-dependencies.png"><img src="/images/galleries/centos59/thumbs/033-dependencies.png"/></a><a href="/images/galleries/centos59/034-begin.png"><img src="/images/galleries/centos59/thumbs/034-begin.png"/></a><a href="/images/galleries/centos59/035-formatting.png"><img src="/images/galleries/centos59/thumbs/035-formatting.png"/></a><a href="/images/galleries/centos59/036-completed.png"><img src="/images/galleries/centos59/thumbs/036-completed.png"/></a><a href="/images/galleries/centos59/037-rebooting.png"><img src="/images/galleries/centos59/thumbs/037-rebooting.png"/></a><a href="/images/galleries/centos59/038-booting.png"><img src="/images/galleries/centos59/thumbs/038-booting.png"/></a><a href="/images/galleries/centos59/039-booting.png"><img src="/images/galleries/centos59/thumbs/039-booting.png"/></a><a href="/images/galleries/centos59/040-booting.png"><img src="/images/galleries/centos59/thumbs/040-booting.png"/></a><a href="/images/galleries/centos59/041-setup.png"><img src="/images/galleries/centos59/thumbs/041-setup.png"/></a></div> <!--class="fotorama" data-nav="thumbs" --></p>
+
+<h2>TBC</h2>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-16T08:00:00+02:00" pubdate data-updated="true">16. August 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/centos/'>CentOS</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/08/08/git-svn-absturz/" title="Voriger Beitrag: Git-Svn: Absturz bei 'dcommit'">&laquo; Git-Svn: Absturz bei 'dcommit'</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei 'dcommit'</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/05/octopress-git/">Octopress und Git ohne Umbenennung</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ulispersonalitblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/08/16/centos59/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/08/16/centos59/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

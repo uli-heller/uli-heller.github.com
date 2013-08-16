@@ -92,6 +92,8 @@ bekomme ich seit ein paar &hellip;">
   
 
 
+
+  
 <time datetime="2013-07-27T09:00:00+02:00" pubdate data-updated="true">27. July 2013</time>
         
       </p>
@@ -200,8 +202,21 @@ werden.</p>
 <ul>
 <li>Bei Verwendung des 3.10-er-Kernels nach dem Stoppen eines Containers: <code>sudo mount -o remount,rw /dev/mapper/datavg-lxclv</code> ausführen</li>
 <li>Immer nur den 3.8-er-Kernel verwenden</li>
-<li>Innerhalb des Containers /etc/init.d/umountroot &ldquo;abklemmen&rdquo;:
-<code>sudo update-rc.d -f umountroot remove</code></li>
+<li><p>Innerhalb des Containers /etc/init.d/umountroot &ldquo;abklemmen&rdquo;:</p>
+
+<pre><code>sudo update-rc.d -f umountroot remove
+</code></pre>
+
+<p>Leider muß man dies in regelmässigen Abständen wiederholen. Heute habe ich
+bspw. im Container <code>apt-get update; apt-get upgrade</code> ausgeführt mit der Folge,
+dass /etc/init.d/umountroot wieder aktiviert wurde.</p></li>
+</ul>
+
+
+<h2>Historie</h2>
+
+<ul>
+<li>2013-08-13: /etc/init.d/umountroot wird durch <code>apt-get upgrade</code> manchmal wieder aktiviert.</li>
 </ul>
 
 </div>
@@ -226,7 +241,9 @@ werden.</p>
   
 
 
-<time datetime="2013-07-27T09:00:00+02:00" pubdate data-updated="true">27. July 2013</time>
+
+  
+<time datetime="2013-08-13T08:00:00+02:00" class="updated">Updated 13. August 2013</time>
       
 
 <span class="categories">
@@ -271,6 +288,14 @@ werden.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei 'dcommit'</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/05/octopress-git/">Octopress und Git ohne Umbenennung</a>
       </li>
     
@@ -280,14 +305,6 @@ werden.</p>
     
       <li class="post">
         <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
       </li>
     
   </ul>

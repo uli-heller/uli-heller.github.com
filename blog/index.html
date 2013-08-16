@@ -9,8 +9,9 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Octopress hat die Eigenart, bei Verwendung von Git als &ldquo;Deployment-Methode&rdquo;
-die Zweige umzubenennen: Umbenennung: origin &ndash;> &hellip;">
+  <meta name="description" content="Heute habe ich mir vorgenommen, ein paar Experimente mit CentOS-5.9
+durchzuführen. CentOS ist eine Linux-Distribution, die den Anspruch
+hat, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +73,115 @@ die Zweige umzubenennen: Umbenennung: origin &ndash;> &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-16T08:00:00+02:00" pubdate data-updated="true">16. August 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Heute habe ich mir vorgenommen, ein paar Experimente mit CentOS-5.9
+durchzuführen. CentOS ist eine Linux-Distribution, die den Anspruch
+hat, weitgehend kompatibel zu RedHat Enterprise Linux (RHEL) ist.
+Meine Hoffnung ist, dass sich die Erkenntnisse, die ich heute sammle,
+auch in einem anstehenden Kundenprojekt anwenden lassen, bei dem RHEL
+zum Einsatz kommen wird.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/08/16/centos59/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei &#8216;dcommit&#8217;</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-08T08:00:00+02:00" pubdate data-updated="true">08. August 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Seit der Aktualisierung auf Subversion-1.8.1 gibt es immer wieder
+Fehler bei der Ausführung von Git-Svn-Kommandos. Beobachtet habe ich
+die Fehler bei</p>
+
+<ul>
+<li><code>git svn dcommit</code></li>
+<li><code>git svn rebase</code></li>
+<li><code>git svn clone</code></li>
+</ul>
+
+
+<p>Der Fehler tritt nur beim &ldquo;Aufräumen&rdquo; auf, d.h. nachdem das betreffende
+Kommando abgearbeitet ist und der Git-Svn-Prozess nur noch beendet werden
+muß. Er tritt auch nur auf, wenn Daten über die Leitung geschickt werden,
+also wenn:</p>
+
+<ul>
+<li>das lokale Git-Repo geändert wurde (dcommit)</li>
+<li>das Svn-Repository geändert wurde (rebase)</li>
+</ul>
+
+
+<p>Wenn man den Fehler einfach ignoriert, kann man &ldquo;normal&rdquo; weiterarbeiten.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/08/08/git-svn-absturz/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -330,6 +440,8 @@ Version von Subversion-1.8.1 heraus.</p>
   
 
 
+
+  
 <time datetime="2013-07-27T09:00:00+02:00" pubdate data-updated="true">27. July 2013</time>
         
       </p>
@@ -462,102 +574,6 @@ die früher anstandslos gelaufen sind.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/20/octopress-fehler/">Octopress - Liquid error: can’t convert nil into String</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-20T07:00:00+02:00" pubdate data-updated="true">20. July 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Beim Einbinden von Dateien in einen Octopress-Blog-Eintrag sehe ich immer mal wieder
-Fehlermeldungen wie diese:</p>
-
-<pre><code>Liquid error: can’t convert nil into String
-</code></pre>
-
-<p>Sie tauchen immer dann auf, wenn ich Dateien ohne Extension mittels <code>include_code</code>
-einbinde:</p>
-
-<pre><code>{% include_code redmine/passenger/passenger %}
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/07/20/octopress-fehler/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/19/redmine-passenger/">Redmine: Von FCGI zu Passenger</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-19T15:00:00+02:00" pubdate data-updated="true">19. July 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Bislang habe ich Redmine hinter einem Apache HTTPD via FCGI betrieben.
-Bei meinen Tests mit Redmine-2.3.2 gibt es bei dieser Konstellation aber
-viele Probleme mit der Selektion des Rails-Environments. Es wird immer
-&ldquo;development&rdquo; verwendet, &ldquo;production&rdquo; kann nicht mehr &ldquo;wie früher&rdquo; über
-&ldquo;environment.rb&rdquo; und <code>ENV['RAILS_ENV'] ||= 'production'</code> selektiert werden.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/07/19/redmine-passenger/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Älter</a>
@@ -573,6 +589,14 @@ viele Probleme mit der Selektion des Rails-Environments. Es wird immer
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei &#8216;dcommit&#8217;</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/05/octopress-git/">Octopress und Git ohne Umbenennung</a>
       </li>
     
@@ -582,14 +606,6 @@ viele Probleme mit der Selektion des Rails-Environments. Es wird immer
     
       <li class="post">
         <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a>
       </li>
     
   </ul>
