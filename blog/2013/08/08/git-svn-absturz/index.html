@@ -92,6 +92,8 @@ die Fehler bei &hellip;">
   
 
 
+
+  
 <time datetime="2013-08-08T08:00:00+02:00" pubdate data-updated="true">08. August 2013</time>
         
       </p>
@@ -498,10 +500,82 @@ Also: Wieder die alte Version installieren: <code>sudo apt-get install libapr1=1
 <p>Paket erzeugt und installiert gefolgt vom Nachtest ergibt: Keine Besserung.
 Also: Wieder die alte Version installieren: <code>sudo apt-get install libaprutil1=1.3.12*</code></p>
 
+<h3>Test mit Subversion-1.8.3</h3>
+
+<p>Wenn statt Subversion-1.8.1 die Version 1.8.3 verwendet wird, so tritt das Problem nach wie vor auf!
+Die Version 1.8.3 bringt also keine Verbesserung.</p>
+
+<h3>Test mit Git-1.8.4</h3>
+
+<p>Wenn statt Git-1.8.3 die Version 1.8.4 verwendet wird, so tritt das Problem nach wie vor auf!
+Die Version 1.8.4 bringt also keine Verbesserung.</p>
+
+<h3>Anpassungen an /usr/share/perl5/Git/SVN/Ra.pm</h3>
+
+<p>Unter diesem Link <a href="http://git.661346.n2.nabble.com/git-svn-fetch-segfault-on-exit-td7592205.html">http://git.661346.n2.nabble.com/git-svn-fetch-segfault-on-exit-td7592205.html</a>
+gibt es einen Korrekturvorschlag:</p>
+
+<figure class='code'><figcaption><span>Apassungen an ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">--- /usr/share/perl5/Git/SVN/Ra.pm~ 2013-07-22 20:59:55.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ /usr/share/perl5/Git/SVN/Ra.pm   2013-09-01 14:53:58.353718366 +0200</span>
+</span><span class='line'><span class="gu">@@ -108,7 +108,7 @@</span>
+</span><span class='line'>                        config =&gt; $config,
+</span><span class='line'>                pool =&gt; SVN::Pool-&gt;new,
+</span><span class='line'>                        auth_provider_callbacks =&gt; $callbacks);
+</span><span class='line'><span class="gd">-    $RA = bless $self, $class;</span>
+</span><span class='line'><span class="gi">+    $self = bless $self, $class;</span>
+</span><span class='line'>
+</span><span class='line'>  # Make sure its canonicalized
+</span><span class='line'>  $self-&gt;url($url);
+</span><span class='line'><span class="gu">@@ -118,7 +118,7 @@</span>
+</span><span class='line'>  $self-&gt;{cache} = { check_path =&gt; { r =&gt; 0, data =&gt; {} },
+</span><span class='line'>                     get_dir =&gt; { r =&gt; 0, data =&gt; {} } };
+</span><span class='line'>
+</span><span class='line'><span class="gd">-    return $RA;</span>
+</span><span class='line'><span class="gi">+    return $self;</span>
+</span><span class='line'> }
+</span><span class='line'>
+</span><span class='line'> sub url {
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Mit diesen Änderungen tritt der Fehler nicht mehr auf.</p>
+
+<h2>Korrektur</h2>
+
+<p>Mit meinen neuesten Paketen tritt das Problem nicht mehr auf:</p>
+
+<ul>
+<li>subversion-1.8.3 (&hellip; oder neuer)</li>
+<li>git-1.8.4-0dp09 (&hellip; oder neuer)</li>
+</ul>
+
+
 <h2>Änderungen</h2>
 
 <ul>
 <li>2013-08-15: Test mit aprutil-1.5.2</li>
+<li>2013-09-01: Subversion-1.8.3, Git-1.8.4, Anpassungen an /usr/share/perl5/Git/SVN/Ra.pm, Korrektur</li>
 </ul>
 
 </div>
@@ -526,12 +600,14 @@ Also: Wieder die alte Version installieren: <code>sudo apt-get install libapruti
   
 
 
-<time datetime="2013-08-08T08:00:00+02:00" pubdate data-updated="true">08. August 2013</time>
+
+  
+<time datetime="2013-09-01T15:00:00+02:00" class="updated">Updated 01. September 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/subversion/'>Subversion</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+    <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/subversion/'>Subversion</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
   
 </span>
 
