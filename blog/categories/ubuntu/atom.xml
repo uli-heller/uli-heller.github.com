@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ubuntu | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-09-01T17:30:08+02:00</updated>
+  <updated>2013-09-02T10:17:32+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Git-Svn: Absturz bei 'dcommit']]></title>
+    <title type="html"><![CDATA[Git-Svn: Absturz bei 'dcommit', 'rebase', ...]]></title>
     <link href="http://uli-heller.github.com/blog/2013/08/08/git-svn-absturz/"/>
     <updated>2013-08-08T08:00:00+02:00</updated>
     <id>http://uli-heller.github.com/blog/2013/08/08/git-svn-absturz</id>
@@ -476,7 +476,7 @@ Die Version 1.8.4 bringt also keine Verbesserung.</p>
 <p>Unter diesem Link <a href="http://git.661346.n2.nabble.com/git-svn-fetch-segfault-on-exit-td7592205.html">http://git.661346.n2.nabble.com/git-svn-fetch-segfault-on-exit-td7592205.html</a>
 gibt es einen Korrekturvorschlag:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Apassungen an ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen an ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -531,7 +531,62 @@ gibt es einen Korrekturvorschlag:</p>
 </span><span class='line'>&lt;p&gt; sub url {
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>Mit diesen Änderungen tritt der Fehler nicht mehr auf.</p>
+<p>Mit diesen Änderungen tritt der Fehler nicht mehr auf. Sie deaktivieren
+die Verwendung der lokalen Variablen <code>$RA</code>, diese bleibt damit immer auf dem
+Wert <code>undef</code>.</p>
+
+<h3>Korrektur von /usr/share/perl5/Git/SVN/Ra.pm</h3>
+
+<p>Nähere Analysen ergeben, dass der Destruktor von <code>$RA</code> nicht aufgerufen
+wird. Dadurch gibt es dann einen Absturz bei <code>apr_terminate()</code>. Mit
+nachfolgender Änderung wird der Destruktor aufgerufen, bevor
+<code>apr_terminate()</code> ausgeführt wird.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Korrektur von ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;mdash;&amp;ndash; git-1.8.4.orig/perl/Git/SVN/Ra.pm   2013-09-01 14:30:23.629989557 +0000
+</span><span class='line'><span class="gi">+++ git-1.8.4/perl/Git/SVN/Ra.pm        2013-09-02 06:55:19.666260617 +0000</span>
+</span><span class='line'><span class="gu">@@ -32,6 +32,10 @@&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    }
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt; }&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;+END {
+</span><span class='line'><span class="gi">+  $RA = undef;</span>
+</span><span class='line'><span class="gi">+}</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'> sub _auth_providers () {&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;    my @rv = (
+</span><span class='line'>      SVN::Client::get_simple_provider(),
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Die oben aufgeführte Korrektur habe ich auch an die Git-Mailing-Liste
+geschickt.</p>
 
 <h2>Korrektur</h2>
 
@@ -539,7 +594,7 @@ gibt es einen Korrekturvorschlag:</p>
 
 <ul>
 <li>subversion-1.8.3 (&hellip; oder neuer)</li>
-<li>git-1.8.4-0dp09 (&hellip; oder neuer)</li>
+<li>git-1.8.4-0dp10 (&hellip; oder neuer)</li>
 </ul>
 
 

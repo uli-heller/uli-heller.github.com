@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Git-Svn: Absturz bei 'dcommit' - Was ich so treibe...</title>
+  <title>Git-Svn: Absturz bei 'dcommit', 'rebase', ... - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
 
   
@@ -76,7 +76,7 @@ die Fehler bei &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Git-Svn: Absturz bei 'dcommit'</h1>
+      <h1 class="entry-title">Git-Svn: Absturz bei 'dcommit', 'rebase', ...</h1>
     
     
       <p class="meta">
@@ -515,7 +515,7 @@ Die Version 1.8.4 bringt also keine Verbesserung.</p>
 <p>Unter diesem Link <a href="http://git.661346.n2.nabble.com/git-svn-fetch-segfault-on-exit-td7592205.html">http://git.661346.n2.nabble.com/git-svn-fetch-segfault-on-exit-td7592205.html</a>
 gibt es einen Korrekturvorschlag:</p>
 
-<figure class='code'><figcaption><span>Apassungen an ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
+<figure class='code'><figcaption><span>Anpassungen an ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -559,7 +559,49 @@ gibt es einen Korrekturvorschlag:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Mit diesen Änderungen tritt der Fehler nicht mehr auf.</p>
+<p>Mit diesen Änderungen tritt der Fehler nicht mehr auf. Sie deaktivieren
+die Verwendung der lokalen Variablen <code>$RA</code>, diese bleibt damit immer auf dem
+Wert <code>undef</code>.</p>
+
+<h3>Korrektur von /usr/share/perl5/Git/SVN/Ra.pm</h3>
+
+<p>Nähere Analysen ergeben, dass der Destruktor von <code>$RA</code> nicht aufgerufen
+wird. Dadurch gibt es dann einen Absturz bei <code>apr_terminate()</code>. Mit
+nachfolgender Änderung wird der Destruktor aufgerufen, bevor
+<code>apr_terminate()</code> ausgeführt wird.</p>
+
+<figure class='code'><figcaption><span>Korrektur von ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">--- git-1.8.4.orig/perl/Git/SVN/Ra.pm   2013-09-01 14:30:23.629989557 +0000</span>
+</span><span class='line'><span class="gi">+++ git-1.8.4/perl/Git/SVN/Ra.pm        2013-09-02 06:55:19.666260617 +0000</span>
+</span><span class='line'><span class="gu">@@ -32,6 +32,10 @@</span>
+</span><span class='line'>        }
+</span><span class='line'> }
+</span><span class='line'>
+</span><span class='line'><span class="gi">+END {</span>
+</span><span class='line'><span class="gi">+  $RA = undef;</span>
+</span><span class='line'><span class="gi">+}</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'> sub _auth_providers () {
+</span><span class='line'>        my @rv = (
+</span><span class='line'>          SVN::Client::get_simple_provider(),
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Die oben aufgeführte Korrektur habe ich auch an die Git-Mailing-Liste
+geschickt.</p>
 
 <h2>Korrektur</h2>
 
@@ -567,7 +609,7 @@ gibt es einen Korrekturvorschlag:</p>
 
 <ul>
 <li>subversion-1.8.3 (&hellip; oder neuer)</li>
-<li>git-1.8.4-0dp09 (&hellip; oder neuer)</li>
+<li>git-1.8.4-0dp10 (&hellip; oder neuer)</li>
 </ul>
 
 
@@ -602,7 +644,7 @@ gibt es einen Korrekturvorschlag:</p>
 
 
   
-<time datetime="2013-09-01T15:00:00+02:00" class="updated">Updated 01. September 2013</time>
+<time datetime="2013-09-02T09:00:00+02:00" class="updated">Updated 02. September 2013</time>
       
 
 <span class="categories">
@@ -651,7 +693,7 @@ gibt es einen Korrekturvorschlag:</p>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei 'dcommit'</a>
+        <a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei 'dcommit', 'rebase', ...</a>
       </li>
     
       <li class="post">
