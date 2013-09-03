@@ -9,9 +9,9 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Heute habe ich mir vorgenommen, ein paar Experimente mit CentOS-5.9
-durchzuführen. CentOS ist eine Linux-Distribution, die den Anspruch
-hat, &hellip;">
+  <meta name="description" content="In letzter Zeit tritt ein Problem beim Ausführen
+von apt-get upgrade in meinen LXC-Containern auf: $ sudo apt-get upgrade
+Reading package lists... &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +73,75 @@ hat, &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/03/lxc-apt-upgrade-udev/">LXC: Fehler bei &#8216;apt-get upgrade&#8217; - udev</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-03T08:00:00+02:00" pubdate data-updated="true">03. September 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In letzter Zeit tritt ein Problem beim Ausführen
+von <code>apt-get upgrade</code> in meinen LXC-Containern auf:</p>
+
+<pre><code>$ sudo apt-get upgrade
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages will be upgraded:
+  apt apt-utils base-files gnupg gpgv libapt-inst1.4 libapt-pkg4.12 libudev0
+  lsb-base lsb-release udev
+11 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Need to get 3752 kB of archives.
+After this operation, 25.6 kB of additional disk space will be used.
+Do you want to continue [Y/n]? 
+...
+Preparing to replace udev 175-0ubuntu9.3 (using .../udev_175-0ubuntu9.4_amd64.deb) ...
+Adding 'diversion of /sbin/udevadm to /sbin/udevadm.upgrade by fake-udev'
+dpkg: unrecoverable fatal error, aborting:
+ failed to fstat previous diversions file: No such file or directory
+E: Sub-process /usr/bin/dpkg returned an error code (2)
+</code></pre>
+
+<p>Ich denke, das Problem hängt zusammen mit der Aktualisierung des
+Paketes &ldquo;udev&rdquo;.</p>
+
+<p>Zur Korrektur des Problems muß ich mehrfach diese Kommandos ausführen:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dpkg --configure -a
+</span><span class='line'>$ sudo apt-get upgrade</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nach zwei bis drei Durchläufen ist das Problem verschwunden.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -516,66 +585,6 @@ die früher anstandslos gelaufen sind.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/21/git-fork/">Git Fork</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-21T09:00:00+02:00" pubdate data-updated="true">21. July 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Git Fork</h1>
-
-<p>Hier kurz meine Notizen zum Arbeiten mit GitHub Forks:</p>
-
-<ul>
-<li>Bestehendes Projekt &ldquo;forken&rdquo; &ndash;> einfach via GitHub-Webseite</li>
-<li>Lokalen Clone hiervon anlegen: <code>git clone ...</code></li>
-<li>Lokale Änderungen an GitHub schicken:
-<code>git push origin master</code></li>
-<li>Original-Projekt als &ldquo;upstream&rdquo; definieren:
-<code>git remote add upstream ...</code></li>
-<li>Lokale Kopie des Original-Projektes aktualisieren:
-<code>git fetch upstream</code></li>
-<li>Lokale Kopie des Original-Projektes &ldquo;einarbeiten&rdquo;:
-
-<ul>
-<li><code>git merge --no-commit upstream/master</code></li>
-<li><code>git mergetool</code></li>
-<li><code>git commit -m ...</code></li>
-</ul>
-</li>
-</ul>
-
-
-<p>Mehr Details: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Älter</a>
@@ -591,6 +600,10 @@ die früher anstandslos gelaufen sind.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/09/03/lxc-apt-upgrade-udev/">LXC: Fehler bei &#8216;apt-get upgrade&#8217; - udev</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a>
       </li>
     
@@ -604,10 +617,6 @@ die früher anstandslos gelaufen sind.</p>
     
       <li class="post">
         <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!&#8217; for nil:NilClass in post</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
       </li>
     
   </ul>

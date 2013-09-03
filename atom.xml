@@ -4,7 +4,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-09-02T10:17:32+02:00</updated>
+  <updated>2013-09-03T08:25:18+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LXC: Fehler bei 'apt-get upgrade' - udev]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/03/lxc-apt-upgrade-udev/"/>
+    <updated>2013-09-03T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/03/lxc-apt-upgrade-udev</id>
+    <content type="html"><![CDATA[<p>In letzter Zeit tritt ein Problem beim Ausführen
+von <code>apt-get upgrade</code> in meinen LXC-Containern auf:</p>
+
+<pre><code>$ sudo apt-get upgrade
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages will be upgraded:
+  apt apt-utils base-files gnupg gpgv libapt-inst1.4 libapt-pkg4.12 libudev0
+  lsb-base lsb-release udev
+11 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Need to get 3752 kB of archives.
+After this operation, 25.6 kB of additional disk space will be used.
+Do you want to continue [Y/n]? 
+...
+Preparing to replace udev 175-0ubuntu9.3 (using .../udev_175-0ubuntu9.4_amd64.deb) ...
+Adding 'diversion of /sbin/udevadm to /sbin/udevadm.upgrade by fake-udev'
+dpkg: unrecoverable fatal error, aborting:
+ failed to fstat previous diversions file: No such file or directory
+E: Sub-process /usr/bin/dpkg returned an error code (2)
+</code></pre>
+
+<p>Ich denke, das Problem hängt zusammen mit der Aktualisierung des
+Paketes &ldquo;udev&rdquo;.</p>
+
+<p>Zur Korrektur des Problems muß ich mehrfach diese Kommandos ausführen:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dpkg --configure -a
+</span><span class='line'>$ sudo apt-get upgrade</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nach zwei bis drei Durchläufen ist das Problem verschwunden.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Experimente mit CentOS-5.9]]></title>
@@ -3657,237 +3699,6 @@ VM installiert habe.</p>
 
 
 <p><link href="http://uli-heller.github.com/javascripts/fotorama/fotorama.css" rel="stylesheet"><script src="http://uli-heller.github.com/javascripts/fotorama/fotorama.js"></script><div class="fotorama" data-autoplay="3000" data-transition="dissolve" data-nav="thumbs" data-allow-full-screen="true" data-keyboard="true" data-width="80%" data-thumb-with="64" data-thumb-height="48"><a href="http://uli-heller.github.com/images/galleries/centos/001-new-vm.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/001-new-vm.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/002-new-vm.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/002-new-vm.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/003-new-vm.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/003-new-vm.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/004-new-vm-harddisk.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/004-new-vm-harddisk.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/005-new-vm-harddisk.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/005-new-vm-harddisk.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/006-new-vm-harddisk.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/006-new-vm-harddisk.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/007-vm.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/007-vm.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/008-vm-boot-dvd.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/008-vm-boot-dvd.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/009-boot-dvd.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/009-boot-dvd.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/010-booting-from-dvd.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/010-booting-from-dvd.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/011-skip-check.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/011-skip-check.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/012-welcome.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/012-welcome.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/013-language.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/013-language.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/014-keyboard.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/014-keyboard.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/015-init-hd.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/015-init-hd.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/016-timezone.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/016-timezone.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/017-root.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/017-root.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/018-root-is-too-short.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/018-root-is-too-short.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/019-rootroot.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/019-rootroot.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/020-use-anyway.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/020-use-anyway.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/021-partitioning.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/021-partitioning.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/022-write-to-disk.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/022-write-to-disk.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/023-installing.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/023-installing.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/024-booting.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/024-booting.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/025-login.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/025-login.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/026-root-rootroot.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/026-root-rootroot.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/027-network.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/027-network.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/028-yum-update.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/028-yum-update.png"/></a><a href="http://uli-heller.github.com/images/galleries/centos/029-yum-update.png"><img src="http://uli-heller.github.com/images/galleries/centos/thumbs/029-yum-update.png"/></a></div> <!--class="fotorama" data-nav="thumbs" --></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ubuntu auf einem Macbook Air 2013]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/06/24/macbook-air/"/>
-    <updated>2013-06-24T05:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/06/24/macbook-air</id>
-    <content type="html"><![CDATA[<p>Bedingt durch die Probleme mit meinem Samsung-Notebook habe ich
-mir nun ein Macbook Air 2013 11 Zoll gegönnt. Erste Eindrücke habe
-ich mit Live-CDs und Ad-Hoc-Installationen gesammelt. Hier nun
-mein Weg zu einem &ldquo;richtig&rdquo; funktionierenden System.</p>
-
-<!-- more -->
-
-
-<h2>Erstellung eines Installationsmediums</h2>
-
-<p>Einfach das Mac-Iso von &ldquo;Ubuntu-12.04.2, 64bit für Mac&rdquo;
-auf einen USB-Stick schreiben mittels <code>dd</code>.</p>
-
-<h2>Anschließen der Test-Platte</h2>
-
-<p>Für die Installationstests habe ich eine externe USB-Festplatte
-angeschlossen. Es handelt sich dabei um eine etwas ältere SSD in
-einem USB3-Festplattengehäuse.</p>
-
-<h2>Starten der Installation</h2>
-
-<p>Den Stick an&rsquo;s Macbook anschließen und beim Neustart die &ldquo;Alt&rdquo;-Taste
-gedrückt halten. Es erscheint eine Auswahl, bei der ich den Punkt
-&ldquo;Windows&rdquo; mit dem stilisierten USB-Medium angewählt habe. Danach startet
-das Installationsmedium wie gewohnt.</p>
-
-<h2>Durchführen der Installation</h2>
-
-<p>Die Installation läuft problemlos durch. Ich habe einfach darauf geachtet,
-dass</p>
-
-<ul>
-<li>die Installation die externe Platte als Ziel hat</li>
-<li>der Boot-Block von GRUB in den MasterBootRecord der externen Platte
-geschrieben wird</li>
-</ul>
-
-
-<h2>Durchführen der Aktualisierung</h2>
-
-<p>Zur Durchführung der Aktualisierung benötigt man eine Verbindung in&rsquo;s
-Internet. Zunächst habe ich mit USB-WLAN-Karten rumgespielt:</p>
-
-<ul>
-<li>TP-Link TL-WN275N &hellip; hat auch nach längeren Experimenten nicht funktioniert</li>
-<li>ISY &hellip; hat sofort funktioniert, aber nach ein paar Minuten dann den
-Geist aufgegeben &ndash; jetzt funktioniert er auch an anderen Rechnern nicht mehr</li>
-</ul>
-
-
-<p>Dann bin ich auf einen USB-2-Ethernet-Adapter ausgewichen. Damit klappt&rsquo;s
-ohne Probleme.</p>
-
-<h2>Inbetriebnahme des WLAN-Adapters</h2>
-
-<p>Mein Hauptproblem mit dem Macbook Air 2013 war der WLAN-Adapter.
-Die Standard-Varianten wie &ldquo;Zusätzliche Treiber laden&rdquo; haben bei
-mir nicht funktioniert.</p>
-
-<h3>Herunterladen der Quelldateien für &ldquo;bcmwl-kernel-sources&rdquo; von Saucy</h3>
-
-<p>Hier der <a href="https://launchpad.net/ubuntu/+source/bcmwl/6.30.223.30+bdcom-0ubuntu2">Link</a> zum Herunterladen. Es müssen 3 Dateien geladen werden:</p>
-
-<ul>
-<li>*.tar.gz</li>
-<li>*.diff.gz</li>
-<li>*.dsc</li>
-</ul>
-
-
-<h3>Erzeugen des DEB-Paketes</h3>
-
-<ul>
-<li><code>sudo apt-get build-dep bcmwl</code></li>
-<li><code>dpkg-source -x bcmwl*dsc</code></li>
-<li><code>cd bcmwl*bdcom</code></li>
-<li><code>dpkg-buildpackage</code></li>
-</ul>
-
-
-<h3>Einspielen des DEB-Paketes</h3>
-
-<p>Das DEB-Paket habe ich eingespielt mit <code>dpkg -i bcmwl-kernel-source_6.30.223.30+bdcom-0ubuntu2_amd64.deb</code>. Die Installation blieb
-hängen bei &ldquo;DKMS: install completed&rdquo;, also habe ich sie abgebrochen mit Strg-C.</p>
-
-<p>Zur Sicherheit habe ich noch folgende Kommandos &ldquo;nachgeschoben&rdquo;:</p>
-
-<ul>
-<li><code>sudo update-initramfs -u</code></li>
-<li><code>sudo update-grub2</code></li>
-</ul>
-
-
-<p>Dann ein Neustart des Rechners, danach wird der WLAN-Adapter erkannt und
-kann konfiguriert werden.</p>
-
-<p>Hinweis: Beim zweiten Installieren hat&rsquo;s ohne Hänger geklappt.</p>
-
-<h2>Probleme</h2>
-
-<h3>Systemstart mit &ldquo;linux-generic-lts-raring&rdquo; klappt nicht</h3>
-
-<p>Mit dem Kernel &ldquo;linux-generic-lts-raring&rdquo; habe ich beobachtet,
-dass der Start nicht klappt. Der Rechner bleibt hängen bei
-&ldquo;Initiale Ramdisk wird geladen&hellip;&rdquo;.</p>
-
-<p>Diesen Hänger habe ich auch einmal mit &ldquo;linux-generic-lts-quantal&rdquo;
-beobachtet.
-Danach habe ich den Raring-Kernel nochmal ausprobiert und
-er hat problemlos funktioniert.</p>
-
-<p>Eventuell liegt&rsquo;s auch an der externen USB-Platte, die ich
-aktuell für meine Tests verwende. Der Start ist eh&#8217; etwas langsam
-&ndash; üblicherweise sieht man die ersten beiden Startzeilen ja kaum,
-bei mir verharrt der Boot-Vorgang hierbei aber grob 2 Sekunden.</p>
-
-<h3>Normaler Systemstart klappt nicht &ndash; &ldquo;Wiederherstellungsmodus&rdquo; ist angesagt</h3>
-
-<p>Der normale Systemstart funktioniert nicht,
-der Rechner bleibt mit schwarzem Bildschirm hängen.</p>
-
-<h4>Wiederherstellungsmodus</h4>
-
-<p>Die Auswahl des Wiederherstellungsmodus mit anschließendem &ldquo;RESUME&rdquo;
-funktioniert.</p>
-
-<h4>Textmodus</h4>
-
-<p>Die wohl bessere Lösung ist das Umstellen auf Textmodus.</p>
-
-<ul>
-<li>/etc/default/grub editieren &ndash; Zeile mit &ldquo;#GRUB_TERMINAL=console&rdquo; bearbeiten, genauer: Raute &lsquo;#&rsquo; entfernen</li>
-<li><code>sudo update-grub2</code> ausführen</li>
-<li><code>sudo reboot</code> &ndash; Neustart sollte nun klappen</li>
-</ul>
-
-
-<h3>Installation von bcmwl-kernel-source_6.30.223.30+bdcom-0ubuntu2_amd64.deb bleibt hängen</h3>
-
-<ul>
-<li>Abbrechen mit Strg-C</li>
-<li><code>sudo update-initramfs -u</code></li>
-<li><code>sudo update-grub2</code></li>
-</ul>
-
-
-<h3>WLAN ist erst nach einer Minute betriebsbereit</h3>
-
-<p>Dieses Problem habe ich bislang erst einmal beobachtet. Irgendwo
-habe ich auch schonmal eine Lösung entdeckt. Wenn&rsquo;s häufiger auftritt,
-dann beschreibe ich die Korrektur hier.</p>
-
-<h3>Vertauschte Tasten</h3>
-
-<p>Diese Tasten sind vertauscht:</p>
-
-<ul>
-<li>&ldquo;Kleiner-Größer-Pipe&rdquo; &ndash; links neben dem &ldquo;Y&rdquo;</li>
-<li>&ldquo;Dächlein-Kreis&rdquo; &ndash; links neben der &ldquo;1&rdquo;</li>
-</ul>
-
-
-<p>Ich habe einige Hinweise gefunden, wie man das korrigieren kann:</p>
-
-<ul>
-<li><a href="http://wiki.ubuntuusers.de/Apple_Computer/Einrichtung">http://wiki.ubuntuusers.de/Apple_Computer/Einrichtung</a> &hellip; scheint veraltet zu sein</li>
-<li><a href="https://help.ubuntu.com/community/AppleKeyboard#Correcting_swapped_keys_and_wrong_keymaps_for_international_.28non-US.29_keyboards">https://help.ubuntu.com/&hellip;/AppleKeyboard</a> &hellip; funktioniert bei mir nicht, weil &ldquo;hid_apple&rdquo; nicht existiert</li>
-<li><a href="http://forum.ubuntuusers.de/topic/macbook-und-vertauscht-rechte-maustaste-ueber-/#post-2780335">http://forum.ubuntuusers.de/topic/macbook-und-vertauscht-rechte-maustaste-ueber-/#post-2780335</a> &hellip; hat geklappt, korrigiert&rsquo;s aber wahrscheinlich nur im X-Desktop und nicht in der Konsole und im Anmeldeschirm</li>
-</ul>
-
-
-<h4>Analysen</h4>
-
-<p>Analog zu <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/942184">https://bugs.launchpad.net/ubuntu/+source/linux/+bug/942184</a>:</p>
-
-<figure class='code'><figcaption><span>dmesg|grep hid </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>uli@uli-MacBookAir-11:~$ dmesg|grep hid
-</span><span class='line'>[    3.956709] usbcore: registered new interface driver usbhid
-</span><span class='line'>[    3.956715] usbhid: USB HID core driver
-</span><span class='line'>[    4.056298] hid-generic 0003:05AC:0290.0001: hiddev0,hidraw0: USB HID v1.10 Device [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input0
-</span><span class='line'>[    4.056947] hid-generic 0003:05AC:0290.0002: input,hiddev0,hidraw1: USB HID v1.10 Keyboard [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input1
-</span><span class='line'>[    4.057971] hid-generic 0003:05AC:0290.0003: input,hiddev0,hidraw2: USB HID v1.10 Mouse [Apple Inc. Apple Internal Keyboard / Trackpad] on usb-0000:00:14.0-5/input2
-</span><span class='line'>[    4.287766] hid-generic 0003:05AC:820A.0004: input,hidraw3: USB HID v1.11 Keyboard [HID 05ac:820a] on usb-0000:00:14.0-3.1/input0
-</span><span class='line'>[    4.379176] hid-generic 0003:05AC:820B.0005: input,hidraw4: USB HID v1.11 Mouse [HID 05ac:820b] on usb-0000:00:14.0-3.2/input0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Sieht so aus, als wäre bei meiner Tastatur die &ldquo;0290&rdquo; die magische Konstante. Mit einem Patch
-analog zu <a href="https://launchpadlibrarian.net/94610947/alu2011.patch">https://launchpadlibrarian.net/94610947/alu2011.patch</a>
-oder auch <a href="https://github.com/kui/hid-apple">https://github.com/kui/hid-apple</a>
-oder auch <a href="https://bugzilla.kernel.org/show_bug.cgi?id=60181">https://bugzilla.kernel.org/show_bug.cgi?id=60181</a> sollte das dann wohl korrigierbar sein.</p>
-
-<h3>Enttäuschende Akku-Laufzeit</h3>
-
-<p>Zur Akku-Laufzeit kann ich momentan noch keine richtig fundierte Aussage
-treffen, weil ich</p>
-
-<ul>
-<li>das Gerät noch nicht zur täglichen Arbeit einsetze und</li>
-<li>ich aktuell immer eine externe Festplatte verwende und</li>
-<li>ich bislang nur &ldquo;Installationsspielereien&rdquo; gemacht habe</li>
-</ul>
-
-
-<p>Rein vom subjektiven Eindruck her würde ich sagen, dass ich bei weitem
-nicht auf 9 Stunden Laufzeit komme. Ob ich die mit OSX erreiche, weiß ich
-auch nicht &ndash; ich habe OSX noch kein einziges mal gestartet.</p>
-
-<h2>Änderungen</h2>
-
-<ul>
-<li>2013-07-26 &hellip; Verweis auf Kernel-Bug 60181 aufgenommen (Tasten + Touchpad)</li>
-<li>2013-07-05 &hellip; Logs zum Problem &ldquo;Vertauschte Tasten&rdquo;</li>
-<li>2013-07-03 &hellip; Abschnitt zur Akku-Laufzeit aufgenommen</li>
-</ul>
-
 ]]></content>
   </entry>
   

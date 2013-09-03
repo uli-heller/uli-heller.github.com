@@ -9,8 +9,8 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Beim Einbinden von Dateien in einen Octopress-Blog-Eintrag sehe ich immer mal wieder
-Fehlermeldungen wie diese: Liquid error: can’t convert nil into &hellip;">
+  <meta name="description" content="Git Fork Hier kurz meine Notizen zum Arbeiten mit GitHub Forks: Bestehendes Projekt &ldquo;forken&rdquo; &ndash;> einfach via GitHub-Webseite
+Lokalen &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +72,66 @@ Fehlermeldungen wie diese: Liquid error: can’t convert nil into &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/21/git-fork/">Git Fork</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-21T09:00:00+02:00" pubdate data-updated="true">21. July 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Git Fork</h1>
+
+<p>Hier kurz meine Notizen zum Arbeiten mit GitHub Forks:</p>
+
+<ul>
+<li>Bestehendes Projekt &ldquo;forken&rdquo; &ndash;> einfach via GitHub-Webseite</li>
+<li>Lokalen Clone hiervon anlegen: <code>git clone ...</code></li>
+<li>Lokale Änderungen an GitHub schicken:
+<code>git push origin master</code></li>
+<li>Original-Projekt als &ldquo;upstream&rdquo; definieren:
+<code>git remote add upstream ...</code></li>
+<li>Lokale Kopie des Original-Projektes aktualisieren:
+<code>git fetch upstream</code></li>
+<li>Lokale Kopie des Original-Projektes &ldquo;einarbeiten&rdquo;:
+
+<ul>
+<li><code>git merge --no-commit upstream/master</code></li>
+<li><code>git mergetool</code></li>
+<li><code>git commit -m ...</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Mehr Details: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1309,52 +1369,6 @@ VM installiert habe.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/24/macbook-air/">Ubuntu auf einem Macbook Air 2013</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-06-24T05:00:00+02:00" pubdate data-updated="true">24. June 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Bedingt durch die Probleme mit meinem Samsung-Notebook habe ich
-mir nun ein Macbook Air 2013 11 Zoll gegönnt. Erste Eindrücke habe
-ich mit Live-CDs und Ad-Hoc-Installationen gesammelt. Hier nun
-mein Weg zu einem &ldquo;richtig&rdquo; funktionierenden System.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/06/24/macbook-air/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Älter</a>
@@ -1372,6 +1386,10 @@ mein Weg zu einem &ldquo;richtig&rdquo; funktionierenden System.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/09/03/lxc-apt-upgrade-udev/">LXC: Fehler bei &#8216;apt-get upgrade&#8217; - udev</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a>
       </li>
     
@@ -1385,10 +1403,6 @@ mein Weg zu einem &ldquo;richtig&rdquo; funktionierenden System.</p>
     
       <li class="post">
         <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!&#8217; for nil:NilClass in post</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
       </li>
     
   </ul>

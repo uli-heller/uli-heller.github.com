@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: JBoss - Was ich so treibe...</title>
+  <title>LXC: Fehler bei 'apt-get upgrade' - udev - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Category: JBoss">
+  <meta name="description" content="In letzter Zeit tritt ein Problem beim Ausführen
+von apt-get upgrade in meinen LXC-Containern auf: $ sudo apt-get upgrade
+Reading package lists... &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.comblog/categories/jboss">
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/09/03/lxc-apt-upgrade-udev">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -70,36 +72,122 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: JBoss</h1>
+    
+      <h1 class="entry-title">LXC: Fehler bei 'apt-get upgrade' - udev</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-03T08:00:00+02:00" pubdate data-updated="true">03. September 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>In letzter Zeit tritt ein Problem beim Ausführen
+von <code>apt-get upgrade</code> in meinen LXC-Containern auf:</p>
 
-  
-  <h2>2013</h2>
+<pre><code>$ sudo apt-get upgrade
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages will be upgraded:
+  apt apt-utils base-files gnupg gpgv libapt-inst1.4 libapt-pkg4.12 libudev0
+  lsb-base lsb-release udev
+11 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Need to get 3752 kB of archives.
+After this operation, 25.6 kB of additional disk space will be used.
+Do you want to continue [Y/n]? 
+...
+Preparing to replace udev 175-0ubuntu9.3 (using .../udev_175-0ubuntu9.4_amd64.deb) ...
+Adding 'diversion of /sbin/udevadm to /sbin/udevadm.upgrade by fake-udev'
+dpkg: unrecoverable fatal error, aborting:
+ failed to fstat previous diversions file: No such file or directory
+E: Sub-process /usr/bin/dpkg returned an error code (2)
+</code></pre>
 
-<article>
-  
-<h1><a href="/blog/2013/05/16/jboss-7.1.1/">JBoss Application Server 7 unter Ubuntu nutzen</a></h1>
-<time datetime="2013-05-16T19:00:00+02:00" pubdate><span class='month'>May</span> <span class='day'>16</span> <span class='year'>2013</span></time>
+<p>Ich denke, das Problem hängt zusammen mit der Aktualisierung des
+Paketes &ldquo;udev&rdquo;.</p>
 
-<footer>
-  <span class="categories">Themen: <a class='category' href='/blog/categories/jboss/'>JBoss</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a></span>
-</footer>
+<p>Zur Korrektur des Problems muß ich mehrfach diese Kommandos ausführen:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dpkg --configure -a
+</span><span class='line'>$ sudo apt-get upgrade</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
-
+<p>Nach zwei bis drei Durchläufen ist das Problem verschwunden.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-03T08:00:00+02:00" pubdate data-updated="true">03. September 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/lxc/'>LXC</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/08/16/centos59/" title="Voriger Beitrag: Experimente mit CentOS-5.9">&laquo; Experimente mit CentOS-5.9</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -175,7 +263,10 @@
       var disqus_shortname = 'ulispersonalitblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/09/03/lxc-apt-upgrade-udev/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/09/03/lxc-apt-upgrade-udev/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

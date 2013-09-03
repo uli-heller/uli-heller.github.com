@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ubuntu | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-09-02T10:17:32+02:00</updated>
+  <updated>2013-09-03T08:25:18+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,47 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LXC: Fehler bei 'apt-get upgrade' - udev]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/03/lxc-apt-upgrade-udev/"/>
+    <updated>2013-09-03T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/03/lxc-apt-upgrade-udev</id>
+    <content type="html"><![CDATA[<p>In letzter Zeit tritt ein Problem beim Ausführen
+von <code>apt-get upgrade</code> in meinen LXC-Containern auf:</p>
+
+<pre><code>$ sudo apt-get upgrade
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages will be upgraded:
+  apt apt-utils base-files gnupg gpgv libapt-inst1.4 libapt-pkg4.12 libudev0
+  lsb-base lsb-release udev
+11 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Need to get 3752 kB of archives.
+After this operation, 25.6 kB of additional disk space will be used.
+Do you want to continue [Y/n]? 
+...
+Preparing to replace udev 175-0ubuntu9.3 (using .../udev_175-0ubuntu9.4_amd64.deb) ...
+Adding 'diversion of /sbin/udevadm to /sbin/udevadm.upgrade by fake-udev'
+dpkg: unrecoverable fatal error, aborting:
+ failed to fstat previous diversions file: No such file or directory
+E: Sub-process /usr/bin/dpkg returned an error code (2)
+</code></pre>
+
+<p>Ich denke, das Problem hängt zusammen mit der Aktualisierung des
+Paketes &ldquo;udev&rdquo;.</p>
+
+<p>Zur Korrektur des Problems muß ich mehrfach diese Kommandos ausführen:</p>
+
+<p><code>
+$ sudo dpkg --configure -a
+$ sudo apt-get upgrade
+</code></p>
+
+<p>Nach zwei bis drei Durchläufen ist das Problem verschwunden.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git-Svn: Absturz bei 'dcommit', 'rebase', ...]]></title>
@@ -1006,39 +1047,6 @@ Ich hatte zuvor 4.1.ESV-R4-0ubuntu5.5 im Container.</p>
 einem 3.10-er Kernel auf dem Host. Nach dem &ldquo;Runterschalten&rdquo; auf 3.8
 laufen die Container auch wieder ohne Aktualisierung von
 &ldquo;isc-dhcp-client&rdquo;.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Git Fork]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/21/git-fork/"/>
-    <updated>2013-07-21T09:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/21/git-fork</id>
-    <content type="html"><![CDATA[<h1>Git Fork</h1>
-
-<p>Hier kurz meine Notizen zum Arbeiten mit GitHub Forks:</p>
-
-<ul>
-<li>Bestehendes Projekt &ldquo;forken&rdquo; &ndash;> einfach via GitHub-Webseite</li>
-<li>Lokalen Clone hiervon anlegen: <code>git clone ...</code></li>
-<li>Lokale Änderungen an GitHub schicken:
-<code>git push origin master</code></li>
-<li>Original-Projekt als &ldquo;upstream&rdquo; definieren:
-<code>git remote add upstream ...</code></li>
-<li>Lokale Kopie des Original-Projektes aktualisieren:
-<code>git fetch upstream</code></li>
-<li>Lokale Kopie des Original-Projektes &ldquo;einarbeiten&rdquo;:
-
-<ul>
-<li><code>git merge --no-commit upstream/master</code></li>
-<li><code>git mergetool</code></li>
-<li><code>git commit -m ...</code></li>
-</ul>
-</li>
-</ul>
-
-
-<p>Mehr Details: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</p>
 ]]></content>
   </entry>
   

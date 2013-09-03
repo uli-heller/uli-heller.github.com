@@ -9,9 +9,9 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Da bei meinem Macbook Air 2013 das WLAN nicht funktioniert, habe ich
-mir einen Nano-USB-Adapter gekauft und plane, damit die Zeit zu überbrücken
-bis &hellip;">
+  <meta name="description" content="Bedingt durch die Probleme mit meinem Samsung-Notebook habe ich
+mir nun ein Macbook Air 2013 11 Zoll gegönnt. Erste Eindrücke habe
+ich mit Live-CDs &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +73,52 @@ bis &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/24/macbook-air/">Ubuntu auf einem Macbook Air 2013</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-06-24T05:00:00+02:00" pubdate data-updated="true">24. June 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Bedingt durch die Probleme mit meinem Samsung-Notebook habe ich
+mir nun ein Macbook Air 2013 11 Zoll gegönnt. Erste Eindrücke habe
+ich mit Live-CDs und Ad-Hoc-Installationen gesammelt. Hier nun
+mein Weg zu einem &ldquo;richtig&rdquo; funktionierenden System.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/06/24/macbook-air/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -496,81 +542,6 @@ konvertieren kann auf Basis von</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/16/jboss-7.1.1/">JBoss Application Server 7 unter Ubuntu nutzen</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-16T19:00:00+02:00" pubdate data-updated="true">16. May 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Installation und Kurztest von JBoss AS</h2>
-
-<ul>
-<li>Paket von <a href="http://www.jboss.org/jbossas/downloads">http://www.jboss.org/jbossas/downloads</a> herunterladen,
-einspielen und starten:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span>Einspielen und Starten von JBossAS </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># jboss-as-7.1.1.Final.tar.gz heruntergeladen nach ~/Downloads</span>
-</span><span class='line'><span class="nb">cd</span> /opt
-</span><span class='line'>gzip -cd ~/Downloads/jboss-as-7.1.1.Final.tar.gz |sudo tar xf -
-</span><span class='line'><span class="c"># ... es darf keine Fehlermeldung erscheinen!</span>
-</span><span class='line'>sudo chown -R uli.uli jboss-as-7.1.1.Final
-</span><span class='line'><span class="nb">cd  </span>jboss-as-7.1.1.Final
-</span><span class='line'>./bin/standalone.sh
-</span><span class='line'><span class="c"># ... muß ohne Fehlermeldung starten</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Test mit <a href="https://localhost:8080">https://localhost:8080</a>: Es muß grob &ldquo;Welcome to AS 7&rdquo;
-angezeigt werden.</li>
-</ul>
-
-
-<h2>Probleme</h2>
-
-<ul>
-<li>Keine, auch nicht mit JDK6</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Älter</a>
@@ -588,6 +559,10 @@ angezeigt werden.</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/09/03/lxc-apt-upgrade-udev/">LXC: Fehler bei &#8216;apt-get upgrade&#8217; - udev</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a>
       </li>
     
@@ -601,10 +576,6 @@ angezeigt werden.</li>
     
       <li class="post">
         <a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!&#8217; for nil:NilClass in post</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a>
       </li>
     
   </ul>
