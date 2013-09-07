@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Statische Fotogallerie für Octopress - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+
+  
+  <meta name="description" content="In /blog/2013/08/04/gallery habe ich beschrieben, wie ich meine Fotogallerie
+in Octopress einbinde. Leider zeigt sich, dass der dort verwendete &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/09/07/gallery">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Uli's IT-Blog - Konzeption, Entwicklung, Betrieb</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Statische Fotogallerie für Octopress</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-07T09:00:00+02:00" pubdate data-updated="true">07. September 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In <a href="/blog/2013/08/04/gallery">/blog/2013/08/04/gallery</a> habe ich beschrieben, wie ich meine Fotogallerie
+in Octopress einbinde. Leider zeigt sich, dass der dort verwendete Ansatz
+den ganzen Generierungsprozess ziemlich stark ausbremst.</p>
+
+<p>Ziel dieses Artikels ist die Beschleunigung des Generierungsprozesses.</p>
+
+<!-- more -->
+
+
+<h2>Problembeschreibung</h2>
+
+<p>Das Plugin <a href="https://github.com/yortz/octopress_gallery">Octopress-Gallery</a>
+zur Anzeige der Fotogallerie konvertiert die Bilder automatisch in&rsquo;s
+Thumbnail-Format. Es ist zwar ein Algorithmus eingebaut, der die Konvertierung
+der Bilder nur dann durchführen soll, wenn sich die Bilder geändert haben &ndash;
+er funktioniert aber leider nicht.</p>
+
+<h2>Lösungsansatz</h2>
+
+<ul>
+<li>Ich erzeuge ein Skript, welches die Konvertierung vornimmt</li>
+<li>Das Skript selbst hat auch eine &ldquo;Änderungserkennung&rdquo;, d.h. es werden
+wirklich nur die gänderten Bilder neu konvertiert</li>
+<li>Das Skript muß manuell ausgeführt werden</li>
+<li>Die konvertierten Bilder liegen im Verzeichnis &ldquo;source&rdquo; und werden
+mit in Git gespeichert.</li>
+</ul>
+
+
+<p>Als Konsequenz dieser Änderungen müssen noch:</p>
+
+<ul>
+<li>Die Konvertierung von <a href="https://github.com/yortz/octopress_gallery">Octopress-Gallery</a> muß abgeklemmt werden</li>
+<li>Skalierte Bilder einbinden in die Gallerie</li>
+</ul>
+
+
+<h2>Umsetzung</h2>
+
+<h3>Konvertierungsskript</h3>
+
+<p>Das Konvertierungsskript befindet sich <a href="https://github.com/uli-heller/uli-octopress/blob/master/create-galleries.sh">auf GitHub</a></p>
+
+<h3>Abklemmen der alten Konvertierung</h3>
+
+<p>Die alte Konvertierung wird abgeklemmt, in dem</p>
+
+<ul>
+<li>das MiniMagick-Plugin gelöscht wird</li>
+<li>die MiniMagick-Konfiguration entfernt wird</li>
+</ul>
+
+
+<h4>MiniMagick-Plugin löschen</h4>
+
+<figure class='code'><figcaption><span>MiniMagick-Plugin entfernen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rm -f plugins/mini_magick.rb</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>MiniMagick-Konfiguration entfernen</h4>
+
+<figure class='code'><figcaption><span>MiniMagick-Konfiguration entfernen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>diff --git a/_config.yml b/_config.yml
+</span><span class='line'>index 33ac290..7371444 100644
+</span><span class='line'>--- a/_config.yml
+</span><span class='line'>+++ b/_config.yml
+</span><span class='line'>@@ -100,23 +100,3 @@ google_analytics_tracking_id:
+</span><span class='line'> 
+</span><span class='line'> # Facebook Like
+</span><span class='line'> facebook_like: false
+</span><span class='line'>-
+</span><span class='line'>-mini_magick:
+</span><span class='line'>-    test_thumbnail:
+</span><span class='line'>-      source: images/galleries/test
+</span><span class='line'>-      destination: images/galleries/test/thumbs
+</span><span class='line'>-      commands:
+</span><span class='line'>-        - thumbnail: "64x48^"
+</span><span class='line'>-        - crop: "64x48-0x0"
+</span><span class='line'>-    centos_thumbnail:
+</span><span class='line'>-      source: images/galleries/centos
+</span><span class='line'>-      destination: images/galleries/centos/thumbs
+</span><span class='line'>-      commands:
+</span><span class='line'>-        - thumbnail: "64x48^"
+</span><span class='line'>-        - crop: "64x48-0x0"
+</span><span class='line'>-    centos59_thumbnail:
+</span><span class='line'>-      source: images/galleries/centos59
+</span><span class='line'>-      destination: images/galleries/centos59/thumbs
+</span><span class='line'>-      commands:
+</span><span class='line'>-        - thumbnail: "64x48^"
+</span><span class='line'>-        - crop: "64x48-0x0"</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Skalierte Bilder einbinden</h3>
+
+<p>Hierzu muß die Datei plugins/gallery_tag.rb angepasst werden.
+Wir ändern dies so, dass</p>
+
+<ul>
+<li>für die Thumbnails die kleinen Bilder unterhalb von &hellip;/thumbs verwendet werden</li>
+<li>für die Standard-Anzeige die mittleren Bilder unterhalb von &hellip;/scaled verwendet werden</li>
+<li>für die Großanzeige die originalen Bilder verwendet werden</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Änderungen an ./plugins/gallery_tag.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/plugins/gallery_tag.rb b/plugins/gallery_tag.rb</span>
+</span><span class='line'><span class="gh">index 2e09f9b..8be9ff4 100644</span>
+</span><span class='line'><span class="gd">--- a/plugins/gallery_tag.rb</span>
+</span><span class='line'><span class="gi">+++ b/plugins/gallery_tag.rb</span>
+</span><span class='line'><span class="gu">@@ -7,13 +7,13 @@ module ImageList</span>
+</span><span class='line'>     list &lt;&lt; %Q{&lt;script src=&quot;/javascripts/fotorama/jquery-1.10.2.min.js&quot;&gt;&lt;/script&gt;}
+</span><span class='line'>     list &lt;&lt; %Q{&lt;link href=&quot;/javascripts/fotorama/fotorama.css&quot; rel=&quot;stylesheet&quot;&gt;}
+</span><span class='line'>     list &lt;&lt; %Q{&lt;script src=&quot;/javascripts/fotorama/fotorama.js&quot;&gt;&lt;/script&gt;}
+</span><span class='line'><span class="gd">-    list &lt;&lt; %Q{&lt;div class=&quot;fotorama&quot; data-autoplay=&quot;3000&quot; data-transition=&quot;dissolve&quot; data-nav=&quot;thumbs&quot; data-allow-full-screen=&quot;true&quot; data-keyboard=&quot;true&quot; data-width=&quot;80%&quot; data-thumb-with=&quot;64&quot; data-thumb-height=&quot;48&quot;&gt;} # data-width=&quot;100%&quot; data-thumb-width= data-thumb-height=</span>
+</span><span class='line'><span class="gi">+    list &lt;&lt; %Q{&lt;div class=&quot;fotorama&quot; data-autoplay=&quot;3000&quot; data-transition=&quot;dissolve&quot; data-nav=&quot;thumbs&quot; data-allow-full-screen=&quot;true&quot; data-keyboard=&quot;true&quot; data-width=&quot;640&quot; data-height=&quot;480&quot; data-thumb-with=&quot;64&quot; data-thumb-height=&quot;48&quot;&gt;} # data-width=&quot;100%&quot; data-thumb-width= data-thumb-height=</span>
+</span><span class='line'>     dir = Dir.new( File.join(BASE_DIR, name) )
+</span><span class='line'>     dir.sort.each do | d |
+</span><span class='line'>       image = File.basename(d, File.extname(d))
+</span><span class='line'>       unless d =~ /^\./ || d =~ /thumbs/ || d =~ /scaled/ || d =~ /_md5/
+</span><span class='line'> #        list &lt;&lt; %Q{&lt;a href=&quot;/images/galleries/#{name}/#{d}&quot; rel=&quot;shadowbox&quot; title=&quot;#{image}&quot;&gt;&lt;img src=&quot;/images/galleries/#{name}/thumbs/#{d}&quot; /&gt;&lt;/a&gt;}
+</span><span class='line'><span class="gd">-        list &lt;&lt; %Q{&lt;a href=&quot;/images/galleries/#{name}/scaled/#{d}&quot;&gt;&lt;img src=&quot;/images/galleries/#{name}/thumbs/#{d}&quot;/&gt;&lt;/a&gt;}</span>
+</span><span class='line'><span class="gi">+        list &lt;&lt; %Q{&lt;a href=&quot;/images/galleries/#{name}/scaled/#{d}&quot; data-full=&quot;/images/galleries/#{name}/#{d}&quot; data-fit=&quot;scaledown&quot;&gt;&lt;img src=&quot;/images/galleries/#{name}/thumbs/#{d}&quot; data-fit=&quot;scaledown&quot;/&gt;&lt;/a&gt;}</span>
+</span><span class='line'>       end
+</span><span class='line'>     end
+</span><span class='line'>     list &lt;&lt; %Q{&lt;/div&gt; &lt;!--class=&quot;fotorama&quot; data-nav=&quot;thumbs&quot; --&gt;}
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-07T09:00:00+02:00" pubdate data-updated="true">07. September 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/fotorama/'>Fotorama</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/octopress/'>Octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/09/03/lxc-apt-upgrade-udev/" title="Voriger Beitrag: LXC: Fehler bei 'apt-get upgrade' - udev">&laquo; LXC: Fehler bei 'apt-get upgrade' - udev</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/09/07/gallery/">Statische Fotogallerie für Octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/03/lxc-apt-upgrade-udev/">LXC: Fehler bei 'apt-get upgrade' - udev</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei 'dcommit', 'rebase', ...</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/08/05/octopress-git/">Octopress und Git ohne Umbenennung</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ulispersonalitblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/09/07/gallery/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/09/07/gallery/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

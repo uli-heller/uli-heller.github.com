@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-09-03T08:25:18+02:00</updated>
+  <updated>2013-09-07T09:09:18+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,207 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Statische Fotogallerie für Octopress]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/07/gallery/"/>
+    <updated>2013-09-07T09:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/07/gallery</id>
+    <content type="html"><![CDATA[<p>In <a href="/blog/2013/08/04/gallery">/blog/2013/08/04/gallery</a> habe ich beschrieben, wie ich meine Fotogallerie
+in Octopress einbinde. Leider zeigt sich, dass der dort verwendete Ansatz
+den ganzen Generierungsprozess ziemlich stark ausbremst.</p>
+
+<p>Ziel dieses Artikels ist die Beschleunigung des Generierungsprozesses.</p>
+
+<!-- more -->
+
+
+<h2>Problembeschreibung</h2>
+
+<p>Das Plugin <a href="https://github.com/yortz/octopress_gallery">Octopress-Gallery</a>
+zur Anzeige der Fotogallerie konvertiert die Bilder automatisch in&rsquo;s
+Thumbnail-Format. Es ist zwar ein Algorithmus eingebaut, der die Konvertierung
+der Bilder nur dann durchführen soll, wenn sich die Bilder geändert haben &ndash;
+er funktioniert aber leider nicht.</p>
+
+<h2>Lösungsansatz</h2>
+
+<ul>
+<li>Ich erzeuge ein Skript, welches die Konvertierung vornimmt</li>
+<li>Das Skript selbst hat auch eine &ldquo;Änderungserkennung&rdquo;, d.h. es werden
+wirklich nur die gänderten Bilder neu konvertiert</li>
+<li>Das Skript muß manuell ausgeführt werden</li>
+<li>Die konvertierten Bilder liegen im Verzeichnis &ldquo;source&rdquo; und werden
+mit in Git gespeichert.</li>
+</ul>
+
+
+<p>Als Konsequenz dieser Änderungen müssen noch:</p>
+
+<ul>
+<li>Die Konvertierung von <a href="https://github.com/yortz/octopress_gallery">Octopress-Gallery</a> muß abgeklemmt werden</li>
+<li>Skalierte Bilder einbinden in die Gallerie</li>
+</ul>
+
+
+<h2>Umsetzung</h2>
+
+<h3>Konvertierungsskript</h3>
+
+<p>Das Konvertierungsskript befindet sich <a href="https://github.com/uli-heller/uli-octopress/blob/master/create-galleries.sh">auf GitHub</a></p>
+
+<h3>Abklemmen der alten Konvertierung</h3>
+
+<p>Die alte Konvertierung wird abgeklemmt, in dem</p>
+
+<ul>
+<li>das MiniMagick-Plugin gelöscht wird</li>
+<li>die MiniMagick-Konfiguration entfernt wird</li>
+</ul>
+
+
+<h4>MiniMagick-Plugin löschen</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MiniMagick-Plugin entfernen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rm -f plugins/mini_magick.rb</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h4>MiniMagick-Konfiguration entfernen</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MiniMagick-Konfiguration entfernen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>diff &mdash;git a/&lt;em>config.yml b/&lt;/em>config.yml
+</span><span class='line'>index 33ac290..7371444 100644
+</span><span class='line'>&mdash;&ndash; a/&lt;em>config.yml
+</span><span class='line'>+++ b/&lt;/em>config.yml
+</span><span class='line'>@@ -100,23 +100,3 @@ google_analytics_tracking_id:&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p> # Facebook Like&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h2> facebook_like: false&lt;/h2>
+</span><span class='line'>
+</span><span class='line'>&lt;p>-mini_magick:
+</span><span class='line'>&ndash;    test_thumbnail:
+</span><span class='line'>&ndash;      source: images/galleries/test
+</span><span class='line'>&ndash;      destination: images/galleries/test/thumbs
+</span><span class='line'>&ndash;      commands:
+</span><span class='line'>&ndash;        &ndash; thumbnail: &ldquo;64x48^&rdquo;
+</span><span class='line'>&ndash;        &ndash; crop: &ldquo;64x48-0x0&rdquo;
+</span><span class='line'>&ndash;    centos_thumbnail:
+</span><span class='line'>&ndash;      source: images/galleries/centos
+</span><span class='line'>&ndash;      destination: images/galleries/centos/thumbs
+</span><span class='line'>&ndash;      commands:
+</span><span class='line'>&ndash;        &ndash; thumbnail: &ldquo;64x48^&rdquo;
+</span><span class='line'>&ndash;        &ndash; crop: &ldquo;64x48-0x0&rdquo;
+</span><span class='line'>&ndash;    centos59_thumbnail:
+</span><span class='line'>&ndash;      source: images/galleries/centos59
+</span><span class='line'>&ndash;      destination: images/galleries/centos59/thumbs
+</span><span class='line'>&ndash;      commands:
+</span><span class='line'>&ndash;        &ndash; thumbnail: &ldquo;64x48^&rdquo;
+</span><span class='line'>&ndash;        &ndash; crop: &ldquo;64x48-0x0&rdquo;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Skalierte Bilder einbinden</h3>
+
+<p>Hierzu muß die Datei plugins/gallery_tag.rb angepasst werden.
+Wir ändern dies so, dass</p>
+
+<ul>
+<li>für die Thumbnails die kleinen Bilder unterhalb von &hellip;/thumbs verwendet werden</li>
+<li>für die Standard-Anzeige die mittleren Bilder unterhalb von &hellip;/scaled verwendet werden</li>
+<li>für die Großanzeige die originalen Bilder verwendet werden</li>
+</ul>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Änderungen an ./plugins/gallery_tag.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff &amp;mdash;git a/plugins/gallery_tag.rb b/plugins/gallery_tag.rb</span>
+</span><span class='line'><span class="gh">index 2e09f9b..8be9ff4 100644</span>
+</span><span class='line'>&amp;mdash;&amp;ndash; a/plugins/gallery_tag.rb
+</span><span class='line'><span class="gi">+++ b/plugins/gallery_tag.rb</span>
+</span><span class='line'><span class="gu">@@ -7,13 +7,13 @@ module ImageList&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt; list &amp;lt;&amp;lt; %Q{&amp;lt;script src=&quot;http://uli-heller.github.com/javascripts/fotorama/jquery-1.10.2.min.js&quot;&amp;gt;&amp;lt;/script&amp;gt;}
+</span><span class='line'> list &amp;lt;&amp;lt; %Q{&amp;lt;link href=&quot;http://uli-heller.github.com/javascripts/fotorama/fotorama.css&quot; rel=&quot;stylesheet&quot;&amp;gt;}
+</span><span class='line'> list &amp;lt;&amp;lt; %Q{&amp;lt;script src=&quot;http://uli-heller.github.com/javascripts/fotorama/fotorama.js&quot;&amp;gt;&amp;lt;/script&amp;gt;}
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;ul&gt;
+</span><span class='line'>&lt;li&gt; list &amp;lt;&amp;lt; %Q{&lt;div class=&quot;fotorama&quot; data-autoplay=&quot;3000&quot; data-transition=&quot;dissolve&quot; data-nav=&quot;thumbs&quot; data-allow-full-screen=&quot;true&quot; data-keyboard=&quot;true&quot; data-width=&quot;80%&quot; data-thumb-with=&quot;64&quot; data-thumb-height=&quot;48&quot;&gt;} # data-width=&amp;ldquo;100%&amp;rdquo; data-thumb-width= data-thumb-height=&lt;/li&gt;
+</span><span class='line'>&lt;li&gt; list &amp;lt;&amp;lt; %Q{&lt;div class=&quot;fotorama&quot; data-autoplay=&quot;3000&quot; data-transition=&quot;dissolve&quot; data-nav=&quot;thumbs&quot; data-allow-full-screen=&quot;true&quot; data-keyboard=&quot;true&quot; data-width=&quot;640&quot; data-height=&quot;480&quot; data-thumb-with=&quot;64&quot; data-thumb-height=&quot;48&quot;&gt;} # data-width=&amp;ldquo;100%&amp;rdquo; data-thumb-width= data-thumb-height=
+</span><span class='line'> dir = Dir.new( File.join(BASE_DIR, name) )
+</span><span class='line'> dir.sort.each do | d |
+</span><span class='line'>   image = File.basename(d, File.extname(d))
+</span><span class='line'>   unless d =~ /^./ || d =~ /thumbs/ || d =~ /scaled/ || d =~ /_md5/
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;list &amp;lt;&amp;lt; %Q{&lt;a href=&quot;http://uli-heller.github.com/images/galleries/#{name}/#{d}&quot; rel=&quot;shadowbox&quot; title=&quot;#{image}&quot;&gt;&lt;img src=&quot;http://uli-heller.github.com/images/galleries/#{name}/thumbs/#{d}&quot; /&gt;&lt;/a&gt;}&lt;/h1&gt;&lt;/li&gt;
+</span><span class='line'>&lt;li&gt;&lt;pre&gt;&lt;code&gt; list &amp;lt;&amp;lt; %Q{&amp;lt;a href=&quot;http://uli-heller.github.com/images/galleries/#{name}/scaled/#{d}&quot;&amp;gt;&amp;lt;img src=&quot;http://uli-heller.github.com/images/galleries/#{name}/thumbs/#{d}&quot;/&amp;gt;&amp;lt;/a&amp;gt;}
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+</span><span class='line'>&lt;li&gt;&lt;pre&gt;&lt;code&gt; list &amp;lt;&amp;lt; %Q{&amp;lt;a href=&quot;http://uli-heller.github.com/images/galleries/#{name}/scaled/#{d}&quot; data-full=&quot;/images/galleries/#{name}/#{d}&quot; data-fit=&quot;scaledown&quot;&amp;gt;&amp;lt;img src=&quot;http://uli-heller.github.com/images/galleries/#{name}/thumbs/#{d}&quot; data-fit=&quot;scaledown&quot;/&amp;gt;&amp;lt;/a&amp;gt;}
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;   end
+</span><span class='line'> end
+</span><span class='line'> list &amp;lt;&amp;lt; %Q{&lt;/div&gt; &lt;!--class=&quot;fotorama&quot; data-nav=&quot;thumbs&quot; --&gt;}
+</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Octopress und Git ohne Umbenennung]]></title>
@@ -863,171 +1064,6 @@ Er ist dort also nicht korrigiert.</p>
 <p>Für mich sieht&rsquo;s so aus, als wäre das Aufsetzen auf &ldquo;source-2.1&rdquo; eine echt blöde
 Entscheidung gewesen. Werde mein Octopress wohl in nächster Zeit umstellen müssen
 auf &ldquo;master&rdquo;.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Octopress-Aktualisierung 1/2 - Grundtests]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/03/11/octopress-aktualisierung/"/>
-    <updated>2013-03-11T08:00:00+01:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/03/11/octopress-aktualisierung</id>
-    <content type="html"><![CDATA[<h1>Aktualisierung meiner Octopress-Installation (&frac12;)</h1>
-
-<p>Vor grob 5 Monaten habe ich Octopress erstmalig aufgesetzt und seitdem die
-Finger von den Aktualisierungen gelassen. Dadurch funktionieren in &ldquo;meiner&rdquo; Installation
-nun gewisse Dinge nicht ganz so gut wir im Original. Beispielsweise soll die Verlinkung
-von Blog-Posts im Original über einen Methodenaufruf funktionieren, bei meiner Variante
-muß ich mir den Link mühsam zusammenklauben.</p>
-
-<p>Erstmal möchte ich testen, ob die aktualisierte Version überhaupt funktioniert. Diese Tests
-mache ich mit &ldquo;master&rdquo; und &ldquo;source-2.1&rdquo;.</p>
-
-<!-- more -->
-
-
-<h2>Aktuelle Octopress-Version runterladen</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Octropress runterladen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>git clone git://github.com/imathis/octopress.git octopress
-</span><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>git branch -a
-</span><span class='line'>  * master&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;remotes/origin/2.1
-</span><span class='line'>remotes/origin/HEAD -&amp;gt; origin/master
-</span><span class='line'>remotes/origin/colorize
-</span><span class='line'>remotes/origin/gh-pages
-</span><span class='line'>remotes/origin/guard
-</span><span class='line'>remotes/origin/linklog
-</span><span class='line'>remotes/origin/master
-</span><span class='line'>remotes/origin/migrator
-</span><span class='line'>remotes/origin/refactor_with_tests
-</span><span class='line'>remotes/origin/rubygemcli
-</span><span class='line'>remotes/origin/site
-</span><span class='line'>remotes/origin/site-2.1
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Kurztest Octopress-2.0</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Kurztest Octropress-2.0 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>gem install bundler
-</span><span class='line'>bundle install
-</span><span class='line'>rake install
-</span><span class='line'>rake generate
-</span><span class='line'>rake preview
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>&hellip; danach dann im Browser den Link <a href="http://localhost:4000">http://localhost:4000</a> öffnen &ndash; es
-wird die Octopress-Grundseite angezeigt.</p>
-
-<h2>Kurztest Octopress-2.1</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Kurztest Octropress-2.1 &ndash; Mecker wegen JavaScript runtime </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
-</span><span class='line'>git checkout 2.1
-</span><span class='line'>gem install bundler
-</span><span class='line'>bundle install
-</span><span class='line'>rake install
-</span><span class='line'>  rake aborted!
-</span><span class='line'>  Could not find a JavaScript runtime. See &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/sstephenson/execjs&quot;</span>&gt;https://github.com/sstephenson/execjs&lt;/a&gt; <span class="k">for </span>a list of available runtimes.
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs/runtimes.rb:51:in &lt;code&gt;autodetect<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs.rb:5:in&lt;/code&gt;&amp;lt;module:ExecJS&gt;&amp;lsquo;</span>
-</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/execjs-1.4.0/lib/execjs.rb:4:in &lt;code&gt;&amp;lt;top (required)&amp;gt;&#39;</span>
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/uglifier-1.2.6/lib/uglifier.rb:3:in&lt;/code&gt;require&amp;rsquo;
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/gems/uglifier-1.2.6/lib/uglifier.rb:3:in &lt;code&gt;&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/lib/octopress/js_asset_manager.rb:4:in&lt;/code&gt;require&#39;</span>
-</span><span class='line'>  /home/uli/tmp/o/octopress/lib/octopress/js_asset_manager.rb:4:in &lt;code&gt;&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/lib/octopress.rb:5:in&lt;/code&gt;require&#39;</span>
-</span><span class='line'>  /home/uli/tmp/o/octopress/lib/octopress.rb:5:in &lt;code&gt;&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/tmp/o/octopress/Rakefile:9:in&lt;/code&gt;require&#39;</span>
-</span><span class='line'>  /home/uli/tmp/o/octopress/Rakefile:9:in &lt;code&gt;&amp;lt;top <span class="o">(</span>required<span class="o">)</span>&amp;gt;<span class="s1">&#39;</span>
-</span><span class='line'><span class="s1">  /home/uli/.rvm/gems/ruby-1.9.3-p327/bin/ruby_noexec_wrapper:14:in&lt;/code&gt;eval&#39;</span>
-</span><span class='line'>  /home/uli/.rvm/gems/ruby-1.9.3-p327/bin/ruby_noexec_wrapper:14:in <span class="sb">`</span>&lt;main&gt;&amp;lsquo;
-</span><span class='line'>  <span class="o">(</span>See full trace by running task with &amp;mdash;trace<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>&hellip; funktioniert also nicht so richtig.</p>
-
-<p>Am einfachsten korrigiert man&rsquo;s durch Anpassung vom Gemfile:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen am Gemfile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff &amp;mdash;git a/Gemfile b/Gemfile</span>
-</span><span class='line'><span class="gu">@@ -15,6 +15,7 @@</span>
-</span><span class='line'> group :development do
-</span><span class='line'>   gem &amp;lsquo;tzinfo&amp;rsquo;, &amp;lsquo;~&gt; 0.3.35&amp;rsquo;
-</span><span class='line'>   gem &amp;lsquo;stitch-rb&amp;rsquo;
-</span><span class='line'>   gem &amp;lsquo;uglifier&amp;rsquo;
-</span><span class='line'><span class="gi">+  gem &amp;lsquo;therubyracer&amp;rsquo;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;   # Guard related
-</span><span class='line'>   gem &amp;lsquo;guard&amp;rsquo;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Danach dann <code>bundle install</code> und alles wird gut! Nach <code>rake install</code>, <code>rake generate</code>
-und <code>rake preview</code> kann man wie üblich
-im Browser den Link <a href="http://localhost:4000">http://localhost:4000</a> öffnen und es
-wird die Octopress-Grundseite angezeigt.</p>
 ]]></content>
   </entry>
   
