@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Linux | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-09-07T09:44:50+02:00</updated>
+  <updated>2013-09-09T07:13:56+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,164 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Themenwolke für Octopress]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/08/octopress-themen/"/>
+    <updated>2013-09-08T10:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/08/octopress-themen</id>
+    <content type="html"><![CDATA[<p>Gestern bin ich über <a href="http://www.ewal.net/2012/09/08/octopress-customizations/">http://www.ewal.net/2012/09/08/octopress-customizations/</a>
+gestolpert. Darin wird beschrieben, wie man eine Themenwolke in Octopress
+einbindet. Eine Themenwolke sieht in etwa so aus:</p>
+
+<p><img src="/images/octopress/themenwolke3.png" alt="Themenwolke" /></p>
+
+<p>In diesem Artikel beschreibe ich, wie ich die Themenwolke eingerichtet habe.</p>
+
+<!-- more -->
+
+
+<h2>octopress-category-list-master-20130907.zip</h2>
+
+<p>Herunterladen von <a href="https://github.com/alswl/octopress-category-list">GitHub</a>
+&ndash; <a href="https://github.com/alswl/octopress-category-list/archive/master.zip">ZIP-Datei</a>, meine Kopie liegt <a href="/downloads/code/category-list/octopress-category-list-master-20130907.zip">hier</a>.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen von octopress-category-list </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ unzip -qqd /tmp octopress-category-list-master-20130907.zip
+</span><span class='line'>$ cp /tmp/octopress-category-list-master/source/&lt;em>includes/custom/asides/category* source/&lt;/em>includes/custom/asides/
+</span><span class='line'>$ cp /tmp/octopress-category-list-master/plugins/category* plugins/</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>_config.yml</h2>
+
+<p>In der Konfigurationsdatei von Octopress müssen diese Änderungen
+durchgeführt werden:</p>
+
+<ul>
+<li>default_asides: Erweitern um &ldquo;custom/asides/category_cloud.html&rdquo;</li>
+<li>category_title_prefix: Setzen auf &lsquo;Thema: &rsquo;</li>
+</ul>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span><em>config.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff &amp;mdash;git a/&lt;/em&gt;config.yml b/&lt;em&gt;config.yml</span>
+</span><span class='line'><span class="gh">index 7371444..47760b3 100644</span>
+</span><span class='line'>&amp;mdash;&amp;ndash; a/&lt;/em&gt;config.yml
+</span><span class='line'><span class="gi">+++ b/_config.yml</span>
+</span><span class='line'><span class="gu">@@ -52,7 +52,7 @@ titlecase: false       # Converts page and post titles to titlecase&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt; # list each of the sidebar modules you want to include, in the order you want them to appear.
+</span><span class='line'> # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like &amp;lsquo;custom/asides/custom_aside_name.html&amp;rsquo;
+</span><span class='line'><span class="gd">-default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]</span>
+</span><span class='line'><span class="gi">+default_asides: [asides/recent_posts.html, custom/asides/category_cloud.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt; # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
+</span><span class='line'> # and add an array with the asides you want to use.
+</span><span class='line'><span class="gu">@@ -100,3 +100,7 @@ google_analytics_tracking_id:&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt; # Facebook Like
+</span><span class='line'> facebook_like: false
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+# Category plugin</span>
+</span><span class='line'><span class="gi">+category_title_prefix: &amp;lsquo;Thema: &amp;rsquo;</span>
+</span><span class='line'><span class="gi">+</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>source/categories/index.html</h2>
+
+<p>Die Datei &ldquo;source/categories/index.html&rdquo; wird angelegt, um eine separate
+Seite mit allen Themen zur Verfügung zu haben. Bei meiner Variante wird oben
+die Themenwolke angezeigt, unten eine alphabetisch sortierte Themenliste.</p>
+
+<h2><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>source/categories/index.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;</span>layout: page
+</span><span class='line'>title: Themen
+</span><span class='line'>footer: true
+</span><span class='line'>body_id: categories<span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;h2&gt;</span>date: 2013-09-07 09:15<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;tag-cloud&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.55555555555556%&#39;</span><span class="nt">&gt;</span>Blog<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>CentOS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Chrome<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Cinnamon<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Debian<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Dovecot<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Eclipse<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Fotorama<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.55555555555556%&#39;</span><span class="nt">&gt;</span>Git<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>GitHub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>GPG<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Groovy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Grub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>HTTPS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.44444444444444%&#39;</span><span class="nt">&gt;</span>Java<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>JBoss<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>JMX<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Kepler<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Kernel<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>LDAP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 160.0%&#39;</span><span class="nt">&gt;</span>Linux<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.44444444444444%&#39;</span><span class="nt">&gt;</span>Lucid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>LXC<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.66666666666667%&#39;</span><span class="nt">&gt;</span>Lxc<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Macbook Air<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Macbook Air 2013<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>Markdown<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>MySQL<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 111.11111111111111%&#39;</span><span class="nt">&gt;</span>Octopress<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>OpenVPN<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.66666666666667%&#39;</span><span class="nt">&gt;</span>Packaging<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Pakete<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Passenger<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>PDF<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Perl<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>PGP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Pigdeonhole<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 132.22222222222223%&#39;</span><span class="nt">&gt;</span>Precise<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Quilt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Raring<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>Redmine<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 107.77777777777777%&#39;</span><span class="nt">&gt;</span>Ruby<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Server<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>Subversion<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 147.77777777777777%&#39;</span><span class="nt">&gt;</span>Ubuntu<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>USB<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Webservice<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Zertifikat<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>ZFS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;category-list&quot;</span><span class="nt">&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span><span class="nt">&gt;</span>Blog (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span><span class="nt">&gt;</span>CentOS (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span><span class="nt">&gt;</span>Chrome (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span><span class="nt">&gt;</span>Cinnamon (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span><span class="nt">&gt;</span>Debian (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span><span class="nt">&gt;</span>Dovecot (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span><span class="nt">&gt;</span>Eclipse (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span><span class="nt">&gt;</span>Fotorama (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span><span class="nt">&gt;</span>Git (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span><span class="nt">&gt;</span>GitHub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span><span class="nt">&gt;</span>GPG (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span><span class="nt">&gt;</span>Groovy (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span><span class="nt">&gt;</span>Grub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span><span class="nt">&gt;</span>HTTPS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span><span class="nt">&gt;</span>Java (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span><span class="nt">&gt;</span>JBoss (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span><span class="nt">&gt;</span>JMX (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span><span class="nt">&gt;</span>Kepler (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span><span class="nt">&gt;</span>Kernel (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span><span class="nt">&gt;</span>LDAP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span><span class="nt">&gt;</span>Linux (54)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span><span class="nt">&gt;</span>Lucid (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>LXC (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>Lxc (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span><span class="nt">&gt;</span>Macbook Air (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span><span class="nt">&gt;</span>Macbook Air 2013 (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span><span class="nt">&gt;</span>Markdown (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span><span class="nt">&gt;</span>MySQL (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span><span class="nt">&gt;</span>Octopress (10)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span><span class="nt">&gt;</span>OpenVPN (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span><span class="nt">&gt;</span>Packaging (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span><span class="nt">&gt;</span>Pakete (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span><span class="nt">&gt;</span>Passenger (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span><span class="nt">&gt;</span>PDF (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span><span class="nt">&gt;</span>Perl (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span><span class="nt">&gt;</span>PGP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span><span class="nt">&gt;</span>Pigdeonhole (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span><span class="nt">&gt;</span>Precise (29)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span><span class="nt">&gt;</span>Quilt (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span><span class="nt">&gt;</span>Raring (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span><span class="nt">&gt;</span>Redmine (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span><span class="nt">&gt;</span>Ruby (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span><span class="nt">&gt;</span>Server (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span><span class="nt">&gt;</span>Subversion (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span><span class="nt">&gt;</span>Ubuntu (43)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span><span class="nt">&gt;</span>USB (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span><span class="nt">&gt;</span>Webservice (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span><span class="nt">&gt;</span>Zertifikat (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span><span class="nt">&gt;</span>ZFS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>source/_includes/custom/navigation.html</h2>
+
+<p>Die Themenseite wird durch Änderung an &ldquo;source/_includes/custom/navigation.html&rdquo;
+in die Navigation eingebunden:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Änderungen an source/<em>includes/custom/navigation.html </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff &amp;mdash;git a/source/&lt;/em&gt;includes/custom/navigation.html b/source/&lt;em&gt;includes/custom/n</span>
+</span><span class='line'><span class="gh">index 0ec1963..a7592a0 100644</span>
+</span><span class='line'>&amp;mdash;&amp;ndash; a/source/&lt;/em&gt;includes/custom/navigation.html
+</span><span class='line'><span class="gi">+++ b/source/_includes/custom/navigation.html</span>
+</span><span class='line'><span class="gu">@@ -1,6 +1,7 @@</span>
+</span><span class='line'> &lt;ul class=&quot;main-navigation&quot;&gt;
+</span><span class='line'>   &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Blog&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>   &lt;li&gt;&lt;a href=&quot;/archives/&quot;&gt;Archiv&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'><span class="gi">+  &lt;li&gt;&lt;a href=&quot;/categories/&quot;&gt;Themen&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>   &lt;li&gt;&lt;a href=&quot;/about/&quot;&gt;Über mich&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>   &lt;li&gt;&lt;a href=&quot;/impressum/&quot;&gt;Impressum&lt;/a&gt;&lt;/li&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Statische Fotogallerie für Octopress]]></title>
@@ -891,198 +1049,6 @@ geschickt.</p>
 <li>2013-09-01: Subversion-1.8.3, Git-1.8.4, Anpassungen an /usr/share/perl5/Git/SVN/Ra.pm, Korrektur</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Octopress und Git ohne Umbenennung]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/08/05/octopress-git/"/>
-    <updated>2013-08-05T08:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/08/05/octopress-git</id>
-    <content type="html"><![CDATA[<p>Octopress hat die Eigenart, bei Verwendung von Git als &ldquo;Deployment-Methode&rdquo;
-die Zweige umzubenennen:</p>
-
-<ul>
-<li>Umbenennung: origin &ndash;> octopress</li>
-<li>Neuanlage:   origin &lt;&ndash; repo_url</li>
-<li>Umbenennung: master &ndash;> source</li>
-<li>etc.</li>
-</ul>
-
-
-<p>Die ganze Umbenennerei gefällt mir garnicht. Ich mag&rsquo;s so:</p>
-
-<ul>
-<li>uli-octopress: Das ist mein &ldquo;normales&rdquo; GitHub-Repository, in dem ich alle
-Quelltexte meiner Octopress-Installation halte</li>
-<li>uli-heller.github.com: Das ist das GitHub-Repository, in dem ich die
-generierten HTML-Seiten veröffentliche</li>
-</ul>
-
-
-<!-- more -->
-
-
-<h2>uli-octopress</h2>
-
-<p>Hierbei gibt es keine Besonderheiten. Einfach das Repository in GitHub
-anlegen und klonen wie üblich.</p>
-
-<h2>uli-heller.github.com</h2>
-
-<p>Am besten erstmal einfach leer anlegen mit einem Branch namens &ldquo;master&rdquo;.</p>
-
-<h2>Deployment-Methode konfigurieren</h2>
-
-<h3>_deploy</h3>
-
-<p>Das Verzeichnis &ldquo;_deploy&rdquo; wird angelegt durch <code>git clone ...</code> und
-anschließendes Umbenennen mit <code>mv ...</code>.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anlegen des Verzeichnisses _deploy </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span><span class="nb">cd </span>uli-octopress&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;uli-octopress<span class="nv">$ </span>git clone git@github.com:uli-heller/uli-heller.github.com.git
-</span><span class='line'>Klone nach &amp;lsquo;uli-heller.github.com&amp;rsquo;&amp;hellip;
-</span><span class='line'>remote: Counting objects: 14438, <span class="k">done</span>.
-</span><span class='line'>remote: Compressing objects: 100% <span class="o">(</span>3999/3999<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>remote: Total 14438 <span class="o">(</span>delta 7274<span class="o">)</span>, reused 13662 <span class="o">(</span>delta 6502<span class="o">)</span>
-</span><span class='line'>Empfange Objekte: 100% <span class="o">(</span>14438/14438<span class="o">)</span>, 16.14 MiB | 218.00 KiB/s, <span class="k">done</span>.
-</span><span class='line'>Löse Unterschiede auf: 100% <span class="o">(</span>7274/7274<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>Checking connectivity&amp;hellip; <span class="k">done</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;uli-octopress<span class="nv">$ </span>mv uli-heller.github.com _deploy
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3>Rakefile</h3>
-
-<p>Nun noch Anpassungen an Rakefile:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen am Rakefile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff &amp;mdash;git a/Rakefile b/Rakefile</span>
-</span><span class='line'><span class="gh">index f3ada93..321c3c5 100644</span>
-</span><span class='line'>&amp;mdash;&amp;ndash; a/Rakefile
-</span><span class='line'><span class="gi">+++ b/Rakefile</span>
-</span><span class='line'><span class="gu">@@ -9,10 +9,10 @@ ssh_port       = &amp;ldquo;22&amp;rdquo;</span>
-</span><span class='line'> document_root  = &amp;ldquo;~/website.com/&amp;rdquo;
-</span><span class='line'> rsync_delete   = false
-</span><span class='line'> rsync_args     = &amp;ldquo;&amp;rdquo;  # Any extra arguments to pass to rsync
-</span><span class='line'><span class="gd">-deploy_default = &amp;ldquo;rsync&amp;rdquo;</span>
-</span><span class='line'><span class="gi">+deploy_default = &amp;ldquo;push&amp;rdquo;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; # This will be configured for you when you run config_deploy
-</span><span class='line'><span class="gd">-deploy_branch  = &amp;ldquo;gh-pages&amp;rdquo;</span>
-</span><span class='line'><span class="gi">+deploy_branch  = &amp;ldquo;master&amp;rdquo;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; ## &amp;mdash; Misc Configs &amp;mdash; ##
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Test</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Test </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli-octopress<span class="nv">$ </span>rake generate&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;Generating Site with Jekyll&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;identical <span class="nb">source</span>/stylesheets/screen.css
-</span><span class='line'>Configuration from /home/uli/git/octopress/_config.yml
-</span><span class='line'>Building site: <span class="nb">source</span> &amp;ndash;&gt; public
-</span><span class='line'>&amp;hellip;
-</span><span class='line'>Successfully generated site: <span class="nb">source</span> &amp;ndash;&gt; public&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;uli-octopress<span class="nv">$ </span>rake preview
-</span><span class='line'>Starting to watch <span class="nb">source </span>with Jekyll and Compass. Starting Rack on port 4000
-</span><span class='line'><span class="o">[</span>2013-08-05 07:55:34<span class="o">]</span> INFO  WEBrick 1.3.1
-</span><span class='line'>&amp;hellip;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;uli-octopress<span class="nv">$ </span>rake deploy&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;Generating Site with Jekyll&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;identical <span class="nb">source</span>/stylesheets/screen.css
-</span><span class='line'>Configuration from /home/uli/git/octopress/_config.yml
-</span><span class='line'>Building site: <span class="nb">source</span> &amp;ndash;&gt; public
-</span><span class='line'>&amp;hellip;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;Pushing generated _deploy website&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Counting objects: 710, <span class="k">done</span>.
-</span><span class='line'>Delta compression using up to 4 threads.
-</span><span class='line'>Compressing objects: 100% <span class="o">(</span>275/275<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>Writing objects: 100% <span class="o">(</span>382/382<span class="o">)</span>, 95.23 KiB | 0 bytes/s, <span class="k">done</span>.
-</span><span class='line'>Total 382 <span class="o">(</span>delta 194<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
-</span><span class='line'>To git@github.com:uli-heller/uli-heller.github.com.git
-</span><span class='line'>   4d99436..e7770a8  master &amp;ndash;&gt; master&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h2&gt;Github Pages deploy <span class="nb">complete</span>&lt;/h2&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;cd &amp;ndash;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
