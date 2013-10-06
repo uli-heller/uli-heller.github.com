@@ -257,6 +257,30 @@
         <lastmod>2013-09-09T07:12:46+02:00</lastmod>
     </url>
     <url>
+        <loc>http://uli-heller.github.com/blog/2013/09/10/linux-podcasts/</loc>
+        <lastmod>2013-09-10T05:50:05+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://uli-heller.github.com/blog/2013/09/11/smtp-relay/</loc>
+        <lastmod>2013-09-11T08:13:46+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://uli-heller.github.com/blog/2013/09/13/git-fork/</loc>
+        <lastmod>2013-09-16T08:47:35+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://uli-heller.github.com/blog/2013/09/22/squid/</loc>
+        <lastmod>2013-10-06T07:53:15+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://uli-heller.github.com/blog/2013/10/04/kompilierung-ueberspringen/</loc>
+        <lastmod>2013-10-04T08:57:16+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://uli-heller.github.com/blog/2013/10/06/forward-proxy/</loc>
+        <lastmod>2013-10-06T09:00:04+02:00</lastmod>
+    </url>
+    <url>
         <loc>http://uli-heller.github.com/articles/hetzner-mailserver.html</loc>
         <lastmod>2013-06-01T18:13:02+02:00</lastmod>
     </url>
@@ -278,7 +302,7 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/archives/</loc>
-        <lastmod>2013-09-09T07:12:46+02:00</lastmod>
+        <lastmod>2013-10-06T09:00:04+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/404.html</loc>
@@ -290,7 +314,7 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/</loc>
-        <lastmod>2013-09-09T07:12:46+02:00</lastmod>
+        <lastmod>2013-10-06T09:00:04+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/about/</loc>
@@ -298,14 +322,14 @@
     </url>
     <url>
         <loc>http://uli-heller.github.com/blog/archives/</loc>
-        <lastmod>2013-09-09T07:12:46+02:00</lastmod>
+        <lastmod>2013-10-06T09:00:04+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/blog/</loc>
-        <lastmod>2013-09-09T07:12:46+02:00</lastmod>
+        <lastmod>2013-10-06T09:00:04+02:00</lastmod>
     </url>
     <url>
         <loc>http://uli-heller.github.com/categories/</loc>
-        <lastmod>2013-09-09T07:12:46+02:00</lastmod>
+        <lastmod>2013-10-06T09:00:04+02:00</lastmod>
     </url>
 </urlset>

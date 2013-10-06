@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Thema: SMTP | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/smtp/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-10-06T09:00:53+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[SMTP ohne SMTP-Daemon]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/11/smtp-relay/"/>
+    <updated>2013-09-11T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/11/smtp-relay</id>
+    <content type="html"><![CDATA[<p>Bei einem Kunden setze ich <a href="http://redmine.org">Redmine</a> ein.
+Es läuft dort auf meinem Klapprechner in einer lokalen VM.
+Die Kunden-Infrastruktur &ldquo;kennt&rdquo; diese VM nicht.
+Dennoch soll Redmine Email-Benachrichtigungen verschicken.
+Mit den üblichen Mechanismen geht das nicht, weil die VM nicht
+als &ldquo;sende-berechtigt&rdquo; vermerkt ist. Aber ich habe ja einen SSH-Login
+auf einen Rechner, der Emails versenden kann. Hier die Beschreibung,
+wie man Redmine (&hellip; oder auf fast jede andere Applikation) dazu bringt,
+die Mails über diesen Zwischenrechner zu versenden.</p>
+
+<!-- more -->
+
+
+<h2>Aktionen innerhalb der Redmine-VM</h2>
+
+<h3>SSH-Schlüssel für den Email-Versand erzeugen</h3>
+
+<h3>XINETD installieren</h3>
+
+<h3>XINETD konfigurieren</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>./etc/xinet.d/smtp </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">service</span> <span class="n">smtp</span>
+</span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="n">socket_type</span>     <span class="p">=</span> <span class="n">stream</span>
+</span><span class='line'>    <span class="n">protocol</span>        <span class="p">=</span> <span class="n">tcp</span>
+</span><span class='line'>    <span class="n">wait</span>            <span class="p">=</span> <span class="n">no</span>
+</span><span class='line'>    <span class="n">user</span>            <span class="p">=</span> <span class="n">root</span>
+</span><span class='line'>    <span class="n">disable</span>         <span class="p">=</span> <span class="n">no</span>
+</span><span class='line'>    <span class="n">server</span>          <span class="p">=</span> <span class="p">/</span><span class="n">usr</span><span class="p">/</span><span class="n">bin</span><span class="p">/</span><span class="n">ssh</span>
+</span><span class='line'>    <span class="n">server_args</span>     <span class="p">=</span> <span class="p">-</span><span class="n">q</span> <span class="p">-</span><span class="n">T</span> <span class="p">-</span><span class="n">i</span> <span class="p">/</span><span class="n">root</span><span class="p">/.</span><span class="n">ssh</span><span class="p">/</span><span class="n">tunnel_key</span> <span class="p">{</span><span class="n">user</span><span class="p">}</span><span class="err">@</span><span class="p">{</span><span class="n">email</span><span class="p">-</span><span class="n">server</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">groups</span>          <span class="p">=</span> <span class="n">yes</span>
+</span><span class='line'>    <span class="n">bind</span>            <span class="p">=</span> <span class="mf">127.0.0.1</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Hierbei müssen diese Ersetzungen vorgenommen werden:</p>
+
+<ul>
+<li>{user}</li>
+<li>{email-server}</li>
+</ul>
+
+
+<h2>Aktionen auf dem Email-Server</h2>
+
+<h3>Sicherstellen: netcat ist verfügbar</h3>
+
+<h3>SSH-Schlüssel eintragen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>.ssh/authorized_keys </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>command=&ldquo;netcat -w 1 localhost smtp&rdquo;,no-X11-forwarding,no-agent-forwarding,no-port-forwarding ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDT+uY0OTjsDDnJFxVVapm+w2Sc4NdJU5cQC/KFqSQ0RplDy4vvtBFSjY4ucGErQxEjpeQj2mr1KV0abpnWMZU9HpBzEA2qGObmjSKvLeceVXWoqHjOCzSywmiA18XJ2/pjKz4cCD/DV2QAO32zWRfWhXCU2XlU+dZJa8kDqwL9VS3/Isg5PNr7f9l026vTcdg3zaT0J8M1N3Ag7jILBbZD2JeeXTINqKXn3QEm/IqicLZnDHumzgMHNnurtsbCsmmDS4BySLQxISOOLnb5s7TsdAKwRWnz5uw7JxRlXHPh1t+lgkr5Qcf8LLU2Hqa5Vik11Xm41yJ9c9l2LcaB98CF</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

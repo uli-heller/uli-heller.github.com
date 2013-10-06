@@ -4,7 +4,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-09-09T07:13:56+02:00</updated>
+  <updated>2013-10-06T09:00:53+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,621 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Maven/Gradle: Betrieb hinter einer Enterprise-Firewall]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/06/forward-proxy/"/>
+    <updated>2013-10-06T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/06/forward-proxy</id>
+    <content type="html"><![CDATA[<p>Einer meiner Kunden setzt eine Firewall kombiniert mit einem
+Proxy-Server ein, um das interne Netz vom Internet abzukoppeln.
+Der Zugriff vom internen Netz in&rsquo;s Internet ist dadurch stark eingeschränkt.</p>
+
+<ul>
+<li>Manche Web-Seiten werden generell geblockt &hellip; ist bislang kein Problem für mich</li>
+<li>Zugriff auf&rsquo;s Internet ist generell nur mit bestimmten Browsern möglich &ndash; der HTTP Header &ldquo;User-Agent&rdquo; muß bestimmte Werte haben &hellip; dadurch werden Build-Tools wie Gradle und Maven geblockt</li>
+<li>Zugriff auf&rsquo;s Internet geht generell nur, wenn man sich am Proxy-Server angemeldet hat &hellip; dadurch funktioniert bei mir der Zugriff von Eclipse aus nicht, man kann Eclipse-Plugins nur sehr umständlich installieren</li>
+</ul>
+
+
+<p>Zur Lösung der letzten beiden Probleme gibt es nun die Idee, einen eigenen
+Proxy-Server zu betreiben, der dann die Anmeldung am
+&ldquo;richtigen&rdquo; Proxy-Server übernimmt und der den User-Agent auf geeignete Werte
+setzt.</p>
+
+<!-- more -->
+
+
+<h2>Das GitHub-Projekt</h2>
+
+<p>Den Proxy-Server habe ich in Java implementiert und im Rahmen meiner &ldquo;Mini-Tools&rdquo; auf GitHub
+abgelegt. Zu finden ist der Proxy-Server hier: <a href="https://github.com/uli-heller/uli-mini-tools/blob/master/forward-proxy/README.md">Forward-Proxy</a>.</p>
+
+<h2>Die Zutaten</h2>
+
+<p>Der eigentliche Kern des Proxy-Servers ist recht klein &ndash; die meisten Zutaten liefert das Projekt
+<a href="http://www.eclipse.org/jetty/">Jetty</a>. Konkret habe ich hiervon verwendet:</p>
+
+<ul>
+<li><a href="http://www.eclipse.org/jetty/documentation/current/proxy-servlet.html">ProxyServlet</a></li>
+<li><a href="http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/tree/examples/embedded/src/main/java/org/eclipse/jetty/embedded/ProxyServer.java?id=jetty-9.0.6.v20130930">ProxyServer</a></li>
+</ul>
+
+
+<p>Zur Kompilierung des Projektes verwende ich <a href="http://gradle.org">Gradle</a>. Von mir selbst stammen ein paar Ergänzungen,
+die</p>
+
+<ul>
+<li>diverse Einstellungen aus Properties-Dateien lesen</li>
+<li>die Anmeldung am Enterprise-Proxy-Server vornehmen</li>
+<li>das Programm paketieren und einfach ausführbar machen auf Kommandozeilenebene</li>
+</ul>
+
+
+<h2>Das Bauen</h2>
+
+<p>Das Bauen des Projektes ist denkbar einfach, sofern ein JDK7 installiert und im PATH verfügbar ist:</p>
+
+<ul>
+<li>Shell-Fenster öffnen</li>
+<li>In den Ordner &ldquo;uli-mini-tools/forward-proxy&rdquo; wechseln</li>
+<li>Ausführen: <code>../gradlew</code> (&hellip; oder unter Windows: <code>..\gradlew</code>)</li>
+</ul>
+
+
+<p>Danach gibt es die beiden Dateien</p>
+
+<ul>
+<li>forward-proxy-{version}.sh &hellip; für Unix/Linux</li>
+<li>forward-proxy-{version}.bat &hellip; für Windows</li>
+</ul>
+
+
+<p>Sie können direkt von der Shell aus ausgeführt werden.</p>
+
+<h2>Der Test</h2>
+
+<p>Getestet habe ich den neuen Proxy-Server mit einem einfachen Gradle-Projekt:</p>
+
+<ul>
+<li><p>Konfigurationsdatei &ldquo;forward-proxy.properties&rdquo; für den Forward-Proxy:</p>
+
+<pre><code>proxyPort           = 8888
+parentProxyHost     = 192.168.178.47
+parentProxyPort     = 3128
+parentProxyUser     = uli
+parentProxyPassword = xxxxxx
+replaceHeaders      = User-Agent
+User-Agent          = InternetExploder
+</code></pre></li>
+<li><p>Start vom Forward-Proxy:</p>
+
+<pre><code>./forward-proxy*.sh
+</code></pre></li>
+<li><p>gradle.properties:</p>
+
+<pre><code>systemProp.http.proxyHost=localhost
+systemProp.http.proxyPort=8888
+</code></pre></li>
+<li><p><a href="http://uli-heller.github.com/downloads/code/simple-gradle-project.zip">Gradle-Projekt</a> auspacken und neu bauen mit</p>
+
+<pre><code>./gradlew --refresh-dependencies
+# Windows: .\gradlew --refresh-dependencies
+</code></pre></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Kompilierung und Tests überspringen beim Paketbau]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/04/kompilierung-ueberspringen/"/>
+    <updated>2013-10-04T09:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/04/kompilierung-ueberspringen</id>
+    <content type="html"><![CDATA[<p>Gelegentlich baue ich selbst Pakete für Debian/Ubuntu. Manchmal habe ich dabei Tippfehler
+in Paketbeschreibungsdateien wie &ldquo;debian/rules&rdquo; und &ldquo;debian/control&rdquo;. Diese treten oftmals erst
+gegen Ende des Paketbauprozesses auf und nach einer Korrektur der Fehler habe ich gerne schnell
+Gewissheit, ob die Korrekturen OK sind oder nicht &ndash; ein kompletter Neubau scheidet für die
+meisten Pakete dann aus.</p>
+
+<p>Mit diesem Befehl werden Kompilierung und Übersprungen:</p>
+
+<pre><code>fakeroot debuan/rules binary
+</code></pre>
+
+<p>Innerhalb von wenigen Sekunden weiß ich so, ob die Korrekturen richtig waren oder ob ich noch
+weitere Dinge ändern muß. Wenn das Kommando durchläuft, führe ich idR. nochmals</p>
+
+<pre><code>dpkg-buildpackage
+</code></pre>
+
+<p>aus um das Paket komplett neu zu bauen und zu paketieren.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Squid: Aufsetzen eines Proxies mit Anmeldezwang]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/22/squid/"/>
+    <updated>2013-09-22T13:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/22/squid</id>
+    <content type="html"><![CDATA[<p>Zum Test meines Mini-Projektes
+<a href="https://github.com/uli-heller/uli-mini-tools/blob/master/forward-proxy/README.md">Forward-Proxy</a>
+brauche ich einen Proxy, der den Zugriff auf das Internet
+nur nach Anmeldung zulässt. Hierzu setze ich eine VM mit Squid auf
+und konfiguriere diesen dann entsprechend. Die VM ist über eine Netzwerkbrücke
+in meinen Desktop eingebunden.</p>
+
+<!-- more -->
+
+
+<h2>Zusatzpakete installieren</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install squid
+</span><span class='line'>sudo apt-get install apache2-utils</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Squid konfigurieren</h2>
+
+<h3>/etc/squid3/squid.conf</h3>
+
+<figure class='code'><figcaption><span>Änderungen an ./etc/squid3/squid.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">--- squid.conf.orig 2013-09-21 13:46:51.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ squid.conf   2013-09-21 13:50:29.000000000 +0200</span>
+</span><span class='line'><span class="gu">@@ -334,10 +334,10 @@</span>
+</span><span class='line'> ##auth_param digest nonce_max_duration 30 minutes
+</span><span class='line'> ##auth_param digest nonce_max_count 50
+</span><span class='line'> ##
+</span><span class='line'><span class="gd">-##auth_param basic program &lt;uncomment and complete this line&gt;</span>
+</span><span class='line'><span class="gd">-##auth_param basic children 5</span>
+</span><span class='line'><span class="gd">-##auth_param basic realm Squid proxy-caching web server</span>
+</span><span class='line'><span class="gd">-##auth_param basic credentialsttl 2 hours</span>
+</span><span class='line'><span class="gi">+auth_param basic program /usr/lib/squid3/ncsa_auth /etc/squid3/squid_user</span>
+</span><span class='line'><span class="gi">+auth_param basic children 5</span>
+</span><span class='line'><span class="gi">+auth_param basic realm Squid proxy-caching web server</span>
+</span><span class='line'><span class="gi">+auth_param basic credentialsttl 2 hours</span>
+</span><span class='line'> #Default:
+</span><span class='line'> # none
+</span><span class='line'>
+</span><span class='line'><span class="gu">@@ -687,6 +687,8 @@</span>
+</span><span class='line'> #
+</span><span class='line'> #Default:
+</span><span class='line'> # acl all src all
+</span><span class='line'><span class="gi">+acl uli proxy_auth REQUIRED</span>
+</span><span class='line'><span class="gi">+http_access allow uli</span>
+</span><span class='line'> #
+</span><span class='line'> #
+</span><span class='line'> # Recommended minimum configuration:
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Benutzer-Listen-Datei anlegen</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo touch /etc/squid3/squid_user</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Benutzer samt Kennwort anlegen</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo htpasswd /etc/squid3/squid_user uli
+</span><span class='line'>New password: xxxxxx
+</span><span class='line'>Re-type new password: xxxxxx
+</span><span class='line'>Adding password for user uli</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Squid neu starten</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/squid3 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Proxy-Server verwenden</h2>
+
+<p>Mit den obigen Vorbereitungen kann ich den neuen Proxy-Server nun
+mittels <a href="http://{hostname-der-vm}:3128">http://{hostname-der-vm}:3128</a> ansprechen.</p>
+
+<h2>Effektive Konfigurationsdatei ermitteln</h2>
+
+<p>Mit diesen Befehlen kann die effektive Konfigurationsdatei ermittelt
+werden. Die vielen Kommentare werden dabei ausgefiltert:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v "^\s*#" /etc/squid3/squid.conf|grep -v "^\s*$"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Die effektive Squid-Konfiguration sieht ohne Kommentare dann so aus:</p>
+
+<figure class='code'><figcaption><span>./etc/squid3/squid.conf ohne Kommentare </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>auth_param basic program /usr/lib/squid3/ncsa_auth /etc/squid3/squid_user
+</span><span class='line'>auth_param basic children 5
+</span><span class='line'>auth_param basic realm Squid proxy-caching web server
+</span><span class='line'>auth_param basic credentialsttl 2 hours
+</span><span class='line'>acl uli proxy_auth REQUIRED
+</span><span class='line'>http_access allow uli
+</span><span class='line'>acl manager proto cache_object
+</span><span class='line'>acl localhost src 127.0.0.1/32 ::1
+</span><span class='line'>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+</span><span class='line'>acl SSL_ports port 443
+</span><span class='line'>acl Safe_ports port 80        # http
+</span><span class='line'>acl Safe_ports port 21        # ftp
+</span><span class='line'>acl Safe_ports port 443       # https
+</span><span class='line'>acl Safe_ports port 70        # gopher
+</span><span class='line'>acl Safe_ports port 210       # wais
+</span><span class='line'>acl Safe_ports port 1025-65535    # unregistered ports
+</span><span class='line'>acl Safe_ports port 280       # http-mgmt
+</span><span class='line'>acl Safe_ports port 488       # gss-http
+</span><span class='line'>acl Safe_ports port 591       # filemaker
+</span><span class='line'>acl Safe_ports port 777       # multiling http
+</span><span class='line'>acl CONNECT method CONNECT
+</span><span class='line'>http_access allow manager localhost
+</span><span class='line'>http_access deny manager
+</span><span class='line'>http_access deny !Safe_ports
+</span><span class='line'>http_access deny CONNECT !SSL_ports
+</span><span class='line'>http_access allow localhost
+</span><span class='line'>http_access deny all
+</span><span class='line'>http_port 3128
+</span><span class='line'>coredump_dir /var/spool/squid3
+</span><span class='line'>refresh_pattern ^ftp:     1440    20% 10080
+</span><span class='line'>refresh_pattern ^gopher:  1440    0%  1440
+</span><span class='line'>refresh_pattern -i (/cgi-bin/|\?) 0   0%  0
+</span><span class='line'>refresh_pattern (Release|Packages(.gz)*)$      0       20%     2880
+</span><span class='line'>refresh_pattern .     0   20% 4320
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Änderungen</h2>
+
+<ul>
+<li>2013-10-06: Komplette Konfigurationsdatei ohne Kommentare hinzugefügt</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GitHub-Projekt spalten am Beispiel Moxie]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/13/git-fork/"/>
+    <updated>2013-09-13T07:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/13/git-fork</id>
+    <content type="html"><![CDATA[<p>Im <a href="http://uli-heller.github.com/blog/2013/07/21/git-fork">diesem Artikel</a> hab&#8217; ich erstmals kurz zusammengefasst,
+wie ich mit Forks von GitHub arbeite. Hier folgen nun mehr Details am konkreten Beispiel
+&ldquo;moxie&rdquo;.</p>
+
+<!-- more -->
+
+
+<h2>GitHub-Projekt spalten (fork)</h2>
+
+<ul>
+<li>GitHub-Projekt im Browser öffnen: <a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie</a></li>
+<li>Auf der Projektseite wird auch die Clone-Url-O angezeigt, hier: <a href="https://github.com/gitblit/moxie.git">https://github.com/gitblit/moxie.git</a></li>
+<li><p>Auf der Projektseite den Knopf &ldquo;Fork&rdquo; anwählen:</p>
+
+<p><img src="http://uli-heller.github.com/images/git/github-fork.png" alt="GitHub-Fork" /></p></li>
+<li><p>Folgeseiten &ldquo;durchklicken&rdquo;</p></li>
+<li>Schlußendlich landet man auf dem abgespaltenen Projekt, bei mir ist das die Browser-Url
+<a href="https://github.com/uli-heller/moxie">https://github.com/uli-heller/moxie</a></li>
+<li>Auf der Projektseite wird auch die Clone-Url-S angezeigt, bei mir: git@github.com:uli-heller/moxie.git</li>
+</ul>
+
+
+<h2>Lokalen Kopie anlegen (clone)</h2>
+
+<p>Gespaltenes Projekt kopieren mit: <code>git clone &lt;clone-url-s&gt;</code>, also
+im konkreten Fall <code>git clone git@github.com:uli-heller/moxie.git</code>:</p>
+
+<figure class='code'><figcaption><span>Lokale Kopie anlegen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git$ git clone git@github.com:uli-heller/moxie.git
+</span><span class='line'>Klone nach 'moxie'...
+</span><span class='line'>remote: Counting objects: 11313, done.
+</span><span class='line'>remote: Compressing objects: 100% (2961/2961), done.
+</span><span class='line'>remote: Total 11313 (delta 6316), reused 11137 (delta 6140)
+</span><span class='line'>Empfange Objekte: 100% (11313/11313), 71.63 MiB | 1.60 MiB/s, done.
+</span><span class='line'>Löse Unterschiede auf: 100% (6316/6316), done.
+</span><span class='line'>Prüfe Konnektivität... Fertig</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Original-Projekt einbinden (upstream)</h2>
+
+<figure class='code'><figcaption><span>Original-Projekt einbinden </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git$ cd moxie
+</span><span class='line'>~/git/moxie$ git remote add upstream 
+</span><span class='line'>~/git/moxie$ git fetch upstream
+</span><span class='line'>Von https://github.com/gitblit/moxie
+</span><span class='line'> * [neuer Branch]    gh-pages   -> upstream/gh-pages
+</span><span class='line'> * [neuer Branch]    master     -> upstream/master</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Kopie des Original-Projektes aktualisieren</h2>
+
+<figure class='code'><figcaption><span>Original-Projekt aktualisieren </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git fetch upstream 
+</span><span class='line'>remote: Counting objects: 1, done.
+</span><span class='line'>remote: Total 1 (delta 0), reused 1 (delta 0)
+</span><span class='line'>Unpacking objects: 100% (1/1), done.
+</span><span class='line'>Von https://github.com/gitblit/moxie
+</span><span class='line'>   e1c5785..a13973e  master     -> upstream/master</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Änderungen des Original-Projektes einarbeiten</h2>
+
+<p>Gelegentlich will man die Änderungen des Original-Projektes
+in das abgespaltete Projekt einarbeiten. Vor der Einarbeitung
+muß die Kopie des Original-Projektes aktualisiert worden sein
+(<code>git fetch upstream</code>).</p>
+
+<h3>Nur eigene Pull-Requests</h3>
+
+<p>Hier der Ablauf, wenn am Original-Projekt zwischenzeitlich
+nur eigene Pull-Requests eingearbeitet wurden. Die Aktualisierung
+läuft in diesem Falle völlig schmerzfrei!</p>
+
+<figure class='code'><figcaption><span>Original-Projekt einarbeiten </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git checkout master
+</span><span class='line'>Gewechselt zu Branch 'master'
+</span><span class='line'>~/git/moxie$ git merge --no-commit upstream/master
+</span><span class='line'>Aktualisiere 34b618c..a13973e
+</span><span class='line'>Fast-forward
+</span><span class='line'>~/git/moxie$ git status
+</span><span class='line'># Auf Branch master
+</span><span class='line'>nichts zu committen, Arbeitsverzeichnis unverändert</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Konflikte</h3>
+
+<p>Wenn am Original-Projekt zwischenzeitlich auch andere Änderungen
+gemacht wurden, so kommt es gelegentlich zu Konflikten beim
+Einarbeiten. Die Konflikte können mit <code>git mergetool</code> aufgelöst
+werden. Wichtig: Vor dem abschließenden <code>git commit</code> sollte
+der neue Stand ausführlich getestet werden!</p>
+
+<figure class='code'><figcaption><span>Original-Projekt einarbeiten </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git checkout master
+</span><span class='line'>Gewechselt zu Branch 'master'
+</span><span class='line'>~/git/moxie$ git merge --no-commit upstream/master
+</span><span class='line'>## Hier muß ich noch die "richtigen" Meldungen einpflegen
+</span><span class='line'>automatischer Merge von Rakefile
+</span><span class='line'>automatischer Merge von Gemfile.lock
+</span><span class='line'>automatischer Merge von Gemfile
+</span><span class='line'>automatischer Merge von .ruby-version
+</span><span class='line'>KONFLIKT (hinzufügen/hinzufügen): Merge-Konflikt in .ruby-version
+</span><span class='line'>Entferne .rbenv-version
+</span><span class='line'>Automatischer Merge fehlgeschlagen; beheben Sie die Konflikte und committen Sie dann das Ergebnis.
+</span><span class='line'>~/git/moxie$ git mergetool
+</span><span class='line'>## Hier muß ich noch die "richtigen" Meldungen einpflegen
+</span><span class='line'>This message is displayed because 'merge.tool' is not configured.
+</span><span class='line'>See 'git mergetool --tool-help' or 'git help config' for more details.
+</span><span class='line'>'git mergetool' will now attempt to use one of the following tools:
+</span><span class='line'>meld opendiff kdiff3 tkdiff xxdiff tortoisemerge gvimdiff diffuse ecmerge p4merge araxis bc3 codecompare emerge vimdiff
+</span><span class='line'>Merging:
+</span><span class='line'>.ruby-version
+</span><span class='line'>
+</span><span class='line'>Normal merge conflict for '.ruby-version':
+</span><span class='line'>  {local}: created file
+</span><span class='line'>  {remote}: created file
+</span><span class='line'>Hit return to start merge resolution tool (meld): meld
+</span><span class='line'>~/git/moxie$ git commit -m "Merged..."</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Links</h2>
+
+<ul>
+<li>GitHub-Artikel: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SMTP ohne SMTP-Daemon]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/11/smtp-relay/"/>
+    <updated>2013-09-11T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/11/smtp-relay</id>
+    <content type="html"><![CDATA[<p>Bei einem Kunden setze ich <a href="http://redmine.org">Redmine</a> ein.
+Es läuft dort auf meinem Klapprechner in einer lokalen VM.
+Die Kunden-Infrastruktur &ldquo;kennt&rdquo; diese VM nicht.
+Dennoch soll Redmine Email-Benachrichtigungen verschicken.
+Mit den üblichen Mechanismen geht das nicht, weil die VM nicht
+als &ldquo;sende-berechtigt&rdquo; vermerkt ist. Aber ich habe ja einen SSH-Login
+auf einen Rechner, der Emails versenden kann. Hier die Beschreibung,
+wie man Redmine (&hellip; oder auf fast jede andere Applikation) dazu bringt,
+die Mails über diesen Zwischenrechner zu versenden.</p>
+
+<!-- more -->
+
+
+<h2>Aktionen innerhalb der Redmine-VM</h2>
+
+<h3>SSH-Schlüssel für den Email-Versand erzeugen</h3>
+
+<h3>XINETD installieren</h3>
+
+<h3>XINETD konfigurieren</h3>
+
+<figure class='code'><figcaption><span>./etc/xinet.d/smtp </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">service</span> <span class="n">smtp</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>        <span class="n">socket_type</span>     <span class="p">=</span> <span class="n">stream</span>
+</span><span class='line'>        <span class="n">protocol</span>        <span class="p">=</span> <span class="n">tcp</span>
+</span><span class='line'>        <span class="n">wait</span>            <span class="p">=</span> <span class="n">no</span>
+</span><span class='line'>        <span class="n">user</span>            <span class="p">=</span> <span class="n">root</span>
+</span><span class='line'>        <span class="n">disable</span>         <span class="p">=</span> <span class="n">no</span>
+</span><span class='line'>        <span class="n">server</span>          <span class="p">=</span> <span class="p">/</span><span class="n">usr</span><span class="p">/</span><span class="n">bin</span><span class="p">/</span><span class="n">ssh</span>
+</span><span class='line'>        <span class="n">server_args</span>     <span class="p">=</span> <span class="p">-</span><span class="n">q</span> <span class="p">-</span><span class="n">T</span> <span class="p">-</span><span class="n">i</span> <span class="p">/</span><span class="n">root</span><span class="p">/.</span><span class="n">ssh</span><span class="p">/</span><span class="n">tunnel_key</span> <span class="p">{</span><span class="n">user</span><span class="p">}</span><span class="err">@</span><span class="p">{</span><span class="n">email</span><span class="p">-</span><span class="n">server</span><span class="p">}</span>
+</span><span class='line'>        <span class="n">groups</span>          <span class="p">=</span> <span class="n">yes</span>
+</span><span class='line'>        <span class="n">bind</span>            <span class="p">=</span> <span class="mf">127.0.0.1</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hierbei müssen diese Ersetzungen vorgenommen werden:</p>
+
+<ul>
+<li>{user}</li>
+<li>{email-server}</li>
+</ul>
+
+
+<h2>Aktionen auf dem Email-Server</h2>
+
+<h3>Sicherstellen: netcat ist verfügbar</h3>
+
+<h3>SSH-Schlüssel eintragen</h3>
+
+<figure class='code'><figcaption><span>.ssh/authorized_keys </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>command="netcat -w 1 localhost smtp",no-X11-forwarding,no-agent-forwarding,no-port-forwarding ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDT+uY0OTjsDDnJFxVVapm+w2Sc4NdJU5cQC/KFqSQ0RplDy4vvtBFSjY4ucGErQxEjpeQj2mr1KV0abpnWMZU9HpBzEA2qGObmjSKvLeceVXWoqHjOCzSywmiA18XJ2/pjKz4cCD/DV2QAO32zWRfWhXCU2XlU+dZJa8kDqwL9VS3/Isg5PNr7f9l026vTcdg3zaT0J8M1N3Ag7jILBbZD2JeeXTINqKXn3QEm/IqicLZnDHumzgMHNnurtsbCsmmDS4BySLQxISOOLnb5s7TsdAKwRWnz5uw7JxRlXHPh1t+lgkr5Qcf8LLU2Hqa5Vik11Xm41yJ9c9l2LcaB98CF</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux-Podcasts]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/10/linux-podcasts/"/>
+    <updated>2013-09-10T05:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/10/linux-podcasts</id>
+    <content type="html"><![CDATA[<p>Hier einige Verweise auf Linux-Podcasts.</p>
+
+<!-- more -->
+
+
+<h2>9 Linux-Podcasts, die man hören sollte</h2>
+
+<p><a href="http://www.networkworld.com/community/blog/9-linux-podcasts-you-should-follow">http://www.networkworld.com/community/blog/9-linux-podcasts-you-should-follow</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Themenwolke für Octopress]]></title>
@@ -128,8 +743,8 @@ die Themenwolke angezeigt, unten eine alphabetisch sortierte Themenliste.</p>
 </span><span class='line'>---
 </span><span class='line'>
 </span><span class='line'><span class="nt">&lt;div&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;tag-cloud&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.55555555555556%&#39;</span><span class="nt">&gt;</span>Blog<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>CentOS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Chrome<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Cinnamon<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Debian<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Dovecot<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Eclipse<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Fotorama<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.55555555555556%&#39;</span><span class="nt">&gt;</span>Git<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>GitHub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>GPG<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Groovy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Grub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>HTTPS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.44444444444444%&#39;</span><span class="nt">&gt;</span>Java<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>JBoss<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>JMX<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Kepler<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Kernel<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>LDAP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 160.0%&#39;</span><span class="nt">&gt;</span>Linux<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.44444444444444%&#39;</span><span class="nt">&gt;</span>Lucid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>LXC<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.66666666666667%&#39;</span><span class="nt">&gt;</span>Lxc<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Macbook Air<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Macbook Air 2013<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>Markdown<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>MySQL<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 111.11111111111111%&#39;</span><span class="nt">&gt;</span>Octopress<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>OpenVPN<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.66666666666667%&#39;</span><span class="nt">&gt;</span>Packaging<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Pakete<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Passenger<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>PDF<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Perl<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>PGP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Pigdeonhole<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 132.22222222222223%&#39;</span><span class="nt">&gt;</span>Precise<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Quilt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Raring<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>Redmine<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 107.77777777777777%&#39;</span><span class="nt">&gt;</span>Ruby<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Server<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>Subversion<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 147.77777777777777%&#39;</span><span class="nt">&gt;</span>Ubuntu<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>USB<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Webservice<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Zertifikat<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>ZFS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/ul&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;category-list&quot;</span><span class="nt">&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span><span class="nt">&gt;</span>Blog (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span><span class="nt">&gt;</span>CentOS (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span><span class="nt">&gt;</span>Chrome (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span><span class="nt">&gt;</span>Cinnamon (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span><span class="nt">&gt;</span>Debian (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span><span class="nt">&gt;</span>Dovecot (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span><span class="nt">&gt;</span>Eclipse (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span><span class="nt">&gt;</span>Fotorama (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span><span class="nt">&gt;</span>Git (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span><span class="nt">&gt;</span>GitHub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span><span class="nt">&gt;</span>GPG (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span><span class="nt">&gt;</span>Groovy (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span><span class="nt">&gt;</span>Grub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span><span class="nt">&gt;</span>HTTPS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span><span class="nt">&gt;</span>Java (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span><span class="nt">&gt;</span>JBoss (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span><span class="nt">&gt;</span>JMX (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span><span class="nt">&gt;</span>Kepler (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span><span class="nt">&gt;</span>Kernel (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span><span class="nt">&gt;</span>LDAP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span><span class="nt">&gt;</span>Linux (54)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span><span class="nt">&gt;</span>Lucid (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>LXC (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>Lxc (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span><span class="nt">&gt;</span>Macbook Air (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span><span class="nt">&gt;</span>Macbook Air 2013 (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span><span class="nt">&gt;</span>Markdown (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span><span class="nt">&gt;</span>MySQL (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span><span class="nt">&gt;</span>Octopress (10)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span><span class="nt">&gt;</span>OpenVPN (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span><span class="nt">&gt;</span>Packaging (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span><span class="nt">&gt;</span>Pakete (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span><span class="nt">&gt;</span>Passenger (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span><span class="nt">&gt;</span>PDF (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span><span class="nt">&gt;</span>Perl (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span><span class="nt">&gt;</span>PGP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span><span class="nt">&gt;</span>Pigdeonhole (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span><span class="nt">&gt;</span>Precise (29)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span><span class="nt">&gt;</span>Quilt (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span><span class="nt">&gt;</span>Raring (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span><span class="nt">&gt;</span>Redmine (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span><span class="nt">&gt;</span>Ruby (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span><span class="nt">&gt;</span>Server (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span><span class="nt">&gt;</span>Subversion (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span><span class="nt">&gt;</span>Ubuntu (43)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span><span class="nt">&gt;</span>USB (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span><span class="nt">&gt;</span>Webservice (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span><span class="nt">&gt;</span>Zertifikat (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span><span class="nt">&gt;</span>ZFS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;tag-cloud&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.0%&#39;</span><span class="nt">&gt;</span>Blog<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.0%&#39;</span><span class="nt">&gt;</span>CentOS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Chrome<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Cinnamon<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Debian<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Dovecot<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Eclipse<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Fotorama<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.0%&#39;</span><span class="nt">&gt;</span>Git<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>GitHub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>GPG<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gradle&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Gradle<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Groovy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Grub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>HTTPS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.0%&#39;</span><span class="nt">&gt;</span>Java<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>JBoss<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>JMX<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Kepler<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Kernel<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>LDAP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 160.0%&#39;</span><span class="nt">&gt;</span>Linux<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.0%&#39;</span><span class="nt">&gt;</span>Lucid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.0%&#39;</span><span class="nt">&gt;</span>Lxc<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>LXC<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Macbook Air<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Macbook Air 2013<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.0%&#39;</span><span class="nt">&gt;</span>Markdown<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>MySQL<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 110.0%&#39;</span><span class="nt">&gt;</span>Octopress<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>OpenVPN<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 107.0%&#39;</span><span class="nt">&gt;</span>Packaging<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Pakete<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Passenger<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>PDF<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Perl<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>PGP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Pigdeonhole<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/podcast&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Podcast<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 129.0%&#39;</span><span class="nt">&gt;</span>Precise<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/proxy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Proxy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Quilt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.0%&#39;</span><span class="nt">&gt;</span>Raring<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.0%&#39;</span><span class="nt">&gt;</span>Redmine<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 107.0%&#39;</span><span class="nt">&gt;</span>Ruby<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Server<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/smtp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>SMTP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/squid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Squid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.0%&#39;</span><span class="nt">&gt;</span>Subversion<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 148.0%&#39;</span><span class="nt">&gt;</span>Ubuntu<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>USB<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Webservice<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>Zertifikat<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.0%&#39;</span><span class="nt">&gt;</span>ZFS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;category-list&quot;</span><span class="nt">&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span><span class="nt">&gt;</span>Blog (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span><span class="nt">&gt;</span>CentOS (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span><span class="nt">&gt;</span>Chrome (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span><span class="nt">&gt;</span>Cinnamon (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span><span class="nt">&gt;</span>Debian (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span><span class="nt">&gt;</span>Dovecot (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span><span class="nt">&gt;</span>Eclipse (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span><span class="nt">&gt;</span>Fotorama (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span><span class="nt">&gt;</span>Git (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span><span class="nt">&gt;</span>GitHub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span><span class="nt">&gt;</span>GPG (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gradle&#39;</span><span class="nt">&gt;</span>Gradle (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span><span class="nt">&gt;</span>Groovy (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span><span class="nt">&gt;</span>Grub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span><span class="nt">&gt;</span>HTTPS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span><span class="nt">&gt;</span>Java (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span><span class="nt">&gt;</span>JBoss (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span><span class="nt">&gt;</span>JMX (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span><span class="nt">&gt;</span>Kepler (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span><span class="nt">&gt;</span>Kernel (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span><span class="nt">&gt;</span>LDAP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span><span class="nt">&gt;</span>Linux (60)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span><span class="nt">&gt;</span>Lucid (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>Lxc (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>LXC (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span><span class="nt">&gt;</span>Macbook Air (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span><span class="nt">&gt;</span>Macbook Air 2013 (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span><span class="nt">&gt;</span>Markdown (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span><span class="nt">&gt;</span>MySQL (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span><span class="nt">&gt;</span>Octopress (10)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span><span class="nt">&gt;</span>OpenVPN (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span><span class="nt">&gt;</span>Packaging (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span><span class="nt">&gt;</span>Pakete (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span><span class="nt">&gt;</span>Passenger (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span><span class="nt">&gt;</span>PDF (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span><span class="nt">&gt;</span>Perl (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span><span class="nt">&gt;</span>PGP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span><span class="nt">&gt;</span>Pigdeonhole (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/podcast&#39;</span><span class="nt">&gt;</span>Podcast (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span><span class="nt">&gt;</span>Precise (29)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/proxy&#39;</span><span class="nt">&gt;</span>Proxy (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span><span class="nt">&gt;</span>Quilt (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span><span class="nt">&gt;</span>Raring (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span><span class="nt">&gt;</span>Redmine (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span><span class="nt">&gt;</span>Ruby (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span><span class="nt">&gt;</span>Server (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/smtp&#39;</span><span class="nt">&gt;</span>SMTP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/squid&#39;</span><span class="nt">&gt;</span>Squid (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span><span class="nt">&gt;</span>Subversion (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span><span class="nt">&gt;</span>Ubuntu (48)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span><span class="nt">&gt;</span>USB (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span><span class="nt">&gt;</span>Webservice (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span><span class="nt">&gt;</span>Zertifikat (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span><span class="nt">&gt;</span>ZFS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</span>
 </span><span class='line'><span class="nt">&lt;/div&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -2162,1665 +2777,6 @@ Er ist dort also nicht korrigiert.</p>
 <p>Für mich sieht&rsquo;s so aus, als wäre das Aufsetzen auf &ldquo;source-2.1&rdquo; eine echt blöde
 Entscheidung gewesen. Werde mein Octopress wohl in nächster Zeit umstellen müssen
 auf &ldquo;master&rdquo;.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Redmine: Von FCGI zu Passenger]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/19/redmine-passenger/"/>
-    <updated>2013-07-19T15:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/19/redmine-passenger</id>
-    <content type="html"><![CDATA[<p>Bislang habe ich Redmine hinter einem Apache HTTPD via FCGI betrieben.
-Bei meinen Tests mit Redmine-2.3.2 gibt es bei dieser Konstellation aber
-viele Probleme mit der Selektion des Rails-Environments. Es wird immer
-&ldquo;development&rdquo; verwendet, &ldquo;production&rdquo; kann nicht mehr &ldquo;wie früher&rdquo; über
-&ldquo;environment.rb&rdquo; und <code>ENV['RAILS_ENV'] ||= 'production'</code> selektiert werden.</p>
-
-<!-- more -->
-
-
-<h2>Sichtung der Alt-Version</h2>
-
-<p>Zunächst muß sichergestellt werden, dass die alte Version hinreichend
-gut funktioniert:</p>
-
-<ul>
-<li>Redmine-VM starten</li>
-<li>LDAP-VM starten</li>
-<li>Browser: <a href="http://192.168.56.97">http://192.168.56.97</a> &ndash;> &ldquo;It works&rdquo;</li>
-<li>Browser: <a href="http://192.168.56.97/redmine">http://192.168.56.97/redmine</a> &ndash;> Begrüssung von Redmine</li>
-<li>Browser: <a href="http://192.168.56.97/redmine/issues/1">http://192.168.56.97/redmine/issues/1</a> &ndash;> Anmeldungseite wird angezeigt; Anmeldung funktioniert</li>
-</ul>
-
-
-<p>Soweit sieht alles ganz OK aus. Nun: Sichtung der Programmstände.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>ruby -v
-</span><span class='line'>ruby 1.8.7 <span class="o">(</span>2010-01-10 patchlevel 249<span class="o">)</span> <span class="o">[</span>i486-linux<span class="o">]</span>
-</span><span class='line'><span class="nv">$ </span>gem list
-</span><span class='line'>
-</span><span class='line'>*** LOCAL GEMS ***
-</span><span class='line'>
-</span><span class='line'>actionmailer <span class="o">(</span>2.3.17<span class="o">)</span>
-</span><span class='line'>actionpack <span class="o">(</span>2.3.17<span class="o">)</span>
-</span><span class='line'>activerecord <span class="o">(</span>2.3.17<span class="o">)</span>
-</span><span class='line'>activeresource <span class="o">(</span>2.3.17<span class="o">)</span>
-</span><span class='line'>activesupport <span class="o">(</span>2.3.17<span class="o">)</span>
-</span><span class='line'>i18n <span class="o">(</span>0.4.2<span class="o">)</span>
-</span><span class='line'>mysql <span class="o">(</span>2.8.1<span class="o">)</span>
-</span><span class='line'>rack <span class="o">(</span>1.1.3<span class="o">)</span>
-</span><span class='line'>rails <span class="o">(</span>2.3.17<span class="o">)</span>
-</span><span class='line'>rake <span class="o">(</span>0.8.7<span class="o">)</span>
-</span><span class='line'>rubygems-update <span class="o">(</span>1.6.2<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Ruby-Gems herunterladen und installieren</h2>
-
-<p>Mit diesen Befehlen werden die Ruby-Gems heruntergeladen:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem fetch passenger
-</span><span class='line'><span class="c"># gem fetch passenger -v 4.0.10</span>
-</span><span class='line'>gem fetch daemon_controller -v <span class="s2">&quot;&gt;= 1.1.0&quot;</span>
-</span><span class='line'><span class="c"># gem fetch daemon_controller -v 1.1.4</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Die *.gem-Dateien müssen auf die Redmine-VM übertragen werden, am besten
-mit <code>scp</code>. Danach spielt man sie ein mit</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install passenger-4.0.10.gem
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Apache-Modul installieren</h2>
-
-<p>Mit nachfolgendem Befehl wird das Passenger-Modul für Apache2
-installiert und auch gleich aktiviert:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install libapache2-mod-passenger
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Apache konfigurieren</h2>
-
-<ul>
-<li>Konfigurationsdatei kopieren und anpassen:
-<code>cp /etc/apache2/sites-available/default /etc/apache2/sites-available/passenger</code></li>
-</ul>
-
-
-<figure class='code'><figcaption><span>/etc/apache2/sites-available/passenger </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>#NameVirtualHost *:80
-</span><span class='line'>&lt;VirtualHost *:80&gt;
-</span><span class='line'>        ServerAdmin webmaster@localhost
-</span><span class='line'>
-</span><span class='line'>        PassengerDefaultUser www-data
-</span><span class='line'>        RailsEnv production
-</span><span class='line'>#        RailsBaseURI /redmine
-</span><span class='line'>
-</span><span class='line'>        DocumentRoot /srv/redmine-1.2.1/public/
-</span><span class='line'>#        DocumentRoot /var/www/
-</span><span class='line'>        Alias /redmine &quot;/srv/redmine-1.2.1/public/&quot;
-</span><span class='line'>        &lt;Directory &quot;/srv/redmine-1.2.1/public/&quot;&gt;
-</span><span class='line'>         Options FollowSymLinks -MultiViews
-</span><span class='line'>          AllowOverride none
-</span><span class='line'>          Order allow,deny
-</span><span class='line'>          allow from all
-</span><span class='line'>        &lt;/Directory&gt;
-</span><span class='line'>
-</span><span class='line'>        ErrorLog /var/log/apache2/error.log
-</span><span class='line'>
-</span><span class='line'>        # Possible values include: debug, info, notice, warn, error, crit,
-</span><span class='line'>        # alert, emerg.
-</span><span class='line'>        LogLevel warn
-</span><span class='line'>
-</span><span class='line'>        CustomLog /var/log/apache2/access.log combined
-</span><span class='line'>        ServerSignature On
-</span><span class='line'>&lt;/VirtualHost&gt;
-</span><span class='line'>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><p>Alte Datei &ldquo;abklemmen&rdquo;: <code>a2dissite default</code></p></li>
-<li><p>Neue Datei aktivieren: <code>a2ensite passenger</code></p></li>
-<li><p>Apache neu starten: <code>/etc/init.d/apache2 restart</code></p></li>
-</ul>
-
-
-<h2>Sichtung der Neu-Version</h2>
-
-<p>Zunächst muß sichergestellt werden, dass die alte Version hinreichend
-gut funktioniert:</p>
-
-<ul>
-<li>Redmine-VM starten (&hellip; läuft vermutlich eh&#8217; noch)</li>
-<li>LDAP-VM starten (&hellip; läuft vermutlich eh&#8217; noch)</li>
-<li>Browser: <a href="http://192.168.56.97">http://192.168.56.97</a>  &ndash;> Begrüssung von Redmine</li>
-<li>Browser: <a href="http://192.168.56.97/redmine">http://192.168.56.97/redmine</a> &ndash;> Begrüssung von Redmine</li>
-<li>Browser: <a href="http://192.168.56.97/redmine/issues/1">http://192.168.56.97/redmine/issues/1</a> &ndash;> Anmeldungseite wird angezeigt; Anmeldung funktioniert</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Analyse des Systemstarts]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/18/bootchart/"/>
-    <updated>2013-07-18T10:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/18/bootchart</id>
-    <content type="html"><![CDATA[<p>Mein Samsung-Laptop benötigt sehr lange für den Systemstart.
-Gefühlt dauert&rsquo;s 5 Minuten vom Einschalten bis zum Login-Prompt.
-Das sollte doch irgendwie schneller gehen &ndash; nur wie?</p>
-
-<!-- more -->
-
-
-<h2>Bootchart</h2>
-
-<h3>Installieren</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install bootchart pybootchartgui</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Neustart</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo reboot</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Sichten</h3>
-
-<ul>
-<li>Verzeichnis: /var/log/bootchart</li>
-<li>Dateien: uli-samsung-precise-20130718-1.tgz und uli-samsung-precise-20130718-1.png</li>
-</ul>
-
-
-<p><img src="http://uli-heller.github.com/images/bootchart/uli-samsung-precise-20130718-1.png" alt="Bootchart vom Samsung-Laptop" /></p>
-
-<p>Es fällt auf, dass ein Großteil der Zeit in IOWAIT verbracht wird (dicke rotbraune Balken). Somit liegt die Vermutung nahe, dass die interne Festplatte wohl schnarchlahm ist. Das deckt sich auch wunderbar mit meinen Beobachtungen bei der täglichen Arbeit:</p>
-
-<ul>
-<li>Editieren eines Shell-Skriptes</li>
-<li>Speichern</li>
-<li>Fenster-Wechsel + Start des Skriptes</li>
-<li>Start scheitert mit einer Fehlermeldung (sinngemäß: &ldquo;Skript gesperrt&rdquo;)</li>
-<li>2 Sekunden warten + nochmaliger Start</li>
-<li>Start klappt</li>
-</ul>
-
-
-<h3>Versuch: SSD an USB-3</h3>
-
-<p>Eine externe SSD angeschlossen an die USB-3-Schnittstelle startet &ldquo;schnell&rdquo; (&hellip; gefühlt dauert&rsquo;s ähnlich lang wie beim Macbook Air 2013).</p>
-
-<p>Also: Scheint wirklich an der lahmen Platte zu liegen.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Experimente mit ZFS unter Ubuntu-12.04]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/12/zfs/"/>
-    <updated>2013-07-12T08:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/12/zfs</id>
-    <content type="html"><![CDATA[<h2>DEBs installieren</h2>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install make build-essential dpkg-dev
-</span><span class='line'>sudo apt-get install -f
-</span><span class='line'>sudo dpkg -i zfs-dkms_0.6.1-1~precise_amd64.deb <span class="se">\</span>
-</span><span class='line'>  spl-dkms_0.6.1-1~precise_all.deb              <span class="se">\</span>
-</span><span class='line'>  dkms_2.2.0.3-1ubuntu3.1+zfs6~precise1_all.deb
-</span><span class='line'>sudo dpkg -i zfsutils_0.6.1-1~precise_amd64.deb <span class="se">\</span>
-</span><span class='line'>  libnvpair1_0.6.1-1~precise_amd64.deb          <span class="se">\</span>
-</span><span class='line'>  libuutil1_0.6.1-1~precise_amd64.deb           <span class="se">\</span>
-</span><span class='line'>  libzfs1_0.6.1-1~precise_amd64.deb             <span class="se">\</span>
-</span><span class='line'>  libzpool1_0.6.1-1~precise_amd64.deb
-</span><span class='line'>sudo dpkg -i ubuntu-zfs_7~precise1_amd64.deb    <span class="se">\</span>
-</span><span class='line'>  spl_0.6.1-1~precise_amd64.deb
-</span><span class='line'>sudo dpkg -i mountall_2.48build1-zfs2_amd64.deb
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Kurzexperimente mit ZPOOL</h2>
-
-<h4>Pool anlegen</h4>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata /dev/sda
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: none requested
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     ONLINE       0     0     0
-</span><span class='line'>    sda       ONLINE       0     0     0
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span><span class='line'><span class="nv">$ </span>sudo zpool destroy zfsdata
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Pool mit RaidZ anlegen</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: none requested
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     ONLINE       0     0     0
-</span><span class='line'>    raidz1-0  ONLINE       0     0     0
-</span><span class='line'>      sda     ONLINE       0     0     0
-</span><span class='line'>      sdb     ONLINE       0     0     0
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span><span class='line'><span class="nv">$ </span>sudo zpool destroy zfsdata
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Pool und Reboot</h3>
-
-<p>Dieser Test soll sicherstellen, dass ein ZPOOL auch nach einem Reboot verfügbar ist.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: none requested
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     ONLINE       0     0     0
-</span><span class='line'>    raidz1-0  ONLINE       0     0     0
-</span><span class='line'>      sda     ONLINE       0     0     0
-</span><span class='line'>      sdb     ONLINE       0     0     0
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span><span class='line'><span class="nv">$ </span>df|grep zfs
-</span><span class='line'>zfsdata                  2873622144    128 2873622016   1% /zfsdata
-</span><span class='line'><span class="nv">$ </span>sudo reboot
-</span><span class='line'>...
-</span><span class='line'><span class="nv">$ </span>df|grep zfs
-</span><span class='line'>zfsdata                  2873622144    128 2873622016   1% /zfsdata
-</span><span class='line'><span class="nv">$ </span>sudo zpool destroy zfsdata
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Das funktioniert offenbar nur dann, wenn das &ldquo;mountall&rdquo;-Paket installiert ist!</p>
-
-<h3>Pool mit RaidZ und Spare Disk (manuell)</h3>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb spare /dev/sdc
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: none requested
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     ONLINE       0     0     0
-</span><span class='line'>    raidz1-0  ONLINE       0     0     0
-</span><span class='line'>      sda     ONLINE       0     0     0
-</span><span class='line'>      sdb     ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    sdc       AVAIL
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Jetzt habe ich die Platte /dev/sda rausgezogen. Ideal wäre nun, wenn sich das RAIDZ
-automatisch auf /dev/sdc verlagern würde&hellip;</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool scrub zfsdata
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: DEGRADED
-</span><span class='line'>status: One or more devices could not be used because the label is missing or
-</span><span class='line'>  invalid.  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue</span>
-</span><span class='line'><span class="k">  </span>functioning in a degraded state.
-</span><span class='line'>action: Replace the device using <span class="s1">&#39;zpool replace&#39;</span>.
-</span><span class='line'>   see: http://zfsonlinux.org/msg/ZFS-8000-4J
-</span><span class='line'>  scan: scrub repaired 0 in 0h0m with 0 errors on Sat Jul 20 11:07:11 2013
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     DEGRADED     0     0     0
-</span><span class='line'>    raidz1-0  DEGRADED     0     0     0
-</span><span class='line'>      sda     UNAVAIL      0     0     0  corrupted data
-</span><span class='line'>      sdb     ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    sdc       AVAIL
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span><span class='line'><span class="nv">$ </span>sudo zpool replace zfsdata sda sdc
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: DEGRADED
-</span><span class='line'>status: One or more devices could not be used because the label is missing or
-</span><span class='line'>  invalid.  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue</span>
-</span><span class='line'><span class="k">  </span>functioning in a degraded state.
-</span><span class='line'>action: Replace the device using <span class="s1">&#39;zpool replace&#39;</span>.
-</span><span class='line'>   see: http://zfsonlinux.org/msg/ZFS-8000-4J
-</span><span class='line'>  scan: resilvered 532K in 0h0m with 0 errors on Sat Jul 20 11:12:19 2013
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME         STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata      DEGRADED     0     0     0
-</span><span class='line'>    raidz1-0   DEGRADED     0     0     0
-</span><span class='line'>      spare-0  UNAVAIL      0     0     0
-</span><span class='line'>        sda    UNAVAIL      0     0     0  corrupted data
-</span><span class='line'>        sdc    ONLINE       0     0     0
-</span><span class='line'>      sdb      ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    sdc        INUSE     currently in use
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span><span class='line'><span class="nv">$ </span>sudo zpool detach zfsdata sda
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: resilvered 532K in 0h0m with 0 errors on Sat Jul 20 11:12:19 2013
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     ONLINE       0     0     0
-</span><span class='line'>    raidz1-0  ONLINE       0     0     0
-</span><span class='line'>      sdc     ONLINE       0     0     0
-</span><span class='line'>      sdb     ONLINE       0     0     0
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Jetzt habe ich /dev/sda wieder eingebaut und mit <code>fdisk</code> geprüft, ob sie auch ansprechbar ist.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool add zfsdata spare sda
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: resilvered 532K in 0h0m with 0 errors on Sat Jul 20 11:12:19 2013
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     ONLINE       0     0     0
-</span><span class='line'>    raidz1-0  ONLINE       0     0     0
-</span><span class='line'>      sdc     ONLINE       0     0     0
-</span><span class='line'>      sdb     ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    sda       AVAIL
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Pool mit RaidZ und Spare Disk (automatisch)</h3>
-
-<p>Nachfolgend meine Versuche mit &ldquo;autoreplace&rdquo; &ndash; leider wenig erfolgreich.
-Hier <a href="http://forums.nas4free.org/viewtopic.php?f=66&amp;t=3873">http://forums.nas4free.org/viewtopic.php?f=66&amp;t=3873</a> werden die
-gleichen Probleme mit FreeBSD beschrieben. Anscheinend unterstützt FreeBSD
-dieses Feature nicht richtig, vermutlich ist&rsquo;s bei Linux ebenso.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb spare /dev/sdc
-</span><span class='line'><span class="nv">$ </span>sudo zpool <span class="nb">set </span><span class="nv">autoreplace</span><span class="o">=</span>on zfsdata
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: none requested
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     ONLINE       0     0     0
-</span><span class='line'>    raidz1-0  ONLINE       0     0     0
-</span><span class='line'>      sda     ONLINE       0     0     0
-</span><span class='line'>      sdb     ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    sdc       AVAIL
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Jetzt habe ich die Platte /dev/sda rausgezogen. Ideal wäre nun, wenn sich das RAIDZ
-automatisch auf /dev/sdc verlagern würde&hellip;</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool scrub zfsdata
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: DEGRADED
-</span><span class='line'>status: One or more devices has been removed by the administrator.
-</span><span class='line'>  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue </span>functioning in a
-</span><span class='line'>  degraded state.
-</span><span class='line'>action: Online the device using <span class="s1">&#39;zpool online&#39;</span> or replace the device with
-</span><span class='line'>  <span class="s1">&#39;zpool replace&#39;</span>.
-</span><span class='line'>  scan: scrub repaired 0 in 0h0m with 0 errors on Sat Jul 20 11:25:59 2013
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     DEGRADED     0     0     0
-</span><span class='line'>    raidz1-0  DEGRADED     0     0     0
-</span><span class='line'>      sda     REMOVED      0     0     0
-</span><span class='line'>      sdb     ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    sdc       AVAIL
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span><span class='line'><span class="nv">$ </span>sudo zpool replace zfsdata sda sdc
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: DEGRADED
-</span><span class='line'>status: One or more devices is currently being resilvered.  The pool will
-</span><span class='line'>  <span class="k">continue </span>to <span class="k">function</span>, possibly in a degraded state.
-</span><span class='line'>action: Wait <span class="k">for </span>the resilver to complete.
-</span><span class='line'>  scan: resilver in progress since Sat Jul 20 11:33:09 2013
-</span><span class='line'>    146M scanned out of 1,03G at 8,61M/s, 0h1m to go
-</span><span class='line'>    72,9M resilvered, 13,94% <span class="k">done</span>
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME         STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata      DEGRADED     0     0     0
-</span><span class='line'>    raidz1-0   DEGRADED     0     0     0
-</span><span class='line'>      spare-0  UNAVAIL      0     0     0
-</span><span class='line'>        sda    UNAVAIL      0     0     0  corrupted data
-</span><span class='line'>        sdc    ONLINE       0     0     0  <span class="o">(</span>resilvering<span class="o">)</span>
-</span><span class='line'>      sdb      ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    sdc        INUSE     currently in use
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: DEGRADED
-</span><span class='line'>status: One or more devices could not be used because the label is missing or
-</span><span class='line'>  invalid.  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue</span>
-</span><span class='line'><span class="k">  </span>functioning in a degraded state.
-</span><span class='line'>action: Replace the device using <span class="s1">&#39;zpool replace&#39;</span>.
-</span><span class='line'>   see: http://zfsonlinux.org/msg/ZFS-8000-4J
-</span><span class='line'>  scan: resilvered 526M in 0h1m with 0 errors on Sat Jul 20 11:34:28 2013
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME         STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata      DEGRADED     0     0     0
-</span><span class='line'>    raidz1-0   DEGRADED     0     0     0
-</span><span class='line'>      spare-0  UNAVAIL      0     0     0
-</span><span class='line'>        sda    UNAVAIL      0     0     0  corrupted data
-</span><span class='line'>        sdc    ONLINE       0     0     0
-</span><span class='line'>      sdb      ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    sdc        INUSE     currently in use
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span><span class='line'><span class="nv">$ </span>sudo zpool detach zfsdata sda
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: resilvered 526M in 0h1m with 0 errors on Sat Jul 20 11:34:28 2013
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     ONLINE       0     0     0
-</span><span class='line'>    raidz1-0  ONLINE       0     0     0
-</span><span class='line'>      sdc     ONLINE       0     0     0
-</span><span class='line'>      sdb     ONLINE       0     0     0
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Jetzt habe ich /dev/sda wieder eingebaut und mit <code>fdisk</code> geprüft, ob sie auch ansprechbar ist.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool add zfsdata spare sda
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: resilvered 526M in 0h1m with 0 errors on Sat Jul 20 11:34:28 2013
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata     ONLINE       0     0     0
-</span><span class='line'>    raidz1-0  ONLINE       0     0     0
-</span><span class='line'>      sdc     ONLINE       0     0     0
-</span><span class='line'>      sdb     ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    sda       AVAIL
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Platten-IDs ermitteln</h2>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>ls /dev/disk/by-id/scsi-SATA_WDC*|grep -v part
-</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994
-</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
-</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577
-</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span>ls /dev/disk/by-id/scsi-SATA_WDC*|grep -v part|xargs --verbose -n1 udevadm info -q path -n
-</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994
-</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host3/target3:0:0/3:0:0:0/block/sdd
-</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
-</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host2/target2:0:0/2:0:0:0/block/sdc
-</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577
-</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host0/target0:0:0/0:0:0:0/block/sda
-</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780
-</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host1/target1:0:0/1:0:0:0/block/sdb
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Aus den Ausgaben kann man diese Zuordnung erkennen:</p>
-
-<ul>
-<li>sda &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577</li>
-<li>sdb &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780</li>
-<li>sdc &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511</li>
-<li>sdd &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994</li>
-</ul>
-
-
-<p>Die Platten-IDs sollten am besten auch auf den jeweiligen Einbaurahmen geschrieben
-werden, damit es zu keinen Verwechslungen kommen kann.</p>
-
-<h2>ZPool über Platten-IDs</h2>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 <span class="se">\</span>
-</span><span class='line'>   scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 <span class="se">\</span>
-</span><span class='line'>   spare scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: none requested
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME                                           STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata                                        ONLINE       0     0     0
-</span><span class='line'>    raidz1-0                                     ONLINE       0     0     0
-</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  ONLINE       0     0     0
-</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511    AVAIL
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span><span class='line'><span class="nv">$ </span>sudo zpool scrub zfsdata
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: DEGRADED
-</span><span class='line'>status: One or more devices could not be used because the label is missing or
-</span><span class='line'>  invalid.  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue</span>
-</span><span class='line'><span class="k">  </span>functioning in a degraded state.
-</span><span class='line'>action: Replace the device using <span class="s1">&#39;zpool replace&#39;</span>.
-</span><span class='line'>   see: http://zfsonlinux.org/msg/ZFS-8000-4J
-</span><span class='line'>  scan: scrub repaired 0 in 0h0m with 0 errors on Sat Jul 20 12:19:07 2013
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME                                           STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata                                        DEGRADED     0     0     0
-</span><span class='line'>    raidz1-0                                     DEGRADED     0     0     0
-</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  UNAVAIL      0     0     0  corrupted data
-</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
-</span><span class='line'>  spares
-</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511    AVAIL
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span>sudo zpool replace zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
-</span><span class='line'><span class="nv">$ </span>sudo zpool detach zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: resilvered 532K in 0h0m with 0 errors on Sat Jul 20 12:19:36 2013
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME                                           STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata                                        ONLINE       0     0     0
-</span><span class='line'>    raidz1-0                                     ONLINE       0     0     0
-</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511  ONLINE       0     0     0
-</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Finale</h2>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -o <span class="nv">ashift</span><span class="o">=</span>12 -f zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
-</span><span class='line'><span class="nv">$ </span>sudo zpool status
-</span><span class='line'>  pool: zfsdata
-</span><span class='line'> state: ONLINE
-</span><span class='line'>  scan: none requested
-</span><span class='line'>config:
-</span><span class='line'>
-</span><span class='line'>  NAME                                         STATE     READ WRITE CKSUM
-</span><span class='line'>  zfsdata                                      ONLINE       0     0     0
-</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  ONLINE       0     0     0
-</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
-</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511  ONLINE       0     0     0
-</span><span class='line'>
-</span><span class='line'>errors: No known data errors
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Die Platte &ldquo;scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994&rdquo; bleibt auf Vorrat
-nicht eingesteckt im Rahmen. Beim Ausfall einer Platte wird sie eingesteckt und
-mittels <code>zpool replace zfsdata {kaputte_platte} scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994</code>
-aktiviert.</p>
-
-<h2>Probleme</h2>
-
-<h3>Dateisystem nach Neustart nicht eingebunden</h3>
-
-<p>Nachdem ich den Kernel aktualisiert habe von 3.2 nach 3.5 klappt das automatische
-Einhängen des ZFS-Dateisystems nicht mehr.</p>
-
-<p>Abhilfe: Standard-Paket &ldquo;mountall&rdquo; wieder installieren und ZFS umkonfigurieren!</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install <span class="nv">mountall</span><span class="o">=</span>2.36.4
-</span><span class='line'>sudo sed -i s/ZFS_MOUNT<span class="o">=</span><span class="s1">&#39;no&#39;</span>/ZFS_MOUNT<span class="o">=</span><span class="s1">&#39;yes&#39;</span>/ /etc/default/zfs
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Änderungen</h2>
-
-<h3>2013-07-20</h3>
-
-<ul>
-<li>Formatierung korrigiert</li>
-<li>Reboot-Test</li>
-<li>Tests mit Spare Disk</li>
-<li>Tests mit Platten-IDs</li>
-<li>Finale</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Subversion 1.8.0 für Ubuntu-12.04]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/10/subversion_1.8.0/"/>
-    <updated>2013-07-10T10:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/10/subversion_1.8.0</id>
-    <content type="html"><![CDATA[<p>Vor ein paar Tagen wurde Subversion-1.8.0 veröffentlicht.
-Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen.</p>
-
-<p>Aktuell kann ich die DEB-Pakete zwar erzeugen und installieren,
-leider funktionieren sie aber nicht richtig!</p>
-
-<!-- more -->
-
-
-<h2>Ausgangpunkt: Subversion-1.7.10</h2>
-
-<p>Mein Ausgangspunkt sind die Pakete für Subversion-1.7.10.</p>
-
-<pre><code>$ cd subversion-1.7.10
-$ uupdate -u ../subversion-1.8.0
-$ cd ../subversion-1.8.0
-$ dpkg-buildpackage
-</code></pre>
-
-<h2>Erste Hürde: Serf-1.2.1</h2>
-
-<h2>Zweite Hürde: Sqlite3-3.7.15</h2>
-
-<p>Subversion benötigt eine relativ aktuelle Version von Sqlite3. Die
-Standard-Version von Ubuntu-12.04 ist zu alt. Ich habe mir so beholfen:</p>
-
-<ul>
-<li>Quellpakete von sqlite3-3.7.15.2 aus &ldquo;raring&rdquo; runtergeladen</li>
-<li>Ein paar kleine Anpassungen an debian/rules vorgenommen, damit
-tcl85 an der richtigen Stelle ausgelesen wird</li>
-<li>Pakete erzeugen mit <code>dpkg-buildpackage</code></li>
-</ul>
-
-
-<h2>Dritte Hürde: Python-Test bricht ab</h2>
-
-<p>Bei der Ausführung von <code>dpkg-buildpackage</code> in &ldquo;subversion-1.8.0&rdquo;
-werden die Tests mit einer Fehlermeldung abgebrochen:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>Running testsuite - may take a while.  To disable,
-</span><span class='line'>use DEB_BUILD_OPTIONS=nocheck or edit debian/rules.
-</span><span class='line'>
-</span><span class='line'>/usr/bin/make -f debian/rules check-swig-py check-swig-pl check-swig-rb
-</span><span class='line'>make[1]: Entering directory `/home/ubuntu/build/subversion/subversion-1.8.0'
-</span><span class='line'>set -e; for v in 2.7; do rm -f BUILD/subversion/bindings/swig/python; ln -fs python$v BUILD/subversion/bindings/swig/python; pylib=$(python$v -c 'from distutils import sysconfig; print sysconfig.get_python_lib()');  /usr/bin/make -C BUILD check-swig-py PYTHON=python$v PYVER=$v CLEANUP=1 LC_ALL=C; done
-</span><span class='line'>make[2]: Entering directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
-</span><span class='line'>if [ "LD_LIBRARY_PATH" = "DYLD_LIBRARY_PATH" ]; then for d in ./subversion/bindings/swig/python/libsvn_swig_py ./subversion/bindings/swig/python/../../../libsvn_*; do if [ -n "$DYLD_LIBRARY_PATH" ]; then LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$d/.libs"; else LD_LIBRARY_PATH="$d/.libs"; fi; done; export LD_LIBRARY_PATH; fi; \
-</span><span class='line'>  cd ./subversion/bindings/swig/python; \
-</span><span class='line'>    python2.7 /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/python/tests/run_all.py
-</span><span class='line'>...........................................................................................................................
-</span><span class='line'>----------------------------------------------------------------------
-</span><span class='line'>Ran 123 tests in 301.417s
-</span><span class='line'>
-</span><span class='line'>OK
-</span><span class='line'>make[2]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
-</span><span class='line'>set -e; for v in 2.7; do rm -f BUILD/subversion/bindings/swig/python; ln -fs python$v-dbg BUILD/subversion/bindings/swig/python; pylib=$(python$v -c 'from distutils import sysconfig; print sysconfig.get_python_lib()');  /usr/bin/make -C BUILD check-swig-py PYTHON=python$v-dbg PYVER=${v}_d PYTHON_INCLUDES=-I/usr/include/python${v}_d CLEANUP=1 LC_ALL=C; done
-</span><span class='line'>make[2]: Entering directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
-</span><span class='line'>if [ "LD_LIBRARY_PATH" = "DYLD_LIBRARY_PATH" ]; then for d in ./subversion/bindings/swig/python/libsvn_swig_py ./subversion/bindings/swig/python/../../../libsvn_*; do if [ -n "$DYLD_LIBRARY_PATH" ]; then LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$d/.libs"; else LD_LIBRARY_PATH="$d/.libs"; fi; done; export LD_LIBRARY_PATH; fi; \
-</span><span class='line'>  cd ./subversion/bindings/swig/python; \
-</span><span class='line'>    python2.7-dbg /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/python/tests/run_all.py
-</span><span class='line'>........................Fatal Python error: subversion/bindings/swig/python/svn_client.c:23145 object at 0x399b498 has negative ref count -2604246222170760230
-</span><span class='line'>/bin/bash: line 2: 16967 Aborted                 (core dumped) python2.7-dbg /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/python/tests/run_all.py
-</span><span class='line'>make[2]: *** [check-swig-py] Error 134
-</span><span class='line'>make[2]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
-</span><span class='line'>make[1]: *** [check-swig-py] Error 2
-</span><span class='line'>make[1]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0'
-</span><span class='line'>make: *** [debian/stamp-build-arch] Error 2
-</span><span class='line'>dpkg-buildpackage: error: debian/rules build gave error exit status 2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Quercheck: subversion-1.8.0.tar.bz2 entpacken und dort dann</p>
-
-<ul>
-<li><code>./configure</code></li>
-<li><code>make</code> &hellip; keine Probleme</li>
-<li><code>make test</code> &hellip; &ldquo;nothing to be done&rdquo;</li>
-<li><p><code>make check</code> &hellip; &ldquo;All tests successful.&rdquo;</p>
-
-<pre><code>XFAIL: wc_tests.py 6: add file with not-parent symlink
-Summary of test results:
- 1909 tests PASSED
- 55 tests SKIPPED
- 28 tests XFAILED (1 WORK-IN-PROGRESS)
-SUMMARY: All tests successful.
-</code></pre></li>
-<li><p><code>make check-swig-py</code> &hellip; keine Probleme</p></li>
-</ul>
-
-
-<p>Ich editiere debian/rules und deaktiviere &ldquo;call allpydbg&rdquo; in &ldquo;check-swig-py&rdquo;.</p>
-
-<h2>Vierte Hürde: Ruby-Tests brechen ab</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>/usr/bin/make -C BUILD check-swig-rb CLEANUP=1 LC_ALL=C
-</span><span class='line'>make[2]: Entering directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
-</span><span class='line'>if [ "LD_LIBRARY_PATH" = "DYLD_LIBRARY_PATH" ]; then for d in ./subversion/bindings/swig/python/libsvn_swig_rb ./subversion/bindings/swig/python/../../../libsvn_*; do if [ -n "$DYLD_LIBRARY_PATH" ]; then LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$d/.libs"; else LD_LIBRARY_PATH="$d/.libs"; fi; done; export LD_LIBRARY_PATH; fi; \
-</span><span class='line'>  cd ./subversion/bindings/swig/ruby; \
-</span><span class='line'>          if [ "1" -eq 1 -a "8" -lt 9 ] ; then \
-</span><span class='line'>            /usr/bin/ruby1.8 -I /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby \
-</span><span class='line'>              /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb \
-</span><span class='line'>        --verbose=normal; \
-</span><span class='line'>          else \
-</span><span class='line'>      /usr/bin/ruby1.8 -I /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby \
-</span><span class='line'>        /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb; \
-</span><span class='line'>          fi
-</span><span class='line'>/home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/util.rb:22:in `require': no such file to load -- ./svn/util (LoadError)
-</span><span class='line'>  from /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/util.rb:22
-</span><span class='line'>  from /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb:37:in `require'
-</span><span class='line'>  from /home/ubuntu/build/subversion/subversion-1.8.0/subversion/bindings/swig/ruby/test/run-test.rb:37
-</span><span class='line'>make[2]: *** [check-swig-rb] Error 1
-</span><span class='line'>make[2]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
-</span><span class='line'>make[1]: *** [check-swig-rb] Error 2
-</span><span class='line'>make[1]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0'
-</span><span class='line'>make: *** [debian/stamp-build-arch] Error 2
-</span><span class='line'>dpkg-buildpackage: error: debian/rules build gave error exit status 2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Das habe ich korrigiert durch Änderungen an ./subversion/bindings/swig/ruby/test/run-test.rb:</p>
-
-<figure class='code'><figcaption><span>run-test.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gd">--- subversion/bindings/swig/ruby/test/util.rb~ 2013-05-29 04:00:11.000000000 +0000</span>
-</span><span class='line'><span class="gi">+++ subversion/bindings/swig/ruby/test/util.rb   2013-07-10 09:22:24.845441319 +0000</span>
-</span><span class='line'><span class="gu">@@ -19,7 +19,7 @@</span>
-</span><span class='line'>
-</span><span class='line'> require &quot;fileutils&quot;
-</span><span class='line'> require &quot;pathname&quot;
-</span><span class='line'><span class="gd">-require &quot;./svn/util&quot;</span>
-</span><span class='line'><span class="gi">+require &quot;svn/util&quot;</span>
-</span><span class='line'> require &quot;tmpdir&quot;
-</span><span class='line'>
-</span><span class='line'> require &quot;my-assertions&quot;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Fünfte Hürde: Verpacken bricht ab wegen fehlenjder Dateien</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>make[1]: Leaving directory `/home/ubuntu/build/subversion/subversion-1.8.0/BUILD'
-</span><span class='line'>find debian/tmp/usr/lib/ruby \( -name \*.a -o -name \*.la \) -exec rm -f {} +
-</span><span class='line'>cd debian/tmp//usr/lib/x86_64-linux-gnu; for lib in ra fs auth swig; do \
-</span><span class='line'>      rm -f libsvn_${lib}_*.so libsvn_${lib}_*.la; \
-</span><span class='line'>  done
-</span><span class='line'>cd debian/tmp//usr/lib/x86_64-linux-gnu; rm -f libsvn_swig*.a libsvnjavahl.a libsvnjavahl.la
-</span><span class='line'># Intermediate hack, until we can remove the rest of the .la files.
-</span><span class='line'>sed -i  "/dependency_libs/s/=.*/=''/" debian/tmp//usr/lib/x86_64-linux-gnu/*.la
-</span><span class='line'>dh_install -s
-</span><span class='line'>dh_install: libapache2-svn missing files (debian/tmp/usr/lib/apache2/modules/*.so), aborting
-</span><span class='line'>make: *** [debian/stamp-install-arch] Error 2
-</span><span class='line'>dpkg-buildpackage: error: fakeroot debian/rules binary gave error exit status 2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Das habe ich korrigiert durch Änderungen an ./debian/libapache2-svn.install:</p>
-
-<figure class='code'><figcaption><span>libapache2-svn.install </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>ubuntu@ubuntu1204-64-build:~/build/subversion/subversion-1.8.0$ diff -u debian/libapache2-svn.install~ debian/libapache2-svn.install
-</span><span class='line'><span class="gd">--- debian/libapache2-svn.install~   2013-07-06 06:31:05.000000000 +0000</span>
-</span><span class='line'><span class="gi">+++ debian/libapache2-svn.install    2013-07-10 11:08:06.525738591 +0000</span>
-</span><span class='line'><span class="gu">@@ -1,4 +1,4 @@</span>
-</span><span class='line'><span class="gd">-debian/tmp/usr/lib/apache2/modules/*.so     usr/lib/apache2/modules</span>
-</span><span class='line'><span class="gi">+debian/tmp/usr/libexec/*.so         usr/lib/apache2/modules</span>
-</span><span class='line'> debian/dav_svn.conf                             etc/apache2/mods-available
-</span><span class='line'> debian/dav_svn.load                             etc/apache2/mods-available
-</span><span class='line'> debian/authz_svn.load                           etc/apache2/mods-available
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Danach kann dann mit <code>fakeroot debian/rules binary</code> die Verpackung ohne erneute Kompilierung getestet werden.</p>
-
-<h2>Nochmals komplett: Paketerzeugung läuft durch</h2>
-
-<p>Nach den vorigen Änderungen kann die Paketerzeugung mit</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure>
-
-
-<p>komplett erfolgreich durchgezogen werden!</p>
-
-<h2>Kurztests: Installation und Funktionsweise</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dpkg -i subversion_1.8.0-3dp12~precise1_amd64.deb libsvn1_1.8.0-3dp12~precise1_amd64.deb libserf1_1.2.1-0dp01~precise1_amd64.deb
-</span><span class='line'>$ sudo dpkg -i sqlite3_3.7.15.2-1dp01~precise1_amd64.deb libsqlite3-0_3.7.15.2-1dp01~precise1_amd64.deb
-</span><span class='line'>$ svn --version
-</span><span class='line'>svn, Version 1.8.0 (r1490375)
-</span><span class='line'>   übersetzt am Jul 10 2013, um 11:15:47 auf x86_64-pc-linux-gnu
-</span><span class='line'>
-</span><span class='line'>Copyright (C) 2013 The Apache Software Foundation.
-</span><span class='line'>Diese Software besteht aus Beiträgen vieler Personen;
-</span><span class='line'>siehe Datei NOTICE für weitere Informationen.
-</span><span class='line'>Subversion ist Open Source Software, siehe http://subversion.apache.org/
-</span><span class='line'>
-</span><span class='line'>Die folgenden ZugriffsModule (ZM) für Projektarchive stehen zur Verfügung:
-</span><span class='line'>
-</span><span class='line'>* ra_svn : Modul zum Zugriff auf ein Projektarchiv über das svn-Netzwerkprotokoll.
-</span><span class='line'>  - mit Cyrus-SASL-Authentifizierung
-</span><span class='line'>  - behandelt Schema »svn«
-</span><span class='line'>* ra_local : Modul zum Zugriff auf ein Projektarchiv auf der lokalen Festplatte
-</span><span class='line'>  - behandelt Schema »file«
-</span><span class='line'>* ra_serf : Modul zum Zugriff auf ein Projektarchiv über das Protokoll WebDAV mittels serf.
-</span><span class='line'>  - behandelt Schema »http«
-</span><span class='line'>  - behandelt Schema »https«
-</span><span class='line'>$ cd svn/my-project
-</span><span class='line'>$ svn status
-</span><span class='line'>svn: E155036: Please see the 'svn upgrade' command
-</span><span class='line'>svn: E155036: The working copy at '/home/uli/svn/my-project'
-</span><span class='line'>is too old (format 29) to work with client version '1.8.0 (r1490375)' (expects format 31). You need to upgrade the working copy first.
-</span><span class='line'>$ svn upgrade
-</span><span class='line'>$ svn status
-</span><span class='line'>$ svn update
-</span><span class='line'>svn: E175009: XML parsing failed: (411 Length Required)
-</span><span class='line'>$ svn checkout https://.....
-</span><span class='line'>svn: E235000: In file '/home/ubuntu/build/subversion/subversion-1.8.0/subversion/libsvn_client/ra.c' line 647: assertion failed (peg_revnum != SVN_INVALID_REVNUM)
-</span><span class='line'>Aborted (core dumped)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Also: Leider funktioniert&rsquo;s nicht.</p>
-
-<h2>Zurück zur alten Version</h2>
-
-<p>Auf dem Rechner, den ich zum Testen verwendet habe, geht&rsquo;s
-so zurück zu den alten Versionen:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo apt-get install libsqlite3-0=3.7.9* sqlite3=3.7.9*
-</span><span class='line'>$ sudo apt-get install subversion=1.7.10* libsvn1=1.7.10*
-</span><span class='line'>$ sudo apt-get install libserf1=1.0*</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Auf dem Rechner, den ich zum Bauen verwendet habe, geht&rsquo;s
-so zurück zu den alten Versionen:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo apt-get install libsqlite3-0=3.7.9* sqlite3=3.7.9*
-</span><span class='line'>$ sudo apt-get install libserf1=1.0*</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Lesegeschwindigkeit von USB-Sticks]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/10/usb_speed/"/>
-    <updated>2013-07-10T08:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/10/usb_speed</id>
-    <content type="html"><![CDATA[<p>Nachfolgend ein Vergleich der Lesegeschwindigkeiten von 3 USB-Sticks,
-die ich hier rumliegen habe:</p>
-
-<ul>
-<li>ein etwas älterer USB-3.0-Stick</li>
-<li>ein neuer und ganz kleiner USB-2.0-Stick</li>
-<li>ein neuer USB-3.0-Stick</li>
-</ul>
-
-
-<p>Die Lesegeschwindigkeiten messe ich mit <code>hdparm</code> unter Linux auf</p>
-
-<ul>
-<li>meinem Samsung-Laptop mit USB-2.0 und USB-3.0</li>
-<li>meinem HP-Desktop mit USB-2.0</li>
-<li>meinem Macbook Air mit USB-3.0</li>
-</ul>
-
-
-<!-- more -->
-
-
-<h2>USB-Sticks</h2>
-
-<h3>Sony Micro Vault 64 GB USB 3.0</h3>
-
-<p>Vom Format her ein etwas größerer USB-Stick, ist auch schon etwas älter.
-Bei Amazon: <a href="http://www.amazon.de/Sony-Micro-Vault-Match-Speicherstick/dp/B006EK0LZO">http://www.amazon.de/Sony-Micro-Vault-Match-Speicherstick/dp/B006EK0LZO</a></p>
-
-<h3>Sandisk Cruzer Fit 32 GB USB 2.0</h3>
-
-<p>Ein sehr kleiner USB-Stick, recht billig (16€ bei MediaMarkt)
-aber wahrscheinlich auch etwas langsam.
-Bei Amazon: <a href="http://www.amazon.de/Sandisk-Cruzer-Fit-Speicherstick-32GB/dp/B00812F7O8">http://www.amazon.de/Sandisk-Cruzer-Fit-Speicherstick-32GB/dp/B00812F7O8</a></p>
-
-<h3>Sandisk Extreme 64 GB USB 3.0</h3>
-
-<p>Vom Format her ein etwas größerer USB-Stick. Laut Packung</p>
-
-<ul>
-<li>bis zu 190 MB/s lesend</li>
-<li>bis zu 170 MB/s schreibend</li>
-</ul>
-
-
-<p>Bei Amazon: <a href="http://www.amazon.de/SanDisk-Cruzer-Extreme-Speicherstick-64GB/dp/B007YXA5SI">http://www.amazon.de/SanDisk-Cruzer-Extreme-Speicherstick-64GB/dp/B007YXA5SI</a></p>
-
-<h2>Samsung Notebook</h2>
-
-<h3>USB-3.0</h3>
-
-<h4>Sony</h4>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdb
-
-/dev/sdb:
- Timing cached reads:   3894 MB in  2.00 seconds = 1947.79 MB/sec
- Timing buffered disk reads: 304 MB in  3.00 seconds = 101.20 MB/sec
-</code></pre>
-
-<h4>Sandisk 32GB</h4>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdb
-
-/dev/sdb:
- Timing cached reads:   3878 MB in  2.00 seconds = 1939.72 MB/sec
- Timing buffered disk reads:  64 MB in  3.04 seconds =  21.08 MB/sec
-</code></pre>
-
-<h4>Sandisk 64GB</h4>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdb
-
-/dev/sdb:
- Timing cached reads:   3994 MB in  2.00 seconds = 1997.93 MB/sec
- Timing buffered disk reads: 414 MB in  3.01 seconds = 137.37 MB/sec
-</code></pre>
-
-<h3>USB-2.0</h3>
-
-<h4>Sony</h4>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdb
-
-/dev/sdb:
- Timing cached reads:   3728 MB in  2.00 seconds = 1864.37 MB/sec
- Timing buffered disk reads:  96 MB in  3.00 seconds =  31.98 MB/sec
-</code></pre>
-
-<h4>Sandisk 32GB</h4>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdb
-
-/dev/sdb:
- Timing cached reads:   3732 MB in  2.00 seconds = 1867.17 MB/sec
- Timing buffered disk reads:  62 MB in  3.02 seconds =  20.53 MB/sec
-</code></pre>
-
-<h4>Sandisk 64GB</h4>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdb
-
-/dev/sdb:
- Timing cached reads:   3810 MB in  2.00 seconds = 1905.59 MB/sec
- Timing buffered disk reads:  96 MB in  3.01 seconds =  31.89 MB/sec
-</code></pre>
-
-<h2>HP Desktop</h2>
-
-<p>Nur USB-2.0 verfügbar!</p>
-
-<h3>Sony</h3>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdh
-
-/dev/sdh:
- Timing cached reads:   19494 MB in  2.00 seconds = 9756.41 MB/sec
- Timing buffered disk reads:  98 MB in  3.04 seconds =  32.23 MB/sec
-</code></pre>
-
-<h3>Sandisk 32GB</h3>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdh
-
-/dev/sdh:
- Timing cached reads:   19098 MB in  2.00 seconds = 9557.98 MB/sec
- Timing buffered disk reads:  64 MB in  3.06 seconds =  20.92 MB/sec
-</code></pre>
-
-<h3>Sandisk 64GB</h3>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdh
-
-/dev/sdh:
- Timing cached reads:   19272 MB in  2.00 seconds = 9645.16 MB/sec
- Timing buffered disk reads:  98 MB in  3.01 seconds =  32.58 MB/sec
-</code></pre>
-
-<h2>Macbook Air 2013</h2>
-
-<p>Nur USB-3.0 verfügbar!</p>
-
-<h3>Sony</h3>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdc
-
-/dev/sdc:
- Timing cached reads:   8598 MB in  2.00 seconds = 4302.41 MB/sec
- Timing buffered disk reads: 382 MB in  3.00 seconds = 127.20 MB/sec
-</code></pre>
-
-<h3>Sandisk 32GB</h3>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdc
-
-/dev/sdc:
- Timing cached reads:   8518 MB in  2.00 seconds = 4262.42 MB/sec
- Timing buffered disk reads:  66 MB in  3.03 seconds =  21.78 MB/sec
-</code></pre>
-
-<h3>Sandisk 64GB</h3>
-
-<pre><code>~$ sudo hdparm -tT /dev/sdc
-
-/dev/sdc:
- Timing cached reads:   8834 MB in  2.00 seconds = 4421.16 MB/sec
- Timing buffered disk reads: 482 MB in  3.01 seconds = 160.34 MB/sec
-</code></pre>
-
-<h2>Fazit</h2>
-
-<p>Der kleine billige Sandisk-USB-Ministick ist erwartungsgemäß recht langsam.
-Wenn man keine USB-3.0-Schnittstelle zur Verfügung hat, fällt das nicht
-sonderlich in&rsquo;s Gewicht (20 MB/sec vs 30 MB/sec). Hat man aber eine
-USB-3.0-Schnittstelle, so erreichen die größeren Sticks grob mehr als
-5-fachen Durchsatz vom Ministick.</p>
-
-<p>Der neue Sandisk-Stick ist etwa 25% schneller als der alte Sony-Stick.
-Das Macbook Air 2013 erreicht bei USB-3.0 auch etwa 25% höheren Durchsatz
-wie mein altes Samsung-Notebook.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Markdowneditor in Eclipse]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/03/eclipse_markdown/"/>
-    <updated>2013-07-03T08:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/03/eclipse_markdown</id>
-    <content type="html"><![CDATA[<p>Gemäß <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=329528">https://bugs.eclipse.org/bugs/show_bug.cgi?id=329528</a>
-sollte Markdown von Eclipse unterstützt werden. Leider gibt&rsquo;s
-in Eclipse-4.3 (Kepler) keine Spur davon&hellip;</p>
-
-<!-- more -->
-
-
-<p>Ich verwende die meiste Zeit die &ldquo;Eclipse IDE for Java EE Developers&rdquo;.
-Da sind die Wiki-Edit-Tools gleich mit enthalten. Eine Datei im
-.textile-Format kann problemlos editiert werden, leider aber keine
-im .markdown-Format.</p>
-
-<p>Abhilfe schafft die Installation der &ldquo;Mylyn Docs&rdquo; von
-<a href="http://download.eclipse.org/mylyn/snapshots/nightly/docs/">http://download.eclipse.org/mylyn/snapshots/nightly/docs/</a>.
-Ich habe einfach alle &ldquo;Mylyn Docs Features&rdquo; installiert, Eclipse neu
-gestartet und danach wird bei &ldquo;Rechts-Klick&rdquo; in &ldquo;Markup Language&rdquo;
-auch Markdown angezeigt.</p>
 ]]></content>
   </entry>
   

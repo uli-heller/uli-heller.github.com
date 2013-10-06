@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Linux | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-09-09T07:13:56+02:00</updated>
+  <updated>2013-10-06T09:00:53+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -14,46 +14,163 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Themenwolke für Octopress]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/09/08/octopress-themen/"/>
-    <updated>2013-09-08T10:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/09/08/octopress-themen</id>
-    <content type="html"><![CDATA[<p>Gestern bin ich über <a href="http://www.ewal.net/2012/09/08/octopress-customizations/">http://www.ewal.net/2012/09/08/octopress-customizations/</a>
-gestolpert. Darin wird beschrieben, wie man eine Themenwolke in Octopress
-einbindet. Eine Themenwolke sieht in etwa so aus:</p>
+    <title type="html"><![CDATA[Maven/Gradle: Betrieb hinter einer Enterprise-Firewall]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/06/forward-proxy/"/>
+    <updated>2013-10-06T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/06/forward-proxy</id>
+    <content type="html"><![CDATA[<p>Einer meiner Kunden setzt eine Firewall kombiniert mit einem
+Proxy-Server ein, um das interne Netz vom Internet abzukoppeln.
+Der Zugriff vom internen Netz in&rsquo;s Internet ist dadurch stark eingeschränkt.</p>
 
-<p><img src="/images/octopress/themenwolke3.png" alt="Themenwolke" /></p>
+<ul>
+<li>Manche Web-Seiten werden generell geblockt &hellip; ist bislang kein Problem für mich</li>
+<li>Zugriff auf&rsquo;s Internet ist generell nur mit bestimmten Browsern möglich &ndash; der HTTP Header &ldquo;User-Agent&rdquo; muß bestimmte Werte haben &hellip; dadurch werden Build-Tools wie Gradle und Maven geblockt</li>
+<li>Zugriff auf&rsquo;s Internet geht generell nur, wenn man sich am Proxy-Server angemeldet hat &hellip; dadurch funktioniert bei mir der Zugriff von Eclipse aus nicht, man kann Eclipse-Plugins nur sehr umständlich installieren</li>
+</ul>
 
-<p>In diesem Artikel beschreibe ich, wie ich die Themenwolke eingerichtet habe.</p>
+
+<p>Zur Lösung der letzten beiden Probleme gibt es nun die Idee, einen eigenen
+Proxy-Server zu betreiben, der dann die Anmeldung am
+&ldquo;richtigen&rdquo; Proxy-Server übernimmt und der den User-Agent auf geeignete Werte
+setzt.</p>
 
 <!-- more -->
 
 
-<h2>octopress-category-list-master-20130907.zip</h2>
+<h2>Das GitHub-Projekt</h2>
 
-<p>Herunterladen von <a href="https://github.com/alswl/octopress-category-list">GitHub</a>
-&ndash; <a href="https://github.com/alswl/octopress-category-list/archive/master.zip">ZIP-Datei</a>, meine Kopie liegt <a href="/downloads/code/category-list/octopress-category-list-master-20130907.zip">hier</a>.</p>
+<p>Den Proxy-Server habe ich in Java implementiert und im Rahmen meiner &ldquo;Mini-Tools&rdquo; auf GitHub
+abgelegt. Zu finden ist der Proxy-Server hier: <a href="https://github.com/uli-heller/uli-mini-tools/blob/master/forward-proxy/README.md">Forward-Proxy</a>.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen von octopress-category-list </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ unzip -qqd /tmp octopress-category-list-master-20130907.zip
-</span><span class='line'>$ cp /tmp/octopress-category-list-master/source/&lt;em>includes/custom/asides/category* source/&lt;/em>includes/custom/asides/
-</span><span class='line'>$ cp /tmp/octopress-category-list-master/plugins/category* plugins/</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<h2>Die Zutaten</h2>
 
-<h2>_config.yml</h2>
-
-<p>In der Konfigurationsdatei von Octopress müssen diese Änderungen
-durchgeführt werden:</p>
+<p>Der eigentliche Kern des Proxy-Servers ist recht klein &ndash; die meisten Zutaten liefert das Projekt
+<a href="http://www.eclipse.org/jetty/">Jetty</a>. Konkret habe ich hiervon verwendet:</p>
 
 <ul>
-<li>default_asides: Erweitern um &ldquo;custom/asides/category_cloud.html&rdquo;</li>
-<li>category_title_prefix: Setzen auf &lsquo;Thema: &rsquo;</li>
+<li><a href="http://www.eclipse.org/jetty/documentation/current/proxy-servlet.html">ProxyServlet</a></li>
+<li><a href="http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/tree/examples/embedded/src/main/java/org/eclipse/jetty/embedded/ProxyServer.java?id=jetty-9.0.6.v20130930">ProxyServer</a></li>
 </ul>
 
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span><em>config.yml </span></figcaption>
+<p>Zur Kompilierung des Projektes verwende ich <a href="http://gradle.org">Gradle</a>. Von mir selbst stammen ein paar Ergänzungen,
+die</p>
+
+<ul>
+<li>diverse Einstellungen aus Properties-Dateien lesen</li>
+<li>die Anmeldung am Enterprise-Proxy-Server vornehmen</li>
+<li>das Programm paketieren und einfach ausführbar machen auf Kommandozeilenebene</li>
+</ul>
+
+
+<h2>Das Bauen</h2>
+
+<p>Das Bauen des Projektes ist denkbar einfach, sofern ein JDK7 installiert und im PATH verfügbar ist:</p>
+
+<ul>
+<li>Shell-Fenster öffnen</li>
+<li>In den Ordner &ldquo;uli-mini-tools/forward-proxy&rdquo; wechseln</li>
+<li>Ausführen: <code>../gradlew</code> (&hellip; oder unter Windows: <code>..\gradlew</code>)</li>
+</ul>
+
+
+<p>Danach gibt es die beiden Dateien</p>
+
+<ul>
+<li>forward-proxy-{version}.sh &hellip; für Unix/Linux</li>
+<li>forward-proxy-{version}.bat &hellip; für Windows</li>
+</ul>
+
+
+<p>Sie können direkt von der Shell aus ausgeführt werden.</p>
+
+<h2>Der Test</h2>
+
+<p>Getestet habe ich den neuen Proxy-Server mit einem einfachen Gradle-Projekt:</p>
+
+<ul>
+<li><p>Konfigurationsdatei &ldquo;forward-proxy.properties&rdquo; für den Forward-Proxy:</p>
+
+<pre><code>proxyPort           = 8888
+parentProxyHost     = 192.168.178.47
+parentProxyPort     = 3128
+parentProxyUser     = uli
+parentProxyPassword = xxxxxx
+replaceHeaders      = User-Agent
+User-Agent          = InternetExploder
+</code></pre></li>
+<li><p>Start vom Forward-Proxy:</p>
+
+<pre><code>./forward-proxy*.sh
+</code></pre></li>
+<li><p>gradle.properties:</p>
+
+<pre><code>systemProp.http.proxyHost=localhost
+systemProp.http.proxyPort=8888
+</code></pre></li>
+<li><p><a href="/downloads/code/simple-gradle-project.zip">Gradle-Projekt</a> auspacken und neu bauen mit</p>
+
+<pre><code>./gradlew --refresh-dependencies
+# Windows: .\gradlew --refresh-dependencies
+</code></pre></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Kompilierung und Tests überspringen beim Paketbau]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/04/kompilierung-ueberspringen/"/>
+    <updated>2013-10-04T09:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/04/kompilierung-ueberspringen</id>
+    <content type="html"><![CDATA[<p>Gelegentlich baue ich selbst Pakete für Debian/Ubuntu. Manchmal habe ich dabei Tippfehler
+in Paketbeschreibungsdateien wie &ldquo;debian/rules&rdquo; und &ldquo;debian/control&rdquo;. Diese treten oftmals erst
+gegen Ende des Paketbauprozesses auf und nach einer Korrektur der Fehler habe ich gerne schnell
+Gewissheit, ob die Korrekturen OK sind oder nicht &ndash; ein kompletter Neubau scheidet für die
+meisten Pakete dann aus.</p>
+
+<p>Mit diesem Befehl werden Kompilierung und Übersprungen:</p>
+
+<pre><code>fakeroot debuan/rules binary
+</code></pre>
+
+<p>Innerhalb von wenigen Sekunden weiß ich so, ob die Korrekturen richtig waren oder ob ich noch
+weitere Dinge ändern muß. Wenn das Kommando durchläuft, führe ich idR. nochmals</p>
+
+<pre><code>dpkg-buildpackage
+</code></pre>
+
+<p>aus um das Paket komplett neu zu bauen und zu paketieren.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Squid: Aufsetzen eines Proxies mit Anmeldezwang]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/22/squid/"/>
+    <updated>2013-09-22T13:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/22/squid</id>
+    <content type="html"><![CDATA[<p>Zum Test meines Mini-Projektes
+<a href="https://github.com/uli-heller/uli-mini-tools/blob/master/forward-proxy/README.md">Forward-Proxy</a>
+brauche ich einen Proxy, der den Zugriff auf das Internet
+nur nach Anmeldung zulässt. Hierzu setze ich eine VM mit Squid auf
+und konfiguriere diesen dann entsprechend. Die VM ist über eine Netzwerkbrücke
+in meinen Desktop eingebunden.</p>
+
+<!-- more -->
+
+
+<h2>Zusatzpakete installieren</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install squid
+</span><span class='line'>sudo apt-get install apache2-utils</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Squid konfigurieren</h2>
+
+<h3>/etc/squid3/squid.conf</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Änderungen an ./etc/squid3/squid.conf </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -75,36 +192,76 @@ durchgeführt werden:</p>
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff &amp;mdash;git a/&lt;/em&gt;config.yml b/&lt;em&gt;config.yml</span>
-</span><span class='line'><span class="gh">index 7371444..47760b3 100644</span>
-</span><span class='line'>&amp;mdash;&amp;ndash; a/&lt;/em&gt;config.yml
-</span><span class='line'><span class="gi">+++ b/_config.yml</span>
-</span><span class='line'><span class="gu">@@ -52,7 +52,7 @@ titlecase: false       # Converts page and post titles to titlecase&lt;/p&gt;</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;mdash;&amp;ndash; squid.conf.orig 2013-09-21 13:46:51.000000000 +0200
+</span><span class='line'><span class="gi">+++ squid.conf  2013-09-21 13:50:29.000000000 +0200</span>
+</span><span class='line'><span class="gu">@@ -334,10 +334,10 @@</span>
+</span><span class='line'> ##auth_param digest nonce_max_duration 30 minutes
+</span><span class='line'> ##auth_param digest nonce_max_count 50
+</span><span class='line'> ##
+</span><span class='line'>&amp;ndash;##auth_param basic program &lt;uncomment and complete this line&gt;
+</span><span class='line'>&amp;ndash;##auth_param basic children 5
+</span><span class='line'>&amp;ndash;##auth_param basic realm Squid proxy-caching web server
+</span><span class='line'>&amp;ndash;##auth_param basic credentialsttl 2 hours
+</span><span class='line'><span class="gi">+auth_param basic program /usr/lib/squid3/ncsa_auth /etc/squid3/squid_user</span>
+</span><span class='line'><span class="gi">+auth_param basic children 5</span>
+</span><span class='line'><span class="gi">+auth_param basic realm Squid proxy-caching web server</span>
+</span><span class='line'><span class="gi">+auth_param basic credentialsttl 2 hours</span>
+</span><span class='line'> #Default:
+</span><span class='line'> # none&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt; # list each of the sidebar modules you want to include, in the order you want them to appear.
-</span><span class='line'> # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like &amp;lsquo;custom/asides/custom_aside_name.html&amp;rsquo;
-</span><span class='line'><span class="gd">-default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]</span>
-</span><span class='line'><span class="gi">+default_asides: [asides/recent_posts.html, custom/asides/category_cloud.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
-</span><span class='line'> # and add an array with the asides you want to use.
-</span><span class='line'><span class="gu">@@ -100,3 +100,7 @@ google_analytics_tracking_id:&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; # Facebook Like
-</span><span class='line'> facebook_like: false
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+# Category plugin</span>
-</span><span class='line'><span class="gi">+category_title_prefix: &amp;lsquo;Thema: &amp;rsquo;</span>
-</span><span class='line'><span class="gi">+</span>
+</span><span class='line'>&lt;p&gt;@@ -687,6 +687,8 @@
+</span><span class='line'> #
+</span><span class='line'> #Default:
+</span><span class='line'> # acl all src all
+</span><span class='line'><span class="gi">+acl uli proxy_auth REQUIRED</span>
+</span><span class='line'><span class="gi">+http_access allow uli</span>
+</span><span class='line'> #
+</span><span class='line'> #
+</span><span class='line'> # Recommended minimum configuration:
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h2>source/categories/index.html</h2>
+<h3>Benutzer-Listen-Datei anlegen</h3>
 
-<p>Die Datei &ldquo;source/categories/index.html&rdquo; wird angelegt, um eine separate
-Seite mit allen Themen zur Verfügung zu haben. Bei meiner Variante wird oben
-die Themenwolke angezeigt, unten eine alphabetisch sortierte Themenliste.</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo touch /etc/squid3/squid_user</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h2><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>source/categories/index.html </span></figcaption>
+<h3>Benutzer samt Kennwort anlegen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo htpasswd /etc/squid3/squid_user uli
+</span><span class='line'>New password: xxxxxx
+</span><span class='line'>Re-type new password: xxxxxx
+</span><span class='line'>Adding password for user uli</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Squid neu starten</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/squid3 restart</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Proxy-Server verwenden</h2>
+
+<p>Mit den obigen Vorbereitungen kann ich den neuen Proxy-Server nun
+mittels <a href="http://{hostname-der-vm}:3128">http://{hostname-der-vm}:3128</a> ansprechen.</p>
+
+<h2>Effektive Konfigurationsdatei ermitteln</h2>
+
+<p>Mit diesen Befehlen kann die effektive Konfigurationsdatei ermittelt
+werden. Die vielen Kommentare werden dabei ausgefiltert:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v &ldquo;^\s&lt;em>#&rdquo; /etc/squid3/squid.conf|grep -v &ldquo;^\s&lt;/em>$&rdquo;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Die effektive Squid-Konfiguration sieht ohne Kommentare dann so aus:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>./etc/squid3/squid.conf ohne Kommentare </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -121,31 +278,166 @@ die Themenwolke angezeigt, unten eine alphabetisch sortierte Themenliste.</p>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;/h2&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;p&gt;</span>layout: page
-</span><span class='line'>title: Themen
-</span><span class='line'>footer: true
-</span><span class='line'>body_id: categories<span class="nt">&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;h2&gt;</span>date: 2013-09-07 09:15<span class="nt">&lt;/h2&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;div&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;tag-cloud&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.55555555555556%&#39;</span><span class="nt">&gt;</span>Blog<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>CentOS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Chrome<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Cinnamon<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Debian<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Dovecot<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Eclipse<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Fotorama<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.55555555555556%&#39;</span><span class="nt">&gt;</span>Git<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>GitHub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>GPG<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Groovy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Grub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>HTTPS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.44444444444444%&#39;</span><span class="nt">&gt;</span>Java<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>JBoss<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>JMX<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Kepler<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Kernel<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>LDAP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 160.0%&#39;</span><span class="nt">&gt;</span>Linux<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.44444444444444%&#39;</span><span class="nt">&gt;</span>Lucid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>LXC<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.66666666666667%&#39;</span><span class="nt">&gt;</span>Lxc<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Macbook Air<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Macbook Air 2013<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>Markdown<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>MySQL<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 111.11111111111111%&#39;</span><span class="nt">&gt;</span>Octopress<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>OpenVPN<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.66666666666667%&#39;</span><span class="nt">&gt;</span>Packaging<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Pakete<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Passenger<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>PDF<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Perl<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>PGP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Pigdeonhole<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 132.22222222222223%&#39;</span><span class="nt">&gt;</span>Precise<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Quilt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.22222222222223%&#39;</span><span class="nt">&gt;</span>Raring<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>Redmine<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 107.77777777777777%&#39;</span><span class="nt">&gt;</span>Ruby<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Server<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.33333333333333%&#39;</span><span class="nt">&gt;</span>Subversion<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 147.77777777777777%&#39;</span><span class="nt">&gt;</span>Ubuntu<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>USB<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Webservice<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>Zertifikat<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.11111111111111%&#39;</span><span class="nt">&gt;</span>ZFS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/ul&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;category-list&quot;</span><span class="nt">&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span><span class="nt">&gt;</span>Blog (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span><span class="nt">&gt;</span>CentOS (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span><span class="nt">&gt;</span>Chrome (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span><span class="nt">&gt;</span>Cinnamon (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span><span class="nt">&gt;</span>Debian (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span><span class="nt">&gt;</span>Dovecot (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span><span class="nt">&gt;</span>Eclipse (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span><span class="nt">&gt;</span>Fotorama (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span><span class="nt">&gt;</span>Git (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span><span class="nt">&gt;</span>GitHub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span><span class="nt">&gt;</span>GPG (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span><span class="nt">&gt;</span>Groovy (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span><span class="nt">&gt;</span>Grub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span><span class="nt">&gt;</span>HTTPS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span><span class="nt">&gt;</span>Java (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span><span class="nt">&gt;</span>JBoss (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span><span class="nt">&gt;</span>JMX (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span><span class="nt">&gt;</span>Kepler (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span><span class="nt">&gt;</span>Kernel (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span><span class="nt">&gt;</span>LDAP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span><span class="nt">&gt;</span>Linux (54)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span><span class="nt">&gt;</span>Lucid (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>LXC (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>Lxc (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span><span class="nt">&gt;</span>Macbook Air (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span><span class="nt">&gt;</span>Macbook Air 2013 (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span><span class="nt">&gt;</span>Markdown (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span><span class="nt">&gt;</span>MySQL (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span><span class="nt">&gt;</span>Octopress (10)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span><span class="nt">&gt;</span>OpenVPN (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span><span class="nt">&gt;</span>Packaging (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span><span class="nt">&gt;</span>Pakete (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span><span class="nt">&gt;</span>Passenger (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span><span class="nt">&gt;</span>PDF (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span><span class="nt">&gt;</span>Perl (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span><span class="nt">&gt;</span>PGP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span><span class="nt">&gt;</span>Pigdeonhole (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span><span class="nt">&gt;</span>Precise (29)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span><span class="nt">&gt;</span>Quilt (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span><span class="nt">&gt;</span>Raring (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span><span class="nt">&gt;</span>Redmine (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span><span class="nt">&gt;</span>Ruby (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span><span class="nt">&gt;</span>Server (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span><span class="nt">&gt;</span>Subversion (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span><span class="nt">&gt;</span>Ubuntu (43)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span><span class="nt">&gt;</span>USB (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span><span class="nt">&gt;</span>Webservice (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span><span class="nt">&gt;</span>Zertifikat (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span><span class="nt">&gt;</span>ZFS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</span>
-</span><span class='line'><span class="nt">&lt;/div&gt;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;p&gt;</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>auth_param basic program /usr/lib/squid3/ncsa_auth /etc/squid3/squid_user
+</span><span class='line'>auth_param basic children 5
+</span><span class='line'>auth_param basic realm Squid proxy-caching web server
+</span><span class='line'>auth_param basic credentialsttl 2 hours
+</span><span class='line'>acl uli proxy_auth REQUIRED
+</span><span class='line'>http_access allow uli
+</span><span class='line'>acl manager proto cache_object
+</span><span class='line'>acl localhost src 127.0.0.1/32 ::1
+</span><span class='line'>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+</span><span class='line'>acl SSL_ports port 443
+</span><span class='line'>acl Safe_ports port 80      # http
+</span><span class='line'>acl Safe_ports port 21      # ftp
+</span><span class='line'>acl Safe_ports port 443     # https
+</span><span class='line'>acl Safe_ports port 70      # gopher
+</span><span class='line'>acl Safe_ports port 210     # wais
+</span><span class='line'>acl Safe_ports port 1025-65535  # unregistered ports
+</span><span class='line'>acl Safe_ports port 280     # http-mgmt
+</span><span class='line'>acl Safe_ports port 488     # gss-http
+</span><span class='line'>acl Safe_ports port 591     # filemaker
+</span><span class='line'>acl Safe_ports port 777     # multiling http
+</span><span class='line'>acl CONNECT method CONNECT
+</span><span class='line'>http_access allow manager localhost
+</span><span class='line'>http_access deny manager
+</span><span class='line'>http_access deny !Safe_ports
+</span><span class='line'>http_access deny CONNECT !SSL_ports
+</span><span class='line'>http_access allow localhost
+</span><span class='line'>http_access deny all
+</span><span class='line'>http_port 3128
+</span><span class='line'>coredump_dir /var/spool/squid3
+</span><span class='line'>refresh_pattern ^&lt;a href=&quot;ftp:&quot;&gt;ftp:&lt;/a&gt;       1440    20% 10080
+</span><span class='line'>refresh_pattern ^gopher:    1440    0%  1440
+</span><span class='line'>refresh_pattern -i (/cgi-bin/|\?) 0 0%  0
+</span><span class='line'>refresh_pattern (Release|Packages(.gz)*)$      0       20%     2880
+</span><span class='line'>refresh_pattern .       0   20% 4320
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h2>source/_includes/custom/navigation.html</h2>
+<h2>Änderungen</h2>
 
-<p>Die Themenseite wird durch Änderung an &ldquo;source/_includes/custom/navigation.html&rdquo;
-in die Navigation eingebunden:</p>
+<ul>
+<li>2013-10-06: Komplette Konfigurationsdatei ohne Kommentare hinzugefügt</li>
+</ul>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Änderungen an source/<em>includes/custom/navigation.html </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GitHub-Projekt spalten am Beispiel Moxie]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/13/git-fork/"/>
+    <updated>2013-09-13T07:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/13/git-fork</id>
+    <content type="html"><![CDATA[<p>Im <a href="/blog/2013/07/21/git-fork">diesem Artikel</a> hab' ich erstmals kurz zusammengefasst,
+wie ich mit Forks von GitHub arbeite. Hier folgen nun mehr Details am konkreten Beispiel
+&ldquo;moxie&rdquo;.</p>
+
+<!-- more -->
+
+
+<h2>GitHub-Projekt spalten (fork)</h2>
+
+<ul>
+<li>GitHub-Projekt im Browser öffnen: <a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie</a></li>
+<li>Auf der Projektseite wird auch die Clone-Url-O angezeigt, hier: <a href="https://github.com/gitblit/moxie.git">https://github.com/gitblit/moxie.git</a></li>
+<li><p>Auf der Projektseite den Knopf &ldquo;Fork&rdquo; anwählen:</p>
+
+<p><img src="/images/git/github-fork.png" alt="GitHub-Fork" /></p></li>
+<li><p>Folgeseiten &ldquo;durchklicken&rdquo;</p></li>
+<li>Schlußendlich landet man auf dem abgespaltenen Projekt, bei mir ist das die Browser-Url
+<a href="https://github.com/uli-heller/moxie">https://github.com/uli-heller/moxie</a></li>
+<li>Auf der Projektseite wird auch die Clone-Url-S angezeigt, bei mir: git@github.com:uli-heller/moxie.git</li>
+</ul>
+
+
+<h2>Lokalen Kopie anlegen (clone)</h2>
+
+<p>Gespaltenes Projekt kopieren mit: <code>git clone &lt;clone-url-s&gt;</code>, also
+im konkreten Fall <code>git clone git@github.com:uli-heller/moxie.git</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Lokale Kopie anlegen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git$ git clone git@github.com:uli-heller/moxie.git
+</span><span class='line'>Klone nach &lsquo;moxie&rsquo;&hellip;
+</span><span class='line'>remote: Counting objects: 11313, done.
+</span><span class='line'>remote: Compressing objects: 100% (2961/2961), done.
+</span><span class='line'>remote: Total 11313 (delta 6316), reused 11137 (delta 6140)
+</span><span class='line'>Empfange Objekte: 100% (11313/11313), 71.63 MiB | 1.60 MiB/s, done.
+</span><span class='line'>Löse Unterschiede auf: 100% (6316/6316), done.
+</span><span class='line'>Prüfe Konnektivität&hellip; Fertig</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Original-Projekt einbinden (upstream)</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt einbinden </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git$ cd moxie
+</span><span class='line'>~/git/moxie$ git remote add upstream
+</span><span class='line'>~/git/moxie$ git fetch upstream
+</span><span class='line'>Von &lt;a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie&lt;/a>
+</span><span class='line'> * [neuer Branch]    gh-pages   &ndash;> upstream/gh-pages
+</span><span class='line'> * [neuer Branch]    master     &ndash;> upstream/master</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Kopie des Original-Projektes aktualisieren</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt aktualisieren </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git fetch upstream
+</span><span class='line'>remote: Counting objects: 1, done.
+</span><span class='line'>remote: Total 1 (delta 0), reused 1 (delta 0)
+</span><span class='line'>Unpacking objects: 100% (1/1), done.
+</span><span class='line'>Von &lt;a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie&lt;/a>
+</span><span class='line'>   e1c5785..a13973e  master     &ndash;> upstream/master</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Änderungen des Original-Projektes einarbeiten</h2>
+
+<p>Gelegentlich will man die Änderungen des Original-Projektes
+in das abgespaltete Projekt einarbeiten. Vor der Einarbeitung
+muß die Kopie des Original-Projektes aktualisiert worden sein
+(<code>git fetch upstream</code>).</p>
+
+<h3>Nur eigene Pull-Requests</h3>
+
+<p>Hier der Ablauf, wenn am Original-Projekt zwischenzeitlich
+nur eigene Pull-Requests eingearbeitet wurden. Die Aktualisierung
+läuft in diesem Falle völlig schmerzfrei!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt einarbeiten </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -155,89 +447,26 @@ in die Navigation eingebunden:</p>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff &amp;mdash;git a/source/&lt;/em&gt;includes/custom/navigation.html b/source/&lt;em&gt;includes/custom/n</span>
-</span><span class='line'><span class="gh">index 0ec1963..a7592a0 100644</span>
-</span><span class='line'>&amp;mdash;&amp;ndash; a/source/&lt;/em&gt;includes/custom/navigation.html
-</span><span class='line'><span class="gi">+++ b/source/_includes/custom/navigation.html</span>
-</span><span class='line'><span class="gu">@@ -1,6 +1,7 @@</span>
-</span><span class='line'> &lt;ul class=&quot;main-navigation&quot;&gt;
-</span><span class='line'>   &lt;li&gt;&lt;a href=&quot;/&quot;&gt;Blog&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'>   &lt;li&gt;&lt;a href=&quot;/archives/&quot;&gt;Archiv&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'><span class="gi">+  &lt;li&gt;&lt;a href=&quot;/categories/&quot;&gt;Themen&lt;/a&gt;&lt;/li&gt;</span>
-</span><span class='line'>   &lt;li&gt;&lt;a href=&quot;/about/&quot;&gt;Über mich&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'>   &lt;li&gt;&lt;a href=&quot;/impressum/&quot;&gt;Impressum&lt;/a&gt;&lt;/li&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Statische Fotogallerie für Octopress]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/09/07/gallery/"/>
-    <updated>2013-09-07T09:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/09/07/gallery</id>
-    <content type="html"><![CDATA[<p>In <a href="/blog/2013/08/04/gallery">/blog/2013/08/04/gallery</a> habe ich beschrieben, wie ich meine Fotogallerie
-in Octopress einbinde. Leider zeigt sich, dass der dort verwendete Ansatz
-den ganzen Generierungsprozess ziemlich stark ausbremst.</p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git checkout master
+</span><span class='line'>Gewechselt zu Branch &lsquo;master&rsquo;
+</span><span class='line'>~/git/moxie$ git merge &mdash;no-commit upstream/master
+</span><span class='line'>Aktualisiere 34b618c..a13973e
+</span><span class='line'>Fast-forward
+</span><span class='line'>~/git/moxie$ git status&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Auf Branch master&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>nichts zu committen, Arbeitsverzeichnis unverändert</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>Ziel dieses Artikels ist die Beschleunigung des Generierungsprozesses.</p>
+<h3>Konflikte</h3>
 
-<!-- more -->
+<p>Wenn am Original-Projekt zwischenzeitlich auch andere Änderungen
+gemacht wurden, so kommt es gelegentlich zu Konflikten beim
+Einarbeiten. Die Konflikte können mit <code>git mergetool</code> aufgelöst
+werden. Wichtig: Vor dem abschließenden <code>git commit</code> sollte
+der neue Stand ausführlich getestet werden!</p>
 
-
-<h2>Problembeschreibung</h2>
-
-<p>Das Plugin <a href="https://github.com/yortz/octopress_gallery">Octopress-Gallery</a>
-zur Anzeige der Fotogallerie konvertiert die Bilder automatisch in&rsquo;s
-Thumbnail-Format. Es ist zwar ein Algorithmus eingebaut, der die Konvertierung
-der Bilder nur dann durchführen soll, wenn sich die Bilder geändert haben &ndash;
-er funktioniert aber leider nicht.</p>
-
-<h2>Lösungsansatz</h2>
-
-<ul>
-<li>Ich erzeuge ein Skript, welches die Konvertierung vornimmt</li>
-<li>Das Skript selbst hat auch eine &ldquo;Änderungserkennung&rdquo;, d.h. es werden
-wirklich nur die gänderten Bilder neu konvertiert</li>
-<li>Das Skript muß manuell ausgeführt werden</li>
-<li>Die konvertierten Bilder liegen im Verzeichnis &ldquo;source&rdquo; und werden
-mit in Git gespeichert.</li>
-</ul>
-
-
-<p>Als Konsequenz dieser Änderungen müssen noch:</p>
-
-<ul>
-<li>Die Konvertierung von <a href="https://github.com/yortz/octopress_gallery">Octopress-Gallery</a> muß abgeklemmt werden</li>
-<li>Skalierte Bilder einbinden in die Gallerie</li>
-</ul>
-
-
-<h2>Umsetzung</h2>
-
-<h3>Konvertierungsskript</h3>
-
-<p>Das Konvertierungsskript befindet sich <a href="https://github.com/uli-heller/uli-octopress/blob/master/create-galleries.sh">auf GitHub</a></p>
-
-<h3>Abklemmen der alten Konvertierung</h3>
-
-<p>Die alte Konvertierung wird abgeklemmt, in dem</p>
-
-<ul>
-<li>das MiniMagick-Plugin gelöscht wird</li>
-<li>die MiniMagick-Konfiguration entfernt wird</li>
-</ul>
-
-
-<h4>MiniMagick-Plugin löschen</h4>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MiniMagick-Plugin entfernen </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rm -f plugins/mini_magick.rb</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h4>MiniMagick-Konfiguration entfernen</h4>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>MiniMagick-Konfiguration entfernen </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt einarbeiten </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -267,240 +496,72 @@ mit in Git gespeichert.</li>
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>diff &mdash;git a/&lt;em>config.yml b/&lt;/em>config.yml
-</span><span class='line'>index 33ac290..7371444 100644
-</span><span class='line'>&mdash;&ndash; a/&lt;em>config.yml
-</span><span class='line'>+++ b/&lt;/em>config.yml
-</span><span class='line'>@@ -100,23 +100,3 @@ google_analytics_tracking_id:&lt;/p>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git checkout master
+</span><span class='line'>Gewechselt zu Branch &lsquo;master&rsquo;
+</span><span class='line'>~/git/moxie$ git merge &mdash;no-commit upstream/master&lt;/p>
 </span><span class='line'>
-</span><span class='line'>&lt;p> # Facebook Like&lt;/p>
+</span><span class='line'>&lt;h2>Hier muß ich noch die &ldquo;richtigen&rdquo; Meldungen einpflegen&lt;/h2>
 </span><span class='line'>
-</span><span class='line'>&lt;h2> facebook_like: false&lt;/h2>
+</span><span class='line'>&lt;p>automatischer Merge von Rakefile
+</span><span class='line'>automatischer Merge von Gemfile.lock
+</span><span class='line'>automatischer Merge von Gemfile
+</span><span class='line'>automatischer Merge von .ruby-version
+</span><span class='line'>KONFLIKT (hinzufügen/hinzufügen): Merge-Konflikt in .ruby-version
+</span><span class='line'>Entferne .rbenv-version
+</span><span class='line'>Automatischer Merge fehlgeschlagen; beheben Sie die Konflikte und committen Sie dann das Ergebnis.
+</span><span class='line'>~/git/moxie$ git mergetool&lt;/p>
 </span><span class='line'>
-</span><span class='line'>&lt;p>-mini_magick:
-</span><span class='line'>&ndash;    test_thumbnail:
-</span><span class='line'>&ndash;      source: images/galleries/test
-</span><span class='line'>&ndash;      destination: images/galleries/test/thumbs
-</span><span class='line'>&ndash;      commands:
-</span><span class='line'>&ndash;        &ndash; thumbnail: &ldquo;64x48^&rdquo;
-</span><span class='line'>&ndash;        &ndash; crop: &ldquo;64x48-0x0&rdquo;
-</span><span class='line'>&ndash;    centos_thumbnail:
-</span><span class='line'>&ndash;      source: images/galleries/centos
-</span><span class='line'>&ndash;      destination: images/galleries/centos/thumbs
-</span><span class='line'>&ndash;      commands:
-</span><span class='line'>&ndash;        &ndash; thumbnail: &ldquo;64x48^&rdquo;
-</span><span class='line'>&ndash;        &ndash; crop: &ldquo;64x48-0x0&rdquo;
-</span><span class='line'>&ndash;    centos59_thumbnail:
-</span><span class='line'>&ndash;      source: images/galleries/centos59
-</span><span class='line'>&ndash;      destination: images/galleries/centos59/thumbs
-</span><span class='line'>&ndash;      commands:
-</span><span class='line'>&ndash;        &ndash; thumbnail: &ldquo;64x48^&rdquo;
-</span><span class='line'>&ndash;        &ndash; crop: &ldquo;64x48-0x0&rdquo;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>&lt;h2>Hier muß ich noch die &ldquo;richtigen&rdquo; Meldungen einpflegen&lt;/h2>
+</span><span class='line'>
+</span><span class='line'>&lt;p>This message is displayed because &lsquo;merge.tool&rsquo; is not configured.
+</span><span class='line'>See &lsquo;git mergetool &mdash;tool-help&rsquo; or &lsquo;git help config&rsquo; for more details.
+</span><span class='line'>&lsquo;git mergetool&rsquo; will now attempt to use one of the following tools:
+</span><span class='line'>meld opendiff kdiff3 tkdiff xxdiff tortoisemerge gvimdiff diffuse ecmerge p4merge araxis bc3 codecompare emerge vimdiff
+</span><span class='line'>Merging:
+</span><span class='line'>.ruby-version&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Normal merge conflict for &lsquo;.ruby-version&rsquo;:
+</span><span class='line'>  {local}: created file
+</span><span class='line'>  {remote}: created file
+</span><span class='line'>Hit return to start merge resolution tool (meld): meld
+</span><span class='line'>~/git/moxie$ git commit -m &ldquo;Merged&hellip;&rdquo;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h3>Skalierte Bilder einbinden</h3>
-
-<p>Hierzu muß die Datei plugins/gallery_tag.rb angepasst werden.
-Wir ändern dies so, dass</p>
+<h2>Links</h2>
 
 <ul>
-<li>für die Thumbnails die kleinen Bilder unterhalb von &hellip;/thumbs verwendet werden</li>
-<li>für die Standard-Anzeige die mittleren Bilder unterhalb von &hellip;/scaled verwendet werden</li>
-<li>für die Großanzeige die originalen Bilder verwendet werden</li>
-</ul>
-
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Änderungen an ./plugins/gallery_tag.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff &amp;mdash;git a/plugins/gallery_tag.rb b/plugins/gallery_tag.rb</span>
-</span><span class='line'><span class="gh">index 2e09f9b..8be9ff4 100644</span>
-</span><span class='line'>&amp;mdash;&amp;ndash; a/plugins/gallery_tag.rb
-</span><span class='line'><span class="gi">+++ b/plugins/gallery_tag.rb</span>
-</span><span class='line'><span class="gu">@@ -7,13 +7,13 @@ module ImageList&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt; list &amp;lt;&amp;lt; %Q{&amp;lt;script src=&quot;http://uli-heller.github.com/javascripts/fotorama/jquery-1.10.2.min.js&quot;&amp;gt;&amp;lt;/script&amp;gt;}
-</span><span class='line'> list &amp;lt;&amp;lt; %Q{&amp;lt;link href=&quot;http://uli-heller.github.com/javascripts/fotorama/fotorama.css&quot; rel=&quot;stylesheet&quot;&amp;gt;}
-</span><span class='line'> list &amp;lt;&amp;lt; %Q{&amp;lt;script src=&quot;http://uli-heller.github.com/javascripts/fotorama/fotorama.js&quot;&amp;gt;&amp;lt;/script&amp;gt;}
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;ul&gt;
-</span><span class='line'>&lt;li&gt; list &amp;lt;&amp;lt; %Q{&lt;div class=&quot;fotorama&quot; data-autoplay=&quot;3000&quot; data-transition=&quot;dissolve&quot; data-nav=&quot;thumbs&quot; data-allow-full-screen=&quot;true&quot; data-keyboard=&quot;true&quot; data-width=&quot;80%&quot; data-thumb-with=&quot;64&quot; data-thumb-height=&quot;48&quot;&gt;} # data-width=&amp;ldquo;100%&amp;rdquo; data-thumb-width= data-thumb-height=&lt;/li&gt;
-</span><span class='line'>&lt;li&gt; list &amp;lt;&amp;lt; %Q{&lt;div class=&quot;fotorama&quot; data-autoplay=&quot;3000&quot; data-transition=&quot;dissolve&quot; data-nav=&quot;thumbs&quot; data-allow-full-screen=&quot;true&quot; data-keyboard=&quot;true&quot; data-width=&quot;640&quot; data-height=&quot;480&quot; data-thumb-with=&quot;64&quot; data-thumb-height=&quot;48&quot;&gt;} # data-width=&amp;ldquo;100%&amp;rdquo; data-thumb-width= data-thumb-height=
-</span><span class='line'> dir = Dir.new( File.join(BASE_DIR, name) )
-</span><span class='line'> dir.sort.each do | d |
-</span><span class='line'>   image = File.basename(d, File.extname(d))
-</span><span class='line'>   unless d =~ /^./ || d =~ /thumbs/ || d =~ /scaled/ || d =~ /_md5/
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;list &amp;lt;&amp;lt; %Q{&lt;a href=&quot;http://uli-heller.github.com/images/galleries/#{name}/#{d}&quot; rel=&quot;shadowbox&quot; title=&quot;#{image}&quot;&gt;&lt;img src=&quot;http://uli-heller.github.com/images/galleries/#{name}/thumbs/#{d}&quot; /&gt;&lt;/a&gt;}&lt;/h1&gt;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;&lt;pre&gt;&lt;code&gt; list &amp;lt;&amp;lt; %Q{&amp;lt;a href=&quot;http://uli-heller.github.com/images/galleries/#{name}/scaled/#{d}&quot;&amp;gt;&amp;lt;img src=&quot;http://uli-heller.github.com/images/galleries/#{name}/thumbs/#{d}&quot;/&amp;gt;&amp;lt;/a&amp;gt;}
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;&lt;pre&gt;&lt;code&gt; list &amp;lt;&amp;lt; %Q{&amp;lt;a href=&quot;http://uli-heller.github.com/images/galleries/#{name}/scaled/#{d}&quot; data-full=&quot;/images/galleries/#{name}/#{d}&quot; data-fit=&quot;scaledown&quot;&amp;gt;&amp;lt;img src=&quot;http://uli-heller.github.com/images/galleries/#{name}/thumbs/#{d}&quot; data-fit=&quot;scaledown&quot;/&amp;gt;&amp;lt;/a&amp;gt;}
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;   end
-</span><span class='line'> end
-</span><span class='line'> list &amp;lt;&amp;lt; %Q{&lt;/div&gt; &lt;!--class=&quot;fotorama&quot; data-nav=&quot;thumbs&quot; --&gt;}
-</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+<li>GitHub-Artikel: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</li>
 </ul>
 
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[LXC: Fehler bei 'apt-get upgrade' - udev]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/09/03/lxc-apt-upgrade-udev/"/>
-    <updated>2013-09-03T08:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/09/03/lxc-apt-upgrade-udev</id>
-    <content type="html"><![CDATA[<p>In letzter Zeit tritt ein Problem beim Ausführen
-von <code>apt-get upgrade</code> in meinen LXC-Containern auf:</p>
-
-<pre><code>$ sudo apt-get upgrade
-Reading package lists... Done
-Building dependency tree       
-Reading state information... Done
-The following packages will be upgraded:
-  apt apt-utils base-files gnupg gpgv libapt-inst1.4 libapt-pkg4.12 libudev0
-  lsb-base lsb-release udev
-11 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Need to get 3752 kB of archives.
-After this operation, 25.6 kB of additional disk space will be used.
-Do you want to continue [Y/n]? 
-...
-Preparing to replace udev 175-0ubuntu9.3 (using .../udev_175-0ubuntu9.4_amd64.deb) ...
-Adding 'diversion of /sbin/udevadm to /sbin/udevadm.upgrade by fake-udev'
-dpkg: unrecoverable fatal error, aborting:
- failed to fstat previous diversions file: No such file or directory
-E: Sub-process /usr/bin/dpkg returned an error code (2)
-</code></pre>
-
-<p>Ich denke, das Problem hängt zusammen mit der Aktualisierung des
-Paketes &ldquo;udev&rdquo;.</p>
-
-<p>Zur Korrektur des Problems muß ich mehrfach diese Kommandos ausführen:</p>
-
-<p><code>
-$ sudo dpkg --configure -a
-$ sudo apt-get upgrade
-</code></p>
-
-<p>Nach zwei bis drei Durchläufen ist das Problem verschwunden.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Experimente mit CentOS-5.9]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/08/16/centos59/"/>
-    <updated>2013-08-16T08:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/08/16/centos59</id>
-    <content type="html"><![CDATA[<p>Heute habe ich mir vorgenommen, ein paar Experimente mit CentOS-5.9
-durchzuführen. CentOS ist eine Linux-Distribution, die den Anspruch
-hat, weitgehend kompatibel zu RedHat Enterprise Linux (RHEL) ist.
-Meine Hoffnung ist, dass sich die Erkenntnisse, die ich heute sammle,
-auch in einem anstehenden Kundenprojekt anwenden lassen, bei dem RHEL
-zum Einsatz kommen wird.</p>
+    <title type="html"><![CDATA[SMTP ohne SMTP-Daemon]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/11/smtp-relay/"/>
+    <updated>2013-09-11T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/11/smtp-relay</id>
+    <content type="html"><![CDATA[<p>Bei einem Kunden setze ich <a href="http://redmine.org">Redmine</a> ein.
+Es läuft dort auf meinem Klapprechner in einer lokalen VM.
+Die Kunden-Infrastruktur &ldquo;kennt&rdquo; diese VM nicht.
+Dennoch soll Redmine Email-Benachrichtigungen verschicken.
+Mit den üblichen Mechanismen geht das nicht, weil die VM nicht
+als &ldquo;sende-berechtigt&rdquo; vermerkt ist. Aber ich habe ja einen SSH-Login
+auf einen Rechner, der Emails versenden kann. Hier die Beschreibung,
+wie man Redmine (&hellip; oder auf fast jede andere Applikation) dazu bringt,
+die Mails über diesen Zwischenrechner zu versenden.</p>
 
 <!-- more -->
 
 
-<h2>VirtualBox</h2>
+<h2>Aktionen innerhalb der Redmine-VM</h2>
 
-<p>Bei der Installation als Gastsystem innerhalb von VirtualBox
-sind folgende Besonderheiten zu beachten:</p>
+<h3>SSH-Schlüssel für den Email-Versand erzeugen</h3>
 
-<ul>
-<li><p>Bei &ldquo;System&rdquo; muß folgendes aktiviert werden:</p>
+<h3>XINETD installieren</h3>
 
-<ul>
-<li>Chipsatz: ICH9</li>
-<li>IO-APIC aktivieren</li>
-</ul>
+<h3>XINETD konfigurieren</h3>
 
-
-<p>Mit anderen Einstellungen blieb bei mir das Gastsystem immer hängen</p></li>
-<li><p>Für den Massenspeicher sollte nur ein IDE-Controller verwendet werden</p>
-
-<p>Bei mir blieb das Gastsystem immer hängen, wenn ich einen SATA-Controller verwendet habe</p></li>
-</ul>
-
-
-<h2>Grundinstallation</h2>
-
-<p></p>
-
-<h2>TBC</h2>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Git-Svn: Absturz bei 'dcommit', 'rebase', ...]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/08/08/git-svn-absturz/"/>
-    <updated>2013-08-08T08:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/08/08/git-svn-absturz</id>
-    <content type="html"><![CDATA[<p>Seit der Aktualisierung auf Subversion-1.8.1 gibt es immer wieder
-Fehler bei der Ausführung von Git-Svn-Kommandos. Beobachtet habe ich
-die Fehler bei</p>
-
-<ul>
-<li><code>git svn dcommit</code></li>
-<li><code>git svn rebase</code></li>
-<li><code>git svn clone</code></li>
-</ul>
-
-
-<p>Der Fehler tritt nur beim &ldquo;Aufräumen&rdquo; auf, d.h. nachdem das betreffende
-Kommando abgearbeitet ist und der Git-Svn-Prozess nur noch beendet werden
-muß. Er tritt auch nur auf, wenn Daten über die Leitung geschickt werden,
-also wenn:</p>
-
-<ul>
-<li>das lokale Git-Repo geändert wurde (dcommit)</li>
-<li>das Svn-Repository geändert wurde (rebase)</li>
-</ul>
-
-
-<p>Wenn man den Fehler einfach ignoriert, kann man &ldquo;normal&rdquo; weiterarbeiten.</p>
-
-<!-- more -->
-
-
-<h2>Reproduzieren des Problems</h2>
-
-<p>Am einfachsten läßt sich das Problem reproduzieren, wenn man ein
-Subversion-Repository mit Testdaten verfügbar hat. Bei mir hat das den Namen
-&ldquo;sandbox&rdquo;.</p>
-
-<p>Ach ja: Das Subversion-Repository muß via &ldquo;<a href="https://...">https://...</a>&rdquo; angesprochen werden.
-Mit einem lokalen Subversion-Repository,
-das mittels &ldquo;file://&hellip;&rdquo; angesprochen wird,
-tritt das Problem nicht auf!</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Clonen des Svn-Repositories </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>./etc/xinet.d/smtp </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -516,539 +577,40 @@ tritt das Problem nicht auf!</p>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>~/git<span class="nv">$ </span>git svn clone &amp;mdash;stdlayout &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://&quot;</span>&gt;https://&lt;/a&gt;<span class="o">{</span>servername<span class="o">}</span>/<span class="o">{</span>pfad<span class="o">}</span>/sandbox
-</span><span class='line'>Initialisierte leeres Git-Projektarchiv in &amp;hellip;/git/sandbox/.git/
-</span><span class='line'><span class="nv">r1</span> <span class="o">=</span> 7ebd17bca2c5e3ead4816e93371d695eb3e19a36 <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>&lt;/p&gt;
+</pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">service</span> <span class="n">smtp</span>
+</span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
 </span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;A   bug-fix.ticket18
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span>    <span class="n">socket_type</span>     <span class="p">=</span> <span class="n">stream</span>
+</span><span class='line'>    <span class="n">protocol</span>        <span class="p">=</span> <span class="n">tcp</span>
+</span><span class='line'>    <span class="n">wait</span>            <span class="p">=</span> <span class="n">no</span>
+</span><span class='line'>    <span class="n">user</span>            <span class="p">=</span> <span class="n">root</span>
+</span><span class='line'>    <span class="n">disable</span>         <span class="p">=</span> <span class="n">no</span>
+</span><span class='line'>    <span class="n">server</span>          <span class="p">=</span> <span class="p">/</span><span class="n">usr</span><span class="p">/</span><span class="n">bin</span><span class="p">/</span><span class="n">ssh</span>
+</span><span class='line'>    <span class="n">server_args</span>     <span class="p">=</span> <span class="p">-</span><span class="n">q</span> <span class="p">-</span><span class="n">T</span> <span class="p">-</span><span class="n">i</span> <span class="p">/</span><span class="n">root</span><span class="p">/.</span><span class="n">ssh</span><span class="p">/</span><span class="n">tunnel_key</span> <span class="p">{</span><span class="n">user</span><span class="p">}</span><span class="err">@</span><span class="p">{</span><span class="n">email</span><span class="p">-</span><span class="n">server</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">groups</span>          <span class="p">=</span> <span class="n">yes</span>
+</span><span class='line'>    <span class="n">bind</span>            <span class="p">=</span> <span class="mf">127.0.0.1</span>
+</span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span>
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;r2 <span class="o">=</span> 77410a5f40f2eaeaf666f9fbda5261a521acb33f <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   bug-fix.ticket18
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;&amp;hellip;
-</span><span class='line'><span class="nv">r81</span> <span class="o">=</span> 32ebfb3669331a5a5b60d27dbf54e0b6c7a601da <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>
-</span><span class='line'>Checked out HEAD:
-</span><span class='line'>  &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://83.236.132.107/svn/sandbox/trunk&quot;</span>&gt;https://83.236.132.107/svn/sandbox/trunk&lt;/a&gt; r81
-</span><span class='line'>creating empty directory: baumkonflikt/dir1
-</span><span class='line'>creating empty directory: danyi_tests
-</span><span class='line'>error: git-svn died of signal 11
-</span><span class='line'>~/git<span class="nv">$ </span><span class="nb">cd </span>sandbox
+</span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<p>Hierbei tritt der Fehler auf. Der Ablauf ist aber verhältnismässig aufwändig,
-weil immer das ganze Repository kopiert wird.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Datei git-svn-absturz.txt </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>~/git/sandbox<span class="nv">$ </span>date &gt;&gt;git-svn-absturz.txt
-</span><span class='line'>~/git/sandbox<span class="nv">$ </span>git add git-svn-absturz.txt
-</span><span class='line'>~/git/sandbox<span class="nv">$ </span>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
-</span><span class='line'><span class="o">[</span>master b984d2a<span class="o">]</span> Aktualisiert: git-svn-absturz.txt
-</span><span class='line'> 1 file changed, 1 insertion<span class="o">(</span>+<span class="o">)</span>
-</span><span class='line'> create mode 100644 git-svn-absturz.txt
-</span><span class='line'>~/git/sandbox<span class="nv">$ </span>git svn dcommit
-</span><span class='line'>Committing to &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://83.236.132.107/svn/sandbox/trunk&quot;</span>&gt;https://83.236.132.107/svn/sandbox/trunk&lt;/a&gt; &amp;hellip;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;A   git-svn-absturz.txt
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Committed r82&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;A   git-svn-absturz.txt
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;r82 <span class="o">=</span> 610e72f25af787a95e3d2bc6c243bcdef720c40d <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>
-</span><span class='line'>No changes between b984d2a7c45c9b7e94fe5edc3b765b84a3b2ed7d and refs/remotes/trunk
-</span><span class='line'>Resetting to the latest refs/remotes/trunk
-</span><span class='line'>error: git-svn died of signal 11
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Der Fehler ist erneut aufgetreten. Der Ablauf ist auch ungeeignet, weil ich
-nicht für jeden Test eine neue Datei anlegen möchte.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einfache Reproduktion des Problems </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>~/git/sandbox<span class="nv">$ </span>date &gt;&gt;git-svn-absturz.txt
-</span><span class='line'>~/git/sandbox<span class="nv">$ </span>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
-</span><span class='line'><span class="o">[</span>master 10629a2<span class="o">]</span> Aktualisiert: git-svn-absturz.txt
-</span><span class='line'> 1 file changed, 1 insertion<span class="o">(</span>+<span class="o">)</span>
-</span><span class='line'>~/git/sandbox<span class="nv">$ </span>git svn dcommit
-</span><span class='line'>Committing to &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://83.236.132.107/svn/sandbox/trunk&quot;</span>&gt;https://83.236.132.107/svn/sandbox/trunk&lt;/a&gt; &amp;hellip;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   git-svn-absturz.txt
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Committed r83&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   git-svn-absturz.txt
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;r83 <span class="o">=</span> 5260be6684059d7b8416c011dfa644d837f317a9 <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>
-</span><span class='line'>No changes between 10629a268ed877ba48fa2a70ed387b04bacd18cb and refs/remotes/trunk
-</span><span class='line'>Resetting to the latest refs/remotes/trunk
-</span><span class='line'>error: git-svn died of signal 11
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Der Fehler ist erneut aufgetreten. Der Ablauf ist schnell wiederholt
-durchführbar.</p>
-
-<p>Hier nochmal die abzusetzenden Befehle ohne Ausgaben zur einfachen
-Wiederholung mit &ldquo;Ausschneiden und Einfügen&rdquo;:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einfache Reproduktion &ndash; abzusetzende Befehle </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
-</span><span class='line'>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
-</span><span class='line'>git svn dcommit
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Analyse</h2>
-
-<h3>strace</h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Reproduktion mit &lsquo;strace&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
-</span><span class='line'>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
-</span><span class='line'>strace git svn dcommit
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Diese Ausgaben werden geliefert:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ausgabe von &lsquo;strace git svn&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>&amp;hellip;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   git-svn-absturz.txt
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Committed r84&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   git-svn-absturz.txt
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;r84 <span class="o">=</span> af8102dc59c40c47b56a404b5ceffa7c5892bc06 <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>
-</span><span class='line'>No changes between 191f43c2a02d86825f946de62f6fd8f56b5aa74b and refs/remotes/trunk
-</span><span class='line'>Resetting to the latest refs/remotes/trunk
-</span><span class='line'><span class="o">[{</span>WIFSIGNALED<span class="o">(</span>s<span class="o">)</span> &amp;amp;&amp;amp; WTERMSIG<span class="o">(</span>s<span class="o">)</span> <span class="o">==</span> SIGSEGV &amp;amp;&amp;amp; WCOREDUMP<span class="o">(</span>s<span class="o">)}]</span>, 0, NULL<span class="o">)</span> <span class="o">=</span> 14979
-</span><span class='line'>&amp;mdash;&amp;ndash; SIGCHLD <span class="o">(</span>Child exited<span class="o">)</span> @ 0 <span class="o">(</span>0<span class="o">)</span> &amp;mdash;&amp;ndash;
-</span><span class='line'>write<span class="o">(</span>2, &amp;ldquo;error: git-svn died of signal 11&amp;rdquo;&amp;hellip;, 33error: git-svn died of signal 11
-</span><span class='line'><span class="o">)</span> <span class="o">=</span> 33
-</span><span class='line'>exit_group<span class="o">(</span>139<span class="o">)</span>                         <span class="o">=</span> ?
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Dieser Trace hat wenig Aussagekraft, weil einfach nur ein Unterprozess
-anstürzt. Nun könnte man den Test nochmals laufen lassen mit &lsquo;strace -F&rsquo;
-oder wir füttern &lsquo;strace&rsquo; direkt mit &lsquo;git-svn&rsquo;:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Reproduktion mit &lsquo;strace&rsquo; und &lsquo;git-svn&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
-</span><span class='line'>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
-</span><span class='line'>strace /usr/lib/git-core/git-svn dcommit
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Dies führt zu folgender Ausgabe:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ausgabe von &lsquo;strace git-svn&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>execve<span class="o">(</span>&amp;ldquo;/usr/lib/git-core/git-svn&amp;rdquo;, <span class="o">[</span>&amp;ldquo;/usr/lib/git-core/git-svn&amp;rdquo;, &amp;ldquo;dcommit&amp;rdquo;<span class="o">]</span>, <span class="o">[</span>/&lt;em&gt; 59 vars &lt;/em&gt;/<span class="o">])</span> <span class="o">=</span> 0
-</span><span class='line'>brk<span class="o">(</span>0<span class="o">)</span>                                  <span class="o">=</span> 0x25fd000
-</span><span class='line'>access<span class="o">(</span>&amp;ldquo;/etc/ld.so.nohwcap&amp;rdquo;, F_OK<span class="o">)</span>      <span class="o">=</span> -1 ENOENT <span class="o">(</span>No such file or directory<span class="o">)</span>
-</span><span class='line'>&amp;hellip;
-</span><span class='line'>chmod<span class="o">(</span>&amp;ldquo;.git/Git_zUlsP8&amp;rdquo;, 0600<span class="o">)</span>          <span class="o">=</span> 0
-</span><span class='line'>unlink<span class="o">(</span>&amp;ldquo;.git/Git_zUlsP8&amp;rdquo;<span class="o">)</span>               <span class="o">=</span> 0
-</span><span class='line'>close<span class="o">(</span>14<span class="o">)</span>                               <span class="o">=</span> 0
-</span><span class='line'>close<span class="o">(</span>4294967295<span class="o">)</span>                       <span class="o">=</span> -1 EBADF <span class="o">(</span>Bad file descriptor<span class="o">)</span>
-</span><span class='line'>close<span class="o">(</span>13<span class="o">)</span>                               <span class="o">=</span> 0
-</span><span class='line'>munmap<span class="o">(</span>0x7f03f9fc3000, 2113912<span class="o">)</span>         <span class="o">=</span> 0
-</span><span class='line'>munmap<span class="o">(</span>0x7f03fb641000, 2105608<span class="o">)</span>         <span class="o">=</span> 0
-</span><span class='line'>&amp;hellip;
-</span><span class='line'>munmap<span class="o">(</span>0x7f0402cd6000, 8192<span class="o">)</span>            <span class="o">=</span> 0
-</span><span class='line'>munmap<span class="o">(</span>0x7f0402cf3000, 8192<span class="o">)</span>            <span class="o">=</span> 0
-</span><span class='line'>munmap<span class="o">(</span>0x7f0402d03000, 8192<span class="o">)</span>            <span class="o">=</span> 0
-</span><span class='line'>munmap<span class="o">(</span>0x7f0402cef000, 8192<span class="o">)</span>            <span class="o">=</span> 0
-</span><span class='line'>&amp;mdash;&amp;ndash; SIGSEGV <span class="o">(</span>Segmentation fault<span class="o">)</span> @ 0 <span class="o">(</span>0<span class="o">)</span> &amp;mdash;&amp;ndash;
-</span><span class='line'>+++ killed by SIGSEGV <span class="o">(</span>core dumped<span class="o">)</span> +++
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3>Devel:Trace</h3>
-
-<h4>Perl-Modul Devel::Trace installieren</h4>
-
-<p><code>sudo apt-get install libdevel-trace-perl</code></p>
-
-<h4>Test</h4>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Reproduktion mit &lsquo;Devel::Trace&rsquo; und &lsquo;git-svn&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
-</span><span class='line'>git commit -m &amp;ldquo;Aktualisiert: git-svn-absturz.txt&amp;rdquo; .
-</span><span class='line'>perl -d::Trace -f /usr/lib/git-core/git-svn dcommit
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Dabei wird diese Ausgabe geliefert:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ausgabe mit &lsquo;Devel::Trace&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>&amp;hellip;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;blockquote&gt;&lt;blockquote&gt;&lt;p&gt;/usr/share/perl5/Git/SVN.pm:1659:    unmemoize_svn_mergeinfo_functions<span class="o">()</span>;
-</span><span class='line'>/usr/share/perl5/Git/SVN.pm:1626:        <span class="k">return if </span>not <span class="nv">$memoized</span>;
-</span><span class='line'>/usr/share/perl5/Git/SVN.pm:85:  unlink keys %LOCKFILES <span class="k">if</span> %LOCKFILES;
-</span><span class='line'>/usr/share/perl5/Git/SVN.pm:86:  unlink keys %INDEX_FILES <span class="k">if</span> %INDEX_FILES;
-</span><span class='line'>/usr/lib/perl5/SVN/Core.pm:390:     <span class="nv">$globaldestroy</span> <span class="o">=</span> 1;
-</span><span class='line'>/usr/lib/perl5/SVN/Core.pm:58:     SVN::_Core::apr_terminate<span class="o">()</span>;
-</span><span class='line'>Speicherzugriffsfehler <span class="o">(</span>Speicherabzug geschrieben<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p></blockquote></blockquote>
-
-<p>Richtig &ldquo;weiter&rdquo; kommen wir damit nicht &ndash; &ldquo;apr_terminate()&rdquo; ist
-eine C-Funktion, die per SWIG in Perl eingebunden ist.</p>
-
-<h2>Korrekturversuche</h2>
-
-<h3>Neueste Version von serf-1.2.1</h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Patch erzeugen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git svn clone &amp;mdash;stdlayout &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://serf.googlecode.com/svn&quot;</span>&gt;http://serf.googlecode.com/svn&lt;/a&gt;
-</span><span class='line'>&amp;hellip;
-</span><span class='line'><span class="nv">r2111</span> <span class="o">=</span> 6e0d690806e4796d2d698e5fd6a33b91832b9fd3 <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;M   auth/auth_spnego.c
-</span><span class='line'>M   outgoing.c
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;r2112 <span class="o">=</span> 40194aec74ce32ba844aafc0a5dbdda334f2abfb <span class="o">(</span>refs/remotes/trunk<span class="o">)</span>
-</span><span class='line'>Checked out HEAD:
-</span><span class='line'>  &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;http://serf.googlecode.com/svn/trunk&quot;</span>&gt;http://serf.googlecode.com/svn/trunk&lt;/a&gt; r2112
-</span><span class='line'><span class="nv">$ </span>mv svn serf
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>serf
-</span><span class='line'><span class="nv">$ </span>git diff remotes/tags/1.2.1 remotes/1.2.x &gt;serf-1.2.1-r2112.patch
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Den dabei erzeugten Patch habe ich in die Patch-Serie von
-SERF aufgenommen und ein neues SERF-Paket erzeugt und dieses
-dann installiert mit</p>
+<p>Hierbei müssen diese Ersetzungen vorgenommen werden:</p>
 
 <ul>
-<li><code>sudo dpkg -i libserf1_1.2.1-0dp04~precise1_amd64.deb</code></li>
+<li>{user}</li>
+<li>{email-server}</li>
 </ul>
 
 
-<p>Ein Nachtest ergibt: Keine Besserung.</p>
+<h2>Aktionen auf dem Email-Server</h2>
 
-<h3>Neueste Version von apr-1.4.8</h3>
+<h3>Sicherstellen: netcat ist verfügbar</h3>
 
-<p>Der übliche Ablauf mittels</p>
+<h3>SSH-Schlüssel eintragen</h3>
 
-<pre><code>* `uupdate -u ../apr-1.4.8.tar.gz`
-* `cd ../apr-1.4.8`
-* `dpkg-buildpackage`
-</code></pre>
-
-<p>funktioniert nicht &ndash; es werden viele fehlende Funktionen angemeckert von
-<code>dh_makeshlibs</code>/<code>dpkg-gensymbols</code>:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fehlende Funktionen </span></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>.ssh/authorized_keys </span></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA384_Data@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA384_End@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA384_Final@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA384_Init@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA384_Update@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA512_Data@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA512_End@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA512_Final@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA512_Init@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA512_Last@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;strong>SHA512_Transform@Base 1.2.7
-</span><span class='line'>+#MISSING: 1.4.8-0dp01~precise1# apr&lt;/strong>SHA512_Update@Base 1.2.7</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Nach Anpassung von &hellip;/debian/symbols.common funktioniert&rsquo;s. Klar, die neue
-Version ist nicht so richtig kompatibel zur alten Version. Muß ich im
-Hinterkopf behalten.</p>
-
-<p>Ein Nachtest ergibt: Keine Besserung, <code>git-svn</code> stürzt noch immer ab.
-Also: Wieder die alte Version installieren: <code>sudo apt-get install libapr1=1.4.6\*</code>.</p>
-
-<h3>Neueste Version von aprutil-1.5.2</h3>
-
-<p>Auf <a href="http://www.linuxfromscratch.org/blfs/view/svn/general/subversion.html">LinuxFromScratch</a> gibt es einen Hinweis zur Verwendung der neuesten Version von aprutil.</p>
-
-<ul>
-<li>Alt:  1.3.12+dfsg-3</li>
-<li>Neu:  1.5.2-1</li>
-</ul>
-
-
-<p>Paket erzeugt und installiert gefolgt vom Nachtest ergibt: Keine Besserung.
-Also: Wieder die alte Version installieren: <code>sudo apt-get install libaprutil1=1.3.12*</code></p>
-
-<h3>Test mit Subversion-1.8.3</h3>
-
-<p>Wenn statt Subversion-1.8.1 die Version 1.8.3 verwendet wird, so tritt das Problem nach wie vor auf!
-Die Version 1.8.3 bringt also keine Verbesserung.</p>
-
-<h3>Test mit Git-1.8.4</h3>
-
-<p>Wenn statt Git-1.8.3 die Version 1.8.4 verwendet wird, so tritt das Problem nach wie vor auf!
-Die Version 1.8.4 bringt also keine Verbesserung.</p>
-
-<h3>Anpassungen an /usr/share/perl5/Git/SVN/Ra.pm</h3>
-
-<p>Unter diesem Link <a href="http://git.661346.n2.nabble.com/git-svn-fetch-segfault-on-exit-td7592205.html">http://git.661346.n2.nabble.com/git-svn-fetch-segfault-on-exit-td7592205.html</a>
-gibt es einen Korrekturvorschlag:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen an ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;mdash;&amp;ndash; /usr/share/perl5/Git/SVN/Ra.pm~ 2013-07-22 20:59:55.000000000 +0200
-</span><span class='line'><span class="gi">+++ /usr/share/perl5/Git/SVN/Ra.pm  2013-09-01 14:53:58.353718366 +0200</span>
-</span><span class='line'><span class="gu">@@ -108,7 +108,7 @@&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;                      config =&amp;gt; $config,
-</span><span class='line'>              pool =&amp;gt; SVN::Pool-&amp;gt;new,
-</span><span class='line'>                      auth_provider_callbacks =&amp;gt; $callbacks);
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;ul&gt;
-</span><span class='line'>&lt;li&gt;$RA = bless $self, $class;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;&lt;p&gt;$self = bless $self, $class;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Make sure its canonicalized&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;$self-&gt;url($url);
-</span><span class='line'><span class="gu">@@ -118,7 +118,7 @@</span>
-</span><span class='line'>$self-&gt;{cache} = { check_path =&gt; { r =&gt; 0, data =&gt; {} },
-</span><span class='line'>                   get_dir =&gt; { r =&gt; 0, data =&gt; {} } };&lt;/p&gt;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;&lt;p&gt;return $RA;&lt;/p&gt;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;return $self;
-</span><span class='line'>}&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; sub url {
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Mit diesen Änderungen tritt der Fehler nicht mehr auf. Sie deaktivieren
-die Verwendung der lokalen Variablen <code>$RA</code>, diese bleibt damit immer auf dem
-Wert <code>undef</code>.</p>
-
-<h3>Korrektur von /usr/share/perl5/Git/SVN/Ra.pm</h3>
-
-<p>Nähere Analysen ergeben, dass der Destruktor von <code>$RA</code> nicht aufgerufen
-wird. Dadurch gibt es dann einen Absturz bei <code>apr_terminate()</code>. Mit
-nachfolgender Änderung wird der Destruktor aufgerufen, bevor
-<code>apr_terminate()</code> ausgeführt wird.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Korrektur von ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;mdash;&amp;ndash; git-1.8.4.orig/perl/Git/SVN/Ra.pm   2013-09-01 14:30:23.629989557 +0000
-</span><span class='line'><span class="gi">+++ git-1.8.4/perl/Git/SVN/Ra.pm        2013-09-02 06:55:19.666260617 +0000</span>
-</span><span class='line'><span class="gu">@@ -32,6 +32,10 @@&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;    }
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; }&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;+END {
-</span><span class='line'><span class="gi">+  $RA = undef;</span>
-</span><span class='line'><span class="gi">+}</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'> sub _auth_providers () {&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;    my @rv = (
-</span><span class='line'>      SVN::Client::get_simple_provider(),
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Die oben aufgeführte Korrektur habe ich auch an die Git-Mailing-Liste
-geschickt.</p>
-
-<h2>Korrektur</h2>
-
-<p>Mit meinen neuesten Paketen tritt das Problem nicht mehr auf:</p>
-
-<ul>
-<li>subversion-1.8.3 (&hellip; oder neuer)</li>
-<li>git-1.8.4-0dp10 (&hellip; oder neuer)</li>
-</ul>
-
-
-<h2>Änderungen</h2>
-
-<ul>
-<li>2013-08-15: Test mit aprutil-1.5.2</li>
-<li>2013-09-01: Subversion-1.8.3, Git-1.8.4, Anpassungen an /usr/share/perl5/Git/SVN/Ra.pm, Korrektur</li>
-</ul>
-
+</pre></td><td class='code'><pre><code class=''><span class='line'>command=&ldquo;netcat -w 1 localhost smtp&rdquo;,no-X11-forwarding,no-agent-forwarding,no-port-forwarding ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDT+uY0OTjsDDnJFxVVapm+w2Sc4NdJU5cQC/KFqSQ0RplDy4vvtBFSjY4ucGErQxEjpeQj2mr1KV0abpnWMZU9HpBzEA2qGObmjSKvLeceVXWoqHjOCzSywmiA18XJ2/pjKz4cCD/DV2QAO32zWRfWhXCU2XlU+dZJa8kDqwL9VS3/Isg5PNr7f9l026vTcdg3zaT0J8M1N3Ag7jILBbZD2JeeXTINqKXn3QEm/IqicLZnDHumzgMHNnurtsbCsmmDS4BySLQxISOOLnb5s7TsdAKwRWnz5uw7JxRlXHPh1t+lgkr5Qcf8LLU2Hqa5Vik11Xm41yJ9c9l2LcaB98CF</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GitHub-Projekt spalten am Beispiel Moxie - Was ich so treibe...</title>
+  <meta name="author" content="Uli Heller">
+
+  
+  <meta name="description" content="Im diesem Artikel hab&#8217; ich erstmals kurz zusammengefasst,
+wie ich mit Forks von GitHub arbeite. Hier folgen nun mehr Details am konkreten &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/09/13/git-fork">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/libs/jquery.min.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Was ich so treibe...</a></h1>
+  
+    <h2>Uli's IT-Blog - Konzeption, Entwicklung, Betrieb</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="abonnieren per RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:uli-heller.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Suchen"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/archives/">Archiv</a></li>
+  <li><a href="/categories/">Themen</a></li>
+  <li><a href="/about/">Über mich</a></li>
+  <li><a href="/impressum/">Impressum</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GitHub-Projekt spalten am Beispiel Moxie</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-09-13T07:00:00+02:00" pubdate data-updated="true">13. September 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Im <a href="/blog/2013/07/21/git-fork">diesem Artikel</a> hab&#8217; ich erstmals kurz zusammengefasst,
+wie ich mit Forks von GitHub arbeite. Hier folgen nun mehr Details am konkreten Beispiel
+&ldquo;moxie&rdquo;.</p>
+
+<!-- more -->
+
+
+<h2>GitHub-Projekt spalten (fork)</h2>
+
+<ul>
+<li>GitHub-Projekt im Browser öffnen: <a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie</a></li>
+<li>Auf der Projektseite wird auch die Clone-Url-O angezeigt, hier: <a href="https://github.com/gitblit/moxie.git">https://github.com/gitblit/moxie.git</a></li>
+<li><p>Auf der Projektseite den Knopf &ldquo;Fork&rdquo; anwählen:</p>
+
+<p><img src="/images/git/github-fork.png" alt="GitHub-Fork" /></p></li>
+<li><p>Folgeseiten &ldquo;durchklicken&rdquo;</p></li>
+<li>Schlußendlich landet man auf dem abgespaltenen Projekt, bei mir ist das die Browser-Url
+<a href="https://github.com/uli-heller/moxie">https://github.com/uli-heller/moxie</a></li>
+<li>Auf der Projektseite wird auch die Clone-Url-S angezeigt, bei mir: git@github.com:uli-heller/moxie.git</li>
+</ul>
+
+
+<h2>Lokalen Kopie anlegen (clone)</h2>
+
+<p>Gespaltenes Projekt kopieren mit: <code>git clone &lt;clone-url-s&gt;</code>, also
+im konkreten Fall <code>git clone git@github.com:uli-heller/moxie.git</code>:</p>
+
+<figure class='code'><figcaption><span>Lokale Kopie anlegen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git$ git clone git@github.com:uli-heller/moxie.git
+</span><span class='line'>Klone nach 'moxie'...
+</span><span class='line'>remote: Counting objects: 11313, done.
+</span><span class='line'>remote: Compressing objects: 100% (2961/2961), done.
+</span><span class='line'>remote: Total 11313 (delta 6316), reused 11137 (delta 6140)
+</span><span class='line'>Empfange Objekte: 100% (11313/11313), 71.63 MiB | 1.60 MiB/s, done.
+</span><span class='line'>Löse Unterschiede auf: 100% (6316/6316), done.
+</span><span class='line'>Prüfe Konnektivität... Fertig</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Original-Projekt einbinden (upstream)</h2>
+
+<figure class='code'><figcaption><span>Original-Projekt einbinden </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git$ cd moxie
+</span><span class='line'>~/git/moxie$ git remote add upstream 
+</span><span class='line'>~/git/moxie$ git fetch upstream
+</span><span class='line'>Von https://github.com/gitblit/moxie
+</span><span class='line'> * [neuer Branch]    gh-pages   -> upstream/gh-pages
+</span><span class='line'> * [neuer Branch]    master     -> upstream/master</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Kopie des Original-Projektes aktualisieren</h2>
+
+<figure class='code'><figcaption><span>Original-Projekt aktualisieren </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git fetch upstream 
+</span><span class='line'>remote: Counting objects: 1, done.
+</span><span class='line'>remote: Total 1 (delta 0), reused 1 (delta 0)
+</span><span class='line'>Unpacking objects: 100% (1/1), done.
+</span><span class='line'>Von https://github.com/gitblit/moxie
+</span><span class='line'>   e1c5785..a13973e  master     -> upstream/master</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Änderungen des Original-Projektes einarbeiten</h2>
+
+<p>Gelegentlich will man die Änderungen des Original-Projektes
+in das abgespaltete Projekt einarbeiten. Vor der Einarbeitung
+muß die Kopie des Original-Projektes aktualisiert worden sein
+(<code>git fetch upstream</code>).</p>
+
+<h3>Nur eigene Pull-Requests</h3>
+
+<p>Hier der Ablauf, wenn am Original-Projekt zwischenzeitlich
+nur eigene Pull-Requests eingearbeitet wurden. Die Aktualisierung
+läuft in diesem Falle völlig schmerzfrei!</p>
+
+<figure class='code'><figcaption><span>Original-Projekt einarbeiten </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git checkout master
+</span><span class='line'>Gewechselt zu Branch 'master'
+</span><span class='line'>~/git/moxie$ git merge --no-commit upstream/master
+</span><span class='line'>Aktualisiere 34b618c..a13973e
+</span><span class='line'>Fast-forward
+</span><span class='line'>~/git/moxie$ git status
+</span><span class='line'># Auf Branch master
+</span><span class='line'>nichts zu committen, Arbeitsverzeichnis unverändert</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Konflikte</h3>
+
+<p>Wenn am Original-Projekt zwischenzeitlich auch andere Änderungen
+gemacht wurden, so kommt es gelegentlich zu Konflikten beim
+Einarbeiten. Die Konflikte können mit <code>git mergetool</code> aufgelöst
+werden. Wichtig: Vor dem abschließenden <code>git commit</code> sollte
+der neue Stand ausführlich getestet werden!</p>
+
+<figure class='code'><figcaption><span>Original-Projekt einarbeiten </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git checkout master
+</span><span class='line'>Gewechselt zu Branch 'master'
+</span><span class='line'>~/git/moxie$ git merge --no-commit upstream/master
+</span><span class='line'>## Hier muß ich noch die "richtigen" Meldungen einpflegen
+</span><span class='line'>automatischer Merge von Rakefile
+</span><span class='line'>automatischer Merge von Gemfile.lock
+</span><span class='line'>automatischer Merge von Gemfile
+</span><span class='line'>automatischer Merge von .ruby-version
+</span><span class='line'>KONFLIKT (hinzufügen/hinzufügen): Merge-Konflikt in .ruby-version
+</span><span class='line'>Entferne .rbenv-version
+</span><span class='line'>Automatischer Merge fehlgeschlagen; beheben Sie die Konflikte und committen Sie dann das Ergebnis.
+</span><span class='line'>~/git/moxie$ git mergetool
+</span><span class='line'>## Hier muß ich noch die "richtigen" Meldungen einpflegen
+</span><span class='line'>This message is displayed because 'merge.tool' is not configured.
+</span><span class='line'>See 'git mergetool --tool-help' or 'git help config' for more details.
+</span><span class='line'>'git mergetool' will now attempt to use one of the following tools:
+</span><span class='line'>meld opendiff kdiff3 tkdiff xxdiff tortoisemerge gvimdiff diffuse ecmerge p4merge araxis bc3 codecompare emerge vimdiff
+</span><span class='line'>Merging:
+</span><span class='line'>.ruby-version
+</span><span class='line'>
+</span><span class='line'>Normal merge conflict for '.ruby-version':
+</span><span class='line'>  {local}: created file
+</span><span class='line'>  {remote}: created file
+</span><span class='line'>Hit return to start merge resolution tool (meld): meld
+</span><span class='line'>~/git/moxie$ git commit -m "Merged..."</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Links</h2>
+
+<ul>
+<li>GitHub-Artikel: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-09-16T09:00:00+02:00" class="updated">Updated 16. September 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/09/11/smtp-relay/" title="Voriger Beitrag: SMTP ohne SMTP-Daemon">&laquo; SMTP ohne SMTP-Daemon</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/09/22/squid/" title="Nächster Beitrag: Squid: Aufsetzen eines Proxies mit Anmeldezwang">Squid: Aufsetzen eines Proxies mit Anmeldezwang &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Neueste Beiträge</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/06/forward-proxy/">Maven/Gradle: Betrieb hinter einer Enterprise-Firewall</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/04/kompilierung-ueberspringen/">Kompilierung und Tests überspringen beim Paketbau</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/22/squid/">Squid: Aufsetzen eines Proxies mit Anmeldezwang</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/13/git-fork/">GitHub-Projekt spalten am Beispiel Moxie</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/11/smtp-relay/">SMTP ohne SMTP-Daemon</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Themen</h1>
+    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 105.0%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 103.0%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 102.0%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 101.0%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 102.0%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 102.0%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 102.0%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 102.0%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 106.0%'>Git(6)</a> <a href='/blog/categories/github' style='font-size: 101.0%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 101.0%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 101.0%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 101.0%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 101.0%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 101.0%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 105.0%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 101.0%'>JBoss(1)</a> <a href='/blog/categories/jmx' style='font-size: 101.0%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 101.0%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 102.0%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 101.0%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(60)</a> <a href='/blog/categories/lucid' style='font-size: 104.0%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 106.0%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 101.0%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 102.0%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 101.0%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 103.0%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 101.0%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 110.0%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 101.0%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 107.0%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 101.0%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 101.0%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 101.0%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 101.0%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 101.0%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 102.0%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 101.0%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 129.0%'>Precise(29)</a> <a href='/blog/categories/proxy' style='font-size: 102.0%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 102.0%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 102.0%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 103.0%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 107.0%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 101.0%'>Server(1)</a> <a href='/blog/categories/smtp' style='font-size: 101.0%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 101.0%'>Squid(1)</a> <a href='/blog/categories/subversion' style='font-size: 103.0%'>Subversion(3)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.0%'>Ubuntu(48)</a> <a href='/blog/categories/usb' style='font-size: 101.0%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 101.0%'>Webservice(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 101.0%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.0%'>ZFS(1)</a> </span>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+<table>
+  <tr>
+    <td>
+      <div class="license">
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">
+          <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="/images/cc-by-sa-3.0_88x31.png" />
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        Copyright &copy; 2013 - Uli Heller -
+        <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+        <br/>
+        <span>
+          Dieses Werk bzw. Inhalt steht unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported Lizenz</a>
+        </span>
+      </div>
+    </td>
+  </tr>
+<table>
+</p>
+
+
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ulispersonalitblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/09/13/git-fork/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/09/13/git-fork/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

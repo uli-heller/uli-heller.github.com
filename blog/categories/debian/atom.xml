@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Debian | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/debian/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-09-09T07:13:56+02:00</updated>
+  <updated>2013-10-06T09:00:53+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Kompilierung und Tests überspringen beim Paketbau]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/04/kompilierung-ueberspringen/"/>
+    <updated>2013-10-04T09:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/04/kompilierung-ueberspringen</id>
+    <content type="html"><![CDATA[<p>Gelegentlich baue ich selbst Pakete für Debian/Ubuntu. Manchmal habe ich dabei Tippfehler
+in Paketbeschreibungsdateien wie &ldquo;debian/rules&rdquo; und &ldquo;debian/control&rdquo;. Diese treten oftmals erst
+gegen Ende des Paketbauprozesses auf und nach einer Korrektur der Fehler habe ich gerne schnell
+Gewissheit, ob die Korrekturen OK sind oder nicht &ndash; ein kompletter Neubau scheidet für die
+meisten Pakete dann aus.</p>
+
+<p>Mit diesem Befehl werden Kompilierung und Übersprungen:</p>
+
+<pre><code>fakeroot debuan/rules binary
+</code></pre>
+
+<p>Innerhalb von wenigen Sekunden weiß ich so, ob die Korrekturen richtig waren oder ob ich noch
+weitere Dinge ändern muß. Wenn das Kommando durchläuft, führe ich idR. nochmals</p>
+
+<pre><code>dpkg-buildpackage
+</code></pre>
+
+<p>aus um das Paket komplett neu zu bauen und zu paketieren.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Neue Einträge für debian/changelog]]></title>
@@ -52,7 +78,7 @@
 </span><span class='line'>&lt;/ul>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'>&lt;p> &mdash; Jim Nelson &lt;a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#106;&#105;&#109;&#64;&#121;&#111;&#x72;&#98;&#97;&#x2e;&#111;&#114;&#x67;">&#x6a;&#105;&#109;&#64;&#121;&#x6f;&#114;&#x62;&#97;&#46;&#111;&#x72;&#103;&lt;/a>  Tue, 22 Mar 2011 14:46:17 -0700&lt;/p>
+</span><span class='line'>&lt;p> &mdash; Jim Nelson &lt;a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#x6a;&#x69;&#x6d;&#x40;&#x79;&#x6f;&#114;&#98;&#97;&#x2e;&#111;&#x72;&#x67;">&#x6a;&#105;&#109;&#64;&#121;&#x6f;&#x72;&#98;&#x61;&#46;&#x6f;&#x72;&#x67;&lt;/a>  Tue, 22 Mar 2011 14:46:17 -0700&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>gexiv2 (0.3.0-0maverick1) maverick; urgency=low&lt;/p>
 </span><span class='line'>
@@ -61,7 +87,7 @@
 </span><span class='line'>&lt;/ul>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'>&lt;p> &mdash; Jim Nelson &lt;a href="&#x6d;&#97;&#105;&#108;&#116;&#111;&#x3a;&#106;&#105;&#x6d;&#x40;&#121;&#x6f;&#x72;&#x62;&#x61;&#46;&#x6f;&#x72;&#103;">&#x6a;&#x69;&#x6d;&#64;&#x79;&#111;&#x72;&#x62;&#x61;&#46;&#x6f;&#114;&#x67;&lt;/a>  Mon, 10 Jan 2011 12:18:07 -0800</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>&lt;p> &mdash; Jim Nelson &lt;a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#106;&#x69;&#109;&#x40;&#x79;&#x6f;&#x72;&#x62;&#x61;&#x2e;&#111;&#x72;&#x67;">&#106;&#x69;&#x6d;&#64;&#121;&#111;&#x72;&#98;&#x61;&#46;&#x6f;&#x72;&#x67;&lt;/a>  Mon, 10 Jan 2011 12:18:07 -0800</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Wenn man nun einen neuen Eintrag anlegen möchte, so muß man diese Dinge erzeugen:</p>
 
@@ -97,7 +123,7 @@
 </span><span class='line'>
 </span><span class='line'>&lt;p>  *&lt;/p>
 </span><span class='line'>
-</span><span class='line'>&lt;p> &mdash; Uli Heller &lt;a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#x75;&#108;&#105;&#x2e;&#104;&#101;&#108;&#108;&#x65;&#x72;&#64;&#100;&#x61;&#x65;&#x6d;&#111;&#110;&#115;&#45;&#x70;&#111;&#x69;&#x6e;&#x74;&#x2e;&#99;&#111;&#x6d;">&#117;&#108;&#x69;&#46;&#104;&#101;&#x6c;&#108;&#101;&#x72;&#64;&#x64;&#x61;&#x65;&#x6d;&#111;&#110;&#115;&#45;&#112;&#111;&#105;&#x6e;&#x74;&#46;&#x63;&#111;&#x6d;&lt;/a>  Thu, 21 Mar 2013 07:36:33 +0100&lt;/p>
+</span><span class='line'>&lt;p> &mdash; Uli Heller &lt;a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#117;&#x6c;&#x69;&#x2e;&#x68;&#101;&#x6c;&#108;&#x65;&#114;&#x40;&#x64;&#x61;&#x65;&#x6d;&#x6f;&#x6e;&#x73;&#x2d;&#112;&#x6f;&#105;&#x6e;&#x74;&#46;&#99;&#x6f;&#x6d;">&#117;&#x6c;&#x69;&#46;&#104;&#101;&#108;&#x6c;&#x65;&#x72;&#x40;&#100;&#x61;&#x65;&#x6d;&#111;&#110;&#x73;&#x2d;&#x70;&#111;&#105;&#x6e;&#x74;&#46;&#99;&#111;&#109;&lt;/a>  Thu, 21 Mar 2013 07:36:33 +0100&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>gexiv2 (0.3.1-0maverick1) maverick; urgency=low&lt;/p>
 </span><span class='line'>
@@ -106,7 +132,7 @@
 </span><span class='line'>&lt;/ul>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'>&lt;p> &mdash; Jim Nelson &lt;a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x6a;&#x69;&#x6d;&#64;&#x79;&#111;&#114;&#98;&#x61;&#x2e;&#111;&#x72;&#103;">&#106;&#105;&#109;&#x40;&#121;&#111;&#114;&#98;&#x61;&#46;&#x6f;&#114;&#x67;&lt;/a>  Tue, 22 Mar 2011 14:46:17 -0700&lt;/p>
+</span><span class='line'>&lt;p> &mdash; Jim Nelson &lt;a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x6a;&#x69;&#109;&#64;&#121;&#x6f;&#114;&#98;&#97;&#x2e;&#x6f;&#114;&#x67;">&#106;&#x69;&#109;&#64;&#x79;&#x6f;&#114;&#98;&#x61;&#46;&#111;&#x72;&#103;&lt;/a>  Tue, 22 Mar 2011 14:46:17 -0700&lt;/p>
 </span><span class='line'>
 </span><span class='line'>&lt;p>&hellip;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>

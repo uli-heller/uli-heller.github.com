@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Thema: Proxy | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/proxy/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-10-06T09:00:53+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Maven/Gradle: Betrieb hinter einer Enterprise-Firewall]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/06/forward-proxy/"/>
+    <updated>2013-10-06T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/06/forward-proxy</id>
+    <content type="html"><![CDATA[<p>Einer meiner Kunden setzt eine Firewall kombiniert mit einem
+Proxy-Server ein, um das interne Netz vom Internet abzukoppeln.
+Der Zugriff vom internen Netz in&rsquo;s Internet ist dadurch stark eingeschränkt.</p>
+
+<ul>
+<li>Manche Web-Seiten werden generell geblockt &hellip; ist bislang kein Problem für mich</li>
+<li>Zugriff auf&rsquo;s Internet ist generell nur mit bestimmten Browsern möglich &ndash; der HTTP Header &ldquo;User-Agent&rdquo; muß bestimmte Werte haben &hellip; dadurch werden Build-Tools wie Gradle und Maven geblockt</li>
+<li>Zugriff auf&rsquo;s Internet geht generell nur, wenn man sich am Proxy-Server angemeldet hat &hellip; dadurch funktioniert bei mir der Zugriff von Eclipse aus nicht, man kann Eclipse-Plugins nur sehr umständlich installieren</li>
+</ul>
+
+
+<p>Zur Lösung der letzten beiden Probleme gibt es nun die Idee, einen eigenen
+Proxy-Server zu betreiben, der dann die Anmeldung am
+&ldquo;richtigen&rdquo; Proxy-Server übernimmt und der den User-Agent auf geeignete Werte
+setzt.</p>
+
+<!-- more -->
+
+
+<h2>Das GitHub-Projekt</h2>
+
+<p>Den Proxy-Server habe ich in Java implementiert und im Rahmen meiner &ldquo;Mini-Tools&rdquo; auf GitHub
+abgelegt. Zu finden ist der Proxy-Server hier: <a href="https://github.com/uli-heller/uli-mini-tools/blob/master/forward-proxy/README.md">Forward-Proxy</a>.</p>
+
+<h2>Die Zutaten</h2>
+
+<p>Der eigentliche Kern des Proxy-Servers ist recht klein &ndash; die meisten Zutaten liefert das Projekt
+<a href="http://www.eclipse.org/jetty/">Jetty</a>. Konkret habe ich hiervon verwendet:</p>
+
+<ul>
+<li><a href="http://www.eclipse.org/jetty/documentation/current/proxy-servlet.html">ProxyServlet</a></li>
+<li><a href="http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/tree/examples/embedded/src/main/java/org/eclipse/jetty/embedded/ProxyServer.java?id=jetty-9.0.6.v20130930">ProxyServer</a></li>
+</ul>
+
+
+<p>Zur Kompilierung des Projektes verwende ich <a href="http://gradle.org">Gradle</a>. Von mir selbst stammen ein paar Ergänzungen,
+die</p>
+
+<ul>
+<li>diverse Einstellungen aus Properties-Dateien lesen</li>
+<li>die Anmeldung am Enterprise-Proxy-Server vornehmen</li>
+<li>das Programm paketieren und einfach ausführbar machen auf Kommandozeilenebene</li>
+</ul>
+
+
+<h2>Das Bauen</h2>
+
+<p>Das Bauen des Projektes ist denkbar einfach, sofern ein JDK7 installiert und im PATH verfügbar ist:</p>
+
+<ul>
+<li>Shell-Fenster öffnen</li>
+<li>In den Ordner &ldquo;uli-mini-tools/forward-proxy&rdquo; wechseln</li>
+<li>Ausführen: <code>../gradlew</code> (&hellip; oder unter Windows: <code>..\gradlew</code>)</li>
+</ul>
+
+
+<p>Danach gibt es die beiden Dateien</p>
+
+<ul>
+<li>forward-proxy-{version}.sh &hellip; für Unix/Linux</li>
+<li>forward-proxy-{version}.bat &hellip; für Windows</li>
+</ul>
+
+
+<p>Sie können direkt von der Shell aus ausgeführt werden.</p>
+
+<h2>Der Test</h2>
+
+<p>Getestet habe ich den neuen Proxy-Server mit einem einfachen Gradle-Projekt:</p>
+
+<ul>
+<li><p>Konfigurationsdatei &ldquo;forward-proxy.properties&rdquo; für den Forward-Proxy:</p>
+
+<pre><code>proxyPort           = 8888
+parentProxyHost     = 192.168.178.47
+parentProxyPort     = 3128
+parentProxyUser     = uli
+parentProxyPassword = xxxxxx
+replaceHeaders      = User-Agent
+User-Agent          = InternetExploder
+</code></pre></li>
+<li><p>Start vom Forward-Proxy:</p>
+
+<pre><code>./forward-proxy*.sh
+</code></pre></li>
+<li><p>gradle.properties:</p>
+
+<pre><code>systemProp.http.proxyHost=localhost
+systemProp.http.proxyPort=8888
+</code></pre></li>
+<li><p><a href="/downloads/code/simple-gradle-project.zip">Gradle-Projekt</a> auspacken und neu bauen mit</p>
+
+<pre><code>./gradlew --refresh-dependencies
+# Windows: .\gradlew --refresh-dependencies
+</code></pre></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Squid: Aufsetzen eines Proxies mit Anmeldezwang]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/22/squid/"/>
+    <updated>2013-09-22T13:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/22/squid</id>
+    <content type="html"><![CDATA[<p>Zum Test meines Mini-Projektes
+<a href="https://github.com/uli-heller/uli-mini-tools/blob/master/forward-proxy/README.md">Forward-Proxy</a>
+brauche ich einen Proxy, der den Zugriff auf das Internet
+nur nach Anmeldung zulässt. Hierzu setze ich eine VM mit Squid auf
+und konfiguriere diesen dann entsprechend. Die VM ist über eine Netzwerkbrücke
+in meinen Desktop eingebunden.</p>
+
+<!-- more -->
+
+
+<h2>Zusatzpakete installieren</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install squid
+</span><span class='line'>sudo apt-get install apache2-utils</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Squid konfigurieren</h2>
+
+<h3>/etc/squid3/squid.conf</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Änderungen an ./etc/squid3/squid.conf </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;mdash;&amp;ndash; squid.conf.orig 2013-09-21 13:46:51.000000000 +0200
+</span><span class='line'><span class="gi">+++ squid.conf  2013-09-21 13:50:29.000000000 +0200</span>
+</span><span class='line'><span class="gu">@@ -334,10 +334,10 @@</span>
+</span><span class='line'> ##auth_param digest nonce_max_duration 30 minutes
+</span><span class='line'> ##auth_param digest nonce_max_count 50
+</span><span class='line'> ##
+</span><span class='line'>&amp;ndash;##auth_param basic program &lt;uncomment and complete this line&gt;
+</span><span class='line'>&amp;ndash;##auth_param basic children 5
+</span><span class='line'>&amp;ndash;##auth_param basic realm Squid proxy-caching web server
+</span><span class='line'>&amp;ndash;##auth_param basic credentialsttl 2 hours
+</span><span class='line'><span class="gi">+auth_param basic program /usr/lib/squid3/ncsa_auth /etc/squid3/squid_user</span>
+</span><span class='line'><span class="gi">+auth_param basic children 5</span>
+</span><span class='line'><span class="gi">+auth_param basic realm Squid proxy-caching web server</span>
+</span><span class='line'><span class="gi">+auth_param basic credentialsttl 2 hours</span>
+</span><span class='line'> #Default:
+</span><span class='line'> # none&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;@@ -687,6 +687,8 @@
+</span><span class='line'> #
+</span><span class='line'> #Default:
+</span><span class='line'> # acl all src all
+</span><span class='line'><span class="gi">+acl uli proxy_auth REQUIRED</span>
+</span><span class='line'><span class="gi">+http_access allow uli</span>
+</span><span class='line'> #
+</span><span class='line'> #
+</span><span class='line'> # Recommended minimum configuration:
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Benutzer-Listen-Datei anlegen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo touch /etc/squid3/squid_user</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Benutzer samt Kennwort anlegen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo htpasswd /etc/squid3/squid_user uli
+</span><span class='line'>New password: xxxxxx
+</span><span class='line'>Re-type new password: xxxxxx
+</span><span class='line'>Adding password for user uli</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Squid neu starten</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/squid3 restart</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Proxy-Server verwenden</h2>
+
+<p>Mit den obigen Vorbereitungen kann ich den neuen Proxy-Server nun
+mittels <a href="http://{hostname-der-vm}:3128">http://{hostname-der-vm}:3128</a> ansprechen.</p>
+
+<h2>Effektive Konfigurationsdatei ermitteln</h2>
+
+<p>Mit diesen Befehlen kann die effektive Konfigurationsdatei ermittelt
+werden. Die vielen Kommentare werden dabei ausgefiltert:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v &ldquo;^\s&lt;em>#&rdquo; /etc/squid3/squid.conf|grep -v &ldquo;^\s&lt;/em>$&rdquo;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Die effektive Squid-Konfiguration sieht ohne Kommentare dann so aus:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>./etc/squid3/squid.conf ohne Kommentare </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'>auth_param basic program /usr/lib/squid3/ncsa_auth /etc/squid3/squid_user
+</span><span class='line'>auth_param basic children 5
+</span><span class='line'>auth_param basic realm Squid proxy-caching web server
+</span><span class='line'>auth_param basic credentialsttl 2 hours
+</span><span class='line'>acl uli proxy_auth REQUIRED
+</span><span class='line'>http_access allow uli
+</span><span class='line'>acl manager proto cache_object
+</span><span class='line'>acl localhost src 127.0.0.1/32 ::1
+</span><span class='line'>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+</span><span class='line'>acl SSL_ports port 443
+</span><span class='line'>acl Safe_ports port 80      # http
+</span><span class='line'>acl Safe_ports port 21      # ftp
+</span><span class='line'>acl Safe_ports port 443     # https
+</span><span class='line'>acl Safe_ports port 70      # gopher
+</span><span class='line'>acl Safe_ports port 210     # wais
+</span><span class='line'>acl Safe_ports port 1025-65535  # unregistered ports
+</span><span class='line'>acl Safe_ports port 280     # http-mgmt
+</span><span class='line'>acl Safe_ports port 488     # gss-http
+</span><span class='line'>acl Safe_ports port 591     # filemaker
+</span><span class='line'>acl Safe_ports port 777     # multiling http
+</span><span class='line'>acl CONNECT method CONNECT
+</span><span class='line'>http_access allow manager localhost
+</span><span class='line'>http_access deny manager
+</span><span class='line'>http_access deny !Safe_ports
+</span><span class='line'>http_access deny CONNECT !SSL_ports
+</span><span class='line'>http_access allow localhost
+</span><span class='line'>http_access deny all
+</span><span class='line'>http_port 3128
+</span><span class='line'>coredump_dir /var/spool/squid3
+</span><span class='line'>refresh_pattern ^&lt;a href=&quot;ftp:&quot;&gt;ftp:&lt;/a&gt;       1440    20% 10080
+</span><span class='line'>refresh_pattern ^gopher:    1440    0%  1440
+</span><span class='line'>refresh_pattern -i (/cgi-bin/|\?) 0 0%  0
+</span><span class='line'>refresh_pattern (Release|Packages(.gz)*)$      0       20%     2880
+</span><span class='line'>refresh_pattern .       0   20% 4320
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Änderungen</h2>
+
+<ul>
+<li>2013-10-06: Komplette Konfigurationsdatei ohne Kommentare hinzugefügt</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

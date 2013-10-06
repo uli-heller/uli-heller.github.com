@@ -9,8 +9,8 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Dovecot: Aktualisierung des Debian-Paketes mit Pigeonhole Gestern oder heute wurde die Version 2.2.1 von Dovecot veröffentlicht.
-Natürlich habe ich &hellip;">
+  <meta name="description" content="Installation von LXC Installation von LXC 1
+sudo apt-get install lxc Container-Partition /lxc Dieser Abschnitt kann optional ausgeführt werden. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +73,785 @@ Natürlich habe ich &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/12/lxc-ubuntu-build/">Ubuntu-Debian-Pakete mit LXC erzeugen</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-05-12T10:00:00+02:00" pubdate data-updated="true">12. May 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Installation von LXC</h2>
+
+<figure class='code'><figcaption><span>Installation von LXC </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install lxc</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Container-Partition /lxc</h2>
+
+<p>Dieser Abschnitt kann optional ausgeführt werden.
+Voraussetzung ist, dass es eine Volume Group namens &ldquo;datavg&rdquo;
+gibt und dass diese über mindestens 10 GB freien Speicherplatz
+verfügt.</p>
+
+<h3>Partition anlegen</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lvcreate -n lxclv -L10G datavg
+</span><span class='line'>sudo mkfs.btrfs /dev/datavg/lxclv</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Partition einbinden</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -s
+</span><span class='line'>mkdir /lxc
+</span><span class='line'>echo "/dev/datavg/lxclv /lxc btrfs defaults 0 3" >>/etc/fstab
+</span><span class='line'>mount /lxc
+</span><span class='line'>rmdir /var/lib/lxc
+</span><span class='line'>ln -s /lxc/lib /var/lib/lxc
+</span><span class='line'>rm -rf /var/cache/lxc
+</span><span class='line'>ln -s /lxc/cache /var/cache/lxc</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--
+Verwendung vom lokalen Apt-Cacher-Ng
+------------------------------------
+
+Datei /etc/default/lxc editieren:
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>MIRROR="http://127.0.0.1:3142/archive.ubuntu.com/ubuntu"</span></code></pre></td></tr></table></div></figure>
+
+
+&#8230; funktioniert nicht, es werden viele Pakete als &#8220;nicht verifizierbar&#8221; ausgewiesen.
+&#8211;>
+
+
+<h2>Erstellen von Containern</h2>
+
+<h3>12.04, 32bit</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-32-build -- -r precise -a i386</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Das Komando liefert typischerweise Ausgaben dieser Art:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r precise -a i386
+</span><span class='line'>[sudo] password for uli: 
+</span><span class='line'>
+</span><span class='line'>No config file specified, using the default config
+</span><span class='line'>debootstrap ist /usr/sbin/debootstrap
+</span><span class='line'>Checking cache download in /var/cache/lxc/precise/rootfs-i386 ... 
+</span><span class='line'>Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs ... 
+</span><span class='line'>Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs ...
+</span><span class='line'>
+</span><span class='line'>##
+</span><span class='line'># The default user is 'ubuntu' with password 'ubuntu'!
+</span><span class='line'># Use the 'sudo' command to run tasks as root in the container.
+</span><span class='line'>##
+</span><span class='line'>
+</span><span class='line'>'ubuntu' template installed
+</span><span class='line'>'ubuntu1204-32' created</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>12.04, 64bit</h3>
+
+<p>64-bit Container können nur erstellt werden, wenn das Basissystem auch ein 64-bit-System ist!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo lxc-create -t ubuntu -n ubuntu1204-64-build -- -r precise -a amd64</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Arbeit mit Containern</h2>
+
+<ul>
+<li>Anmelden
+
+<ul>
+<li>Benutzer: &ldquo;ubuntu&rdquo;</li>
+<li>Kennwort: &ldquo;ubuntu&rdquo;</li>
+</ul>
+</li>
+<li>Netzwerk
+
+<ul>
+<li>IP-Adressen: Aus dem Adressbereich 10.0.3/24</li>
+<li>NAT: Funktioniert &ndash; @ping google.com@</li>
+<li>SSH vom Host in den Container: Funktioniert &ndash; @ssh ubuntu@10.0.3.250@</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Anpassung der Container</h2>
+
+<h3>Verwenden des Apt-Cacher-Ng vom Host-System</h3>
+
+<p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
+
+<figure class='code'><figcaption><span>/etc/apt/apt.conf.d/01proxy </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">Acquire</span><span class="p">::</span><span class="n">http</span><span class="p">::</span><span class="n">Proxy</span> <span class="s">&quot;http://10.0.3.1:3142&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Installation von JOE/JMACS</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install joe</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Paketquellen ergänzen um Source-Repositories</h3>
+
+<figure class='code'><figcaption><span>/etc/apt/sources.list </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff -u sources.list.orig sources.list</span>
+</span><span class='line'><span class="gd">--- sources.list.orig    2012-09-30 09:41:15.000000000 +0200</span>
+</span><span class='line'><span class="gi">+++ sources.list 2013-05-12 18:27:29.615640758 +0200</span>
+</span><span class='line'><span class="gu">@@ -1,3 +1,6 @@</span>
+</span><span class='line'> deb http://archive.ubuntu.com/ubuntu precise main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src http://archive.ubuntu.com/ubuntu precise main restricted universe multiverse</span>
+</span><span class='line'> deb http://archive.ubuntu.com/ubuntu precise-updates main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src http://archive.ubuntu.com/ubuntu precise-updates main restricted universe multiverse</span>
+</span><span class='line'> deb http://security.ubuntu.com/ubuntu precise-security main restricted universe multiverse
+</span><span class='line'><span class="gi">+deb-src http://security.ubuntu.com/ubuntu precise-security main restricted universe multiverse</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Aktualisierung auf den neuesten Stand</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get upgrade
+</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Build-Tools einspielen</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install build-essential fakeroot dpkg-dev devscripts
+</span><span class='line'>sudo apt-get install autotools-dev debhelper pkg-config
+</span><span class='line'>sudo apt-get install dh-autoreconf
+</span><span class='line'>sudo apt-get clean</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>GPG-Schlüssel übernehmen</h2>
+
+<p>Dieser Abschnitt ist optional. Er wird nur benötigt, um signierte
+DEB-Pakete zu erzeugen!</p>
+
+<p>Auf dem bestehenden Build-System wird der GPG-Schlüssel exportiert:</p>
+
+<figure class='code'><figcaption><span>GPG-Schl</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --export-secret-keys >gpg.keys</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Auf dem neuen LXC-Build-System wird der GPG-Schlüssel importiert:</p>
+
+<figure class='code'><figcaption><span>GPG-Schl</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gpg --import &lt;gpg.keys</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Durchführen eines Builds</h2>
+
+<h3>nginx</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir nginx
+</span><span class='line'>cd nginx
+</span><span class='line'>apt-get source nginx
+</span><span class='line'>sudo apt-get build-dep nginx
+</span><span class='line'>cd nginx-1.1.19
+</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>libseccomp</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Kopieren der nachfolgenden Dateien:
+</span><span class='line'>#  libseccomp_0.1.0-1dp01~precise2.debian.tar.gz
+</span><span class='line'>#  libseccomp_0.1.0-1dp01~precise2.dsc 
+</span><span class='line'>#  libseccomp_0.1.0.orig.tar.gz
+</span><span class='line'>dpkg-source -x  libseccomp_0.1.0-1dp01~precise2.dsc
+</span><span class='line'>cd libseccomp-0.1.0
+</span><span class='line'>dpkg-buildpackage</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>lxc</h3>
+
+<p>&hellip; läuft analog zu &ldquo;libseccomp&rdquo;</p>
+
+<h2>Sichern und Rückspielen von Containern</h2>
+
+<h3>Sichern</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lxc
+</span><span class='line'>sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Rückspielen</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /lxc
+</span><span class='line'>sudo tar -xvjpf /backups/lxc/20121119.tar.bz2</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Probleme</h2>
+
+<h3>Offene Punkte</h3>
+
+<h4>Wie sorgt man dafür, dass ein Container nur über ein Host-Only-Netzwerk erreichbar ist?</h4>
+
+<h3>Erledigte Punkte</h3>
+
+<h4>Verwendung des Apt-Cacher-Ng durch einen Container</h4>
+
+<p>&hellip; geht wie üblich durch /etc/apt/apt.conf.d/01proxy innerhalb des Containers</p>
+
+<h4>Wie übernimmt man einen Container auf ein anderes System?</h4>
+
+<p>&hellip; durch Sichern und Rückspielen.</p>
+
+<h2>Links</h2>
+
+<ul>
+<li><a href="https://help.ubuntu.com/12.04/serverguide/lxc.html">Ubuntu 12.04 Server Guide</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/11/grub-reboot/">GrubReboot: Reboot eines anderen Eintrages des Grub-Menüs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-11T06:31:00+02:00" pubdate data-updated="true">11. May 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Üblicherweise starte ich meine diversen VMs einfach mit <code>sudo reboot</code>
+neu. Dabei wird dann der Standard-Eintrag im Grub-Menü selektiert und
+das betreffende Betriebssystem hochgefahren.</p>
+
+<p>Manchmal möchte ich aber einen anderen Eintrag aktivieren und ein
+alternatives Betriebssystem oder einen anderen Linux-Kernel starten.
+Das Verfahren habe ich mir von <a href="http://michael-prokop.at/blog/2013/05/10/how-to-get-grub-reboot-working/">Michael Prokop&rsquo;s Blog</a> &lsquo;geklaut&rsquo;.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/11/grub-reboot/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/">Probleme mit MySQL: start: Job failed to start</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-01T06:31:00+02:00" pubdate data-updated="true">01. May 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Auf einem meiner Rechner habe ich gestern diverse Updates eingespielt mit</p>
+
+<ul>
+<li><code>apt-get update</code></li>
+<li><code>apt-get upgrade</code></li>
+<li><code>apt-get dist-upgrade</code></li>
+</ul>
+
+
+<p>Dabei wurde auch MySQL aktualisiert. Leider läßt es sich anschließend nicht
+mehr starten. Es erscheint die Fehlermeldung &ldquo;start: Job failed to start&rdquo;.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/01/probleme-mit-mysql-start-job-failed-to-start/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/25/cinnamon-1-dot-7-4-auf-ubuntu-12-dot-04/">Cinnamon-1.7.4 auf Ubuntu-12.04</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-25T09:05:00+02:00" pubdate data-updated="true">25. April 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Heute habe ich versucht, die aktuelle Cinnamon-Version auf Ubuntu-12.04
+zu installieren und zum Laufen zu bringen. Das Ergebnis war erstmal
+ernüchternd: Nach dem Anmelden erscheint ein komplett leerer Bildschirm,
+man sieht nur das Hintergrundbild.</p>
+
+<p>Mit &ldquo;Alt-t&rdquo; kann man ein Terminal-Fenster öffnen und darin ein paar Tests
+vornehmen:</p>
+
+<ul>
+<li><code>muffin</code> &hellip; startet problemlos</li>
+<li><code>cinnamon</code> &hellip; startet nicht, stattdessen erscheint eine Fehlermeldung bzgl. GJsDbus</li>
+</ul>
+
+
+<p>Eine Google-Suche zeigt dann die Lösung: <code>sudo apt-get install gir1.2-gjsdbus-1.0</code>. Danach erscheint nach dem Anmelden die gewohnte Arbeitsoberfläche.</p>
+
+<p>Jetzt habe ich mein Debian-Paket für Cinnamon so überarbeitet, dass
+gir1.2-gjsdbus-1.0 direkt als Abhängigkeit eingetragen ist. Somit wird
+es beim Installieren von Cinnamon künftig automatisch mit installiert.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/23/einrichten-eines-ldap-servers-unter-ubuntu-12-dot-04/">Einrichten eines LDAP-Servers unter Ubuntu-12.04</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-04-23T15:38:00+02:00" pubdate data-updated="true">23. April 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><!--
+Einrichten eines LDAP-Servers unter Ubuntu-12.04
+================================================
+-->
+
+
+<h2>Rechner aktualisieren</h2>
+
+<p>Zunächst sollte der Rechner aktualisiert werden.</p>
+
+<figure class='code'><figcaption><span>Rechner aktualisieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get dist-upgrade
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>LDAP-Pakete installieren</h2>
+
+<figure class='code'><figcaption><span>LDAP-Pakete installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install slapd ldap-utils cpu whois
+</span><span class='line'><span class="c"># LDAP-Administrator-Passwort: uli</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>LDAP-Schemas definieren</h2>
+
+<p>Standard-Schemas:</p>
+
+<figure class='code'><figcaption><span>LDAP-Schemas definieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
+</span><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/nis.ldif
+</span><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/inetorgperson.ldif
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Zusatz-Schema:</p>
+
+<figure class='code'><figcaption><span>LDAP-Zusatzschema definieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/backend_dp.ldif
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Das Zusatzschema gibt&rsquo;s <a href="/downloads/code/backend_dp.ldif">hier</a></p>
+
+<h2>LDAP-Daten importieren</h2>
+
+<p>Es müssen entweder die Grunddaten importiert werden oder aber
+der Datenbestand eines anderen LDAP-Servers.</p>
+
+<h3>Grunddaten importieren</h3>
+
+<figure class='code'><figcaption><span>Grunddaten importieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
+</span><span class='line'>sudo slapadd -c -l /root/base.ldif
+</span><span class='line'>sudo service slapd start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Datenbestand importieren</h3>
+
+<p>Dieser Schritt ist optional. Er dient primär der Übernahme eines Datenbestandes
+von einem bestehenden LDAP-Server.</p>
+
+<figure class='code'><figcaption><span>LDAP-Daten importieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
+</span><span class='line'>sudo slapadd -c -l 94.out.ldif  <span class="c"># 94.out.ldif ist eine ältere LDAP-Sicherung</span>
+</span><span class='line'>sudo service slapd start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Hilfsskripte installieren</h2>
+
+<p>Wir haben einige Hilfsskripte, die die Arbeit mit dem LDAP-Verzeichnis erleichtern:</p>
+
+<ul>
+<li>/usr/local/bin/ldap-create-user.sh
+&hellip; legt einen LDAP-Benutzer an (basiert auf &ldquo;cpu&rdquo;)</li>
+<li>/usr/local/bin/ldap-delete-user.sh
+&hellip; löscht einen LDAP-Benutzer (basiert auf &ldquo;cpu&rdquo;)</li>
+<li>/usr/local/bin/ldap-modify-slapcat.sh
+&hellip; setzt die LDAP-Kennworte aller Benutzer in einem LDAP-Export auf &ldquo;keines&rdquo;</li>
+<li>/etc/cpu/cpu.conf
+&hellip; Konfigurationsdatei für &ldquo;cpu&rdquo;, enthält u.a. das Admin-Kennwort von LDAP</li>
+</ul>
+
+
+<h2>Web-Anwendung für Kennwort-Änderung installieren</h2>
+
+<p>Unsere Web-Anwendung soll mit dem Apache2 betrieben werden,
+also spielen wir den Apache2 ein und konfigurieren ihn auch gleich.</p>
+
+<figure class='code'><figcaption><span>Apache2 installieren und konfigurieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install apache2 <span class="c"># Web-Server Apache-2.2.22 einspielen</span>
+</span><span class='line'>sudo cp /etc/apache2/sites-available/default /etc/apache2/sites-available/changepass
+</span><span class='line'>sudo jmacs  /etc/apache2/sites-available/changepass
+</span><span class='line'><span class="c"># Einige Anpassungen vornehmen...</span>
+</span><span class='line'><span class="c"># - CGI: ldap/cgi-bin -&gt; cgi-bin/ldap</span>
+</span><span class='line'>sudo a2dissite default
+</span><span class='line'>sudo a2ensite changepass
+</span><span class='line'>sudo service apache2 restart
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Die Web-Anwendung benötigt noch einige Perl-Module.</p>
+
+<figure class='code'><figcaption><span>Perl-Module installieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install libconfig-tiny-perl
+</span><span class='line'>sudo apt-get install libnet-ldap-perl
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Zuletzt: Web-Anwendung einspielen. Folgende Dateien werden dabei benötigt:</p>
+
+<ul>
+<li>/etc/changepass.conf</li>
+<li>/etc/apache2/sites-available/changepass</li>
+<li>/usr/lib/cgi-bin/ldap/changepass</li>
+<li>/var/www/index.html</li>
+<li>/var/www/ldap/changepass.css</li>
+</ul>
+
+
+<h2>LDAP in Firewall freischalten</h2>
+
+<p>Sofern die UFW-Firewall installiert und aktiviert ist, muß der LDAP-Port
+freigeschaltet werden.</p>
+
+<figure class='code'><figcaption><span>LDAP in Firewall freischalten </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ufw allow 389/tcp
+</span><span class='line'>sudo ufw allow 80/tcp
+</span><span class='line'>sudo ufw status
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Tipps und Tricks</h2>
+
+<h3>LDAP-Daten sichern und zurückspielen</h3>
+
+<h4>Sichern</h4>
+
+<figure class='code'><figcaption><span>LDAP-Daten sichern </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo slapcat -l /tmp/slapcat.ldif
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Zurückspielen</h4>
+
+<figure class='code'><figcaption><span>LDAP-Daten zur</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
+</span><span class='line'>sudo rm -rf /var/lib/ldap/*
+</span><span class='line'>sudo slapadd -c -l /tmp/slapcat.ldif
+</span><span class='line'>sudo chown -R openldap.openldap /var/lib/ldap/*
+</span><span class='line'>sudo service slapd start
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Neustart mit einem leeren LDAP-Bestand</h4>
+
+<figure class='code'><figcaption><span>Neustart mit leerem LDAP-Bestand </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
+</span><span class='line'>sudo rm -rf /var/lib/ldap/*
+</span><span class='line'>sudo service slapd start
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/21/herunterladen-des-https-server-zertifikats/">Herunterladen des HTTPS-Server-Zertifikats</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-21T08:20:00+02:00" pubdate data-updated="true">21. April 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Herunterladen des HTTPS-Server-Zertifikats über die Kommandozeile</h1>
+
+<p>Den Trick habe ich von einem <a href="http://eclipsesource.com/blogs/2013/04/19/installing-eclipse-plug-ins-from-an-update-site-with-a-self-signed-certificate/">EclipseSource-Blog</a>:</p>
+
+<figure class='code'><figcaption><span>Herunterladen eines Server-Zertifikats </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">echo</span> -n <span class="se">\</span>
+</span><span class='line'>| openssl s_client -connect HOST:PORTNUMBER <span class="se">\</span>
+</span><span class='line'>| sed -ne <span class="s1">&#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39;</span> <span class="se">\</span>
+</span><span class='line'>&gt; my-custom-cert.cert
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Prima, das erspart mir künftig einiges an Rumklickerei im Browser.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -348,296 +1127,6 @@ los geht&rsquo;s mit <code>dpkg-buildpackage</code> (&hellip; das dauert)</li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/03/gpg-signaturen/">GPG: Signaturen</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-04-03T15:00:00+02:00" pubdate data-updated="true">03. April 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>GPG/PGP-Signatur von Quelltext-Dateien prüfen</h1>
-
-<p>Quelltextdateien werden oftmals mit GPG/PGP-Signaturen bereitgestellt, über die die Integrität der Dateien geprüft werrden kann. Hier zeige ich exemplarisch, wie dies für Subversion und Nginx gemacht wird.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/04/03/gpg-signaturen/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/22/localhost-jmx/">JMX auf Localhost</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-22T08:00:00+01:00" pubdate data-updated="true">22. March 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>JMX so aktivieren, dass der Zugriff nur via Localhost möglich ist</h1>
-
-<p>Im Java-Umfeld gibt es die JMX-Schnittstelle, die u.a. für&rsquo;s Monitoringittels JCONSOLE verwendet werden kann. Für meine eigenen Java-Prozesse ist das schnell erledigt: Einfach den Java-Prozess starten, dann <code>jconsole</code> (ohne Zusatzargument). Es wird eine Liste mit allen meinem Java-Prozessen angezeigt und ich kann einfach den gewünschten auswählen. Danach bekomme ich eine Anzeige ähnlich dieser:</p>
-
-<p><img src="/images/java/jconsole.png"></p>
-
-<p>Dummerweise werden Webanwendungen manchmal mit anderen Benutzern gestartet, die noch dazu recht abgeschottet sind. Da scheitert der vorige Wert für mich &ndash; die betreffenden Tomcats erscheinen dann einfach nicht in der Liste. Das ist der Punkt, an dem man gerne die Remote-Schnittstelle über das setzen diverser Java-Properties freischaltet. Dumm dabei: Nun kann netzwerkweit auf die JMX-Schnittstelle zugegriffen werden &ndash; sofern man sie nicht zusätzlich abblockt, was auch wieder Aufwand bedeutet.</p>
-
-<p>Ziel: Wir wollen die JMX-Schnittstelle so in Betrieb nehmen, dass nur von &ldquo;localhost&rdquo; aus auf sie zugegriffen werden kann!</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/22/localhost-jmx/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/21/debian-changelog/">Neue Einträge für debian/changelog</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-21T07:00:00+01:00" pubdate data-updated="true">21. March 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Erstellen von Debian-Paketen: Neue Einträge für debian/changelog</h1>
-
-<p>Wenn man selbst gelegentlich Debian-Pakete erstellt, so kommt man öfter in die Lage die Datei debian/changelog editieren zu müssen.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/21/debian-changelog/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/11/dovecot/">Dovecot-2.2 - DEB-Paket erzeugen</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-03-11T09:00:00+01:00" pubdate data-updated="true">11. March 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Ubuntu-Pakete aktualisieren &ndash; Dovecot</h1>
-
-<p>Heute soll eine neue Version von Dovecot erzeugt werden.
-Grob geht&rsquo;s so:</p>
-
-<ul>
-<li>Quellen der Standardversion von Ubuntu runterladen und kompilieren</li>
-<li>Aktualisieren auf die gewünschte neue Version (2.2.rc2)</li>
-<li>Neue Version kompilieren</li>
-</ul>
-
-
-<p>Mal sehen, ob&rsquo;s klappt wie vorgesehen!</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/11/dovecot/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/11/octopress-aktualisierung/">Octopress-Aktualisierung 1/2 - Grundtests</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-11T08:00:00+01:00" pubdate data-updated="true">11. March 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Aktualisierung meiner Octopress-Installation (&frac12;)</h1>
-
-<p>Vor grob 5 Monaten habe ich Octopress erstmalig aufgesetzt und seitdem die
-Finger von den Aktualisierungen gelassen. Dadurch funktionieren in &ldquo;meiner&rdquo; Installation
-nun gewisse Dinge nicht ganz so gut wir im Original. Beispielsweise soll die Verlinkung
-von Blog-Posts im Original über einen Methodenaufruf funktionieren, bei meiner Variante
-muß ich mir den Link mühsam zusammenklauben.</p>
-
-<p>Erstmal möchte ich testen, ob die aktualisierte Version überhaupt funktioniert. Diese Tests
-mache ich mit &ldquo;master&rdquo; und &ldquo;source-2.1&rdquo;.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/11/octopress-aktualisierung/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/07/crx-install/">Chrome-Erweiterungen - Teil 2/2: CRX-Dateien einspielen</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-03-07T12:00:00+01:00" pubdate data-updated="true">07. March 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Offline-Installation einer Chrome-Erweiterung &ndash; Teil 2: CRX-Dateien einspielen</h1>
-
-<p>Hier beschreibe ich kurz, wie man CRX-Dateien in Google-Chrome einspielt.
-Die CRX-Dateien müssen zuvor heruntergeladen worden sein, siehe hierzu
-<a href="/2013/03/04/chrome-extensions">CRX-Dateien herunterladen</a>.
-Getestet hab&#8217; ich&rsquo;s mit Google-Chrome 25 unter Linux.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/03/07/crx-install/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Älter</a>
@@ -655,30 +1144,30 @@ Getestet hab&#8217; ich&rsquo;s mit Google-Chrome 25 unter Linux.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/09/08/octopress-themen/">Themenwolke für Octopress</a>
+        <a href="/blog/2013/10/06/forward-proxy/">Maven/Gradle: Betrieb hinter einer Enterprise-Firewall</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/09/07/gallery/">Statische Fotogallerie für Octopress</a>
+        <a href="/blog/2013/10/04/kompilierung-ueberspringen/">Kompilierung und Tests überspringen beim Paketbau</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/09/03/lxc-apt-upgrade-udev/">LXC: Fehler bei &#8216;apt-get upgrade&#8217; - udev</a>
+        <a href="/blog/2013/09/22/squid/">Squid: Aufsetzen eines Proxies mit Anmeldezwang</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a>
+        <a href="/blog/2013/09/13/git-fork/">GitHub-Projekt spalten am Beispiel Moxie</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei &#8216;dcommit&#8217;, &#8216;rebase&#8217;, &#8230;</a>
+        <a href="/blog/2013/09/11/smtp-relay/">SMTP ohne SMTP-Daemon</a>
       </li>
     
   </ul>
 </section>
 <section>
   <h1>Themen</h1>
-    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 105.55555555555556%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 103.33333333333333%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 102.22222222222223%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 101.11111111111111%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.11111111111111%'>Debian(1)</a> <a href='/blog/categories/dovecot' style='font-size: 102.22222222222223%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 102.22222222222223%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 102.22222222222223%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 105.55555555555556%'>Git(5)</a> <a href='/blog/categories/github' style='font-size: 101.11111111111111%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 101.11111111111111%'>GPG(1)</a> <a href='/blog/categories/groovy' style='font-size: 101.11111111111111%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 101.11111111111111%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 101.11111111111111%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.44444444444444%'>Java(4)</a> <a href='/blog/categories/jboss' style='font-size: 101.11111111111111%'>JBoss(1)</a> <a href='/blog/categories/jmx' style='font-size: 101.11111111111111%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 101.11111111111111%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 102.22222222222223%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 101.11111111111111%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(54)</a> <a href='/blog/categories/lucid' style='font-size: 104.44444444444444%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 101.11111111111111%'>LXC(1)</a> <a href='/blog/categories/lxc' style='font-size: 106.66666666666667%'>Lxc(6)</a> <a href='/blog/categories/macbook-air' style='font-size: 102.22222222222223%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 101.11111111111111%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 103.33333333333333%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 101.11111111111111%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 111.11111111111111%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 101.11111111111111%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.66666666666667%'>Packaging(6)</a> <a href='/blog/categories/pakete' style='font-size: 101.11111111111111%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 101.11111111111111%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 101.11111111111111%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 101.11111111111111%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 101.11111111111111%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 102.22222222222223%'>Pigdeonhole(2)</a> <a href='/blog/categories/precise' style='font-size: 132.22222222222223%'>Precise(29)</a> <a href='/blog/categories/quilt' style='font-size: 102.22222222222223%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 102.22222222222223%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 103.33333333333333%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 107.77777777777777%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 101.11111111111111%'>Server(1)</a> <a href='/blog/categories/subversion' style='font-size: 103.33333333333333%'>Subversion(3)</a> <a href='/blog/categories/ubuntu' style='font-size: 147.77777777777777%'>Ubuntu(43)</a> <a href='/blog/categories/usb' style='font-size: 101.11111111111111%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 101.11111111111111%'>Webservice(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 101.11111111111111%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.11111111111111%'>ZFS(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 105.0%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 103.0%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 102.0%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 101.0%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 102.0%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 102.0%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 102.0%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 102.0%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 106.0%'>Git(6)</a> <a href='/blog/categories/github' style='font-size: 101.0%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 101.0%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 101.0%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 101.0%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 101.0%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 101.0%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 105.0%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 101.0%'>JBoss(1)</a> <a href='/blog/categories/jmx' style='font-size: 101.0%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 101.0%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 102.0%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 101.0%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(60)</a> <a href='/blog/categories/lucid' style='font-size: 104.0%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 106.0%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 101.0%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 102.0%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 101.0%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 103.0%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 101.0%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 110.0%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 101.0%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 107.0%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 101.0%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 101.0%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 101.0%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 101.0%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 101.0%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 102.0%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 101.0%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 129.0%'>Precise(29)</a> <a href='/blog/categories/proxy' style='font-size: 102.0%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 102.0%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 102.0%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 103.0%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 107.0%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 101.0%'>Server(1)</a> <a href='/blog/categories/smtp' style='font-size: 101.0%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 101.0%'>Squid(1)</a> <a href='/blog/categories/subversion' style='font-size: 103.0%'>Subversion(3)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.0%'>Ubuntu(48)</a> <a href='/blog/categories/usb' style='font-size: 101.0%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 101.0%'>Webservice(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 101.0%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.0%'>ZFS(1)</a> </span>
 </section>
 
 

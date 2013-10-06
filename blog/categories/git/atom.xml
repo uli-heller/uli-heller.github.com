@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Git | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-09-09T07:13:56+02:00</updated>
+  <updated>2013-10-06T09:00:53+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,200 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GitHub-Projekt spalten am Beispiel Moxie]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/09/13/git-fork/"/>
+    <updated>2013-09-13T07:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/09/13/git-fork</id>
+    <content type="html"><![CDATA[<p>Im <a href="/blog/2013/07/21/git-fork">diesem Artikel</a> hab' ich erstmals kurz zusammengefasst,
+wie ich mit Forks von GitHub arbeite. Hier folgen nun mehr Details am konkreten Beispiel
+&ldquo;moxie&rdquo;.</p>
+
+<!-- more -->
+
+
+<h2>GitHub-Projekt spalten (fork)</h2>
+
+<ul>
+<li>GitHub-Projekt im Browser öffnen: <a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie</a></li>
+<li>Auf der Projektseite wird auch die Clone-Url-O angezeigt, hier: <a href="https://github.com/gitblit/moxie.git">https://github.com/gitblit/moxie.git</a></li>
+<li><p>Auf der Projektseite den Knopf &ldquo;Fork&rdquo; anwählen:</p>
+
+<p><img src="/images/git/github-fork.png" alt="GitHub-Fork" /></p></li>
+<li><p>Folgeseiten &ldquo;durchklicken&rdquo;</p></li>
+<li>Schlußendlich landet man auf dem abgespaltenen Projekt, bei mir ist das die Browser-Url
+<a href="https://github.com/uli-heller/moxie">https://github.com/uli-heller/moxie</a></li>
+<li>Auf der Projektseite wird auch die Clone-Url-S angezeigt, bei mir: git@github.com:uli-heller/moxie.git</li>
+</ul>
+
+
+<h2>Lokalen Kopie anlegen (clone)</h2>
+
+<p>Gespaltenes Projekt kopieren mit: <code>git clone &lt;clone-url-s&gt;</code>, also
+im konkreten Fall <code>git clone git@github.com:uli-heller/moxie.git</code>:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Lokale Kopie anlegen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git$ git clone git@github.com:uli-heller/moxie.git
+</span><span class='line'>Klone nach &lsquo;moxie&rsquo;&hellip;
+</span><span class='line'>remote: Counting objects: 11313, done.
+</span><span class='line'>remote: Compressing objects: 100% (2961/2961), done.
+</span><span class='line'>remote: Total 11313 (delta 6316), reused 11137 (delta 6140)
+</span><span class='line'>Empfange Objekte: 100% (11313/11313), 71.63 MiB | 1.60 MiB/s, done.
+</span><span class='line'>Löse Unterschiede auf: 100% (6316/6316), done.
+</span><span class='line'>Prüfe Konnektivität&hellip; Fertig</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Original-Projekt einbinden (upstream)</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt einbinden </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git$ cd moxie
+</span><span class='line'>~/git/moxie$ git remote add upstream
+</span><span class='line'>~/git/moxie$ git fetch upstream
+</span><span class='line'>Von &lt;a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie&lt;/a>
+</span><span class='line'> * [neuer Branch]    gh-pages   &ndash;> upstream/gh-pages
+</span><span class='line'> * [neuer Branch]    master     &ndash;> upstream/master</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Kopie des Original-Projektes aktualisieren</h2>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt aktualisieren </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git fetch upstream
+</span><span class='line'>remote: Counting objects: 1, done.
+</span><span class='line'>remote: Total 1 (delta 0), reused 1 (delta 0)
+</span><span class='line'>Unpacking objects: 100% (1/1), done.
+</span><span class='line'>Von &lt;a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie&lt;/a>
+</span><span class='line'>   e1c5785..a13973e  master     &ndash;> upstream/master</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Änderungen des Original-Projektes einarbeiten</h2>
+
+<p>Gelegentlich will man die Änderungen des Original-Projektes
+in das abgespaltete Projekt einarbeiten. Vor der Einarbeitung
+muß die Kopie des Original-Projektes aktualisiert worden sein
+(<code>git fetch upstream</code>).</p>
+
+<h3>Nur eigene Pull-Requests</h3>
+
+<p>Hier der Ablauf, wenn am Original-Projekt zwischenzeitlich
+nur eigene Pull-Requests eingearbeitet wurden. Die Aktualisierung
+läuft in diesem Falle völlig schmerzfrei!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt einarbeiten </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git checkout master
+</span><span class='line'>Gewechselt zu Branch &lsquo;master&rsquo;
+</span><span class='line'>~/git/moxie$ git merge &mdash;no-commit upstream/master
+</span><span class='line'>Aktualisiere 34b618c..a13973e
+</span><span class='line'>Fast-forward
+</span><span class='line'>~/git/moxie$ git status&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>Auf Branch master&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>nichts zu committen, Arbeitsverzeichnis unverändert</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Konflikte</h3>
+
+<p>Wenn am Original-Projekt zwischenzeitlich auch andere Änderungen
+gemacht wurden, so kommt es gelegentlich zu Konflikten beim
+Einarbeiten. Die Konflikte können mit <code>git mergetool</code> aufgelöst
+werden. Wichtig: Vor dem abschließenden <code>git commit</code> sollte
+der neue Stand ausführlich getestet werden!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt einarbeiten </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git checkout master
+</span><span class='line'>Gewechselt zu Branch &lsquo;master&rsquo;
+</span><span class='line'>~/git/moxie$ git merge &mdash;no-commit upstream/master&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h2>Hier muß ich noch die &ldquo;richtigen&rdquo; Meldungen einpflegen&lt;/h2>
+</span><span class='line'>
+</span><span class='line'>&lt;p>automatischer Merge von Rakefile
+</span><span class='line'>automatischer Merge von Gemfile.lock
+</span><span class='line'>automatischer Merge von Gemfile
+</span><span class='line'>automatischer Merge von .ruby-version
+</span><span class='line'>KONFLIKT (hinzufügen/hinzufügen): Merge-Konflikt in .ruby-version
+</span><span class='line'>Entferne .rbenv-version
+</span><span class='line'>Automatischer Merge fehlgeschlagen; beheben Sie die Konflikte und committen Sie dann das Ergebnis.
+</span><span class='line'>~/git/moxie$ git mergetool&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h2>Hier muß ich noch die &ldquo;richtigen&rdquo; Meldungen einpflegen&lt;/h2>
+</span><span class='line'>
+</span><span class='line'>&lt;p>This message is displayed because &lsquo;merge.tool&rsquo; is not configured.
+</span><span class='line'>See &lsquo;git mergetool &mdash;tool-help&rsquo; or &lsquo;git help config&rsquo; for more details.
+</span><span class='line'>&lsquo;git mergetool&rsquo; will now attempt to use one of the following tools:
+</span><span class='line'>meld opendiff kdiff3 tkdiff xxdiff tortoisemerge gvimdiff diffuse ecmerge p4merge araxis bc3 codecompare emerge vimdiff
+</span><span class='line'>Merging:
+</span><span class='line'>.ruby-version&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>Normal merge conflict for &lsquo;.ruby-version&rsquo;:
+</span><span class='line'>  {local}: created file
+</span><span class='line'>  {remote}: created file
+</span><span class='line'>Hit return to start merge resolution tool (meld): meld
+</span><span class='line'>~/git/moxie$ git commit -m &ldquo;Merged&hellip;&rdquo;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Links</h2>
+
+<ul>
+<li>GitHub-Artikel: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git-Svn: Absturz bei 'dcommit', 'rebase', ...]]></title>
@@ -1005,82 +1199,6 @@ los geht&rsquo;s mit <code>dpkg-buildpackage</code> (&hellip; das dauert)</li>
 <li>Korrektur durch: Setzen von libexecdir in debian/rules</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GitHub - Downloads]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/02/12/github-downloads/"/>
-    <updated>2013-02-12T08:00:00+01:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/02/12/github-downloads</id>
-    <content type="html"><![CDATA[<h1>GitHub &ndash; Anlegen eines Download-Bereichs</h1>
-
-<p>Ende 2012 sorgte GitHub bei mir für einige Verwirrung, indem
-die Möglichkeit des Bereitstellens von Download-Dateien abgeschafft wurde.</p>
-
-<p>Als Notbehelf verwende ich aktuell einfach einen speziellen Zweig namens
-&ldquo;downloads&rdquo; und lege dann die runterladbaren Dateien darin ab.</p>
-
-<h2>Download-Zweig anlegen</h2>
-
-<p>Den Download-Zweig legt man grob so an:</p>
-
-<ul>
-<li>Sicherstellen: Alle Dateien sind gespeichert in Git! (mittels: <code>git status</code>)</li>
-<li>Neuen Zweig anlegen und leeren</li>
-<li>README.txt erzeugen mit einer kurzen Beschreibung</li>
-<li>README.txt in Git abspeichern</li>
-<li>Zweig nach GitHub hochschieben</li>
-</ul>
-
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Download-Zweig anlegen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout master
-</span><span class='line'><span class="nv">$ </span>git status&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;On branch master&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;nothing to commit, working directory clean
-</span><span class='line'><span class="nv">$ </span>git checkout &amp;mdash;orphan downloads
-</span><span class='line'><span class="nv">$ </span>git rm -rf .
-</span><span class='line'><span class="nv">$ </span>jmacs README.txt <span class="c"># Enter description of the branch</span>
-</span><span class='line'><span class="nv">$ </span>git add README.txt
-</span><span class='line'><span class="nv">$ </span>git commit -m &amp;ldquo;Created branch: downloads&amp;rdquo;
-</span><span class='line'><span class="nv">$ </span>git push &amp;mdash;set-upstream origin downloads
-</span><span class='line'><span class="nv">$ </span>git checkout master
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Dateien ablegen</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dateien ablegen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git checkout downloads
-</span><span class='line'><span class="nv">$ </span>cp &amp;hellip;/my-project-0.1-bin.tar.xz .
-</span><span class='line'><span class="nv">$ </span>cp &amp;hellip;/my-project-0.1-bin.zip .
-</span><span class='line'><span class="nv">$ </span>git add my-project-0.1-bin.tar.xz my-project-0.1-bin.zip
-</span><span class='line'><span class="nv">$ </span>git commit -m &amp;ldquo;Added downloads of version 0.1&amp;rdquo; .
-</span><span class='line'><span class="nv">$ </span>git push <span class="c"># might take some time depending on your internet connection bandwidth</span>
-</span><span class='line'><span class="nv">$ </span>git checkout master <span class="c"># switch back to master</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   

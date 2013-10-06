@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Java | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-09-09T07:13:56+02:00</updated>
+  <updated>2013-10-06T09:00:53+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Maven/Gradle: Betrieb hinter einer Enterprise-Firewall]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/06/forward-proxy/"/>
+    <updated>2013-10-06T08:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/06/forward-proxy</id>
+    <content type="html"><![CDATA[<p>Einer meiner Kunden setzt eine Firewall kombiniert mit einem
+Proxy-Server ein, um das interne Netz vom Internet abzukoppeln.
+Der Zugriff vom internen Netz in&rsquo;s Internet ist dadurch stark eingeschränkt.</p>
+
+<ul>
+<li>Manche Web-Seiten werden generell geblockt &hellip; ist bislang kein Problem für mich</li>
+<li>Zugriff auf&rsquo;s Internet ist generell nur mit bestimmten Browsern möglich &ndash; der HTTP Header &ldquo;User-Agent&rdquo; muß bestimmte Werte haben &hellip; dadurch werden Build-Tools wie Gradle und Maven geblockt</li>
+<li>Zugriff auf&rsquo;s Internet geht generell nur, wenn man sich am Proxy-Server angemeldet hat &hellip; dadurch funktioniert bei mir der Zugriff von Eclipse aus nicht, man kann Eclipse-Plugins nur sehr umständlich installieren</li>
+</ul>
+
+
+<p>Zur Lösung der letzten beiden Probleme gibt es nun die Idee, einen eigenen
+Proxy-Server zu betreiben, der dann die Anmeldung am
+&ldquo;richtigen&rdquo; Proxy-Server übernimmt und der den User-Agent auf geeignete Werte
+setzt.</p>
+
+<!-- more -->
+
+
+<h2>Das GitHub-Projekt</h2>
+
+<p>Den Proxy-Server habe ich in Java implementiert und im Rahmen meiner &ldquo;Mini-Tools&rdquo; auf GitHub
+abgelegt. Zu finden ist der Proxy-Server hier: <a href="https://github.com/uli-heller/uli-mini-tools/blob/master/forward-proxy/README.md">Forward-Proxy</a>.</p>
+
+<h2>Die Zutaten</h2>
+
+<p>Der eigentliche Kern des Proxy-Servers ist recht klein &ndash; die meisten Zutaten liefert das Projekt
+<a href="http://www.eclipse.org/jetty/">Jetty</a>. Konkret habe ich hiervon verwendet:</p>
+
+<ul>
+<li><a href="http://www.eclipse.org/jetty/documentation/current/proxy-servlet.html">ProxyServlet</a></li>
+<li><a href="http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/tree/examples/embedded/src/main/java/org/eclipse/jetty/embedded/ProxyServer.java?id=jetty-9.0.6.v20130930">ProxyServer</a></li>
+</ul>
+
+
+<p>Zur Kompilierung des Projektes verwende ich <a href="http://gradle.org">Gradle</a>. Von mir selbst stammen ein paar Ergänzungen,
+die</p>
+
+<ul>
+<li>diverse Einstellungen aus Properties-Dateien lesen</li>
+<li>die Anmeldung am Enterprise-Proxy-Server vornehmen</li>
+<li>das Programm paketieren und einfach ausführbar machen auf Kommandozeilenebene</li>
+</ul>
+
+
+<h2>Das Bauen</h2>
+
+<p>Das Bauen des Projektes ist denkbar einfach, sofern ein JDK7 installiert und im PATH verfügbar ist:</p>
+
+<ul>
+<li>Shell-Fenster öffnen</li>
+<li>In den Ordner &ldquo;uli-mini-tools/forward-proxy&rdquo; wechseln</li>
+<li>Ausführen: <code>../gradlew</code> (&hellip; oder unter Windows: <code>..\gradlew</code>)</li>
+</ul>
+
+
+<p>Danach gibt es die beiden Dateien</p>
+
+<ul>
+<li>forward-proxy-{version}.sh &hellip; für Unix/Linux</li>
+<li>forward-proxy-{version}.bat &hellip; für Windows</li>
+</ul>
+
+
+<p>Sie können direkt von der Shell aus ausgeführt werden.</p>
+
+<h2>Der Test</h2>
+
+<p>Getestet habe ich den neuen Proxy-Server mit einem einfachen Gradle-Projekt:</p>
+
+<ul>
+<li><p>Konfigurationsdatei &ldquo;forward-proxy.properties&rdquo; für den Forward-Proxy:</p>
+
+<pre><code>proxyPort           = 8888
+parentProxyHost     = 192.168.178.47
+parentProxyPort     = 3128
+parentProxyUser     = uli
+parentProxyPassword = xxxxxx
+replaceHeaders      = User-Agent
+User-Agent          = InternetExploder
+</code></pre></li>
+<li><p>Start vom Forward-Proxy:</p>
+
+<pre><code>./forward-proxy*.sh
+</code></pre></li>
+<li><p>gradle.properties:</p>
+
+<pre><code>systemProp.http.proxyHost=localhost
+systemProp.http.proxyPort=8888
+</code></pre></li>
+<li><p><a href="/downloads/code/simple-gradle-project.zip">Gradle-Projekt</a> auspacken und neu bauen mit</p>
+
+<pre><code>./gradlew --refresh-dependencies
+# Windows: .\gradlew --refresh-dependencies
+</code></pre></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JBoss Application Server 7 unter Ubuntu nutzen]]></title>

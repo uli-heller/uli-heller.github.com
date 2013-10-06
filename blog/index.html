@@ -9,8 +9,9 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Gestern bin ich über http://www.ewal.net/2012/09/08/octopress-customizations/
-gestolpert. Darin wird beschrieben, wie man eine Themenwolke in &hellip;">
+  <meta name="description" content="Einer meiner Kunden setzt eine Firewall kombiniert mit einem
+Proxy-Server ein, um das interne Netz vom Internet abzukoppeln.
+Der Zugriff vom internen &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +74,297 @@ gestolpert. Darin wird beschrieben, wie man eine Themenwolke in &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/06/forward-proxy/">Maven/Gradle: Betrieb hinter einer Enterprise-Firewall</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-06T08:00:00+02:00" pubdate data-updated="true">06. October 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Einer meiner Kunden setzt eine Firewall kombiniert mit einem
+Proxy-Server ein, um das interne Netz vom Internet abzukoppeln.
+Der Zugriff vom internen Netz in&rsquo;s Internet ist dadurch stark eingeschränkt.</p>
+
+<ul>
+<li>Manche Web-Seiten werden generell geblockt &hellip; ist bislang kein Problem für mich</li>
+<li>Zugriff auf&rsquo;s Internet ist generell nur mit bestimmten Browsern möglich &ndash; der HTTP Header &ldquo;User-Agent&rdquo; muß bestimmte Werte haben &hellip; dadurch werden Build-Tools wie Gradle und Maven geblockt</li>
+<li>Zugriff auf&rsquo;s Internet geht generell nur, wenn man sich am Proxy-Server angemeldet hat &hellip; dadurch funktioniert bei mir der Zugriff von Eclipse aus nicht, man kann Eclipse-Plugins nur sehr umständlich installieren</li>
+</ul>
+
+
+<p>Zur Lösung der letzten beiden Probleme gibt es nun die Idee, einen eigenen
+Proxy-Server zu betreiben, der dann die Anmeldung am
+&ldquo;richtigen&rdquo; Proxy-Server übernimmt und der den User-Agent auf geeignete Werte
+setzt.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/10/06/forward-proxy/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/04/kompilierung-ueberspringen/">Kompilierung und Tests überspringen beim Paketbau</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-04T09:00:00+02:00" pubdate data-updated="true">04. October 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Gelegentlich baue ich selbst Pakete für Debian/Ubuntu. Manchmal habe ich dabei Tippfehler
+in Paketbeschreibungsdateien wie &ldquo;debian/rules&rdquo; und &ldquo;debian/control&rdquo;. Diese treten oftmals erst
+gegen Ende des Paketbauprozesses auf und nach einer Korrektur der Fehler habe ich gerne schnell
+Gewissheit, ob die Korrekturen OK sind oder nicht &ndash; ein kompletter Neubau scheidet für die
+meisten Pakete dann aus.</p>
+
+<p>Mit diesem Befehl werden Kompilierung und Übersprungen:</p>
+
+<pre><code>fakeroot debuan/rules binary
+</code></pre>
+
+<p>Innerhalb von wenigen Sekunden weiß ich so, ob die Korrekturen richtig waren oder ob ich noch
+weitere Dinge ändern muß. Wenn das Kommando durchläuft, führe ich idR. nochmals</p>
+
+<pre><code>dpkg-buildpackage
+</code></pre>
+
+<p>aus um das Paket komplett neu zu bauen und zu paketieren.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/22/squid/">Squid: Aufsetzen eines Proxies mit Anmeldezwang</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-09-22T13:00:00+02:00" pubdate data-updated="true">22. September 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Zum Test meines Mini-Projektes
+<a href="https://github.com/uli-heller/uli-mini-tools/blob/master/forward-proxy/README.md">Forward-Proxy</a>
+brauche ich einen Proxy, der den Zugriff auf das Internet
+nur nach Anmeldung zulässt. Hierzu setze ich eine VM mit Squid auf
+und konfiguriere diesen dann entsprechend. Die VM ist über eine Netzwerkbrücke
+in meinen Desktop eingebunden.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/09/22/squid/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/13/git-fork/">GitHub-Projekt spalten am Beispiel Moxie</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-09-13T07:00:00+02:00" pubdate data-updated="true">13. September 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Im <a href="/blog/2013/07/21/git-fork">diesem Artikel</a> hab&#8217; ich erstmals kurz zusammengefasst,
+wie ich mit Forks von GitHub arbeite. Hier folgen nun mehr Details am konkreten Beispiel
+&ldquo;moxie&rdquo;.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/09/13/git-fork/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/11/smtp-relay/">SMTP ohne SMTP-Daemon</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-11T08:00:00+02:00" pubdate data-updated="true">11. September 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Bei einem Kunden setze ich <a href="http://redmine.org">Redmine</a> ein.
+Es läuft dort auf meinem Klapprechner in einer lokalen VM.
+Die Kunden-Infrastruktur &ldquo;kennt&rdquo; diese VM nicht.
+Dennoch soll Redmine Email-Benachrichtigungen verschicken.
+Mit den üblichen Mechanismen geht das nicht, weil die VM nicht
+als &ldquo;sende-berechtigt&rdquo; vermerkt ist. Aber ich habe ja einen SSH-Login
+auf einen Rechner, der Emails versenden kann. Hier die Beschreibung,
+wie man Redmine (&hellip; oder auf fast jede andere Applikation) dazu bringt,
+die Mails über diesen Zwischenrechner zu versenden.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/09/11/smtp-relay/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/10/linux-podcasts/">Linux-Podcasts</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-10T05:00:00+02:00" pubdate data-updated="true">10. September 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Hier einige Verweise auf Linux-Podcasts.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/09/10/linux-podcasts/">Vollständiger Artikel &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -281,307 +573,6 @@ zum Einsatz kommen wird.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei &#8216;dcommit&#8217;, &#8216;rebase&#8217;, &#8230;</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-08-08T08:00:00+02:00" pubdate data-updated="true">08. August 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Seit der Aktualisierung auf Subversion-1.8.1 gibt es immer wieder
-Fehler bei der Ausführung von Git-Svn-Kommandos. Beobachtet habe ich
-die Fehler bei</p>
-
-<ul>
-<li><code>git svn dcommit</code></li>
-<li><code>git svn rebase</code></li>
-<li><code>git svn clone</code></li>
-</ul>
-
-
-<p>Der Fehler tritt nur beim &ldquo;Aufräumen&rdquo; auf, d.h. nachdem das betreffende
-Kommando abgearbeitet ist und der Git-Svn-Prozess nur noch beendet werden
-muß. Er tritt auch nur auf, wenn Daten über die Leitung geschickt werden,
-also wenn:</p>
-
-<ul>
-<li>das lokale Git-Repo geändert wurde (dcommit)</li>
-<li>das Svn-Repository geändert wurde (rebase)</li>
-</ul>
-
-
-<p>Wenn man den Fehler einfach ignoriert, kann man &ldquo;normal&rdquo; weiterarbeiten.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/08/git-svn-absturz/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/05/octopress-git/">Octopress und Git ohne Umbenennung</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2013-08-05T08:00:00+02:00" pubdate data-updated="true">05. August 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Octopress hat die Eigenart, bei Verwendung von Git als &ldquo;Deployment-Methode&rdquo;
-die Zweige umzubenennen:</p>
-
-<ul>
-<li>Umbenennung: origin &ndash;> octopress</li>
-<li>Neuanlage:   origin &lt;&ndash; repo_url</li>
-<li>Umbenennung: master &ndash;> source</li>
-<li>etc.</li>
-</ul>
-
-
-<p>Die ganze Umbenennerei gefällt mir garnicht. Ich mag&rsquo;s so:</p>
-
-<ul>
-<li>uli-octopress: Das ist mein &ldquo;normales&rdquo; GitHub-Repository, in dem ich alle
-Quelltexte meiner Octopress-Installation halte</li>
-<li>uli-heller.github.com: Das ist das GitHub-Repository, in dem ich die
-generierten HTML-Seiten veröffentliche</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/05/octopress-git/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/04/octopress-category-generator/">Octopress-Fehler: Liquid Exception: undefined method `sort!&#8217; for nil:NilClass in post</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-04T19:00:00+02:00" pubdate data-updated="true">04. August 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Beim Ausführen von <code>rake generate</code> erscheint die Fehlermeldung:</p>
-
-<pre><code>Liquid Exception: undefined method `sort!' for nil:NilClass in post
-.../octopress/plugins/category_generator.rb:157:in `category_links'
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/04/octopress-category-generator/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/04/fotogallerie/">Fotogallerie Südtirol und Tripsdrill</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-04T11:00:00+02:00" pubdate data-updated="true">04. August 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Test einer Fotogallerie &ndash; Bilder aus Südtirol und Tripsdrill.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/04/fotogallerie/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/04/gallery/">Fotogallerie für Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-04T10:00:00+02:00" pubdate data-updated="true">04. August 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Zur Illustration der CentOS-Installation benötige ich eine Fotogallerie in
-meiner Octopress-Installation. In diesem Artikel beschreibe ich das
-Vorgehen.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/04/gallery/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/27/subversion_1.8.1/">Subversion 1.8.1 für Ubuntu-12.04</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-27T10:00:00+02:00" pubdate data-updated="true">27. July 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Vor ein paar Tagen wurde Subversion-1.8.1 veröffentlicht.
-Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen.
-Eingeflossen sind dabei auch die gescheiterten Versuche
-mit Subversion-1.8.0. Schlußendlich kommt eine für mich funktionierende
-Version von Subversion-1.8.1 heraus.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/07/27/subversion_1.8.1/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Älter</a>
@@ -597,30 +588,30 @@ Version von Subversion-1.8.1 heraus.</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/09/08/octopress-themen/">Themenwolke für Octopress</a>
+        <a href="/blog/2013/10/06/forward-proxy/">Maven/Gradle: Betrieb hinter einer Enterprise-Firewall</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/09/07/gallery/">Statische Fotogallerie für Octopress</a>
+        <a href="/blog/2013/10/04/kompilierung-ueberspringen/">Kompilierung und Tests überspringen beim Paketbau</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/09/03/lxc-apt-upgrade-udev/">LXC: Fehler bei &#8216;apt-get upgrade&#8217; - udev</a>
+        <a href="/blog/2013/09/22/squid/">Squid: Aufsetzen eines Proxies mit Anmeldezwang</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/16/centos59/">Experimente mit CentOS-5.9</a>
+        <a href="/blog/2013/09/13/git-fork/">GitHub-Projekt spalten am Beispiel Moxie</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/08/git-svn-absturz/">Git-Svn: Absturz bei &#8216;dcommit&#8217;, &#8216;rebase&#8217;, &#8230;</a>
+        <a href="/blog/2013/09/11/smtp-relay/">SMTP ohne SMTP-Daemon</a>
       </li>
     
   </ul>
 </section>
 <section>
   <h1>Themen</h1>
-    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 105.55555555555556%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 103.33333333333333%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 102.22222222222223%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 101.11111111111111%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.11111111111111%'>Debian(1)</a> <a href='/blog/categories/dovecot' style='font-size: 102.22222222222223%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 102.22222222222223%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 102.22222222222223%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 105.55555555555556%'>Git(5)</a> <a href='/blog/categories/github' style='font-size: 101.11111111111111%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 101.11111111111111%'>GPG(1)</a> <a href='/blog/categories/groovy' style='font-size: 101.11111111111111%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 101.11111111111111%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 101.11111111111111%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.44444444444444%'>Java(4)</a> <a href='/blog/categories/jboss' style='font-size: 101.11111111111111%'>JBoss(1)</a> <a href='/blog/categories/jmx' style='font-size: 101.11111111111111%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 101.11111111111111%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 102.22222222222223%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 101.11111111111111%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(54)</a> <a href='/blog/categories/lucid' style='font-size: 104.44444444444444%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 101.11111111111111%'>LXC(1)</a> <a href='/blog/categories/lxc' style='font-size: 106.66666666666667%'>Lxc(6)</a> <a href='/blog/categories/macbook-air' style='font-size: 102.22222222222223%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 101.11111111111111%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 103.33333333333333%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 101.11111111111111%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 111.11111111111111%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 101.11111111111111%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.66666666666667%'>Packaging(6)</a> <a href='/blog/categories/pakete' style='font-size: 101.11111111111111%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 101.11111111111111%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 101.11111111111111%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 101.11111111111111%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 101.11111111111111%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 102.22222222222223%'>Pigdeonhole(2)</a> <a href='/blog/categories/precise' style='font-size: 132.22222222222223%'>Precise(29)</a> <a href='/blog/categories/quilt' style='font-size: 102.22222222222223%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 102.22222222222223%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 103.33333333333333%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 107.77777777777777%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 101.11111111111111%'>Server(1)</a> <a href='/blog/categories/subversion' style='font-size: 103.33333333333333%'>Subversion(3)</a> <a href='/blog/categories/ubuntu' style='font-size: 147.77777777777777%'>Ubuntu(43)</a> <a href='/blog/categories/usb' style='font-size: 101.11111111111111%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 101.11111111111111%'>Webservice(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 101.11111111111111%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.11111111111111%'>ZFS(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 105.0%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 103.0%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 102.0%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 101.0%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 102.0%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 102.0%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 102.0%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 102.0%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 106.0%'>Git(6)</a> <a href='/blog/categories/github' style='font-size: 101.0%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 101.0%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 101.0%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 101.0%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 101.0%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 101.0%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 105.0%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 101.0%'>JBoss(1)</a> <a href='/blog/categories/jmx' style='font-size: 101.0%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 101.0%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 102.0%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 101.0%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(60)</a> <a href='/blog/categories/lucid' style='font-size: 104.0%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 106.0%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 101.0%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 102.0%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 101.0%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 103.0%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 101.0%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 110.0%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 101.0%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 107.0%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 101.0%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 101.0%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 101.0%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 101.0%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 101.0%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 102.0%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 101.0%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 129.0%'>Precise(29)</a> <a href='/blog/categories/proxy' style='font-size: 102.0%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 102.0%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 102.0%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 103.0%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 107.0%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 101.0%'>Server(1)</a> <a href='/blog/categories/smtp' style='font-size: 101.0%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 101.0%'>Squid(1)</a> <a href='/blog/categories/subversion' style='font-size: 103.0%'>Subversion(3)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.0%'>Ubuntu(48)</a> <a href='/blog/categories/usb' style='font-size: 101.0%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 101.0%'>Webservice(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 101.0%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.0%'>ZFS(1)</a> </span>
 </section>
 
 
