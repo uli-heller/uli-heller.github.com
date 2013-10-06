@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Octopress und Git ohne Umbenennung - Was ich so treibe...</title>
+  <title>ZFS unter Ubuntu-12.04.3 - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Octopress hat die Eigenart, bei Verwendung von Git als &ldquo;Deployment-Methode&rdquo;
-die Zweige umzubenennen: Umbenennung: origin &ndash;> &hellip;">
+  <meta name="description" content="In Experimente mit ZFS unter Ubuntu-12.04 habe ich meine Experimente mit ZFS beschrieben.
+Hier beschreibe ich nun, wie ich&rsquo;s dann schließlich &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ die Zweige umzubenennen: Umbenennung: origin &ndash;> &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/08/05/octopress-git">
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/10/06/zfs">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -76,7 +76,7 @@ die Zweige umzubenennen: Umbenennung: origin &ndash;> &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Octopress und Git ohne Umbenennung</h1>
+      <h1 class="entry-title">ZFS unter Ubuntu-12.04.3</h1>
     
     
       <p class="meta">
@@ -92,57 +92,19 @@ die Zweige umzubenennen: Umbenennung: origin &ndash;> &hellip;">
   
 
 
-
-  
-<time datetime="2013-08-05T08:00:00+02:00" pubdate data-updated="true">05. August 2013</time>
+<time datetime="2013-10-06T11:00:00+02:00" pubdate data-updated="true">06. October 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Octopress hat die Eigenart, bei Verwendung von Git als &ldquo;Deployment-Methode&rdquo;
-die Zweige umzubenennen:</p>
+<div class="entry-content"><p>In <a href="/blog/2013/07/12/zfs">Experimente mit ZFS unter Ubuntu-12.04</a> habe ich meine Experimente mit ZFS beschrieben.
+Hier beschreibe ich nun, wie ich&rsquo;s dann schließlich umgesetzt habe.</p>
 
-<ul>
-<li>Umbenennung: origin &ndash;> octopress</li>
-<li>Neuanlage:   origin &lt;&ndash; repo_url</li>
-<li>Umbenennung: master &ndash;> source</li>
-<li>etc.</li>
-</ul>
+<h2>DEBs installieren</h2>
 
-
-<p>Die ganze Umbenennerei gefällt mir garnicht. Ich mag&rsquo;s so:</p>
-
-<ul>
-<li>uli-octopress: Das ist mein &ldquo;normales&rdquo; GitHub-Repository, in dem ich alle
-Quelltexte meiner Octopress-Installation halte</li>
-<li>uli-heller.github.com: Das ist das GitHub-Repository, in dem ich die
-generierten HTML-Seiten veröffentliche</li>
-</ul>
-
-
-<!-- more -->
-
-
-<h2>uli-octopress</h2>
-
-<p>Hierbei gibt es keine Besonderheiten. Einfach das Repository in GitHub
-anlegen und klonen wie üblich.</p>
-
-<h2>uli-heller.github.com</h2>
-
-<p>Am besten erstmal einfach leer anlegen mit einem Branch namens &ldquo;master&rdquo;.</p>
-
-<h2>Deployment-Methode konfigurieren</h2>
-
-<h3>_deploy</h3>
-
-<p>Das Verzeichnis &ldquo;_deploy&rdquo; wird angelegt durch <code>git clone ...</code> und
-anschließendes Umbenennen mit <code>mv ...</code>.</p>
-
-<figure class='code'><figcaption><span>Anlegen des Verzeichnisses _deploy </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -154,26 +116,104 @@ anschließendes Umbenennen mit <code>mv ...</code>.</p>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span><span class="nb">cd </span>uli-octopress
-</span><span class='line'>
-</span><span class='line'>uli-octopress<span class="nv">$ </span>git clone git@github.com:uli-heller/uli-heller.github.com.git
-</span><span class='line'>Klone nach <span class="s1">&#39;uli-heller.github.com&#39;</span>...
-</span><span class='line'>remote: Counting objects: 14438, <span class="k">done</span>.
-</span><span class='line'>remote: Compressing objects: 100% <span class="o">(</span>3999/3999<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>remote: Total 14438 <span class="o">(</span>delta 7274<span class="o">)</span>, reused 13662 <span class="o">(</span>delta 6502<span class="o">)</span>
-</span><span class='line'>Empfange Objekte: 100% <span class="o">(</span>14438/14438<span class="o">)</span>, 16.14 MiB | 218.00 KiB/s, <span class="k">done</span>.
-</span><span class='line'>Löse Unterschiede auf: 100% <span class="o">(</span>7274/7274<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>Checking connectivity... <span class="k">done</span>
-</span><span class='line'>
-</span><span class='line'>uli-octopress<span class="nv">$ </span>mv uli-heller.github.com _deploy
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install make build-essential dpkg-dev
+</span><span class='line'>sudo apt-get install -f
+</span><span class='line'>sudo dpkg -i zfs-dkms_0.6.2-1dp01~precise1_amd64.deb <span class="se">\</span>
+</span><span class='line'>  spl-dkms_0.6.2-1dp01~precise1_all.deb              <span class="se">\</span>
+</span><span class='line'>  dkms_2.2.0.3-2dp01~precise1_all.deb
+</span><span class='line'>sudo dpkg -i zfsutils_0.6.2-1dp01~precise1_amd64.deb <span class="se">\</span>
+</span><span class='line'>  libnvpair1_0.6.2-1dp01~precise1_amd64.deb          <span class="se">\</span>
+</span><span class='line'>  libuutil1_0.6.2-1dp01~precise1_amd64.deb           <span class="se">\</span>
+</span><span class='line'>  libzfs1_0.6.2-1dp01~precise1_amd64.deb             <span class="se">\</span>
+</span><span class='line'>  libzpool1_0.6.2-1dp01~precise1_amd64.deb
+</span><span class='line'>sudo dpkg -i ubuntu-zfs_7dp01~precise1_amd64.deb     <span class="se">\</span>
+</span><span class='line'>  spl_0.6.2-1dp01~precise1_amd64.deb
+</span><span class='line'>sudo dpkg -i mountall_2.48-1dp01~precise1_amd64.deb
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Rakefile</h3>
+<h2>Platten-IDs ermitteln</h2>
 
-<p>Nun noch Anpassungen an Rakefile:</p>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>ls /dev/disk/by-id/scsi-SATA_WDC*|grep -v part
+</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994
+</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
+</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577
+</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>ls /dev/disk/by-id/scsi-SATA_WDC*|grep -v part|xargs --verbose -n1 udevadm info -q path -n
+</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994
+</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host3/target3:0:0/3:0:0:0/block/sdd
+</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
+</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host2/target2:0:0/2:0:0:0/block/sdc
+</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577
+</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host0/target0:0:0/0:0:0:0/block/sda
+</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780
+</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host1/target1:0:0/1:0:0:0/block/sdb
+</span></code></pre></td></tr></table></div></figure>
 
-<figure class='code'><figcaption><span>Anpassungen am Rakefile </span></figcaption>
+
+<p>Aus den Ausgaben kann man diese Zuordnung erkennen:</p>
+
+<ul>
+<li>sda &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577</li>
+<li>sdb &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780</li>
+<li>sdc &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511</li>
+<li>sdd &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994</li>
+</ul>
+
+
+<p>Die Platten-IDs sollten am besten auch auf den jeweiligen Einbaurahmen geschrieben
+werden, damit es zu keinen Verwechslungen kommen kann.</p>
+
+<h2>Einbaurahmen mit Platten-IDs beschriften</h2>
+
+<p>Die Einbaurahmen werden mit den Platten-IDs beschriftet, damit
+beim Ausfall einer Platte schnell der richtige Rahmen gefunden werden kann.
+Beim mir ist &ldquo;sda&rdquo; ganz links, &ldquo;sdd&rdquo; ganz rechts. Die Platten-IDs sind
+auch auf den Platten aufgedruckt, und zwar bspw. wie folgt:</p>
+
+<pre><code>S/N: WCC1T0770511
+</code></pre>
+
+<p>Der Aufdruck sollte als Quercheck für die Beschriftung dienen!</p>
+
+<h2>Zpool anlegen</h2>
+
+<figure class='code'><figcaption><span>Zpool anlegen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -o <span class="nv">ashift</span><span class="o">=</span>12 -f zfsdata raidz <span class="se">\</span>
+</span><span class='line'>        scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 <span class="se">\</span>
+</span><span class='line'>        scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 <span class="se">\</span>
+</span><span class='line'>        scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511 <span class="se">\</span>
+</span><span class='line'>        scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994
+</span><span class='line'><span class="nv">$ </span>sudo zfs <span class="nb">set </span><span class="nv">compression</span><span class="o">=</span>lz4 zfsdata
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nach dem Anlegen sollte der Status kontrolliert werden:</p>
+
+<figure class='code'><figcaption><span>Zpool kontrollieren </span></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -189,30 +229,31 @@ anschließendes Umbenennen mit <code>mv ...</code>.</p>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/Rakefile b/Rakefile</span>
-</span><span class='line'><span class="gh">index f3ada93..321c3c5 100644</span>
-</span><span class='line'><span class="gd">--- a/Rakefile</span>
-</span><span class='line'><span class="gi">+++ b/Rakefile</span>
-</span><span class='line'><span class="gu">@@ -9,10 +9,10 @@ ssh_port       = &quot;22&quot;</span>
-</span><span class='line'> document_root  = &quot;~/website.com/&quot;
-</span><span class='line'> rsync_delete   = false
-</span><span class='line'> rsync_args     = &quot;&quot;  # Any extra arguments to pass to rsync
-</span><span class='line'><span class="gd">-deploy_default = &quot;rsync&quot;</span>
-</span><span class='line'><span class="gi">+deploy_default = &quot;push&quot;</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: none requested
+</span><span class='line'>config:
 </span><span class='line'>
-</span><span class='line'> # This will be configured for you when you run config_deploy
-</span><span class='line'><span class="gd">-deploy_branch  = &quot;gh-pages&quot;</span>
-</span><span class='line'><span class="gi">+deploy_branch  = &quot;master&quot;</span>
+</span><span class='line'>  NAME                                           STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata                                        ONLINE       0     0     0
+</span><span class='line'>    raidz1-0                                     ONLINE       0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  ONLINE       0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511  ONLINE       0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994  ONLINE       0     0     0
 </span><span class='line'>
-</span><span class='line'> ## -- Misc Configs -- ##
+</span><span class='line'>errors: No known data errors
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Test</h2>
+<p>Wichtig: Alles &ldquo;ONLINE&rdquo;, keine Fehler und &ldquo;raidz1-0&rdquo; muß angezeigt werden!</p>
 
-<figure class='code'><figcaption><span>Test </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<h2>Plattenausfall</h2>
+
+<p>Einen Plattenausfall erkennt man mit &ldquo;zpool status&rdquo;:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -232,49 +273,46 @@ anschließendes Umbenennen mit <code>mv ...</code>.</p>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>uli-octopress<span class="nv">$ </span>rake generate
-</span><span class='line'><span class="c">## Generating Site with Jekyll</span>
-</span><span class='line'>identical <span class="nb">source</span>/stylesheets/screen.css
-</span><span class='line'>Configuration from /home/uli/git/octopress/_config.yml
-</span><span class='line'>Building site: <span class="nb">source</span> -&gt; public
-</span><span class='line'>...
-</span><span class='line'>Successfully generated site: <span class="nb">source</span> -&gt; public
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: DEGRADED
+</span><span class='line'>status: One or more devices could not be used because the label is missing or
+</span><span class='line'>  invalid.  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue</span>
+</span><span class='line'><span class="k">  </span>functioning in a degraded state.
+</span><span class='line'>action: Replace the device using <span class="s1">&#39;zpool replace&#39;</span>.
+</span><span class='line'>   see: http://zfsonlinux.org/msg/ZFS-8000-4J
+</span><span class='line'>  scan: scrub repaired 0 in 0h0m with 0 errors on Sun Oct  6 12:00:10 2013
+</span><span class='line'>config:
 </span><span class='line'>
-</span><span class='line'>uli-octopress<span class="nv">$ </span>rake preview
-</span><span class='line'>Starting to watch <span class="nb">source </span>with Jekyll and Compass. Starting Rack on port 4000
-</span><span class='line'><span class="o">[</span>2013-08-05 07:55:34<span class="o">]</span> INFO  WEBrick 1.3.1
-</span><span class='line'>...
+</span><span class='line'>  NAME                                           STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata                                        DEGRADED     0     0     0
+</span><span class='line'>    raidz1-0                                     DEGRADED     0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  ONLINE       0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511  UNAVAIL      0     0     0  corrupted data
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994  ONLINE       0     0     0
 </span><span class='line'>
-</span><span class='line'>uli-octopress<span class="nv">$ </span>rake deploy
-</span><span class='line'><span class="c">## Generating Site with Jekyll</span>
-</span><span class='line'>identical <span class="nb">source</span>/stylesheets/screen.css
-</span><span class='line'>Configuration from /home/uli/git/octopress/_config.yml
-</span><span class='line'>Building site: <span class="nb">source</span> -&gt; public
-</span><span class='line'>...
-</span><span class='line'><span class="c">## Pushing generated _deploy website</span>
-</span><span class='line'>Counting objects: 710, <span class="k">done</span>.
-</span><span class='line'>Delta compression using up to 4 threads.
-</span><span class='line'>Compressing objects: 100% <span class="o">(</span>275/275<span class="o">)</span>, <span class="k">done</span>.
-</span><span class='line'>Writing objects: 100% <span class="o">(</span>382/382<span class="o">)</span>, 95.23 KiB | 0 bytes/s, <span class="k">done</span>.
-</span><span class='line'>Total 382 <span class="o">(</span>delta 194<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
-</span><span class='line'>To git@github.com:uli-heller/uli-heller.github.com.git
-</span><span class='line'>   4d99436..e7770a8  master -&gt; master
-</span><span class='line'>
-</span><span class='line'><span class="c">## Github Pages deploy complete</span>
-</span><span class='line'><span class="nb">cd</span> -
+</span><span class='line'>errors: No known data errors
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p>Beim Ausfall sind diese Aktionen nötig:</p>
+
+<ul>
+<li>Zugehörigen Plattenrahmen rausziehen</li>
+<li>Platte tauschen</li>
+<li>Rahmen neu beschriften</li>
+<li>Server herunterfahren</li>
+<li>Plattenrahmen mit neuer Platte einbauen</li>
+<li>Server starten</li>
+<li>Neue Platte einbinden: <code>sudo zpool replace zfsdata {old} {new}</code><br>
+Konkretes Beispiel:<pre>
+$ sudo zpool replace zfsdata \
+   scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511 \
+   scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0774712
+</pre></li>
+<li>Sichtung: Die neue Platte wird korrekt eingebunden und funktioniert: <code>sudo zpool status</code></li>
+</ul>
 
 </div>
 
@@ -298,14 +336,12 @@ anschließendes Umbenennen mit <code>mv ...</code>.</p>
   
 
 
-
-  
-<time datetime="2013-08-07T10:00:00+02:00" class="updated">Updated 07. August 2013</time>
+<time datetime="2013-10-06T11:00:00+02:00" pubdate data-updated="true">06. October 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/octopress/'>Octopress</a>
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>, <a class='category' href='/blog/categories/zfs/'>ZFS</a>
   
 </span>
 
@@ -321,10 +357,8 @@ anschließendes Umbenennen mit <code>mv ...</code>.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/08/04/octopress-category-generator/" title="Voriger Beitrag: Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post">&laquo; Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post</a>
+        <a class="basic-alignment left" href="/blog/2013/10/06/forward-proxy/" title="Voriger Beitrag: Maven/Gradle: Betrieb hinter einer Enterprise-Firewall">&laquo; Maven/Gradle: Betrieb hinter einer Enterprise-Firewall</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/08/08/git-svn-absturz/" title="Nächster Beitrag: Git-Svn: Absturz bei 'dcommit', 'rebase', ...">Git-Svn: Absturz bei 'dcommit', 'rebase', ... &raquo;</a>
       
     </p>
   </footer>
@@ -415,8 +449,8 @@ anschließendes Umbenennen mit <code>mv ...</code>.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/08/05/octopress-git/';
-        var disqus_url = 'http://uli-heller.github.com/blog/2013/08/05/octopress-git/';
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/10/06/zfs/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/10/06/zfs/';
         var disqus_script = 'embed.js';
       
     (function () {
