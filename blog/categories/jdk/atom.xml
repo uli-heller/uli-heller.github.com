@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Thema: JDK | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/jdk/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-10-09T04:26:12+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JDK unter Windows installieren ohne Administratorrechte]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/07/windows-jdk/"/>
+    <updated>2013-10-07T18:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/07/windows-jdk</id>
+    <content type="html"><![CDATA[<p>Leider muß ich bei meinem aktuellen Projekt unter Windows entwickeln.
+Es handelt sich um ein Java-Projekt. Die Arbeit kann nur auf einem Notebook
+erfolgen, das mir mein Auftraggeber stellt. Das Notebook läuft unter
+Windows 7 und stellt eine VPN-Verbindung zum Firmennetz her.</p>
+
+<p>Zur Entwicklung des im Projektrahmen zu erstellenden Programms benötige
+ich ein JDK. Das Einspielen auf dem Notebook gestaltet sich schwierig,
+denn ich habe dort keine Administratorrechte und Oracle&rsquo;s JDK benötigt
+eben diese. Schöner Mist. Nachfolgend eine Beschreibung, wie ich mir
+beholfen habe. Ich benötige dazu einen Linux-Rechner und einen USB-Stick.</p>
+
+<!-- more -->
+
+
+<h2>Linux-Rechner</h2>
+
+<p>Auf meinem Linux-Rechner ist Ubuntu-12.04 installiert. Zusätzlich
+benötige ich Wine. Dieses wird schnell nachinstalliert mit</p>
+
+<pre><code>sudo apt-get install wine
+</code></pre>
+
+<p>Die Installation hat bei mir zunächst nicht geklappt &ndash; vermutlich weil
+ich auch VirtualBox auf dem Linux-Rechner habe. In einem LXC-Container
+ging&rsquo;s problemlos.</p>
+
+<p>Danach:</p>
+
+<ul>
+<li>Oracle JDK für Windows x86 herunterladen von <a href="http://oracle.com">http://oracle.com</a></li>
+<li>Heruntergeladene Datei in LXC-Container hineinkopieren</li>
+<li>Kopierte Datei im LXC-Container ausführen mittels Wine<pre>
+wine ./jdk-7u40-windows-i586.exe</pre></li>
+<li>Es erscheinen diverse Fehlermeldungen &ndash;> ignorieren!</li>
+<li>Ordner ~/.wine/drive_c/Program Files/java verpacken (bspw. mit <code>zip</code>)</li>
+<li>Verpackten Ordner auf USB-Stick speichern</li>
+</ul>
+
+
+<h2>Windows-Rechner</h2>
+
+<ul>
+<li>Ordner vom USB-Stick auspacken nach C:\Uli</li>
+<li>Skript erstellen zur Erweiterung der Umgebungsvariablen PATH</li>
+<li>Test: <code>javac -version</code> &ndash;> javac 1.7.0_40</li>
+</ul>
+
+
+<p>Der Aufruf vom Java-Kompiler klappt &ndash; ich bin zufrieden!</p>
+]]></content>
+  </entry>
+  
+</feed>

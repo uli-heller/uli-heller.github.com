@@ -4,7 +4,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-10-06T13:54:24+02:00</updated>
+  <updated>2013-10-09T04:26:12+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -14,12 +14,389 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Probleme mit Thunderbird-Profile korrigieren]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/08/truecrypt-thunderbird/"/>
+    <updated>2013-10-08T10:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/08/truecrypt-thunderbird</id>
+    <content type="html"><![CDATA[<p>Heute war&rsquo;s mal wieder so weit: Thunderbird wollte nicht starten.
+Erst meckert er, weil das Profil in Benutzung ist. Später dann erkennt
+er das Profil nicht mehr.</p>
+
+<!-- more -->
+
+
+<h2>Truecrypt</h2>
+
+<p>Ich verwende Thunderbird zusammen mit Truecrypt. Ich habe eine USB-Stick.
+Auf dem liegt eine Truecrypt-Partition. Von dieser wird Thunderbird gestartet.</p>
+
+<h3>Die Partition wird im &ldquo;Nur-Lesen&rdquo;-Modus eingebunden!</h3>
+
+<figure class='code'><figcaption><span>Auszug aus ./var/log/syslog </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Oct  8 08:13:22 uli-hp-ssd kernel: [49292.410648] sd 7:0:0:0: [sdh] Attached SCSI disk
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd kernel: [49292.754705] FAT-fs (sdh1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Version 2012.1.15AR.1 external FUSE 28
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Mounted /dev/sdh2 (Read-Write, label "SanNTFS", NTFS 3.1)
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Cmdline options: rw,nosuid,nodev,uhelper=udisks,uid=1000,gid=1000,dmask=0077,fmask=0177
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Mount options: rw,nosuid,nodev,uhelper=udisks,allow_other,nonempty,relatime,default_permissions,fsname=/dev/sdh2,blkdev,blksize=4096
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Global ownership and permissions enforced, configuration type 7
+</span><span class='line'>Oct  8 08:13:42 uli-hp-ssd kernel: [49312.757964] FAT-fs (dm-8): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+</span><span class='line'>Oct  8 08:14:00 uli-hp-ssd kernel: [49331.213542] FAT-fs (dm-8): error, fat_free_clusters: deleting FAT entry beyond EOF
+</span><span class='line'>Oct  8 08:14:00 uli-hp-ssd kernel: [49331.213550] FAT-fs (dm-8): Filesystem has been set read-only</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Freigeben der Truecrypt-Partition</h3>
+
+<p>Zunächst muß die Truecrypt-Partition ausgehängt werden, damit sie für
+Korrekturen frei ist.</p>
+
+<figure class='code'><figcaption><span>Truecrypt-Partition freigeben </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -s
+</span><span class='line'>umount /media/truecrypt1</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Fsck ohne Zusatzoptionen</h3>
+
+<p>Erster Versuch: Ausführung von fsck.vfat. Leider kein Erfolg,
+das Dateisystem wird nicht korrigiert!</p>
+
+<figure class='code'><figcaption><span>fsck ohne Zusatzoptionen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># fsck.vfat /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>...
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Reclaimed 779 unused clusters (3190784 bytes).
+</span><span class='line'>Free cluster summary wrong (1189209 vs. really 1190739)
+</span><span class='line'>1) Correct
+</span><span class='line'>2) Don't correct
+</span><span class='line'>? 1
+</span><span class='line'>Leaving file system unchanged.
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Fsck mit Option &lsquo;-a&rsquo;</h3>
+
+<p>Mit der Option &lsquo;-a&rsquo; sollte es eigentlich klappen. Leider gibt&rsquo;s am
+Ende die Fehlermeldung &ldquo;Unable to create unique name&rdquo;.</p>
+
+<figure class='code'><figcaption><span>fsck mit Option -a </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -y /dev/mapper/truecrypt1 
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>  Not automatically fixing this.
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>...
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Unable to create unique name</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Mehrfache Ausführung mit Option &lsquo;-r&rsquo;</h3>
+
+<p>Als nächstes führe ich fsck.vfat mehrfach mit der Option &lsquo;-r&rsquo; aus.
+Bis auf die Sache mit dem Boot Sector bestätige ich einfach jede Änderung.
+Auffällig: Beim zweiten Durchlauf werden neue Fehler gefunden und korrigiert.
+Erst beim dritten Durchlauf gibt es keinen Fehler mehr.</p>
+
+<figure class='code'><figcaption><span>Erster Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1 
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>/thunderbird-uli/virtualFolders.dat
+</span><span class='line'>...
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Reclaimed 779 unused clusters (3190784 bytes).
+</span><span class='line'>Free cluster summary wrong (1189209 vs. really 1190739)
+</span><span class='line'>1) Correct
+</span><span class='line'>2) Don't correct
+</span><span class='line'>? 1
+</span><span class='line'>Perform changes ? (y/n) y
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Zweiter Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1 
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>Reclaimed 750 unused clusters (3072000 bytes).
+</span><span class='line'>Perform changes ? (y/n) y
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Dritter Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1 
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Nochmals: Fsck mit Option &lsquo;-a&rsquo;</h3>
+
+<p>Schlußtest nochmal mit der Option &lsquo;-a&rsquo;: Kein Fehler mehr vorhanden!</p>
+
+<figure class='code'><figcaption><span>Nochmals fsck mit &#8216;-a&#8217;  </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -a /dev/mapper/truecrypt1 
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>  Not automatically fixing this.
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Truecrypt-Partition wieder einbinden</h3>
+
+<figure class='code'><figcaption><span>Truecrypt-Partition einbinden </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mount /dev/mapper/truecrypt1 /media/truecrypt1/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&hellip; klappt nun im Schreiblese-Modus!</p>
+
+<h2>Thunderbird</h2>
+
+<p>Nach den Korrekturen an der Truecrypt-Partition startet Thunderbird
+leider nicht mehr richtig: Ich werde aufgefordert, ein neues Konto
+anzulegen.</p>
+
+<h3>Sichtung des Adressbuchs</h3>
+
+<p>Wenn ich mir direkt das Adressbuch anzeigen lasse, dann sehe ich dort noch
+meine Einträge &ndash; gut!</p>
+
+<h3>Sichtung der Datei &ldquo;prefs.js&rdquo;</h3>
+
+<p>In meinem Profilverzeichnis /media/truecrypt1/thunderbird-uli
+gibt es eine Datei &ldquo;prefs.js&rdquo;. Diese sieht allerdings sehr klein aus.
+Sie hat nur eine Größe von grob 3KB.</p>
+
+<p>Ich finde noch eine Datei &ldquo;prefs-1.js&rdquo; vom Vortag, die hat eine
+Größe von grob 60 KB.</p>
+
+<h3>Restaurieren der Datei &ldquo;prefs.js&rdquo;</h3>
+
+<ul>
+<li>Thunderbird stoppen</li>
+<li><code>cp prefs-1.js prefs.js</code></li>
+<li>Thunderbird starten &ndash;> klappt, sieht wieder &ldquo;normal&rdquo; aus</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JDK unter Windows installieren ohne Administratorrechte]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/07/windows-jdk/"/>
+    <updated>2013-10-07T18:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/07/windows-jdk</id>
+    <content type="html"><![CDATA[<p>Leider muß ich bei meinem aktuellen Projekt unter Windows entwickeln.
+Es handelt sich um ein Java-Projekt. Die Arbeit kann nur auf einem Notebook
+erfolgen, das mir mein Auftraggeber stellt. Das Notebook läuft unter
+Windows 7 und stellt eine VPN-Verbindung zum Firmennetz her.</p>
+
+<p>Zur Entwicklung des im Projektrahmen zu erstellenden Programms benötige
+ich ein JDK. Das Einspielen auf dem Notebook gestaltet sich schwierig,
+denn ich habe dort keine Administratorrechte und Oracle&rsquo;s JDK benötigt
+eben diese. Schöner Mist. Nachfolgend eine Beschreibung, wie ich mir
+beholfen habe. Ich benötige dazu einen Linux-Rechner und einen USB-Stick.</p>
+
+<!-- more -->
+
+
+<h2>Linux-Rechner</h2>
+
+<p>Auf meinem Linux-Rechner ist Ubuntu-12.04 installiert. Zusätzlich
+benötige ich Wine. Dieses wird schnell nachinstalliert mit</p>
+
+<pre><code>sudo apt-get install wine
+</code></pre>
+
+<p>Die Installation hat bei mir zunächst nicht geklappt &ndash; vermutlich weil
+ich auch VirtualBox auf dem Linux-Rechner habe. In einem LXC-Container
+ging&rsquo;s problemlos.</p>
+
+<p>Danach:</p>
+
+<ul>
+<li>Oracle JDK für Windows x86 herunterladen von <a href="http://oracle.com">http://oracle.com</a></li>
+<li>Heruntergeladene Datei in LXC-Container hineinkopieren</li>
+<li>Kopierte Datei im LXC-Container ausführen mittels Wine<pre>
+wine ./jdk-7u40-windows-i586.exe</pre></li>
+<li>Es erscheinen diverse Fehlermeldungen &ndash;> ignorieren!</li>
+<li>Ordner ~/.wine/drive_c/Program Files/java verpacken (bspw. mit <code>zip</code>)</li>
+<li>Verpackten Ordner auf USB-Stick speichern</li>
+</ul>
+
+
+<h2>Windows-Rechner</h2>
+
+<ul>
+<li>Ordner vom USB-Stick auspacken nach C:\Uli</li>
+<li>Skript erstellen zur Erweiterung der Umgebungsvariablen PATH</li>
+<li>Test: <code>javac -version</code> &ndash;> javac 1.7.0_40</li>
+</ul>
+
+
+<p>Der Aufruf vom Java-Kompiler klappt &ndash; ich bin zufrieden!</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[ZFS unter Ubuntu-12.04.3]]></title>
     <link href="http://uli-heller.github.com/blog/2013/10/06/zfs/"/>
     <updated>2013-10-06T11:00:00+02:00</updated>
     <id>http://uli-heller.github.com/blog/2013/10/06/zfs</id>
     <content type="html"><![CDATA[<p>In <a href="http://uli-heller.github.com/blog/2013/07/12/zfs">Experimente mit ZFS unter Ubuntu-12.04</a> habe ich meine Experimente mit ZFS beschrieben.
 Hier beschreibe ich nun, wie ich&rsquo;s dann schließlich umgesetzt habe.</p>
+
+<!-- more -->
+
 
 <h2>DEBs installieren</h2>
 
@@ -966,8 +1343,8 @@ die Themenwolke angezeigt, unten eine alphabetisch sortierte Themenliste.</p>
 </span><span class='line'>---
 </span><span class='line'>
 </span><span class='line'><span class="nt">&lt;div&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;tag-cloud&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.91803278688525%&#39;</span><span class="nt">&gt;</span>Blog<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.95081967213115%&#39;</span><span class="nt">&gt;</span>CentOS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Chrome<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Cinnamon<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Debian<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Dovecot<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Eclipse<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Fotorama<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.90163934426229%&#39;</span><span class="nt">&gt;</span>Git<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>GitHub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>GPG<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gradle&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Gradle<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Groovy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Grub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>HTTPS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.91803278688525%&#39;</span><span class="nt">&gt;</span>Java<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>JBoss<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>JMX<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Kepler<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Kernel<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>LDAP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 160.0%&#39;</span><span class="nt">&gt;</span>Linux<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.93442622950819%&#39;</span><span class="nt">&gt;</span>Lucid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.90163934426229%&#39;</span><span class="nt">&gt;</span>Lxc<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>LXC<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Macbook Air<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Macbook Air 2013<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.95081967213115%&#39;</span><span class="nt">&gt;</span>Markdown<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>MySQL<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 109.8360655737705%&#39;</span><span class="nt">&gt;</span>Octopress<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>OpenVPN<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.88524590163934%&#39;</span><span class="nt">&gt;</span>Packaging<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Pakete<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Passenger<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>PDF<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Perl<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>PGP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Pigdeonhole<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/podcast&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Podcast<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 129.50819672131146%&#39;</span><span class="nt">&gt;</span>Precise<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/proxy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Proxy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Quilt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>Raring<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.95081967213115%&#39;</span><span class="nt">&gt;</span>Redmine<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.88524590163934%&#39;</span><span class="nt">&gt;</span>Ruby<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Server<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/smtp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>SMTP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/squid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Squid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.95081967213115%&#39;</span><span class="nt">&gt;</span>Subversion<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 148.19672131147541%&#39;</span><span class="nt">&gt;</span>Ubuntu<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>USB<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Webservice<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.98360655737704%&#39;</span><span class="nt">&gt;</span>Zertifikat<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9672131147541%&#39;</span><span class="nt">&gt;</span>ZFS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/ul&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;category-list&quot;</span><span class="nt">&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span><span class="nt">&gt;</span>Blog (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span><span class="nt">&gt;</span>CentOS (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span><span class="nt">&gt;</span>Chrome (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span><span class="nt">&gt;</span>Cinnamon (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span><span class="nt">&gt;</span>Debian (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span><span class="nt">&gt;</span>Dovecot (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span><span class="nt">&gt;</span>Eclipse (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span><span class="nt">&gt;</span>Fotorama (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span><span class="nt">&gt;</span>Git (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span><span class="nt">&gt;</span>GitHub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span><span class="nt">&gt;</span>GPG (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gradle&#39;</span><span class="nt">&gt;</span>Gradle (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span><span class="nt">&gt;</span>Groovy (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span><span class="nt">&gt;</span>Grub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span><span class="nt">&gt;</span>HTTPS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span><span class="nt">&gt;</span>Java (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span><span class="nt">&gt;</span>JBoss (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span><span class="nt">&gt;</span>JMX (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span><span class="nt">&gt;</span>Kepler (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span><span class="nt">&gt;</span>Kernel (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span><span class="nt">&gt;</span>LDAP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span><span class="nt">&gt;</span>Linux (61)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span><span class="nt">&gt;</span>Lucid (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>Lxc (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>LXC (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span><span class="nt">&gt;</span>Macbook Air (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span><span class="nt">&gt;</span>Macbook Air 2013 (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span><span class="nt">&gt;</span>Markdown (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span><span class="nt">&gt;</span>MySQL (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span><span class="nt">&gt;</span>Octopress (10)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span><span class="nt">&gt;</span>OpenVPN (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span><span class="nt">&gt;</span>Packaging (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span><span class="nt">&gt;</span>Pakete (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span><span class="nt">&gt;</span>Passenger (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span><span class="nt">&gt;</span>PDF (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span><span class="nt">&gt;</span>Perl (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span><span class="nt">&gt;</span>PGP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span><span class="nt">&gt;</span>Pigdeonhole (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/podcast&#39;</span><span class="nt">&gt;</span>Podcast (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span><span class="nt">&gt;</span>Precise (30)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/proxy&#39;</span><span class="nt">&gt;</span>Proxy (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span><span class="nt">&gt;</span>Quilt (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span><span class="nt">&gt;</span>Raring (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span><span class="nt">&gt;</span>Redmine (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span><span class="nt">&gt;</span>Ruby (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span><span class="nt">&gt;</span>Server (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/smtp&#39;</span><span class="nt">&gt;</span>SMTP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/squid&#39;</span><span class="nt">&gt;</span>Squid (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span><span class="nt">&gt;</span>Subversion (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span><span class="nt">&gt;</span>Ubuntu (49)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span><span class="nt">&gt;</span>USB (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span><span class="nt">&gt;</span>Webservice (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span><span class="nt">&gt;</span>Zertifikat (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span><span class="nt">&gt;</span>ZFS (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;tag-cloud&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.76190476190476%&#39;</span><span class="nt">&gt;</span>Blog<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.85714285714286%&#39;</span><span class="nt">&gt;</span>CentOS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Chrome<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Cinnamon<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Debian<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Dovecot<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Eclipse<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Fotorama<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.71428571428571%&#39;</span><span class="nt">&gt;</span>Git<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>GitHub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>GPG<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gradle&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Gradle<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Groovy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Grub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>HTTPS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.71428571428571%&#39;</span><span class="nt">&gt;</span>Java<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>JBoss<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jdk&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>JDK<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>JMX<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Kepler<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Kernel<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>LDAP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 160.0%&#39;</span><span class="nt">&gt;</span>Linux<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.80952380952381%&#39;</span><span class="nt">&gt;</span>Lucid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.71428571428571%&#39;</span><span class="nt">&gt;</span>Lxc<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>LXC<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Macbook Air<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Macbook Air 2013<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.85714285714286%&#39;</span><span class="nt">&gt;</span>Markdown<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>MySQL<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 109.52380952380952%&#39;</span><span class="nt">&gt;</span>Octopress<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>OpenVPN<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.66666666666667%&#39;</span><span class="nt">&gt;</span>Packaging<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Pakete<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Passenger<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>PDF<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Perl<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>PGP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Pigdeonhole<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/podcast&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Podcast<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 130.47619047619048%&#39;</span><span class="nt">&gt;</span>Precise<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/proxy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Proxy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Quilt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>Raring<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.85714285714286%&#39;</span><span class="nt">&gt;</span>Redmine<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.66666666666667%&#39;</span><span class="nt">&gt;</span>Ruby<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Server<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/smtp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>SMTP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/squid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Squid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.85714285714286%&#39;</span><span class="nt">&gt;</span>Subversion<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/thunderbird&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Thunderbird<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/truecrypt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Truecrypt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 149.52380952380952%&#39;</span><span class="nt">&gt;</span>Ubuntu<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>USB<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Webservice<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/windows&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Windows<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.95238095238095%&#39;</span><span class="nt">&gt;</span>Zertifikat<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.9047619047619%&#39;</span><span class="nt">&gt;</span>ZFS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;category-list&quot;</span><span class="nt">&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span><span class="nt">&gt;</span>Blog (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span><span class="nt">&gt;</span>CentOS (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span><span class="nt">&gt;</span>Chrome (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span><span class="nt">&gt;</span>Cinnamon (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span><span class="nt">&gt;</span>Debian (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span><span class="nt">&gt;</span>Dovecot (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span><span class="nt">&gt;</span>Eclipse (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span><span class="nt">&gt;</span>Fotorama (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span><span class="nt">&gt;</span>Git (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span><span class="nt">&gt;</span>GitHub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span><span class="nt">&gt;</span>GPG (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gradle&#39;</span><span class="nt">&gt;</span>Gradle (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span><span class="nt">&gt;</span>Groovy (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span><span class="nt">&gt;</span>Grub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span><span class="nt">&gt;</span>HTTPS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span><span class="nt">&gt;</span>Java (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span><span class="nt">&gt;</span>JBoss (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jdk&#39;</span><span class="nt">&gt;</span>JDK (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span><span class="nt">&gt;</span>JMX (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span><span class="nt">&gt;</span>Kepler (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span><span class="nt">&gt;</span>Kernel (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span><span class="nt">&gt;</span>LDAP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span><span class="nt">&gt;</span>Linux (63)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span><span class="nt">&gt;</span>Lucid (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>Lxc (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>LXC (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span><span class="nt">&gt;</span>Macbook Air (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span><span class="nt">&gt;</span>Macbook Air 2013 (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span><span class="nt">&gt;</span>Markdown (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span><span class="nt">&gt;</span>MySQL (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span><span class="nt">&gt;</span>Octopress (10)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span><span class="nt">&gt;</span>OpenVPN (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span><span class="nt">&gt;</span>Packaging (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span><span class="nt">&gt;</span>Pakete (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span><span class="nt">&gt;</span>Passenger (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span><span class="nt">&gt;</span>PDF (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span><span class="nt">&gt;</span>Perl (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span><span class="nt">&gt;</span>PGP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span><span class="nt">&gt;</span>Pigdeonhole (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/podcast&#39;</span><span class="nt">&gt;</span>Podcast (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span><span class="nt">&gt;</span>Precise (32)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/proxy&#39;</span><span class="nt">&gt;</span>Proxy (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span><span class="nt">&gt;</span>Quilt (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span><span class="nt">&gt;</span>Raring (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span><span class="nt">&gt;</span>Redmine (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span><span class="nt">&gt;</span>Ruby (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span><span class="nt">&gt;</span>Server (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/smtp&#39;</span><span class="nt">&gt;</span>SMTP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/squid&#39;</span><span class="nt">&gt;</span>Squid (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span><span class="nt">&gt;</span>Subversion (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/thunderbird&#39;</span><span class="nt">&gt;</span>Thunderbird (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/truecrypt&#39;</span><span class="nt">&gt;</span>Truecrypt (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span><span class="nt">&gt;</span>Ubuntu (52)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span><span class="nt">&gt;</span>USB (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span><span class="nt">&gt;</span>Webservice (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/windows&#39;</span><span class="nt">&gt;</span>Windows (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span><span class="nt">&gt;</span>Zertifikat (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span><span class="nt">&gt;</span>ZFS (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</span>
 </span><span class='line'><span class="nt">&lt;/div&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -2600,132 +2977,6 @@ dass /etc/init.d/umountroot wieder aktiviert wurde.</p></li>
 <li>2013-08-13: /etc/init.d/umountroot wird durch <code>apt-get upgrade</code> manchmal wieder aktiviert.</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[LXC: Probleme bei der Initialisierung des Netzwerkes]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/26/lxc-networking/"/>
-    <updated>2013-07-26T15:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/26/lxc-networking</id>
-    <content type="html"><![CDATA[<p>Seit einiger Zeit verwende ich LXC als Ergänzung zu VirtualBox.
-Bislang läuft das weitgehend problemlos.
-Merkwürdigerweise habe einige LXC-Container seit heute ein
-Problem beim Start: Es dauert endlos, bis der Login-Prompt erscheint
-und das Netzwerk funktioniert nicht. Betroffen sind auch Container,
-die früher anstandslos gelaufen sind.</p>
-
-<!-- more -->
-
-
-<h2>Logs</h2>
-
-<h3>Host: /var/Log/syslog</h3>
-
-<figure class='code'><figcaption><span>Host:/var/log/syslog </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82 
-</span><span class='line'>Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82 
-</span><span class='line'>Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82 
-</span><span class='line'>Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82 
-</span><span class='line'>Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82 
-</span><span class='line'>Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82 
-</span><span class='line'>Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82 
-</span><span class='line'>Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82 
-</span><span class='line'>Jul 26 13:13:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Container: /var/log/syslog</h3>
-
-<figure class='code'><figcaption><span>Container:/var/log/syslog </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Jul 26 11:12:53 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 17
-</span><span class='line'>Jul 26 11:12:53 localhost dhclient: 5 bad udp checksums in 5 packets
-</span><span class='line'>Jul 26 11:13:10 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 14
-</span><span class='line'>Jul 26 11:13:24 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
-</span><span class='line'>Jul 26 11:13:35 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
-</span><span class='line'>Jul 26 11:13:50 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
-</span><span class='line'>Jul 26 11:14:01 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 10
-</span><span class='line'>Jul 26 11:14:01 localhost dhclient: 5 bad udp checksums in 5 packets
-</span><span class='line'>Jul 26 11:14:11 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
-</span><span class='line'>Jul 26 11:14:26 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Abhilfe</h2>
-
-<h3>Temporäre Abhilfe</h3>
-
-<p>Abhilfe schafft die Ausführung vom nachfolgenden Befehl auf dem Host:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo iptables -A POSTROUTING -t mangle -p udp --dport bootpc -j CHECKSUM --checksum-fill</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Die Abhilfe ist hier beschrieben: <a href="https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14">https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14</a></p>
-
-<h3>Dauerhafte Abhilfe</h3>
-
-<p>Eine dauerhafte Abhilfe schafft die Aktualisierung des Paketes
-&ldquo;isc-dhcp-client&rdquo; auf Version 4.1.ESV-R4-0ubuntu5.8 oder neuer.
-Das geht ganz normal mit <code>apt-get update; apt-get upgrade</code>.
-Ich hatte zuvor 4.1.ESV-R4-0ubuntu5.5 im Container.</p>
-
-<h2>Nachtrag: Ursache</h2>
-
-<p>Das Problem wurde ziemlich sicher verursacht durch den Einsatz von
-einem 3.10-er Kernel auf dem Host. Nach dem &ldquo;Runterschalten&rdquo; auf 3.8
-laufen die Container auch wieder ohne Aktualisierung von
-&ldquo;isc-dhcp-client&rdquo;.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Git Fork]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/21/git-fork/"/>
-    <updated>2013-07-21T09:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/21/git-fork</id>
-    <content type="html"><![CDATA[<h1>Git Fork</h1>
-
-<p>Hier kurz meine Notizen zum Arbeiten mit GitHub Forks:</p>
-
-<ul>
-<li>Bestehendes Projekt &ldquo;forken&rdquo; &ndash;> einfach via GitHub-Webseite</li>
-<li>Lokalen Clone hiervon anlegen: <code>git clone ...</code></li>
-<li>Lokale Änderungen an GitHub schicken:
-<code>git push origin master</code></li>
-<li>Original-Projekt als &ldquo;upstream&rdquo; definieren:
-<code>git remote add upstream ...</code></li>
-<li>Lokale Kopie des Original-Projektes aktualisieren:
-<code>git fetch upstream</code></li>
-<li>Lokale Kopie des Original-Projektes &ldquo;einarbeiten&rdquo;:
-
-<ul>
-<li><code>git merge --no-commit upstream/master</code></li>
-<li><code>git mergetool</code></li>
-<li><code>git commit -m ...</code></li>
-</ul>
-</li>
-</ul>
-
-
-<p>Mehr Details: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</p>
 ]]></content>
   </entry>
   

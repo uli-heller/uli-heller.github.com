@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Precise | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/precise/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-10-06T13:54:24+02:00</updated>
+  <updated>2013-10-09T04:26:12+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -14,12 +14,382 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Probleme mit Thunderbird-Profile korrigieren]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/08/truecrypt-thunderbird/"/>
+    <updated>2013-10-08T10:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/08/truecrypt-thunderbird</id>
+    <content type="html"><![CDATA[<p>Heute war&rsquo;s mal wieder so weit: Thunderbird wollte nicht starten.
+Erst meckert er, weil das Profil in Benutzung ist. Später dann erkennt
+er das Profil nicht mehr.</p>
+
+<!-- more -->
+
+
+<h2>Truecrypt</h2>
+
+<p>Ich verwende Thunderbird zusammen mit Truecrypt. Ich habe eine USB-Stick.
+Auf dem liegt eine Truecrypt-Partition. Von dieser wird Thunderbird gestartet.</p>
+
+<h3>Die Partition wird im &ldquo;Nur-Lesen&rdquo;-Modus eingebunden!</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Auszug aus ./var/log/syslog </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Oct  8 08:13:22 uli-hp-ssd kernel: [49292.410648] sd 7:0:0:0: [sdh] Attached SCSI disk
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd kernel: [49292.754705] FAT-fs (sdh1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Version 2012.1.15AR.1 external FUSE 28
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Mounted /dev/sdh2 (Read-Write, label &ldquo;SanNTFS&rdquo;, NTFS 3.1)
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Cmdline options: rw,nosuid,nodev,uhelper=udisks,uid=1000,gid=1000,dmask=0077,fmask=0177
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Mount options: rw,nosuid,nodev,uhelper=udisks,allow_other,nonempty,relatime,default_permissions,fsname=/dev/sdh2,blkdev,blksize=4096
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Global ownership and permissions enforced, configuration type 7
+</span><span class='line'>Oct  8 08:13:42 uli-hp-ssd kernel: [49312.757964] FAT-fs (dm-8): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+</span><span class='line'>Oct  8 08:14:00 uli-hp-ssd kernel: [49331.213542] FAT-fs (dm-8): error, fat_free_clusters: deleting FAT entry beyond EOF
+</span><span class='line'>Oct  8 08:14:00 uli-hp-ssd kernel: [49331.213550] FAT-fs (dm-8): Filesystem has been set read-only</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Freigeben der Truecrypt-Partition</h3>
+
+<p>Zunächst muß die Truecrypt-Partition ausgehängt werden, damit sie für
+Korrekturen frei ist.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Truecrypt-Partition freigeben </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -s
+</span><span class='line'>umount /media/truecrypt1</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Fsck ohne Zusatzoptionen</h3>
+
+<p>Erster Versuch: Ausführung von fsck.vfat. Leider kein Erfolg,
+das Dateisystem wird nicht korrigiert!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>fsck ohne Zusatzoptionen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>fsck.vfat /dev/mapper/truecrypt1&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>&hellip;
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Reclaimed 779 unused clusters (3190784 bytes).
+</span><span class='line'>Free cluster summary wrong (1189209 vs. really 1190739)
+</span><span class='line'>1) Correct
+</span><span class='line'>2) Don&rsquo;t correct
+</span><span class='line'>? 1
+</span><span class='line'>Leaving file system unchanged.
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Fsck mit Option &lsquo;-a&rsquo;</h3>
+
+<p>Mit der Option &lsquo;-a&rsquo; sollte es eigentlich klappen. Leider gibt&rsquo;s am
+Ende die Fehlermeldung &ldquo;Unable to create unique name&rdquo;.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>fsck mit Option -a </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -y /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>  Not automatically fixing this.
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>&hellip;
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Unable to create unique name</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Mehrfache Ausführung mit Option &lsquo;-r&rsquo;</h3>
+
+<p>Als nächstes führe ich fsck.vfat mehrfach mit der Option &lsquo;-r&rsquo; aus.
+Bis auf die Sache mit dem Boot Sector bestätige ich einfach jede Änderung.
+Auffällig: Beim zweiten Durchlauf werden neue Fehler gefunden und korrigiert.
+Erst beim dritten Durchlauf gibt es keinen Fehler mehr.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Erster Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>/thunderbird-uli/virtualFolders.dat
+</span><span class='line'>&hellip;
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Reclaimed 779 unused clusters (3190784 bytes).
+</span><span class='line'>Free cluster summary wrong (1189209 vs. really 1190739)
+</span><span class='line'>1) Correct
+</span><span class='line'>2) Don&rsquo;t correct
+</span><span class='line'>? 1
+</span><span class='line'>Perform changes ? (y/n) y
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Zweiter Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>Reclaimed 750 unused clusters (3072000 bytes).
+</span><span class='line'>Perform changes ? (y/n) y
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dritter Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Nochmals: Fsck mit Option &lsquo;-a&rsquo;</h3>
+
+<p>Schlußtest nochmal mit der Option &lsquo;-a&rsquo;: Kein Fehler mehr vorhanden!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Nochmals fsck mit &lsquo;-a&rsquo;  </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -a /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>  Not automatically fixing this.
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Truecrypt-Partition wieder einbinden</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Truecrypt-Partition einbinden </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mount /dev/mapper/truecrypt1 /media/truecrypt1/</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>&hellip; klappt nun im Schreiblese-Modus!</p>
+
+<h2>Thunderbird</h2>
+
+<p>Nach den Korrekturen an der Truecrypt-Partition startet Thunderbird
+leider nicht mehr richtig: Ich werde aufgefordert, ein neues Konto
+anzulegen.</p>
+
+<h3>Sichtung des Adressbuchs</h3>
+
+<p>Wenn ich mir direkt das Adressbuch anzeigen lasse, dann sehe ich dort noch
+meine Einträge &ndash; gut!</p>
+
+<h3>Sichtung der Datei &ldquo;prefs.js&rdquo;</h3>
+
+<p>In meinem Profilverzeichnis /media/truecrypt1/thunderbird-uli
+gibt es eine Datei &ldquo;prefs.js&rdquo;. Diese sieht allerdings sehr klein aus.
+Sie hat nur eine Größe von grob 3KB.</p>
+
+<p>Ich finde noch eine Datei &ldquo;prefs-1.js&rdquo; vom Vortag, die hat eine
+Größe von grob 60 KB.</p>
+
+<h3>Restaurieren der Datei &ldquo;prefs.js&rdquo;</h3>
+
+<ul>
+<li>Thunderbird stoppen</li>
+<li><code>cp prefs-1.js prefs.js</code></li>
+<li>Thunderbird starten &ndash;> klappt, sieht wieder &ldquo;normal&rdquo; aus</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JDK unter Windows installieren ohne Administratorrechte]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/07/windows-jdk/"/>
+    <updated>2013-10-07T18:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/07/windows-jdk</id>
+    <content type="html"><![CDATA[<p>Leider muß ich bei meinem aktuellen Projekt unter Windows entwickeln.
+Es handelt sich um ein Java-Projekt. Die Arbeit kann nur auf einem Notebook
+erfolgen, das mir mein Auftraggeber stellt. Das Notebook läuft unter
+Windows 7 und stellt eine VPN-Verbindung zum Firmennetz her.</p>
+
+<p>Zur Entwicklung des im Projektrahmen zu erstellenden Programms benötige
+ich ein JDK. Das Einspielen auf dem Notebook gestaltet sich schwierig,
+denn ich habe dort keine Administratorrechte und Oracle&rsquo;s JDK benötigt
+eben diese. Schöner Mist. Nachfolgend eine Beschreibung, wie ich mir
+beholfen habe. Ich benötige dazu einen Linux-Rechner und einen USB-Stick.</p>
+
+<!-- more -->
+
+
+<h2>Linux-Rechner</h2>
+
+<p>Auf meinem Linux-Rechner ist Ubuntu-12.04 installiert. Zusätzlich
+benötige ich Wine. Dieses wird schnell nachinstalliert mit</p>
+
+<pre><code>sudo apt-get install wine
+</code></pre>
+
+<p>Die Installation hat bei mir zunächst nicht geklappt &ndash; vermutlich weil
+ich auch VirtualBox auf dem Linux-Rechner habe. In einem LXC-Container
+ging&rsquo;s problemlos.</p>
+
+<p>Danach:</p>
+
+<ul>
+<li>Oracle JDK für Windows x86 herunterladen von <a href="http://oracle.com">http://oracle.com</a></li>
+<li>Heruntergeladene Datei in LXC-Container hineinkopieren</li>
+<li>Kopierte Datei im LXC-Container ausführen mittels Wine<pre>
+wine ./jdk-7u40-windows-i586.exe</pre></li>
+<li>Es erscheinen diverse Fehlermeldungen &ndash;> ignorieren!</li>
+<li>Ordner ~/.wine/drive_c/Program Files/java verpacken (bspw. mit <code>zip</code>)</li>
+<li>Verpackten Ordner auf USB-Stick speichern</li>
+</ul>
+
+
+<h2>Windows-Rechner</h2>
+
+<ul>
+<li>Ordner vom USB-Stick auspacken nach C:\Uli</li>
+<li>Skript erstellen zur Erweiterung der Umgebungsvariablen PATH</li>
+<li>Test: <code>javac -version</code> &ndash;> javac 1.7.0_40</li>
+</ul>
+
+
+<p>Der Aufruf vom Java-Kompiler klappt &ndash; ich bin zufrieden!</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[ZFS unter Ubuntu-12.04.3]]></title>
     <link href="http://uli-heller.github.com/blog/2013/10/06/zfs/"/>
     <updated>2013-10-06T11:00:00+02:00</updated>
     <id>http://uli-heller.github.com/blog/2013/10/06/zfs</id>
     <content type="html"><![CDATA[<p>In <a href="/blog/2013/07/12/zfs">Experimente mit ZFS unter Ubuntu-12.04</a> habe ich meine Experimente mit ZFS beschrieben.
 Hier beschreibe ich nun, wie ich&rsquo;s dann schließlich umgesetzt habe.</p>
+
+<!-- more -->
+
 
 <h2>DEBs installieren</h2>
 
@@ -1026,220 +1396,6 @@ tcl85 an der richtigen Stelle ausgelesen wird</li>
 
 
 <p>Also: Grobtest ist OK.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[LXC: Probleme mit 3.10-er-Kernel -  Das Dateisystem ist nur lesbar]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/27/lxc-kernel-310/"/>
-    <updated>2013-07-27T09:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/27/lxc-kernel-310</id>
-    <content type="html"><![CDATA[<p>Seit einiger Zeit verwende ich LXC als Ergänzung zu VirtualBox.
-Bislang läuft das weitgehend problemlos. Merkwürdigerweise
-bekomme ich seit ein paar Tagen immer wieder Fehlermeldungen
-bezüglich BTRFS: &ldquo;Das Dateisystem ist nur lesbar&rdquo;.</p>
-
-<p>Erst dachte ich, BTRFS hätte &lsquo;nen Schuß. Detailliertere Tests zeigen,
-dass der 3.10-er-Kernel wohl &ldquo;Schuld&rdquo; ist.</p>
-
-<!-- more -->
-
-
-<h2>Meine LXC-Umgebung</h2>
-
-<ul>
-<li>Ubuntu 12.04</li>
-<li>3.8-er-Kernel oder auch 3.10-er-Kernel</li>
-<li>/dev/mapper/datavg-lxlv ist eingebunden unter /lxc und ist ein
-BTRFS-Dateisystem</li>
-<li>Alle LXC-Container liegen unter /lxc, also auf einem BTRFS-Dateisystem</li>
-</ul>
-
-
-<h2>Runterfahren eines LXC-Containers unter 3.8</h2>
-
-<p>Beim 3.8-er-Kernel sieht man eine Fehlermeldung bzgl.
-meiner BTRFS-Partition: Sie kann <em>nicht</em> umgehängt werden mit
-Nur-Lesen-Zugriff.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Runterfahren mit Kernel 3.8 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>~<span class="nv">$ </span>sudo poweroff
-</span><span class='line'>&amp;hellip;
-</span><span class='line'>umount: /run/lock: not mounted
-</span><span class='line'>umount: /run/shm: not mounted
-</span><span class='line'>mount: cannot mount block device /dev/mapper/datavg-lxclv <span class="nb">read</span>-only
-</span><span class='line'> * Will now halt
-</span><span class='line'>~<span class="nv">$ </span>sudo touch  /lxc/x
-</span><span class='line'>~<span class="nv">$ </span>sudo rm  /lxc/x
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Runterfahren eines LXC-Containers unter 3.10</h2>
-
-<p>Beim 3.10-er-Kernel sieht man keine Fehlermeldung bzgl.
-meiner BTRFS-Partition, also kann sie vermutlich umgehängt werden mit
-Nur-Lesen-Zugriff. Dementsprechend ist sie danach &ldquo;nur-lesend&rdquo;
-eingehängt und der Inhalt von /lxc kann nicht mehr modifiziert
-werden.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Runterfahren mit Kernel 3.10 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>~<span class="nv">$ </span>sudo poweroff
-</span><span class='line'>&amp;hellip;
-</span><span class='line'>umount: /run/lock: not mounted
-</span><span class='line'>umount: /run/shm: not mounted
-</span><span class='line'> * Will now halt
-</span><span class='line'>~<span class="nv">$ </span>sudo touch /lxc/x
-</span><span class='line'>touch: »/lxc/x“ kann nicht berührt werden: Das Dateisystem ist nur lesbar
-</span><span class='line'>~<span class="nv">$ LANG</span><span class="o">=</span>C sudo touch /lxc/x
-</span><span class='line'>touch: cannot touch <span class="sb">`</span>/lxc/x<span class="err">&#39;</span>: Read-only file system
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Dateisysteme innerhalb der LXC-Container</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dateisysteme </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>container~<span class="nv">$ </span>df
-</span><span class='line'>Filesystem               1K-blocks     Used Available Use% Mounted on
-</span><span class='line'>/dev/mapper/datavg-lxclv  41943040 13871816  26684544  35% /
-</span><span class='line'>none                        816864       76    816788   1% /run
-</span><span class='line'>none                          5120        0      5120   0% /run/lock
-</span><span class='line'>none                       4084308        0   4084308   0% /run/shm
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Korrekturen</h2>
-
-<ul>
-<li>Bei Verwendung des 3.10-er-Kernels nach dem Stoppen eines Containers: <code>sudo mount -o remount,rw /dev/mapper/datavg-lxclv</code> ausführen</li>
-<li>Immer nur den 3.8-er-Kernel verwenden</li>
-<li><p>Innerhalb des Containers /etc/init.d/umountroot &ldquo;abklemmen&rdquo;:</p>
-
-<pre><code>sudo update-rc.d -f umountroot remove
-</code></pre>
-
-<p>Leider muß man dies in regelmässigen Abständen wiederholen. Heute habe ich
-bspw. im Container <code>apt-get update; apt-get upgrade</code> ausgeführt mit der Folge,
-dass /etc/init.d/umountroot wieder aktiviert wurde.</p></li>
-</ul>
-
-
-<h2>Historie</h2>
-
-<ul>
-<li>2013-08-13: /etc/init.d/umountroot wird durch <code>apt-get upgrade</code> manchmal wieder aktiviert.</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[LXC: Probleme bei der Initialisierung des Netzwerkes]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/26/lxc-networking/"/>
-    <updated>2013-07-26T15:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/26/lxc-networking</id>
-    <content type="html"><![CDATA[<p>Seit einiger Zeit verwende ich LXC als Ergänzung zu VirtualBox.
-Bislang läuft das weitgehend problemlos.
-Merkwürdigerweise habe einige LXC-Container seit heute ein
-Problem beim Start: Es dauert endlos, bis der Login-Prompt erscheint
-und das Netzwerk funktioniert nicht. Betroffen sind auch Container,
-die früher anstandslos gelaufen sind.</p>
-
-<!-- more -->
-
-
-<h2>Logs</h2>
-
-<h3>Host: /var/Log/syslog</h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Host:/var/log/syslog </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:12:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:13 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:24 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:35 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPOFFER(lxcbr0) 10.0.3.14 00:16:3e:84:7a:82
-</span><span class='line'>Jul 26 13:13:53 uli-hp-ssd dnsmasq-dhcp[1571]: DHCPDISCOVER(lxcbr0) 00:16:3e:84:7a:82</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3>Container: /var/log/syslog</h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Container:/var/log/syslog </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Jul 26 11:12:53 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 17
-</span><span class='line'>Jul 26 11:12:53 localhost dhclient: 5 bad udp checksums in 5 packets
-</span><span class='line'>Jul 26 11:13:10 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 14
-</span><span class='line'>Jul 26 11:13:24 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
-</span><span class='line'>Jul 26 11:13:35 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
-</span><span class='line'>Jul 26 11:13:50 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 11
-</span><span class='line'>Jul 26 11:14:01 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 10
-</span><span class='line'>Jul 26 11:14:01 localhost dhclient: 5 bad udp checksums in 5 packets
-</span><span class='line'>Jul 26 11:14:11 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port 67 interval 15
-</span><span class='line'>Jul 26 11:14:26 localhost dhclient: DHCPDISCOVER on eth0 to 255.255.255.255 port</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Abhilfe</h2>
-
-<h3>Temporäre Abhilfe</h3>
-
-<p>Abhilfe schafft die Ausführung vom nachfolgenden Befehl auf dem Host:</p>
-
-<p><code>
-sudo iptables -A POSTROUTING -t mangle -p udp --dport bootpc -j CHECKSUM --checksum-fill
-</code></p>
-
-<p>Die Abhilfe ist hier beschrieben: <a href="https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14">https://bugs.launchpad.net/ubuntu/+source/isc-dhcp/+bug/930962/comments/14</a></p>
-
-<h3>Dauerhafte Abhilfe</h3>
-
-<p>Eine dauerhafte Abhilfe schafft die Aktualisierung des Paketes
-&ldquo;isc-dhcp-client&rdquo; auf Version 4.1.ESV-R4-0ubuntu5.8 oder neuer.
-Das geht ganz normal mit <code>apt-get update; apt-get upgrade</code>.
-Ich hatte zuvor 4.1.ESV-R4-0ubuntu5.5 im Container.</p>
-
-<h2>Nachtrag: Ursache</h2>
-
-<p>Das Problem wurde ziemlich sicher verursacht durch den Einsatz von
-einem 3.10-er Kernel auf dem Host. Nach dem &ldquo;Runterschalten&rdquo; auf 3.8
-laufen die Container auch wieder ohne Aktualisierung von
-&ldquo;isc-dhcp-client&rdquo;.</p>
 ]]></content>
   </entry>
   

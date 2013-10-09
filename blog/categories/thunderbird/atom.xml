@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Thema: Thunderbird | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/thunderbird/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2013-10-09T04:26:12+02:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Probleme mit Thunderbird-Profile korrigieren]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/08/truecrypt-thunderbird/"/>
+    <updated>2013-10-08T10:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/08/truecrypt-thunderbird</id>
+    <content type="html"><![CDATA[<p>Heute war&rsquo;s mal wieder so weit: Thunderbird wollte nicht starten.
+Erst meckert er, weil das Profil in Benutzung ist. Später dann erkennt
+er das Profil nicht mehr.</p>
+
+<!-- more -->
+
+
+<h2>Truecrypt</h2>
+
+<p>Ich verwende Thunderbird zusammen mit Truecrypt. Ich habe eine USB-Stick.
+Auf dem liegt eine Truecrypt-Partition. Von dieser wird Thunderbird gestartet.</p>
+
+<h3>Die Partition wird im &ldquo;Nur-Lesen&rdquo;-Modus eingebunden!</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Auszug aus ./var/log/syslog </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Oct  8 08:13:22 uli-hp-ssd kernel: [49292.410648] sd 7:0:0:0: [sdh] Attached SCSI disk
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd kernel: [49292.754705] FAT-fs (sdh1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Version 2012.1.15AR.1 external FUSE 28
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Mounted /dev/sdh2 (Read-Write, label &ldquo;SanNTFS&rdquo;, NTFS 3.1)
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Cmdline options: rw,nosuid,nodev,uhelper=udisks,uid=1000,gid=1000,dmask=0077,fmask=0177
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Mount options: rw,nosuid,nodev,uhelper=udisks,allow_other,nonempty,relatime,default_permissions,fsname=/dev/sdh2,blkdev,blksize=4096
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Global ownership and permissions enforced, configuration type 7
+</span><span class='line'>Oct  8 08:13:42 uli-hp-ssd kernel: [49312.757964] FAT-fs (dm-8): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+</span><span class='line'>Oct  8 08:14:00 uli-hp-ssd kernel: [49331.213542] FAT-fs (dm-8): error, fat_free_clusters: deleting FAT entry beyond EOF
+</span><span class='line'>Oct  8 08:14:00 uli-hp-ssd kernel: [49331.213550] FAT-fs (dm-8): Filesystem has been set read-only</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Freigeben der Truecrypt-Partition</h3>
+
+<p>Zunächst muß die Truecrypt-Partition ausgehängt werden, damit sie für
+Korrekturen frei ist.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Truecrypt-Partition freigeben </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -s
+</span><span class='line'>umount /media/truecrypt1</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Fsck ohne Zusatzoptionen</h3>
+
+<p>Erster Versuch: Ausführung von fsck.vfat. Leider kein Erfolg,
+das Dateisystem wird nicht korrigiert!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>fsck ohne Zusatzoptionen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>fsck.vfat /dev/mapper/truecrypt1&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>&hellip;
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Reclaimed 779 unused clusters (3190784 bytes).
+</span><span class='line'>Free cluster summary wrong (1189209 vs. really 1190739)
+</span><span class='line'>1) Correct
+</span><span class='line'>2) Don&rsquo;t correct
+</span><span class='line'>? 1
+</span><span class='line'>Leaving file system unchanged.
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Fsck mit Option &lsquo;-a&rsquo;</h3>
+
+<p>Mit der Option &lsquo;-a&rsquo; sollte es eigentlich klappen. Leider gibt&rsquo;s am
+Ende die Fehlermeldung &ldquo;Unable to create unique name&rdquo;.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>fsck mit Option -a </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -y /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>  Not automatically fixing this.
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>&hellip;
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Unable to create unique name</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Mehrfache Ausführung mit Option &lsquo;-r&rsquo;</h3>
+
+<p>Als nächstes führe ich fsck.vfat mehrfach mit der Option &lsquo;-r&rsquo; aus.
+Bis auf die Sache mit dem Boot Sector bestätige ich einfach jede Änderung.
+Auffällig: Beim zweiten Durchlauf werden neue Fehler gefunden und korrigiert.
+Erst beim dritten Durchlauf gibt es keinen Fehler mehr.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Erster Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>/thunderbird-uli/virtualFolders.dat
+</span><span class='line'>&hellip;
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Reclaimed 779 unused clusters (3190784 bytes).
+</span><span class='line'>Free cluster summary wrong (1189209 vs. really 1190739)
+</span><span class='line'>1) Correct
+</span><span class='line'>2) Don&rsquo;t correct
+</span><span class='line'>? 1
+</span><span class='line'>Perform changes ? (y/n) y
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Zweiter Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>Reclaimed 750 unused clusters (3072000 bytes).
+</span><span class='line'>Perform changes ? (y/n) y
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dritter Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Nochmals: Fsck mit Option &lsquo;-a&rsquo;</h3>
+
+<p>Schlußtest nochmal mit der Option &lsquo;-a&rsquo;: Kein Fehler mehr vorhanden!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Nochmals fsck mit &lsquo;-a&rsquo;  </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -a /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>  Not automatically fixing this.
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Truecrypt-Partition wieder einbinden</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Truecrypt-Partition einbinden </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mount /dev/mapper/truecrypt1 /media/truecrypt1/</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>&hellip; klappt nun im Schreiblese-Modus!</p>
+
+<h2>Thunderbird</h2>
+
+<p>Nach den Korrekturen an der Truecrypt-Partition startet Thunderbird
+leider nicht mehr richtig: Ich werde aufgefordert, ein neues Konto
+anzulegen.</p>
+
+<h3>Sichtung des Adressbuchs</h3>
+
+<p>Wenn ich mir direkt das Adressbuch anzeigen lasse, dann sehe ich dort noch
+meine Einträge &ndash; gut!</p>
+
+<h3>Sichtung der Datei &ldquo;prefs.js&rdquo;</h3>
+
+<p>In meinem Profilverzeichnis /media/truecrypt1/thunderbird-uli
+gibt es eine Datei &ldquo;prefs.js&rdquo;. Diese sieht allerdings sehr klein aus.
+Sie hat nur eine Größe von grob 3KB.</p>
+
+<p>Ich finde noch eine Datei &ldquo;prefs-1.js&rdquo; vom Vortag, die hat eine
+Größe von grob 60 KB.</p>
+
+<h3>Restaurieren der Datei &ldquo;prefs.js&rdquo;</h3>
+
+<ul>
+<li>Thunderbird stoppen</li>
+<li><code>cp prefs-1.js prefs.js</code></li>
+<li>Thunderbird starten &ndash;> klappt, sieht wieder &ldquo;normal&rdquo; aus</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

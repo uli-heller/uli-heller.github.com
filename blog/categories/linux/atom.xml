@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Linux | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-10-06T13:54:24+02:00</updated>
+  <updated>2013-10-09T04:26:12+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -14,12 +14,382 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Probleme mit Thunderbird-Profile korrigieren]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/08/truecrypt-thunderbird/"/>
+    <updated>2013-10-08T10:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/08/truecrypt-thunderbird</id>
+    <content type="html"><![CDATA[<p>Heute war&rsquo;s mal wieder so weit: Thunderbird wollte nicht starten.
+Erst meckert er, weil das Profil in Benutzung ist. Später dann erkennt
+er das Profil nicht mehr.</p>
+
+<!-- more -->
+
+
+<h2>Truecrypt</h2>
+
+<p>Ich verwende Thunderbird zusammen mit Truecrypt. Ich habe eine USB-Stick.
+Auf dem liegt eine Truecrypt-Partition. Von dieser wird Thunderbird gestartet.</p>
+
+<h3>Die Partition wird im &ldquo;Nur-Lesen&rdquo;-Modus eingebunden!</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Auszug aus ./var/log/syslog </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Oct  8 08:13:22 uli-hp-ssd kernel: [49292.410648] sd 7:0:0:0: [sdh] Attached SCSI disk
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd kernel: [49292.754705] FAT-fs (sdh1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Version 2012.1.15AR.1 external FUSE 28
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Mounted /dev/sdh2 (Read-Write, label &ldquo;SanNTFS&rdquo;, NTFS 3.1)
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Cmdline options: rw,nosuid,nodev,uhelper=udisks,uid=1000,gid=1000,dmask=0077,fmask=0177
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Mount options: rw,nosuid,nodev,uhelper=udisks,allow_other,nonempty,relatime,default_permissions,fsname=/dev/sdh2,blkdev,blksize=4096
+</span><span class='line'>Oct  8 08:13:22 uli-hp-ssd ntfs-3g[9249]: Global ownership and permissions enforced, configuration type 7
+</span><span class='line'>Oct  8 08:13:42 uli-hp-ssd kernel: [49312.757964] FAT-fs (dm-8): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+</span><span class='line'>Oct  8 08:14:00 uli-hp-ssd kernel: [49331.213542] FAT-fs (dm-8): error, fat_free_clusters: deleting FAT entry beyond EOF
+</span><span class='line'>Oct  8 08:14:00 uli-hp-ssd kernel: [49331.213550] FAT-fs (dm-8): Filesystem has been set read-only</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Freigeben der Truecrypt-Partition</h3>
+
+<p>Zunächst muß die Truecrypt-Partition ausgehängt werden, damit sie für
+Korrekturen frei ist.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Truecrypt-Partition freigeben </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo -s
+</span><span class='line'>umount /media/truecrypt1</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Fsck ohne Zusatzoptionen</h3>
+
+<p>Erster Versuch: Ausführung von fsck.vfat. Leider kein Erfolg,
+das Dateisystem wird nicht korrigiert!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>fsck ohne Zusatzoptionen </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>fsck.vfat /dev/mapper/truecrypt1&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>&hellip;
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Reclaimed 779 unused clusters (3190784 bytes).
+</span><span class='line'>Free cluster summary wrong (1189209 vs. really 1190739)
+</span><span class='line'>1) Correct
+</span><span class='line'>2) Don&rsquo;t correct
+</span><span class='line'>? 1
+</span><span class='line'>Leaving file system unchanged.
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Fsck mit Option &lsquo;-a&rsquo;</h3>
+
+<p>Mit der Option &lsquo;-a&rsquo; sollte es eigentlich klappen. Leider gibt&rsquo;s am
+Ende die Fehlermeldung &ldquo;Unable to create unique name&rdquo;.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>fsck mit Option -a </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -y /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>  Not automatically fixing this.
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>&hellip;
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Unable to create unique name</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Mehrfache Ausführung mit Option &lsquo;-r&rsquo;</h3>
+
+<p>Als nächstes führe ich fsck.vfat mehrfach mit der Option &lsquo;-r&rsquo; aus.
+Bis auf die Sache mit dem Boot Sector bestätige ich einfach jede Änderung.
+Auffällig: Beim zweiten Durchlauf werden neue Fehler gefunden und korrigiert.
+Erst beim dritten Durchlauf gibt es keinen Fehler mehr.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Erster Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/thunderbird-uli/TestPilotErrorLog.log
+</span><span class='line'>  File size is 527203 bytes, cluster chain length is > 528384 bytes.
+</span><span class='line'>  Truncating file to 527203 bytes.
+</span><span class='line'>/thunderbird-uli/virtualFolders.dat
+</span><span class='line'>&hellip;
+</span><span class='line'>/thunderbird-uli/ImapMail/localhost/INBOX
+</span><span class='line'>  File size is 270166754 bytes, cluster chain length is 266158080 bytes.
+</span><span class='line'>  Truncating file to 266158080 bytes.
+</span><span class='line'>Reclaimed 779 unused clusters (3190784 bytes).
+</span><span class='line'>Free cluster summary wrong (1189209 vs. really 1190739)
+</span><span class='line'>1) Correct
+</span><span class='line'>2) Don&rsquo;t correct
+</span><span class='line'>? 1
+</span><span class='line'>Perform changes ? (y/n) y
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Zweiter Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>Reclaimed 750 unused clusters (3072000 bytes).
+</span><span class='line'>Perform changes ? (y/n) y
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dritter Versuch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -r /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>1) Copy original to backup
+</span><span class='line'>2) Copy backup to original
+</span><span class='line'>3) No action
+</span><span class='line'>? 3
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Nochmals: Fsck mit Option &lsquo;-a&rsquo;</h3>
+
+<p>Schlußtest nochmal mit der Option &lsquo;-a&rsquo;: Kein Fehler mehr vorhanden!</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Nochmals fsck mit &lsquo;-a&rsquo;  </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>root@uli-hp-ssd:/var/log# fsck.vfat -a /dev/mapper/truecrypt1
+</span><span class='line'>dosfsck 3.0.12, 29 Oct 2011, FAT32, LFN
+</span><span class='line'>There are differences between boot sector and its backup.
+</span><span class='line'>Differences: (offset:original/backup)
+</span><span class='line'>  65:01/00
+</span><span class='line'>  Not automatically fixing this.
+</span><span class='line'>/dev/mapper/truecrypt1: 4473 files, 1245896/2436635 clusters</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Truecrypt-Partition wieder einbinden</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Truecrypt-Partition einbinden </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mount /dev/mapper/truecrypt1 /media/truecrypt1/</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>&hellip; klappt nun im Schreiblese-Modus!</p>
+
+<h2>Thunderbird</h2>
+
+<p>Nach den Korrekturen an der Truecrypt-Partition startet Thunderbird
+leider nicht mehr richtig: Ich werde aufgefordert, ein neues Konto
+anzulegen.</p>
+
+<h3>Sichtung des Adressbuchs</h3>
+
+<p>Wenn ich mir direkt das Adressbuch anzeigen lasse, dann sehe ich dort noch
+meine Einträge &ndash; gut!</p>
+
+<h3>Sichtung der Datei &ldquo;prefs.js&rdquo;</h3>
+
+<p>In meinem Profilverzeichnis /media/truecrypt1/thunderbird-uli
+gibt es eine Datei &ldquo;prefs.js&rdquo;. Diese sieht allerdings sehr klein aus.
+Sie hat nur eine Größe von grob 3KB.</p>
+
+<p>Ich finde noch eine Datei &ldquo;prefs-1.js&rdquo; vom Vortag, die hat eine
+Größe von grob 60 KB.</p>
+
+<h3>Restaurieren der Datei &ldquo;prefs.js&rdquo;</h3>
+
+<ul>
+<li>Thunderbird stoppen</li>
+<li><code>cp prefs-1.js prefs.js</code></li>
+<li>Thunderbird starten &ndash;> klappt, sieht wieder &ldquo;normal&rdquo; aus</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JDK unter Windows installieren ohne Administratorrechte]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/07/windows-jdk/"/>
+    <updated>2013-10-07T18:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/07/windows-jdk</id>
+    <content type="html"><![CDATA[<p>Leider muß ich bei meinem aktuellen Projekt unter Windows entwickeln.
+Es handelt sich um ein Java-Projekt. Die Arbeit kann nur auf einem Notebook
+erfolgen, das mir mein Auftraggeber stellt. Das Notebook läuft unter
+Windows 7 und stellt eine VPN-Verbindung zum Firmennetz her.</p>
+
+<p>Zur Entwicklung des im Projektrahmen zu erstellenden Programms benötige
+ich ein JDK. Das Einspielen auf dem Notebook gestaltet sich schwierig,
+denn ich habe dort keine Administratorrechte und Oracle&rsquo;s JDK benötigt
+eben diese. Schöner Mist. Nachfolgend eine Beschreibung, wie ich mir
+beholfen habe. Ich benötige dazu einen Linux-Rechner und einen USB-Stick.</p>
+
+<!-- more -->
+
+
+<h2>Linux-Rechner</h2>
+
+<p>Auf meinem Linux-Rechner ist Ubuntu-12.04 installiert. Zusätzlich
+benötige ich Wine. Dieses wird schnell nachinstalliert mit</p>
+
+<pre><code>sudo apt-get install wine
+</code></pre>
+
+<p>Die Installation hat bei mir zunächst nicht geklappt &ndash; vermutlich weil
+ich auch VirtualBox auf dem Linux-Rechner habe. In einem LXC-Container
+ging&rsquo;s problemlos.</p>
+
+<p>Danach:</p>
+
+<ul>
+<li>Oracle JDK für Windows x86 herunterladen von <a href="http://oracle.com">http://oracle.com</a></li>
+<li>Heruntergeladene Datei in LXC-Container hineinkopieren</li>
+<li>Kopierte Datei im LXC-Container ausführen mittels Wine<pre>
+wine ./jdk-7u40-windows-i586.exe</pre></li>
+<li>Es erscheinen diverse Fehlermeldungen &ndash;> ignorieren!</li>
+<li>Ordner ~/.wine/drive_c/Program Files/java verpacken (bspw. mit <code>zip</code>)</li>
+<li>Verpackten Ordner auf USB-Stick speichern</li>
+</ul>
+
+
+<h2>Windows-Rechner</h2>
+
+<ul>
+<li>Ordner vom USB-Stick auspacken nach C:\Uli</li>
+<li>Skript erstellen zur Erweiterung der Umgebungsvariablen PATH</li>
+<li>Test: <code>javac -version</code> &ndash;> javac 1.7.0_40</li>
+</ul>
+
+
+<p>Der Aufruf vom Java-Kompiler klappt &ndash; ich bin zufrieden!</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[ZFS unter Ubuntu-12.04.3]]></title>
     <link href="http://uli-heller.github.com/blog/2013/10/06/zfs/"/>
     <updated>2013-10-06T11:00:00+02:00</updated>
     <id>http://uli-heller.github.com/blog/2013/10/06/zfs</id>
     <content type="html"><![CDATA[<p>In <a href="/blog/2013/07/12/zfs">Experimente mit ZFS unter Ubuntu-12.04</a> habe ich meine Experimente mit ZFS beschrieben.
 Hier beschreibe ich nun, wie ich&rsquo;s dann schließlich umgesetzt habe.</p>
+
+<!-- more -->
+
 
 <h2>DEBs installieren</h2>
 
@@ -375,397 +745,6 @@ weitere Dinge ändern muß. Wenn das Kommando durchläuft, führe ich idR. nochm
 </code></pre>
 
 <p>aus um das Paket komplett neu zu bauen und zu paketieren.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Squid: Aufsetzen eines Proxies mit Anmeldezwang]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/09/22/squid/"/>
-    <updated>2013-09-22T13:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/09/22/squid</id>
-    <content type="html"><![CDATA[<p>Zum Test meines Mini-Projektes
-<a href="https://github.com/uli-heller/uli-mini-tools/blob/master/forward-proxy/README.md">Forward-Proxy</a>
-brauche ich einen Proxy, der den Zugriff auf das Internet
-nur nach Anmeldung zulässt. Hierzu setze ich eine VM mit Squid auf
-und konfiguriere diesen dann entsprechend. Die VM ist über eine Netzwerkbrücke
-in meinen Desktop eingebunden.</p>
-
-<!-- more -->
-
-
-<h2>Zusatzpakete installieren</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install squid
-</span><span class='line'>sudo apt-get install apache2-utils</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Squid konfigurieren</h2>
-
-<h3>/etc/squid3/squid.conf</h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Änderungen an ./etc/squid3/squid.conf </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;mdash;&amp;ndash; squid.conf.orig 2013-09-21 13:46:51.000000000 +0200
-</span><span class='line'><span class="gi">+++ squid.conf  2013-09-21 13:50:29.000000000 +0200</span>
-</span><span class='line'><span class="gu">@@ -334,10 +334,10 @@</span>
-</span><span class='line'> ##auth_param digest nonce_max_duration 30 minutes
-</span><span class='line'> ##auth_param digest nonce_max_count 50
-</span><span class='line'> ##
-</span><span class='line'>&amp;ndash;##auth_param basic program &lt;uncomment and complete this line&gt;
-</span><span class='line'>&amp;ndash;##auth_param basic children 5
-</span><span class='line'>&amp;ndash;##auth_param basic realm Squid proxy-caching web server
-</span><span class='line'>&amp;ndash;##auth_param basic credentialsttl 2 hours
-</span><span class='line'><span class="gi">+auth_param basic program /usr/lib/squid3/ncsa_auth /etc/squid3/squid_user</span>
-</span><span class='line'><span class="gi">+auth_param basic children 5</span>
-</span><span class='line'><span class="gi">+auth_param basic realm Squid proxy-caching web server</span>
-</span><span class='line'><span class="gi">+auth_param basic credentialsttl 2 hours</span>
-</span><span class='line'> #Default:
-</span><span class='line'> # none&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;@@ -687,6 +687,8 @@
-</span><span class='line'> #
-</span><span class='line'> #Default:
-</span><span class='line'> # acl all src all
-</span><span class='line'><span class="gi">+acl uli proxy_auth REQUIRED</span>
-</span><span class='line'><span class="gi">+http_access allow uli</span>
-</span><span class='line'> #
-</span><span class='line'> #
-</span><span class='line'> # Recommended minimum configuration:
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3>Benutzer-Listen-Datei anlegen</h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo touch /etc/squid3/squid_user</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3>Benutzer samt Kennwort anlegen</h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo htpasswd /etc/squid3/squid_user uli
-</span><span class='line'>New password: xxxxxx
-</span><span class='line'>Re-type new password: xxxxxx
-</span><span class='line'>Adding password for user uli</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Squid neu starten</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/squid3 restart</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Proxy-Server verwenden</h2>
-
-<p>Mit den obigen Vorbereitungen kann ich den neuen Proxy-Server nun
-mittels <a href="http://{hostname-der-vm}:3128">http://{hostname-der-vm}:3128</a> ansprechen.</p>
-
-<h2>Effektive Konfigurationsdatei ermitteln</h2>
-
-<p>Mit diesen Befehlen kann die effektive Konfigurationsdatei ermittelt
-werden. Die vielen Kommentare werden dabei ausgefiltert:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v &ldquo;^\s&lt;em>#&rdquo; /etc/squid3/squid.conf|grep -v &ldquo;^\s&lt;/em>$&rdquo;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Die effektive Squid-Konfiguration sieht ohne Kommentare dann so aus:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>./etc/squid3/squid.conf ohne Kommentare </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>auth_param basic program /usr/lib/squid3/ncsa_auth /etc/squid3/squid_user
-</span><span class='line'>auth_param basic children 5
-</span><span class='line'>auth_param basic realm Squid proxy-caching web server
-</span><span class='line'>auth_param basic credentialsttl 2 hours
-</span><span class='line'>acl uli proxy_auth REQUIRED
-</span><span class='line'>http_access allow uli
-</span><span class='line'>acl manager proto cache_object
-</span><span class='line'>acl localhost src 127.0.0.1/32 ::1
-</span><span class='line'>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
-</span><span class='line'>acl SSL_ports port 443
-</span><span class='line'>acl Safe_ports port 80      # http
-</span><span class='line'>acl Safe_ports port 21      # ftp
-</span><span class='line'>acl Safe_ports port 443     # https
-</span><span class='line'>acl Safe_ports port 70      # gopher
-</span><span class='line'>acl Safe_ports port 210     # wais
-</span><span class='line'>acl Safe_ports port 1025-65535  # unregistered ports
-</span><span class='line'>acl Safe_ports port 280     # http-mgmt
-</span><span class='line'>acl Safe_ports port 488     # gss-http
-</span><span class='line'>acl Safe_ports port 591     # filemaker
-</span><span class='line'>acl Safe_ports port 777     # multiling http
-</span><span class='line'>acl CONNECT method CONNECT
-</span><span class='line'>http_access allow manager localhost
-</span><span class='line'>http_access deny manager
-</span><span class='line'>http_access deny !Safe_ports
-</span><span class='line'>http_access deny CONNECT !SSL_ports
-</span><span class='line'>http_access allow localhost
-</span><span class='line'>http_access deny all
-</span><span class='line'>http_port 3128
-</span><span class='line'>coredump_dir /var/spool/squid3
-</span><span class='line'>refresh_pattern ^&lt;a href=&quot;ftp:&quot;&gt;ftp:&lt;/a&gt;       1440    20% 10080
-</span><span class='line'>refresh_pattern ^gopher:    1440    0%  1440
-</span><span class='line'>refresh_pattern -i (/cgi-bin/|\?) 0 0%  0
-</span><span class='line'>refresh_pattern (Release|Packages(.gz)*)$      0       20%     2880
-</span><span class='line'>refresh_pattern .       0   20% 4320
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Änderungen</h2>
-
-<ul>
-<li>2013-10-06: Komplette Konfigurationsdatei ohne Kommentare hinzugefügt</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GitHub-Projekt spalten am Beispiel Moxie]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/09/13/git-fork/"/>
-    <updated>2013-09-13T07:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/09/13/git-fork</id>
-    <content type="html"><![CDATA[<p>Im <a href="/blog/2013/07/21/git-fork">diesem Artikel</a> hab' ich erstmals kurz zusammengefasst,
-wie ich mit Forks von GitHub arbeite. Hier folgen nun mehr Details am konkreten Beispiel
-&ldquo;moxie&rdquo;.</p>
-
-<!-- more -->
-
-
-<h2>GitHub-Projekt spalten (fork)</h2>
-
-<ul>
-<li>GitHub-Projekt im Browser öffnen: <a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie</a></li>
-<li>Auf der Projektseite wird auch die Clone-Url-O angezeigt, hier: <a href="https://github.com/gitblit/moxie.git">https://github.com/gitblit/moxie.git</a></li>
-<li><p>Auf der Projektseite den Knopf &ldquo;Fork&rdquo; anwählen:</p>
-
-<p><img src="/images/git/github-fork.png" alt="GitHub-Fork" /></p></li>
-<li><p>Folgeseiten &ldquo;durchklicken&rdquo;</p></li>
-<li>Schlußendlich landet man auf dem abgespaltenen Projekt, bei mir ist das die Browser-Url
-<a href="https://github.com/uli-heller/moxie">https://github.com/uli-heller/moxie</a></li>
-<li>Auf der Projektseite wird auch die Clone-Url-S angezeigt, bei mir: git@github.com:uli-heller/moxie.git</li>
-</ul>
-
-
-<h2>Lokalen Kopie anlegen (clone)</h2>
-
-<p>Gespaltenes Projekt kopieren mit: <code>git clone &lt;clone-url-s&gt;</code>, also
-im konkreten Fall <code>git clone git@github.com:uli-heller/moxie.git</code>:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Lokale Kopie anlegen </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~/git$ git clone git@github.com:uli-heller/moxie.git
-</span><span class='line'>Klone nach &lsquo;moxie&rsquo;&hellip;
-</span><span class='line'>remote: Counting objects: 11313, done.
-</span><span class='line'>remote: Compressing objects: 100% (2961/2961), done.
-</span><span class='line'>remote: Total 11313 (delta 6316), reused 11137 (delta 6140)
-</span><span class='line'>Empfange Objekte: 100% (11313/11313), 71.63 MiB | 1.60 MiB/s, done.
-</span><span class='line'>Löse Unterschiede auf: 100% (6316/6316), done.
-</span><span class='line'>Prüfe Konnektivität&hellip; Fertig</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Original-Projekt einbinden (upstream)</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt einbinden </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~/git$ cd moxie
-</span><span class='line'>~/git/moxie$ git remote add upstream
-</span><span class='line'>~/git/moxie$ git fetch upstream
-</span><span class='line'>Von &lt;a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie&lt;/a>
-</span><span class='line'> * [neuer Branch]    gh-pages   &ndash;> upstream/gh-pages
-</span><span class='line'> * [neuer Branch]    master     &ndash;> upstream/master</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Kopie des Original-Projektes aktualisieren</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt aktualisieren </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git fetch upstream
-</span><span class='line'>remote: Counting objects: 1, done.
-</span><span class='line'>remote: Total 1 (delta 0), reused 1 (delta 0)
-</span><span class='line'>Unpacking objects: 100% (1/1), done.
-</span><span class='line'>Von &lt;a href="https://github.com/gitblit/moxie">https://github.com/gitblit/moxie&lt;/a>
-</span><span class='line'>   e1c5785..a13973e  master     &ndash;> upstream/master</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Änderungen des Original-Projektes einarbeiten</h2>
-
-<p>Gelegentlich will man die Änderungen des Original-Projektes
-in das abgespaltete Projekt einarbeiten. Vor der Einarbeitung
-muß die Kopie des Original-Projektes aktualisiert worden sein
-(<code>git fetch upstream</code>).</p>
-
-<h3>Nur eigene Pull-Requests</h3>
-
-<p>Hier der Ablauf, wenn am Original-Projekt zwischenzeitlich
-nur eigene Pull-Requests eingearbeitet wurden. Die Aktualisierung
-läuft in diesem Falle völlig schmerzfrei!</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt einarbeiten </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git checkout master
-</span><span class='line'>Gewechselt zu Branch &lsquo;master&rsquo;
-</span><span class='line'>~/git/moxie$ git merge &mdash;no-commit upstream/master
-</span><span class='line'>Aktualisiere 34b618c..a13973e
-</span><span class='line'>Fast-forward
-</span><span class='line'>~/git/moxie$ git status&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h1>Auf Branch master&lt;/h1>
-</span><span class='line'>
-</span><span class='line'>&lt;p>nichts zu committen, Arbeitsverzeichnis unverändert</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3>Konflikte</h3>
-
-<p>Wenn am Original-Projekt zwischenzeitlich auch andere Änderungen
-gemacht wurden, so kommt es gelegentlich zu Konflikten beim
-Einarbeiten. Die Konflikte können mit <code>git mergetool</code> aufgelöst
-werden. Wichtig: Vor dem abschließenden <code>git commit</code> sollte
-der neue Stand ausführlich getestet werden!</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Original-Projekt einarbeiten </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>~/git/moxie$ git checkout master
-</span><span class='line'>Gewechselt zu Branch &lsquo;master&rsquo;
-</span><span class='line'>~/git/moxie$ git merge &mdash;no-commit upstream/master&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h2>Hier muß ich noch die &ldquo;richtigen&rdquo; Meldungen einpflegen&lt;/h2>
-</span><span class='line'>
-</span><span class='line'>&lt;p>automatischer Merge von Rakefile
-</span><span class='line'>automatischer Merge von Gemfile.lock
-</span><span class='line'>automatischer Merge von Gemfile
-</span><span class='line'>automatischer Merge von .ruby-version
-</span><span class='line'>KONFLIKT (hinzufügen/hinzufügen): Merge-Konflikt in .ruby-version
-</span><span class='line'>Entferne .rbenv-version
-</span><span class='line'>Automatischer Merge fehlgeschlagen; beheben Sie die Konflikte und committen Sie dann das Ergebnis.
-</span><span class='line'>~/git/moxie$ git mergetool&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;h2>Hier muß ich noch die &ldquo;richtigen&rdquo; Meldungen einpflegen&lt;/h2>
-</span><span class='line'>
-</span><span class='line'>&lt;p>This message is displayed because &lsquo;merge.tool&rsquo; is not configured.
-</span><span class='line'>See &lsquo;git mergetool &mdash;tool-help&rsquo; or &lsquo;git help config&rsquo; for more details.
-</span><span class='line'>&lsquo;git mergetool&rsquo; will now attempt to use one of the following tools:
-</span><span class='line'>meld opendiff kdiff3 tkdiff xxdiff tortoisemerge gvimdiff diffuse ecmerge p4merge araxis bc3 codecompare emerge vimdiff
-</span><span class='line'>Merging:
-</span><span class='line'>.ruby-version&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Normal merge conflict for &lsquo;.ruby-version&rsquo;:
-</span><span class='line'>  {local}: created file
-</span><span class='line'>  {remote}: created file
-</span><span class='line'>Hit return to start merge resolution tool (meld): meld
-</span><span class='line'>~/git/moxie$ git commit -m &ldquo;Merged&hellip;&rdquo;</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Links</h2>
-
-<ul>
-<li>GitHub-Artikel: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</li>
-</ul>
-
 ]]></content>
   </entry>
   
