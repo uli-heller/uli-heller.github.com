@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Linux | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-10-09T04:26:12+02:00</updated>
+  <updated>2013-10-09T04:46:30+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Persönliche Git-Zentrale]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/09/persoenliche-git-zentrale/"/>
+    <updated>2013-10-09T11:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/09/persoenliche-git-zentrale</id>
+    <content type="html"><![CDATA[<p>Für ein Kundenprojekt brauche ich ein &ldquo;zentrales&rdquo; Git-Repository.
+Hier die Randbedingungen:</p>
+
+<ul>
+<li>geringer Admin-Aufwand</li>
+<li>möglichst wenig Zusatzprogramme einsetzen (Ruby, Gitlab, &hellip;)</li>
+<li>kein öffentlicher Zugriff</li>
+</ul>
+
+
+<p>Umgesetzt habe ich das ganze mit einem SSH-Konto auf meinem Fileserver.</p>
+
+<!-- more -->
+
+
+<h2>Fileserver</h2>
+
+<h3>SSH-Konto</h3>
+
+<ul>
+<li>Benutzer auf Fileserver ist vorhanden: &ldquo;bert&rdquo;</li>
+<li>SSH-Anmeldung funktioniert ohne Kennwort</li>
+</ul>
+
+
+<h3>Git-Repository einrichten</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir git
+</span><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>   mkdir $p.git; \
+</span><span class='line'>   ( cd &ldquo;$p.git&rdquo;; git &mdash;bare init ); \
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Arbeitsrechner</h2>
+
+<h3>Git-Repositories mit Fileserver verknüpfen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>(
+</span><span class='line'>  cd $p
+</span><span class='line'>  git remote add fileserver bert@fileserver:git/base.git
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Git-Repositories auf Fileserver übertragen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>(                             \
+</span><span class='line'>  cd $p;                      \
+</span><span class='line'>  git push fileserver master; \
+</span><span class='line'>);                            \
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Probleme mit Thunderbird-Profile korrigieren]]></title>
@@ -719,32 +800,6 @@ systemProp.http.proxyPort=8888
 </code></pre></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Kompilierung und Tests überspringen beim Paketbau]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/10/04/kompilierung-ueberspringen/"/>
-    <updated>2013-10-04T09:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/10/04/kompilierung-ueberspringen</id>
-    <content type="html"><![CDATA[<p>Gelegentlich baue ich selbst Pakete für Debian/Ubuntu. Manchmal habe ich dabei Tippfehler
-in Paketbeschreibungsdateien wie &ldquo;debian/rules&rdquo; und &ldquo;debian/control&rdquo;. Diese treten oftmals erst
-gegen Ende des Paketbauprozesses auf und nach einer Korrektur der Fehler habe ich gerne schnell
-Gewissheit, ob die Korrekturen OK sind oder nicht &ndash; ein kompletter Neubau scheidet für die
-meisten Pakete dann aus.</p>
-
-<p>Mit diesem Befehl werden Kompilierung und Übersprungen:</p>
-
-<pre><code>fakeroot debuan/rules binary
-</code></pre>
-
-<p>Innerhalb von wenigen Sekunden weiß ich so, ob die Korrekturen richtig waren oder ob ich noch
-weitere Dinge ändern muß. Wenn das Kommando durchläuft, führe ich idR. nochmals</p>
-
-<pre><code>dpkg-buildpackage
-</code></pre>
-
-<p>aus um das Paket komplett neu zu bauen und zu paketieren.</p>
 ]]></content>
   </entry>
   

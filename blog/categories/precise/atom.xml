@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Precise | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/precise/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-10-09T04:26:12+02:00</updated>
+  <updated>2013-10-09T04:46:30+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Persönliche Git-Zentrale]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/09/persoenliche-git-zentrale/"/>
+    <updated>2013-10-09T11:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/09/persoenliche-git-zentrale</id>
+    <content type="html"><![CDATA[<p>Für ein Kundenprojekt brauche ich ein &ldquo;zentrales&rdquo; Git-Repository.
+Hier die Randbedingungen:</p>
+
+<ul>
+<li>geringer Admin-Aufwand</li>
+<li>möglichst wenig Zusatzprogramme einsetzen (Ruby, Gitlab, &hellip;)</li>
+<li>kein öffentlicher Zugriff</li>
+</ul>
+
+
+<p>Umgesetzt habe ich das ganze mit einem SSH-Konto auf meinem Fileserver.</p>
+
+<!-- more -->
+
+
+<h2>Fileserver</h2>
+
+<h3>SSH-Konto</h3>
+
+<ul>
+<li>Benutzer auf Fileserver ist vorhanden: &ldquo;bert&rdquo;</li>
+<li>SSH-Anmeldung funktioniert ohne Kennwort</li>
+</ul>
+
+
+<h3>Git-Repository einrichten</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir git
+</span><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>   mkdir $p.git; \
+</span><span class='line'>   ( cd &ldquo;$p.git&rdquo;; git &mdash;bare init ); \
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Arbeitsrechner</h2>
+
+<h3>Git-Repositories mit Fileserver verknüpfen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>(
+</span><span class='line'>  cd $p
+</span><span class='line'>  git remote add fileserver bert@fileserver:git/base.git
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Git-Repositories auf Fileserver übertragen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>(                             \
+</span><span class='line'>  cd $p;                      \
+</span><span class='line'>  git push fileserver master; \
+</span><span class='line'>);                            \
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Probleme mit Thunderbird-Profile korrigieren]]></title>
@@ -1209,193 +1290,6 @@ geschickt.</p>
 <li>2013-09-01: Subversion-1.8.3, Git-1.8.4, Anpassungen an /usr/share/perl5/Git/SVN/Ra.pm, Korrektur</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Subversion 1.8.1 für Ubuntu-12.04]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/27/subversion_1.8.1/"/>
-    <updated>2013-07-27T10:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/27/subversion_1.8.1</id>
-    <content type="html"><![CDATA[<p>Vor ein paar Tagen wurde Subversion-1.8.1 veröffentlicht.
-Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen.
-Eingeflossen sind dabei auch die gescheiterten Versuche
-mit Subversion-1.8.0. Schlußendlich kommt eine für mich funktionierende
-Version von Subversion-1.8.1 heraus.</p>
-
-<!-- more -->
-
-
-<h2>Ausgangpunkt: Subversion-1.8.0</h2>
-
-<p>Mein Ausgangspunkt sind meine kaputten Pakete für Subversion-1.8.0.</p>
-
-<pre><code>$ cd subversion-1.8.0
-$ uupdate -u ../subversion-1.8.1
-$ cd ../subversion-1.8.1
-</code></pre>
-
-<p>Nun habe ich folgende Generierungs-Abhängigkeiten (build dependencies)
-festgelegt:</p>
-
-<ul>
-<li>subversion: serf-1.2.1 und sqlite-3.7.15</li>
-<li>serf: sqlite-3.7.15</li>
-</ul>
-
-
-<h2>Erste Hürde: Sqlite3-3.7.15</h2>
-
-<p>Subversion benötigt eine relativ aktuelle Version von Sqlite3. Die
-Standard-Version von Ubuntu-12.04 ist zu alt. Ich habe mir so beholfen:</p>
-
-<ul>
-<li>Quellpakete von sqlite3-3.7.15.2 aus &ldquo;raring&rdquo; runtergeladen</li>
-<li>Ein paar kleine Anpassungen an debian/rules vorgenommen, damit
-tcl85 an der richtigen Stelle ausgelesen wird</li>
-<li>Pakete erzeugen mit <code>dpkg-buildpackage</code></li>
-<li>Pakete installieren</li>
-</ul>
-
-
-<h2>Zweite Hürde: Serf-1.2.1</h2>
-
-<ul>
-<li>Diverse Umstellungen nötig, damit die Generierung durchläuft</li>
-<li>Pakete erzeugen mit <code>dpkg-buildpackage</code></li>
-<li>Pakete installieren</li>
-</ul>
-
-
-<h2>Subversion-1.8.1</h2>
-
-<ul>
-<li>Kann nun wie üblich mit <code>dpkg-buildpackage</code> erzeugt werden</li>
-</ul>
-
-
-<h2>Kurztests: Installation und Funktionsweise</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo dpkg -i subversion_1.8.1-3dp12~precise1_amd64.deb libsvn1_1.8.1-3dp12~precise1_amd64.deb libserf1_1.2.1-0dp01~precise1_amd64.deb
-</span><span class='line'>$ sudo dpkg -i sqlite3_3.7.15.2-1dp01~precise1_amd64.deb libsqlite3-0_3.7.15.2-1dp01~precise1_amd64.deb
-</span><span class='line'>$ svn &mdash;version
-</span><span class='line'>svn, Version 1.8.1 (r1503906)
-</span><span class='line'>   übersetzt am Jul 26 2013, um 15:38:27 auf x86_64-pc-linux-gnu&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Copyright &copy; 2013 The Apache Software Foundation.
-</span><span class='line'>Diese Software besteht aus Beiträgen vieler Personen;
-</span><span class='line'>siehe Datei NOTICE für weitere Informationen.
-</span><span class='line'>Subversion ist Open Source Software, siehe &lt;a href="http://subversion.apache.org/">http://subversion.apache.org/&lt;/a>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>Die folgenden ZugriffsModule (ZM) für Projektarchive stehen zur Verfügung:&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;ul>
-</span><span class='line'>&lt;li>ra_svn : Modul zum Zugriff auf ein Projektarchiv über das svn-Netzwerkprotokoll.
-</span><span class='line'>
-</span><span class='line'>&lt;ul>
-</span><span class='line'>&lt;li>mit Cyrus-SASL-Authentifizierung&lt;/li>
-</span><span class='line'>&lt;li>behandelt Schema »svn«&lt;/li>
-</span><span class='line'>&lt;/ul>
-</span><span class='line'>&lt;/li>
-</span><span class='line'>&lt;li>ra_local : Modul zum Zugriff auf ein Projektarchiv auf der lokalen Festplatte
-</span><span class='line'>
-</span><span class='line'>&lt;ul>
-</span><span class='line'>&lt;li>behandelt Schema »file«&lt;/li>
-</span><span class='line'>&lt;/ul>
-</span><span class='line'>&lt;/li>
-</span><span class='line'>&lt;li>ra_serf : Modul zum Zugriff auf ein Projektarchiv über das Protokoll WebDAV mittels serf.
-</span><span class='line'>
-</span><span class='line'>&lt;ul>
-</span><span class='line'>&lt;li>behandelt Schema »http«&lt;/li>
-</span><span class='line'>&lt;li>behandelt Schema »https«
-</span><span class='line'>$ cd svn/my-project
-</span><span class='line'>$ svn status
-</span><span class='line'>svn: E155036: Please see the &lsquo;svn upgrade&rsquo; command
-</span><span class='line'>svn: E155036: The working copy at &lsquo;/home/uli/svn/my-project&rsquo;
-</span><span class='line'>is too old (format 29) to work with client version &lsquo;1.8.1 (r1503906)&rsquo; (expects format 31). You need to upgrade the working copy first.
-</span><span class='line'>$ svn upgrade
-</span><span class='line'>Upgraded &lsquo;.&rsquo;
-</span><span class='line'>$ svn status
-</span><span class='line'>$ svn update
-</span><span class='line'>Updating &lsquo;.&rsquo;:
-</span><span class='line'>A    minianwendungjsf/.classpath
-</span><span class='line'>A    minianwendungjsf/ant
-</span><span class='line'>A    minianwendungjsf/ant/build.xml
-</span><span class='line'>A    minianwendungjsf/.project
-</span><span class='line'>&hellip;
-</span><span class='line'>A    EJB3.1_Test/login.config
-</span><span class='line'>Updated to revision 13.
-</span><span class='line'>$ svn checkout &lt;a href="https://.....">https://.....&lt;/a>
-</span><span class='line'>A    my-project2/git-test
-</span><span class='line'>A    my-project2/git-test/Hello.txt
-</span><span class='line'>A    my-project2/git-test/01-git-neu.txt
-</span><span class='line'>&hellip;
-</span><span class='line'>A    my-project2/testfolder2
-</span><span class='line'>A    my-project2/testfolder2/testbin-ticket9.odt
-</span><span class='line'>Checked out revision 78.</span></code></pre></td></tr></table></div></figure></notextile></div></li>
-</ul>
-</li>
-</ul>
-
-
-<p>Also: Grobtest ist OK.</p>
 ]]></content>
   </entry>
   

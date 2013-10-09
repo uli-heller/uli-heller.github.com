@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Thema: Macbook Air 2013 - Was ich so treibe...</title>
+  <title>Persönliche Git-Zentrale - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Category: Macbook Air 2013">
+  <meta name="description" content="Für ein Kundenprojekt brauche ich ein &ldquo;zentrales&rdquo; Git-Repository.
+Hier die Randbedingungen: geringer Admin-Aufwand
+möglichst wenig &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.comblog/categories/macbook-air-2013">
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/10/09/persoenliche-git-zentrale">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -71,36 +73,166 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Thema: Macbook Air 2013</h1>
+    
+      <h1 class="entry-title">Persönliche Git-Zentrale</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-09T11:00:00+02:00" pubdate data-updated="true">09. October 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>Für ein Kundenprojekt brauche ich ein &ldquo;zentrales&rdquo; Git-Repository.
+Hier die Randbedingungen:</p>
 
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/blog/2013/06/24/macbook-air/">Ubuntu auf einem Macbook Air 2013</a></h1>
-<time datetime="2013-06-24T05:00:00+02:00" pubdate><span class='month'>Jun</span> <span class='day'>24</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">Themen: <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/macbook-air-2013/'>Macbook Air 2013</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a></span>
-</footer>
+<ul>
+<li>geringer Admin-Aufwand</li>
+<li>möglichst wenig Zusatzprogramme einsetzen (Ruby, Gitlab, &hellip;)</li>
+<li>kein öffentlicher Zugriff</li>
+</ul>
 
 
-</article>
+<p>Umgesetzt habe ich das ganze mit einem SSH-Konto auf meinem Fileserver.</p>
+
+<!-- more -->
+
+
+<h2>Fileserver</h2>
+
+<h3>SSH-Konto</h3>
+
+<ul>
+<li>Benutzer auf Fileserver ist vorhanden: &ldquo;bert&rdquo;</li>
+<li>SSH-Anmeldung funktioniert ohne Kennwort</li>
+</ul>
+
+
+<h3>Git-Repository einrichten</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir git
+</span><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>   mkdir $p.git; \
+</span><span class='line'>   ( cd "$p.git"; git --bare init ); \
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Arbeitsrechner</h2>
+
+<h3>Git-Repositories mit Fileserver verknüpfen</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>(
+</span><span class='line'>  cd $p
+</span><span class='line'>  git remote add fileserver bert@fileserver:git/base.git
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Git-Repositories auf Fileserver übertragen</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>(                             \
+</span><span class='line'>  cd $p;                      \
+</span><span class='line'>  git push fileserver master; \
+</span><span class='line'>);                            \
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
+
+
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">von <span class="fn">Uli Heller</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-09T11:00:00+02:00" pubdate data-updated="true">09. October 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/08/truecrypt-thunderbird/" title="Voriger Beitrag: Probleme mit Thunderbird-Profile korrigieren">&laquo; Probleme mit Thunderbird-Profile korrigieren</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -180,7 +312,10 @@
       var disqus_shortname = 'ulispersonalitblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/10/09/persoenliche-git-zentrale/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2013/10/09/persoenliche-git-zentrale/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

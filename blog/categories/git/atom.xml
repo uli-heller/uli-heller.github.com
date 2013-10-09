@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Git | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-10-09T04:26:12+02:00</updated>
+  <updated>2013-10-09T04:46:30+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Persönliche Git-Zentrale]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/10/09/persoenliche-git-zentrale/"/>
+    <updated>2013-10-09T11:00:00+02:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/10/09/persoenliche-git-zentrale</id>
+    <content type="html"><![CDATA[<p>Für ein Kundenprojekt brauche ich ein &ldquo;zentrales&rdquo; Git-Repository.
+Hier die Randbedingungen:</p>
+
+<ul>
+<li>geringer Admin-Aufwand</li>
+<li>möglichst wenig Zusatzprogramme einsetzen (Ruby, Gitlab, &hellip;)</li>
+<li>kein öffentlicher Zugriff</li>
+</ul>
+
+
+<p>Umgesetzt habe ich das ganze mit einem SSH-Konto auf meinem Fileserver.</p>
+
+<!-- more -->
+
+
+<h2>Fileserver</h2>
+
+<h3>SSH-Konto</h3>
+
+<ul>
+<li>Benutzer auf Fileserver ist vorhanden: &ldquo;bert&rdquo;</li>
+<li>SSH-Anmeldung funktioniert ohne Kennwort</li>
+</ul>
+
+
+<h3>Git-Repository einrichten</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir git
+</span><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>   mkdir $p.git; \
+</span><span class='line'>   ( cd &ldquo;$p.git&rdquo;; git &mdash;bare init ); \
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Arbeitsrechner</h2>
+
+<h3>Git-Repositories mit Fileserver verknüpfen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>(
+</span><span class='line'>  cd $p
+</span><span class='line'>  git remote add fileserver bert@fileserver:git/base.git
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Git-Repositories auf Fileserver übertragen</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd git
+</span><span class='line'>for p in base test server; do \
+</span><span class='line'>(                             \
+</span><span class='line'>  cd $p;                      \
+</span><span class='line'>  git push fileserver master; \
+</span><span class='line'>);                            \
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GitHub-Projekt spalten am Beispiel Moxie]]></title>
@@ -1109,94 +1190,6 @@ durchlaufen. Korrigiert habe ich das so:</p>
 <li>&hellip; so oft wiederholen, bis es durchläuft</li>
 </ul>
 </li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Git Subtree (1/2)]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/04/12/git-subtree/"/>
-    <updated>2013-04-12T07:14:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/04/12/git-subtree</id>
-    <content type="html"><![CDATA[<h1>Git Subtree &ndash; Neues DEB-Paket bereitstellen</h1>
-
-<h2>Einleitung</h2>
-
-<p>Kurze Erklärung: Warum will ich&rsquo;s verwenden? Warum kann ich&rsquo;s nicht
-direkt verwenden?</p>
-
-<p>Leider ist <code>git subtree</code> in den von mir verwendeten Pakete standardmässig
-nicht aktiv:</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git-subtree fehlt </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
-</span><span class='line'>git: &amp;lsquo;subtree&amp;rsquo; is not a git command. See &amp;lsquo;git &amp;mdash;help&amp;rsquo;.
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Entweder wir aktivieren es manuell oder wir bauen neue Pakete, bei denen <code>git subtree</code> aktiviert ist.</p>
-
-<h2>Manuelles Aktivieren von Git Subtree</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>git-subtree manuell installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
-</span><span class='line'>git: &amp;lsquo;subtree&amp;rsquo; is not a git command. See &amp;lsquo;git &amp;mdash;help&amp;rsquo;.
-</span><span class='line'><span class="nv">$ </span>sudo cp /usr/share/doc/git/contrib/subtree/git-subtree.sh /usr/lib/git-core/git-subtree
-</span><span class='line'><span class="nv">$ </span>sudo chmod +x  /usr/lib/git-core/git-subtree
-</span><span class='line'><span class="nv">$ </span>git subtree
-</span><span class='line'>usage: git subtree add   &amp;mdash;prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
-</span><span class='line'>   or: git subtree add   &amp;mdash;prefix<span class="o">=</span>&lt;prefix&gt; &lt;repository&gt; &lt;commit&gt;
-</span><span class='line'>   or: git subtree merge &amp;mdash;prefix<span class="o">=</span>&lt;prefix&gt; &lt;commit&gt;
-</span><span class='line'>&amp;hellip;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Nachteil beim manuellen Aktivieren: Es gibt keine Online-Dokumentation,
-d.h. <code>git help subtree</code> läuft in&rsquo;s Leere.</p>
-
-<h2>Erzeugung neuer DEB-Pakete</h2>
-
-<ul>
-<li>Ausgangspunkt: Build-Verzeichnis für Git-1.8.2.1 liegt vor, d.h. ich
-kann mit <code>dpkg-buildpackage</code> neue DEB-Pakete erzeugen</li>
-<li>Sichtung: Wie funktioniert die Einbindung von &ldquo;subtree&rdquo;?
-
-<ul>
-<li>Die Implementierung liegt unter contrib/subtree</li>
-<li>Eine Einspielanleitung gibt&rsquo;s dort auch</li>
-<li>Diese müssen wir &ldquo;eigentlich&rdquo; nur noch in debian/rules einbauen
-und fertig!</li>
-</ul>
-</li>
-<li>Also: Änderungen an debian/changelog und debian/rules durchführen und
-los geht&rsquo;s mit <code>dpkg-buildpackage</code> (&hellip; das dauert)</li>
-<li>Sichtung: Ist git-subtree in den erstellten Paketen enthalten?
-
-<ul>
-<li><code>dpkg-deb -c git_1.8.2.1*deb|grep git-core/git-subtree</code></li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Probleme</h3>
-
-<h4>Falscher Installationspfad</h4>
-
-<ul>
-<li>Verwendet wird: /build/git/git-1.8.2.1/debian/git/usr/libexec/git-core</li>
-<li>Richtig wäre:  /build/git/git-1.8.2.1/debian/git/usr/lib/git-core</li>
-<li>Korrektur durch: Setzen von libexecdir in debian/rules</li>
 </ul>
 
 ]]></content>
