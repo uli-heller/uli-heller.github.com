@@ -93,6 +93,8 @@ möglichst wenig &hellip;">
   
 
 
+
+  
 <time datetime="2013-10-09T11:00:00+02:00" pubdate data-updated="true">09. October 2013</time>
         
       </p>
@@ -151,12 +153,14 @@ Hier die Randbedingungen:</p>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>cd git
 </span><span class='line'>for p in base test server; do \
-</span><span class='line'>(
-</span><span class='line'>  cd $p
-</span><span class='line'>  git remote add fileserver bert@fileserver:git/base.git
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>(                             \
+</span><span class='line'>  cd $p;                      \
+</span><span class='line'>  git remote add fileserver bert@fileserver:git/base.git; \
+</span><span class='line'>);                            \
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Git-Repositories auf Fileserver übertragen</h3>
@@ -177,6 +181,13 @@ Hier die Randbedingungen:</p>
 </span><span class='line'>done</span></code></pre></td></tr></table></div></figure>
 
 
+<h2>Änderungen</h2>
+
+<h3>2013-10-13</h3>
+
+<ul>
+<li>Tippfehler korrigiert</li>
+</ul>
 
 </div>
 
@@ -200,7 +211,9 @@ Hier die Randbedingungen:</p>
   
 
 
-<time datetime="2013-10-09T11:00:00+02:00" pubdate data-updated="true">09. October 2013</time>
+
+  
+<time datetime="2013-10-13T11:30:00+02:00" class="updated">Updated 13. October 2013</time>
       
 
 <span class="categories">

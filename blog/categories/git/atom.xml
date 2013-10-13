@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Git | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-10-09T04:46:30+02:00</updated>
+  <updated>2013-10-13T11:35:48+02:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -68,12 +68,14 @@ Hier die Randbedingungen:</p>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>cd git
 </span><span class='line'>for p in base test server; do \
-</span><span class='line'>(
-</span><span class='line'>  cd $p
-</span><span class='line'>  git remote add fileserver bert@fileserver:git/base.git
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+</span><span class='line'>(                             \
+</span><span class='line'>  cd $p;                      \
+</span><span class='line'>  git remote add fileserver bert@fileserver:git/base.git; \
+</span><span class='line'>);                            \
+</span><span class='line'>done</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Git-Repositories auf Fileserver übertragen</h3>
 
@@ -91,6 +93,15 @@ Hier die Randbedingungen:</p>
 </span><span class='line'>  git push fileserver master; \
 </span><span class='line'>);                            \
 </span><span class='line'>done</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>Änderungen</h2>
+
+<h3>2013-10-13</h3>
+
+<ul>
+<li>Tippfehler korrigiert</li>
+</ul>
+
 ]]></content>
   </entry>
   
