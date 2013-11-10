@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Java | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-10-13T11:35:48+02:00</updated>
+  <updated>2013-11-10T08:22:31+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -259,6 +259,38 @@ angezeigt werden.</li>
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[TCPMON]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/02/21/tcpmon/"/>
+    <updated>2013-02-21T12:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/02/21/tcpmon</id>
+    <content type="html"><![CDATA[<h1>Analyse von TCP-Datenströmen</h1>
+
+<p>Früher gab&rsquo;s mal ein Programm von Apache, welches sich in TCP-Datenströme
+einklinken ließ. Das Teil hieß TCPMON und war u.a. als Bestandteil von AXIS
+verfügbar.</p>
+
+<h2>TCPMON auf GoogleCode</h2>
+
+<ul>
+<li>Version 1.1 runtergeladen</li>
+<li>Gestartet</li>
+<li>Beobachtung: Funktioniert, aber Pakete werden nicht angezeigt. Damit
+ist das Paket ziemlich sinnfrei</li>
+</ul>
+
+
+<h2>Notizen</h2>
+
+<p>```sh
+git svn clone -r 700000:HEAD <a href="http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/tcpmon">http://svn.apache.org/repos/asf/webservices/commons/trunk/modules/tcpmon</a></p>
+
+<h1>&hellip; das dauert</h1>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[WSGEN - Wie man's mit Interfaces macht]]></title>
     <link href="http://uli-heller.github.com/blog/2012/11/30/wsgen/"/>
     <updated>2012-11-30T08:00:00+01:00</updated>
@@ -428,86 +460,6 @@ angezeigt werden.</li>
 <p>Den Versuch habe ich in einem <a href="http://github.com/uli-heller/uli-wsgen">GITHUB-Projekt</a> plattformübergreifend umgesetzt. Er scheint grundsätzlich zu funktionieren, ich kann in meinem aktuellen Projekt auf die manuelle Erstellung von Dummy-Implementierungsklassen verzichten.</p>
 
 <p>Beispielaufruf: <code>./uli-wsgen.sh -c myproject.jar -f sample.wsdl SampleWebService</code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ASM - BytecodeOutline-Plugin in Eclipse installieren]]></title>
-    <link href="http://uli-heller.github.com/blog/2012/11/27/bytecodeoutline/"/>
-    <updated>2012-11-27T08:00:00+01:00</updated>
-    <id>http://uli-heller.github.com/blog/2012/11/27/bytecodeoutline</id>
-    <content type="html"><![CDATA[<h1>BytecodeOutline-Plugin für Eclipse</h1>
-
-<p>Zuerst ein paar Angaben zu meiner Systemumgebung:</p>
-
-<ul>
-<li>Ubuntu-12.04, 64bit</li>
-<li>Eclipse-jee-juno-SR1</li>
-<li><a href="http://forge.ow2.org/projects/asm/">de.loskutov.BytecodeOutline_2.4.0.jar</a></li>
-</ul>
-
-
-<p>Ich benötige das Plugin nur temporär. Es soll nicht permanent in meiner Eclipse-Umgebung verfügbar sein.</p>
-
-<h2>Neue Eclipse-Installation</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Eclipse-Installation </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /opt
-</span><span class='line'>gzip -cd &amp;ldquo;<span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/eclipse/eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz |sudo tar xf &amp;ndash;
-</span><span class='line'>sudo chown -R uli.uli eclipse
-</span><span class='line'>sudo mv eclipse eclipse-botst
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Test der neuen Eclipse-Installation</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Test der Eclipse-Installation </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>/opt/eclipse-botst/eclipse &amp;amp;&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Eclipse wird gestartet&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;&amp;ndash;&gt; wieder stoppen&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Einspielen des Plugins</h2>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen des Plugins </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;Sicherstellen: Eclipse ist gestoppt&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;cd /opt/eclipse-botst
-</span><span class='line'>cp &amp;ldquo;<span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h2>Kurztest des Plugins</h2>
-
-<ul>
-<li>Eclipse starten</li>
-<li>Java-Klasse aus einem bestehenden Eclipse-Projekt selektieren</li>
-<li>Window &ndash;> Show View &ndash;> Other &ndash;> Java &ndash;> Bytecode</li>
-</ul>
-
-
-<p><img src="/images/java/eclipse/bytecode-outline.png" title="&lsquo;Eclipse mit Bytecode-View&rsquo;" ></p>
 ]]></content>
   </entry>
   

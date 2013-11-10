@@ -9,8 +9,9 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Meine erste Octopress-Installation Installation Vorbereitungen Sicherstellen: Zugang zum Internet besteht
-Größe der /usr-Partition auf 800MB setzen &hellip;">
+  <meta name="description" content="BytecodeOutline-Plugin für Eclipse Zuerst ein paar Angaben zu meiner Systemumgebung: Ubuntu-12.04, 64bit
+Eclipse-jee-juno-SR1
+de.loskutov. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +74,740 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/27/bytecodeoutline/">ASM - BytecodeOutline-Plugin in Eclipse installieren</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-27T08:00:00+01:00" pubdate data-updated="true">27. November 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>BytecodeOutline-Plugin für Eclipse</h1>
+
+<p>Zuerst ein paar Angaben zu meiner Systemumgebung:</p>
+
+<ul>
+<li>Ubuntu-12.04, 64bit</li>
+<li>Eclipse-jee-juno-SR1</li>
+<li><a href="http://forge.ow2.org/projects/asm/">de.loskutov.BytecodeOutline_2.4.0.jar</a></li>
+</ul>
+
+
+<p>Ich benötige das Plugin nur temporär. Es soll nicht permanent in meiner Eclipse-Umgebung verfügbar sein.</p>
+
+<h2>Neue Eclipse-Installation</h2>
+
+<figure class='code'><figcaption><span>Neue Eclipse-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd</span> /opt
+</span><span class='line'>gzip -cd <span class="err">&quot;</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/eclipse/eclipse-jee-juno-SR1-linux-gtk-x86_64.tar.gz |sudo tar xf -
+</span><span class='line'>sudo chown -R uli.uli eclipse
+</span><span class='line'>sudo mv eclipse eclipse-botst
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Test der neuen Eclipse-Installation</h2>
+
+<figure class='code'><figcaption><span>Test der Eclipse-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>/opt/eclipse-botst/eclipse &amp;
+</span><span class='line'><span class="c"># Eclipse wird gestartet</span>
+</span><span class='line'><span class="c"># -&gt; wieder stoppen</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Einspielen des Plugins</h2>
+
+<figure class='code'><figcaption><span>Einspielen des Plugins </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Sicherstellen: Eclipse ist gestoppt</span>
+</span><span class='line'><span class="nb">cd</span> /opt/eclipse-botst
+</span><span class='line'>cp <span class="err">&quot;</span><span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/Downloads/de.loskutov.BytecodeOutline_2.4.0.jar dropins
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Kurztest des Plugins</h2>
+
+<ul>
+<li>Eclipse starten</li>
+<li>Java-Klasse aus einem bestehenden Eclipse-Projekt selektieren</li>
+<li>Window &ndash;> Show View &ndash;> Other &ndash;> Java &ndash;> Bytecode</li>
+</ul>
+
+
+<p><img src="/images/java/eclipse/bytecode-outline.png" title="'Eclipse mit Bytecode-View'" ></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/25/lxc/">LXC</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-11-25T10:49:00+01:00" pubdate data-updated="true">25. November 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1><span class="caps">LXC</span></h1>
+<h2>Installation</h2>
+<pre><code>sudo apt-get install lxc</code></pre>
+<h2>Container-Partition /lxc</h2>
+<p>Dieser Teil ist optional. Man kann ihn auch einfach weglassen, dann<br />
+werden die <span class="caps">LXC</span>-Container eben unterhalb von /var angelegt. Das setzt<br />
+dann natürlich voraus, dass dort noch genügend freier Platz vorhanden ist<br />
+- etwa 10GB sollten für den Anfang reichen. Prüfen kann man das mit<br />
+<code>df -h /var</code>.</p>
+<p>Die nachfolgende Beschreibung geht davon aus, dass das System mit <span class="caps">LVM</span><br />
+partitioniert ist und dass eine VolumeGroup namens &#8220;datavg&#8221; vorhanden<br />
+ist.</p>
+<h3>Partition anlegen</h3>
+<pre><code>sudo lvcreate -n lxclv -L10G datavg
+sudo mkfs.btrfs /dev/datavg/lxclv</code></pre>
+<h3>Partition einbinden</h3>
+<pre><code>sudo -s
+mkdir /lxc
+echo "/dev/datavg/lxclv /lxc btrfs defaults 0 3" &gt;&gt;/etc/fstab
+mount /lxc
+rmdir /var/lib/lxc
+ln -s /lxc/lib /var/lib/lxc
+rm -rf /var/cache/lxc
+ln -s /lxc/cache /var/cache/lxc</code></pre>
+<h2>Erstellen von Containern</h2>
+<h3>12.04, 64bit</h3>
+<p>64-bit Container können nur erstellt werden, wenn das Basissystem auch ein 64-bit-System ist!</p>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1204-64 -- -r precise -a amd64</code></pre>
+<h3>12.04, 32bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r precise -a i386</code></pre>
+<pre><code>uli@uli-hp-ssd:~/Downloads/virtualbox$ sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r precise -a i386
+[sudo] password for uli: </code>
+
+<code>No config file specified, using the default config
+debootstrap ist /usr/sbin/debootstrap
+Checking cache download in /var/cache/lxc/precise/rootfs-i386 ... 
+Copy /var/cache/lxc/precise/rootfs-i386 to /var/lib/lxc/ubuntu1204-32/rootfs ... 
+Copying rootfs to /var/lib/lxc/ubuntu1204-32/rootfs ...</code>
+
+<code>##
+# The default user is 'ubuntu' with password 'ubuntu'!
+# Use the 'sudo' command to run tasks as root in the container.
+##</code>
+
+<code>'ubuntu' template installed
+'ubuntu1204-32' created</code></pre>
+<h3>13.04, 64bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1304-64 -- -r raring -a amd64</code></pre>
+<h3>13.04, 32bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1304-32 -- -r raring -a i386</code></pre>
+<h3>10.04, 32bit</h3>
+<pre><code>sudo lxc-create -t ubuntu -n ubuntu1204-32 -- -r lucid -a i386</code></pre>
+<h2>Arbeit mit Containern</h2>
+<ul>
+	<li>Anmelden
+	<ul>
+		<li>Benutzer: &#8220;ubuntu&#8221;</li>
+		<li>Kennwort: &#8220;ubuntu&#8221;</li>
+	</ul></li>
+	<li>Netzwerk
+	<ul>
+		<li>IP-Adressen: Aus dem Adressbereich 10.0.3/24</li>
+		<li><span class="caps">NAT</span>: Funktioniert &#8211; <code>ping google.com</code></li>
+		<li><span class="caps">SSH</span> vom Host in den Container: Funktioniert &#8211; <code>ssh ubuntu</code>10.0.3.250@</li>
+	</ul></li>
+</ul>
+<h2>Anpassung der Container</h2>
+<h3>Verwenden des Apt-Cache-Ng vom Host-System</h3>
+<p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
+<pre><code>Acquire::http::Proxy "http://10.0.3.1:3142";</code></pre>
+<h3>Installation von <span class="caps">JOE</span>/<span class="caps">JMACS</span></h3>
+<pre><code>sudo apt-get install joe</code></pre>
+<h2>Sichern und Rückspielen von Containern</h2>
+<h3>Sichern</h3>
+<pre><code>cd /lxc
+sudo tar -cvjpf /backups/lxc/20121119.tar.bz2 .</code></pre>
+<h3>Rückspielen</h3>
+<pre><code>cd /lxc
+sudo tar -xvjpf /backups/lxc/20121119.tar.bz2</code></pre>
+<h2>Probleme</h2>
+<h3>Offene Punkte</h3>
+<h4>Wie sorgt man dafür, dass ein Container nur über ein Host-Only-Netzwerk erreichbar ist?</h4>
+<h3>Erledigte Punkte</h3>
+<h4>Verwendung des Apt-Cacher-Ng durch einen Container</h4>
+<p>&#8230; geht wie üblich durch /etc/apt/apt.conf.d/01proxy innerhalb des Containers</p>
+<h4>Wie übernimmt man einen Container auf ein anderes System?</h4>
+<p>&#8230; durch Sichern und Rückspielen.</p>
+<h2>Links</h2>
+<ul>
+	<li>Ubuntu 12.04 Server Guide: https://help.ubuntu.com/12.04/serverguide/lxc.html</li>
+</ul></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/24/octopress-21/">Octopress-2.1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-11-24T10:49:00+01:00" pubdate data-updated="true">24. November 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Meine Tests mit Octopress-2.1</h1>
+
+<p>Ausgangspunkt ist meine &ldquo;normale&rdquo; Octopress-Installation:</p>
+
+<figure class='code'><figcaption><span>Normale Octopress-Installation </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span>git branch -a
+</span><span class='line'>  master
+</span><span class='line'>* <span class="nb">source</span>
+</span><span class='line'><span class="nb">  </span>remotes/octopress/2.1
+</span><span class='line'>  remotes/octopress/gh-pages
+</span><span class='line'>  remotes/octopress/linklog
+</span><span class='line'>  remotes/octopress/master
+</span><span class='line'>  remotes/octopress/refactor_with_tests
+</span><span class='line'>  remotes/octopress/rubygemcli
+</span><span class='line'>  remotes/octopress/site
+</span><span class='line'>  remotes/origin/HEAD -&gt; origin/master
+</span><span class='line'>  remotes/origin/gh-pages
+</span><span class='line'>  remotes/origin/master
+</span><span class='line'>  remotes/origin/source
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Mit diesem Setup kann man nun umschalten auf Version 2.1:</p>
+
+<figure class='code'><figcaption><span>Umstellen auf Octopress-2.1 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span><span class="nb">export </span><span class="nv">LANG</span><span class="o">=</span>C.UTF-8
+</span><span class='line'>octopress<span class="nv">$ </span>git checkout -t remotes/octopress/2.1
+</span><span class='line'>Branch 2.1 <span class="nb">set </span>up to track remote branch 2.1 from octopress by rebasing.
+</span><span class='line'>Switched to a new branch <span class="s1">&#39;2.1&#39;</span>
+</span><span class='line'>octopress<span class="nv">$ </span>bundle install
+</span><span class='line'>octopress<span class="nv">$ </span>rake install
+</span><span class='line'>octopress<span class="nv">$ </span>rake generate
+</span><span class='line'>octopress<span class="nv">$ </span>rake preview
+</span><span class='line'><span class="c"># Browser: http://localhost:4000</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hier meine ersten Eindrücke:</p>
+
+<ul>
+<li>Code-Blöcke verwenden nun weißen Hintergrund, was für mich deutlich lesbarer und ansprechender aussieht</li>
+<li>Blog-Einträge mit <code>published: false</code> werden nicht veröffentlicht, in 2.0 werden alle Blog-Einträge veröffentlicht</li>
+<li>Bei RVM wird Ruby-1.9.2 &ldquo;angezogen&rdquo;, es funktioniert aber auch mit 1.9.3</li>
+<li>Beim Drücken auf &ldquo;Blog&rdquo; erscheint in der Leiste rechts keine Liste der Blog-Einträge &ndash; source/_includes/sidebars/blog_index_default.html</li>
+<li>Bei Überschriften werden die ersten Buchstaben immer groß geschrieben (also: So Eine Überschrift) &ndash; _config.yml, titlecase</li>
+<li>Datumsangaben erfolgen in Englisch (wie bei 2.0) &ndash; etwas kompliziert zu ändern</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Anpassungen an Octopress-2.1 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git branch -m 2.1 <span class="nb">source</span>-2.1
+</span><span class='line'>git checkout <span class="nb">source</span>-2.1
+</span><span class='line'>git push -u origin <span class="nb">source</span>-2.1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Eigenes Darstellungsthema erzeugen</h2>
+
+<h3>Kopie des Standards-Themas anlegen</h3>
+
+<figure class='code'><figcaption><span>Eigenes Darstellungsthema f</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>cp -a .themes/classic .themes/uli
+</span><span class='line'>git add .themes/uli
+</span><span class='line'>git commit -m <span class="s2">&quot;.themes: classic -&gt; uli&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Anpassungen von Octopress-2.0 übernehmen</h3>
+
+<ul>
+<li>Historie vom Zweig &ldquo;source&rdquo; durchsuchen nach den dort erledigten Änderungen am Thema</li>
+<li>Übernehmen der Änderungen in den Zweig &ldquo;source-2.1&rdquo;</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Sichten der Historie</span>
+</span><span class='line'>octopress<span class="nv">$ </span>git log --oneline ..source -- .themes/uli
+</span><span class='line'>b941c1c Anpassungen am Layout
+</span><span class='line'>1cfd652 cp -a .themes/classic .themes/uli
+</span><span class='line'><span class="c"># Änderungen in source-2.1 übernehmen</span>
+</span><span class='line'>octopress<span class="nv">$ </span>git rebase -i --onto <span class="nb">source</span>-2.1 1cfd652 b941c1c
+</span><span class='line'><span class="c"># Konflikt wird angezeigt -&gt; auflösen und festschreiben (committen)</span>
+</span><span class='line'>octopress<span class="nv">$ </span>...
+</span><span class='line'><span class="c"># Zustand sichten</span>
+</span><span class='line'>octopress<span class="nv">$ </span>gitk
+</span><span class='line'><span class="c"># &quot;Detached head&quot;, source-2.1 liegt ein wenig &quot;zurück&quot;</span>
+</span><span class='line'>octopress<span class="nv">$ </span>git checkout -b tmp
+</span><span class='line'>octopress<span class="nv">$ </span>git checkout -B <span class="nb">source</span>-2.1 tmp
+</span><span class='line'>octopress<span class="nv">$ </span>git branch -d tmp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Darstellungsthema aktivieren</h3>
+
+<figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>octopress<span class="nv">$ </span>rake install<span class="o">[</span><span class="s1">&#39;uli&#39;</span><span class="o">]</span>
+</span><span class='line'>A theme is already installed, proceeding will overwrite existing files. Are you sure? <span class="o">[</span>y/n<span class="o">]</span> y
+</span><span class='line'><span class="c">## Copying uli theme into ./source and ./sass</span>
+</span><span class='line'>mkdir -p <span class="nb">source</span>
+</span><span class='line'>cp -r .themes/uli/source/. <span class="nb">source</span>
+</span><span class='line'>mkdir -p sass
+</span><span class='line'>cp -r .themes/uli/sass/. sass
+</span><span class='line'>mkdir -p <span class="nb">source</span>/_posts
+</span><span class='line'>mkdir -p public
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Blog-Einträge von Octopress-2.0 übernehmen</h2>
+
+<figure class='code'><figcaption><span>Dokumente von Octopress-2.0 </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git add <span class="nb">source</span>
+</span><span class='line'>git commit -m <span class="s2">&quot;Quelltexte in&#39;s Repository aufgenommen&quot;</span> .
+</span><span class='line'>git checkout <span class="nb">source</span> -- ./source/_posts
+</span><span class='line'>git commit -m <span class="s2">&quot;Blog-Einträge kopiert von &#39;source&#39;&quot;</span> ./source
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Einstellungen anpassen</h2>
+
+<h3>Grundeinstellungen</h3>
+
+<figure class='code'><figcaption><span>Einstellungen anpassen - _config.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -2,10 +2,10 @@</span>
+</span><span class='line'> #      Main Configs       #
+</span><span class='line'> # ----------------------- #
+</span><span class='line'>
+</span><span class='line'><span class="gd">-url: http://yoursite.com</span>
+</span><span class='line'><span class="gd">-title: My Octopress Blog</span>
+</span><span class='line'><span class="gd">-subtitle: A blogging framework for hackers.</span>
+</span><span class='line'><span class="gd">-author: Your Name</span>
+</span><span class='line'><span class="gi">+url: http://uli-heller.github.com</span>
+</span><span class='line'><span class="gi">+title: Was ich so treibe...</span>
+</span><span class='line'><span class="gi">+subtitle: Java, Linux und Groovy</span>
+</span><span class='line'><span class="gi">+author: Uli Heller</span>
+</span><span class='line'> simple_search: http://google.com/search
+</span><span class='line'> description:
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Überschriften &ndash; keine Großbuchstaben</h3>
+
+<figure class='code'><figcaption><span>Keine Gro</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -49,7 +49,7 @@</span>
+</span><span class='line'> linklog_marker_position: after
+</span><span class='line'> linklog_marker_position_feed: after
+</span><span class='line'> standard_post_marker:
+</span><span class='line'>
+</span><span class='line'><span class="gd">-titlecase: true       # Converts page and post titles to titlecase</span>
+</span><span class='line'><span class="gi">+titlecase: false       # Converts page and post titles to titlecase</span>
+</span><span class='line'>
+</span><span class='line'> # To change the layout&#39;s default sidebar Add a new sidebar source/_includes/sid
+</span><span class='line'> # then make changes below, eg. post_sidebar: your_sidebar.html
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Deutsche Übersetzungen</h3>
+
+<p>Die Ideen sind weitgehend &ldquo;geklaut&rdquo; von <a href="http://www.uru.ch/blog/2011/09/12/octopress-oberflaeche-im-schnelldurchgang-auf-deutsch-uebersetzen/">Roger Schärer</a>. In folgenden Dateien sind englische Texte hinterlegt:</p>
+
+<ul>
+<li>_config.yml &hellip; OK</li>
+<li>source/_includes/archive_post.html &hellip; OK</li>
+<li>source/<em>includes/asides/recent_posts.html &hellip; nicht gefunden
+source/</em>includes/sidebars/sections/recent_posts.html</li>
+<li>source/<em>includes/asides/twitter.html .. nicht gefunden
+source/</em>includes/sidebars/sections/twitter.html</li>
+<li>source/_includes/custom/navigation.html</li>
+<li>source/_includes/navigation.html</li>
+<li>source/_includes/post/author.html</li>
+<li>source/_layouts/post.html</li>
+<li>source/_layouts/posts.html &hellip; nicht gefunden</li>
+<li>source/_layouts/page.html &hellip; nicht gefunden</li>
+<li>source/index.html</li>
+<li>source/blog/archives/index.html &hellip; nicht gefunden
+source/archives/index.html</li>
+</ul>
+
+
+<p>Die meisten dieser Änderungen führe ich nicht direkt an den Dateien unterhalb von &ldquo;source&rdquo; durch, sondern in meinem Themenverzeichnis &ldquo;.themes/uli&rdquo;. Von dort kann ich sie dann mittels <code>rake install['uli']</code> aktivieren.</p>
+
+<h3>Deutsche Datumsangaben</h3>
+
+<p>Das grundätzliche Vorgehen kommt von <a href="http://home-server-mind.com/deutsche-lokalisation-in-octopress-seiten/">Marc </a>. Er schreibt allerdings, dass man als Einstellung für das Format &ldquo;ordinal&rdquo; verwenden muß. Grund hierfür ist eine Unschönheit in seiner Implementierung der Methode &ldquo;format_date&rdquo;. Bei meiner Variante kann man auch beliebige andere Einstellungen verwenden. Ich verwende beispielsweise &ldquo;%d. %B %Y&rdquo;.</p>
+
+<figure class='code'><figcaption><span>Deutsche Datumsangaben - plugins/date.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -1,5 +1,57 @@</span>
+</span><span class='line'><span class="gi">+# -*- coding: utf-8 -*-</span>
+</span><span class='line'> module Octopress
+</span><span class='line'>   module Date
+</span><span class='line'><span class="gi">+    #Deutsche Lokalisation:</span>
+</span><span class='line'><span class="gi">+    MONTHNAMES_DE = [nil,</span>
+</span><span class='line'><span class="gi">+      &quot;Januar&quot;, &quot;Februar&quot;, &quot;März&quot;, &quot;April&quot;, &quot;Mai&quot;, &quot;Juni&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Juli&quot;, &quot;August&quot;, &quot;September&quot;, &quot;Oktober&quot;, &quot;November&quot;, &quot;Dezember&quot; ]</span>
+</span><span class='line'><span class="gi">+    ABBR_MONTHNAMES_DE = [nil,</span>
+</span><span class='line'><span class="gi">+      &quot;Jan&quot;, &quot;Feb&quot;, &quot;Mär&quot;, &quot;Apr&quot;, &quot;Mai&quot;, &quot;Jun&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Okt&quot;, &quot;Nov&quot;, &quot;Dez&quot; ]</span>
+</span><span class='line'><span class="gi">+    DAYNAMES_DE = [</span>
+</span><span class='line'><span class="gi">+      &quot;Sonntag&quot;, &quot;Montag&quot;, &quot;Dienstag&quot;, &quot;Mittwoch&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Donnerstag&quot;, &quot;Freitag&quot;, &quot;Samstag&quot; ]</span>
+</span><span class='line'><span class="gi">+    ABBR_DAYNAMES_DE = [</span>
+</span><span class='line'><span class="gi">+      &quot;So&quot;, &quot;Mo&quot;, &quot;Di&quot;, &quot;Mi&quot;,</span>
+</span><span class='line'><span class="gi">+      &quot;Do&quot;, &quot;Fr&quot;, &quot;Sa&quot; ]</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+    # Returns a datetime if the input is a string</span>
+</span><span class='line'><span class="gi">+    def datetime(date)</span>
+</span><span class='line'><span class="gi">+      if date.class == String</span>
+</span><span class='line'><span class="gi">+        date = Time.parse(date)</span>
+</span><span class='line'><span class="gi">+      end</span>
+</span><span class='line'><span class="gi">+      date</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+    # in _config.yml muss stehen: date_format: ordinal </span>
+</span><span class='line'><span class="gi">+    def ordinalize(date)</span>
+</span><span class='line'><span class="gi">+      #**** hier Format bei Bedarf ändern, z.B. %A für ausgeschriebenen Wochent</span>
+</span><span class='line'><span class="gi">+      format_date(date, &quot;%a, %e. %B %Y&quot;) # SA, 10. MÄRZ 2012</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+    # Formats date either as ordinal or by given date format</span>
+</span><span class='line'><span class="gi">+    # Adds %o as ordinal representation of the day</span>
+</span><span class='line'><span class="gi">+    def format_date(date, format)</span>
+</span><span class='line'><span class="gi">+      myformat = format.dup</span>
+</span><span class='line'><span class="gi">+      date = datetime(date)</span>
+</span><span class='line'><span class="gi">+      if format.nil? || format.empty? || format == &quot;ordinal&quot;</span>
+</span><span class='line'><span class="gi">+        date_formatted = ordinalize(date) </span>
+</span><span class='line'><span class="gi">+      else</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%a/, ABBR_DAYNAMES_DE[date.wday])</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%A/, DAYNAMES_DE[date.wday])</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%b/, ABBR_MONTHNAMES_DE[date.mon])</span>
+</span><span class='line'><span class="gi">+        myformat.gsub!(/%B/, MONTHNAMES_DE[date.mon])</span>
+</span><span class='line'><span class="gi">+        date_formatted = date.strftime(myformat)</span>
+</span><span class='line'><span class="gi">+        # date_formatted = date.strftime(format)</span>
+</span><span class='line'><span class="gi">+        # date_formatted.gsub!(/%o/, ordinal(date.strftime(&#39;%e&#39;).to_i))</span>
+</span><span class='line'><span class="gi">+      end</span>
+</span><span class='line'><span class="gi">+      date_formatted #+&quot; ULI:#{date.mon}&quot;</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+  end</span>
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+  module DateEn</span>
+</span><span class='line'>
+</span><span class='line'>     # Returns a datetime if the input is a string
+</span><span class='line'>     def datetime(date)
+</span><span class='line'><span class="gu">@@ -95,4 +147,11 @@ module Jekyll</span>
+</span><span class='line'>       self.data[&#39;updated_formatted&#39;] = format_date(self.data[&#39;updated&#39;], date_format) if self.data.has_key?(&#39;updated&#39;)
+</span><span class='line'>     end
+</span><span class='line'>   end
+</span><span class='line'><span class="gi">+</span>
+</span><span class='line'><span class="gi">+  module Filters</span>
+</span><span class='line'><span class="gi">+    include Octopress::Date</span>
+</span><span class='line'><span class="gi">+    def date(date, format)</span>
+</span><span class='line'><span class="gi">+      format_date(date, format)</span>
+</span><span class='line'><span class="gi">+    end</span>
+</span><span class='line'><span class="gi">+  end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Änderung an _config.yml, damit das Datum so angegeben wird: &ldquo;25. Dezember 2012&rdquo;</p>
+
+<figure class='code'><figcaption><span>Datumsangaben &#8216;TT. Monat JJJJ&#8217; - _config.yml </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -13,7 +13,11 @@ description:</span>
+</span><span class='line'> # You can customize the format as defined in
+</span><span class='line'> # http://www.ruby-doc.org/core-1.9.2/Time.html#method-i-strftime
+</span><span class='line'> # Additionally, %o will give you the ordinal representation of the day
+</span><span class='line'><span class="gd">-date_format: &quot;ordinal&quot;</span>
+</span><span class='line'><span class="gi">+#  %d.%m.%Y&quot; -&gt; 25.12.2012</span>
+</span><span class='line'><span class="gi">+#  %d. %B %Y&quot; -&gt; 25. December 2012 (oder 25. Dezember 2012)</span>
+</span><span class='line'><span class="gi">+date_format: &quot;%d. %B %Y&quot;</span>
+</span><span class='line'>
+</span><span class='line'> # RSS / Email (optional) subscription links (change if using something like Fee
+</span><span class='line'> subscribe_rss: /atom.xml
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>GitHub-Pages reaktivieren</h2>
+
+<figure class='code'><figcaption><span>GutHub-Pages reaktivieren - Rakefile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -9,13 +9,13 @@</span>
+</span><span class='line'> ssh_user       = &quot;user@domain.com&quot;
+</span><span class='line'> ssh_port       = &quot;22&quot;
+</span><span class='line'> document_root  = &quot;~/website.com/&quot;
+</span><span class='line'> rsync_delete   = false
+</span><span class='line'><span class="gd">-deploy_default = &quot;rsync&quot;</span>
+</span><span class='line'><span class="gi">+deploy_default = &quot;push&quot;</span>
+</span><span class='line'>
+</span><span class='line'> # Hidden &quot;dot&quot; files that should be included with the deployed site (see task c
+</span><span class='line'> copy_dot_files = []
+</span><span class='line'>
+</span><span class='line'> # This will be configured for you when you run config_deploy
+</span><span class='line'><span class="gd">-deploy_branch  = &quot;gh-pages&quot;</span>
+</span><span class='line'><span class="gi">+deploy_branch  = &quot;master&quot;</span>
+</span><span class='line'>
+</span><span class='line'> ## -- Misc Configs -- ##
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -809,6 +1544,10 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/11/10/grep/">GREP - Zeilen aus Umgebungsvariable löschen</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/10/09/persoenliche-git-zentrale/">Persönliche Git-Zentrale</a>
       </li>
     
@@ -824,15 +1563,11 @@ Größe der /usr-Partition auf 800MB setzen &hellip;">
         <a href="/blog/2013/10/06/zfs/">ZFS unter Ubuntu-12.04.3</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/10/06/forward-proxy/">Maven/Gradle: Betrieb hinter einer Enterprise-Firewall</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Themen</h1>
-    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 104.6875%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 102.8125%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 101.875%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 100.9375%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.875%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 101.875%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 101.875%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 101.875%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 106.5625%'>Git(7)</a> <a href='/blog/categories/github' style='font-size: 100.9375%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 100.9375%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 100.9375%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 100.9375%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 100.9375%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 100.9375%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.6875%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 100.9375%'>JBoss(1)</a> <a href='/blog/categories/jdk' style='font-size: 100.9375%'>JDK(1)</a> <a href='/blog/categories/jmx' style='font-size: 100.9375%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 100.9375%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 101.875%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 100.9375%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(64)</a> <a href='/blog/categories/lucid' style='font-size: 103.75%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 105.625%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 100.9375%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 101.875%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 100.9375%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 102.8125%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 100.9375%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 109.375%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 100.9375%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.5625%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 100.9375%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 100.9375%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 100.9375%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 100.9375%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 100.9375%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 101.875%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 100.9375%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 130.9375%'>Precise(33)</a> <a href='/blog/categories/proxy' style='font-size: 101.875%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 101.875%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 101.875%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 102.8125%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 106.5625%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 100.9375%'>Server(1)</a> <a href='/blog/categories/smtp' style='font-size: 100.9375%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 100.9375%'>Squid(1)</a> <a href='/blog/categories/subversion' style='font-size: 102.8125%'>Subversion(3)</a> <a href='/blog/categories/thunderbird' style='font-size: 100.9375%'>Thunderbird(1)</a> <a href='/blog/categories/truecrypt' style='font-size: 100.9375%'>Truecrypt(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.75%'>Ubuntu(52)</a> <a href='/blog/categories/usb' style='font-size: 100.9375%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 100.9375%'>Webservice(1)</a> <a href='/blog/categories/windows' style='font-size: 100.9375%'>Windows(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 100.9375%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.875%'>ZFS(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 104.6875%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 102.8125%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 101.875%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 100.9375%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.875%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 101.875%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 101.875%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 101.875%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 106.5625%'>Git(7)</a> <a href='/blog/categories/github' style='font-size: 100.9375%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 100.9375%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 100.9375%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 100.9375%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 100.9375%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 100.9375%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 105.625%'>Java(6)</a> <a href='/blog/categories/jboss' style='font-size: 100.9375%'>JBoss(1)</a> <a href='/blog/categories/jdk' style='font-size: 100.9375%'>JDK(1)</a> <a href='/blog/categories/jmx' style='font-size: 100.9375%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 100.9375%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 101.875%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 100.9375%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(64)</a> <a href='/blog/categories/lucid' style='font-size: 103.75%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 100.9375%'>LXC(1)</a> <a href='/blog/categories/lxc' style='font-size: 105.625%'>Lxc(6)</a> <a href='/blog/categories/macbook-air' style='font-size: 101.875%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 100.9375%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 102.8125%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 100.9375%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 109.375%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 100.9375%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.5625%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 100.9375%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 100.9375%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 100.9375%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 100.9375%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 100.9375%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 101.875%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 100.9375%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 130.9375%'>Precise(33)</a> <a href='/blog/categories/proxy' style='font-size: 101.875%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 101.875%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 101.875%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 102.8125%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 106.5625%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 100.9375%'>Server(1)</a> <a href='/blog/categories/shell' style='font-size: 100.9375%'>Shell(1)</a> <a href='/blog/categories/smtp' style='font-size: 100.9375%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 100.9375%'>Squid(1)</a> <a href='/blog/categories/subversion' style='font-size: 102.8125%'>Subversion(3)</a> <a href='/blog/categories/thunderbird' style='font-size: 100.9375%'>Thunderbird(1)</a> <a href='/blog/categories/truecrypt' style='font-size: 100.9375%'>Truecrypt(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 149.6875%'>Ubuntu(53)</a> <a href='/blog/categories/usb' style='font-size: 100.9375%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 100.9375%'>Webservice(1)</a> <a href='/blog/categories/windows' style='font-size: 100.9375%'>Windows(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 100.9375%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.875%'>ZFS(2)</a> </span>
 </section>
 
 
