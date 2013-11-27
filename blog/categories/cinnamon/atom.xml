@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Cinnamon | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/cinnamon/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-11-10T08:22:31+01:00</updated>
+  <updated>2013-11-27T08:15:03+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,64 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cinnamon-2.0.14 und Muffin-2.0.5 für Ubuntu-12.04 bauen]]></title>
+    <link href="http://uli-heller.github.com/blog/2013/11/27/cinnamon-und-muffin-bauen/"/>
+    <updated>2013-11-27T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2013/11/27/cinnamon-und-muffin-bauen</id>
+    <content type="html"><![CDATA[<p>Hier kurz eine Beschreibung, wie ich Cinnamon und Muffin für Ubuntu-12.04
+baue:</p>
+
+<ul>
+<li><p>Quellen runterladen von GitHub</p>
+
+<ul>
+<li><a href="https://github.com/linuxmint/Cinnamon/tags">https://github.com/linuxmint/Cinnamon/tags</a> &hellip; tar.gz</li>
+<li><a href="https://github.com/linuxmint/muffin/tags">https://github.com/linuxmint/muffin/tags</a> &hellip; tar.gz</li>
+</ul>
+</li>
+<li><p>Quellen auf das Build-System kopieren</p></li>
+</ul>
+
+
+<h2>Muffin</h2>
+
+<ul>
+<li>Quellen auspacken: <code>gzip -cd muffin-2.0.5.tar.gz|tar xf -</code></li>
+<li>ChangeLog-Eintrag anlegen: <code>(cd muffin-2.0.5; debchange --increment)</code></li>
+<li>Verzeichnis rückbenennen: <code>mv muffin-2.0.5ubuntu1 muffin-2.0.5</code></li>
+<li>ChangeLog-Eintrag editieren: <code>jmacs muffin-2.0.5/debian/changelog</code></li>
+<li>Bau-Vorgang starten:<pre>
+cd muffin-2.0.5
+./autogen.sh
+dpkg-buildpackage
+</pre></li>
+</ul>
+
+
+<h2>Cinnamon</h2>
+
+<ul>
+<li>Muffin-Pakete installieren:<pre>
+sudo dpkg -i \
+    gir1.2-muffin-3.0_2.0.5dp01precise~1_amd64.deb \
+    libmuffin-dev_2.0.5dp01precise~1_amd64.deb     \
+    libmuffin0_2.0.5dp01precise~1_amd64.deb        \
+    muffin-common_2.0.5dp01precise~1_all.deb
+</pre></li>
+<li>Quellen auspacken: <code>gzip -cd Cinnamon-2.0.14.tar.gz|tar xf -</code></li>
+<li>ChangeLog-Eintrag anlegen: <code>(cd Cinnamon-2.0.14; debchange --increment)</code></li>
+<li>ChangeLog-Eintrag editieren: <code>jmacs Cuffin-2.0.14/debian/changelog</code></li>
+<li>Bau-Vorgang starten:<pre>
+cd Cinnamon-2.0.14
+./autogen.sh
+dpkg-buildpackage
+</pre></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cinnamon-1.7.4 auf Ubuntu-12.04]]></title>
