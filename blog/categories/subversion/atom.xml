@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Subversion | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/subversion/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-11-27T08:15:03+01:00</updated>
+  <updated>2014-02-11T08:14:39+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,131 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SubGit - Kopplung von Git und Subversion]]></title>
+    <link href="http://uli-heller.github.com/blog/2014/02/11/subgit/"/>
+    <updated>2014-02-11T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2014/02/11/subgit</id>
+    <content type="html"><![CDATA[<p>Bislang habe ich immer &ldquo;GitSvn&rdquo; verwendet, wenn ich mit Git auf ein
+Subversion-Repository zugreifen wollte. Leider ist GitSvn fehlerhaltig
+und in der Handhabung teilweise etwas sperrig. Vor einiger Zeit bin
+ich nun über SubGit gestolpert und möchte das heute in der Version
+2.0.1 einmal ausprobieren.</p>
+
+<!-- more -->
+
+
+<h2>Installation</h2>
+
+<p><code>
+$ unzip .../subgit-2.0.1.zip
+$ export SH="$(pwd)/subgit-2.0.1"
+</code></p>
+
+<h2>Git-Projekt aus Subversion-Projekt erzeugen</h2>
+
+<p><code>
+$ ${SH}/bin/subgit configure --svn-url https://83.236.132.107/svn/sandbox git/sandbox.git
+SubGit version 2.0.1 ('Patrick') build #2706
+...
+</code></p>
+
+<ul>
+<li>Zweigzuordnung: Keine Aktionen notwendig, wenn in Subversion die
+Standard-Konventionen (trunk/branches/tags) verwendet werden!</li>
+<li>Benutzer und Kennwort: Subversion-Benutzer und -Kennwort muß in
+&ldquo;passwd&rdquo; oder &ldquo;config&rdquo; hinterlegt werden!</li>
+</ul>
+
+
+<p>```
+$ ${SH}/bin/subgit install git/sandbox.git
+SubGit version 2.0.1 (&lsquo;Patrick&rsquo;) build #2706</p>
+
+<p>Translating Subversion revisions to Git commits&hellip;</p>
+
+<pre><code>Subversion revisions translated: 99.
+Total time: 85 seconds.
+</code></pre>
+
+<p>INSTALLATION SUCCESSFUL</p>
+
+<p>Your copy of SubGit is not registered for repository at &lsquo;&hellip;/git/sandbox.git&rsquo;.
+You may use SubGit for evaluation purposes.</p>
+
+<p>For production use, please obtain registration key at <a href="http://www.subgit.com/">http://www.subgit.com/</a> and register SubGit.
+Registration is free for Open Source, Educational and Startup projects.
+```</p>
+
+<h2>Git-Projekt auschecken</h2>
+
+<p><code>
+$ git clone .../git/sandbox.git sandbox
+</code></p>
+
+<h2>Projekt bearbeiten</h2>
+
+<p>Mit den üblichen Git-Kommandos!</p>
+
+<h2>Lokalen Git-Commit durchführen</h2>
+
+<p>Beim lokalen Git-Commit wird nur die &ldquo;Kopie&rdquo; im Verzeichnis &ldquo;sandbox&rdquo; aktualisiert!</p>
+
+<p><code>
+$ git commit -m "...." .
+</code></p>
+
+<h2>Zentralen Git-Commit durchführen</h2>
+
+<p>Beim zentralen Git-Commit wird das zentrale Git-Repository &ldquo;&hellip;/git/sandbox.git&rdquo;
+aktualisiert und auch das Subversion-Repository:</p>
+
+<p><code>
+$ git push
+Counting objects: 4, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 234 bytes | 0 bytes/s, done.
+Total 2 (delta 1), reused 0 (delta 0)
+remote: Synchronizing SVN and Git...
+remote:   translating SVN revisions to Git commits...
+remote:   translating Git commits to SVN revisions...
+remote:     translated commit da5a6078fba40f0686bf1cfd83b0d8c592ee88a1 to revision 100
+remote: ... done.
+remote: Synchronizing SVN and Git...
+remote: ... done.
+To /tmp/x/git/sandbox.git
+   ea0262b..da5a607  master -&gt; master
+</code></p>
+
+<h2>Konflikt mit Subversion</h2>
+
+<p>Hier der Ablauf, wenn man einen Konflikt mit Subversion &ldquo;provoziert&rdquo;. Änderung in Subversion durchführen:</p>
+
+<p><code>
+svn/sandbox$ echo ERNIE &gt;&gt;conflict.txt
+svn/sandbox$ svn commit -m "Added ERNIE"
+</code></p>
+
+<p>Nun die gleiche Datei in Git ändern:</p>
+
+<p><code>
+git/sandbox$ echo BERT &gt;&gt;conflict.txt
+git/sandbox$ git commit -m "Added BERT"
+git/sandbox$ git push
+To /tmp/x/git/sandbox.git
+ ! [rejected]        master -&gt; master (fetch first)
+...
+</code></p>
+
+<h2>Fazit</h2>
+
+<p>SubGit sieht schonmal sehr vielversprechend aus. Es ist sehr einfach
+einzurichten und funktioniert dem ersten Eindruck nach tadellos.
+Für mich zu klären sind noch die Lizenzbedingungen sowie der Einsatz &ldquo;im Team&rdquo;.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git-Svn: Absturz bei 'dcommit', 'rebase', ...]]></title>

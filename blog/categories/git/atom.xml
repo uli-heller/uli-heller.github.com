@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Git | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2013-11-27T08:15:03+01:00</updated>
+  <updated>2014-02-11T08:14:39+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,131 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SubGit - Kopplung von Git und Subversion]]></title>
+    <link href="http://uli-heller.github.com/blog/2014/02/11/subgit/"/>
+    <updated>2014-02-11T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2014/02/11/subgit</id>
+    <content type="html"><![CDATA[<p>Bislang habe ich immer &ldquo;GitSvn&rdquo; verwendet, wenn ich mit Git auf ein
+Subversion-Repository zugreifen wollte. Leider ist GitSvn fehlerhaltig
+und in der Handhabung teilweise etwas sperrig. Vor einiger Zeit bin
+ich nun über SubGit gestolpert und möchte das heute in der Version
+2.0.1 einmal ausprobieren.</p>
+
+<!-- more -->
+
+
+<h2>Installation</h2>
+
+<p><code>
+$ unzip .../subgit-2.0.1.zip
+$ export SH="$(pwd)/subgit-2.0.1"
+</code></p>
+
+<h2>Git-Projekt aus Subversion-Projekt erzeugen</h2>
+
+<p><code>
+$ ${SH}/bin/subgit configure --svn-url https://83.236.132.107/svn/sandbox git/sandbox.git
+SubGit version 2.0.1 ('Patrick') build #2706
+...
+</code></p>
+
+<ul>
+<li>Zweigzuordnung: Keine Aktionen notwendig, wenn in Subversion die
+Standard-Konventionen (trunk/branches/tags) verwendet werden!</li>
+<li>Benutzer und Kennwort: Subversion-Benutzer und -Kennwort muß in
+&ldquo;passwd&rdquo; oder &ldquo;config&rdquo; hinterlegt werden!</li>
+</ul>
+
+
+<p>```
+$ ${SH}/bin/subgit install git/sandbox.git
+SubGit version 2.0.1 (&lsquo;Patrick&rsquo;) build #2706</p>
+
+<p>Translating Subversion revisions to Git commits&hellip;</p>
+
+<pre><code>Subversion revisions translated: 99.
+Total time: 85 seconds.
+</code></pre>
+
+<p>INSTALLATION SUCCESSFUL</p>
+
+<p>Your copy of SubGit is not registered for repository at &lsquo;&hellip;/git/sandbox.git&rsquo;.
+You may use SubGit for evaluation purposes.</p>
+
+<p>For production use, please obtain registration key at <a href="http://www.subgit.com/">http://www.subgit.com/</a> and register SubGit.
+Registration is free for Open Source, Educational and Startup projects.
+```</p>
+
+<h2>Git-Projekt auschecken</h2>
+
+<p><code>
+$ git clone .../git/sandbox.git sandbox
+</code></p>
+
+<h2>Projekt bearbeiten</h2>
+
+<p>Mit den üblichen Git-Kommandos!</p>
+
+<h2>Lokalen Git-Commit durchführen</h2>
+
+<p>Beim lokalen Git-Commit wird nur die &ldquo;Kopie&rdquo; im Verzeichnis &ldquo;sandbox&rdquo; aktualisiert!</p>
+
+<p><code>
+$ git commit -m "...." .
+</code></p>
+
+<h2>Zentralen Git-Commit durchführen</h2>
+
+<p>Beim zentralen Git-Commit wird das zentrale Git-Repository &ldquo;&hellip;/git/sandbox.git&rdquo;
+aktualisiert und auch das Subversion-Repository:</p>
+
+<p><code>
+$ git push
+Counting objects: 4, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 234 bytes | 0 bytes/s, done.
+Total 2 (delta 1), reused 0 (delta 0)
+remote: Synchronizing SVN and Git...
+remote:   translating SVN revisions to Git commits...
+remote:   translating Git commits to SVN revisions...
+remote:     translated commit da5a6078fba40f0686bf1cfd83b0d8c592ee88a1 to revision 100
+remote: ... done.
+remote: Synchronizing SVN and Git...
+remote: ... done.
+To /tmp/x/git/sandbox.git
+   ea0262b..da5a607  master -&gt; master
+</code></p>
+
+<h2>Konflikt mit Subversion</h2>
+
+<p>Hier der Ablauf, wenn man einen Konflikt mit Subversion &ldquo;provoziert&rdquo;. Änderung in Subversion durchführen:</p>
+
+<p><code>
+svn/sandbox$ echo ERNIE &gt;&gt;conflict.txt
+svn/sandbox$ svn commit -m "Added ERNIE"
+</code></p>
+
+<p>Nun die gleiche Datei in Git ändern:</p>
+
+<p><code>
+git/sandbox$ echo BERT &gt;&gt;conflict.txt
+git/sandbox$ git commit -m "Added BERT"
+git/sandbox$ git push
+To /tmp/x/git/sandbox.git
+ ! [rejected]        master -&gt; master (fetch first)
+...
+</code></p>
+
+<h2>Fazit</h2>
+
+<p>SubGit sieht schonmal sehr vielversprechend aus. Es ist sehr einfach
+einzurichten und funktioniert dem ersten Eindruck nach tadellos.
+Für mich zu klären sind noch die Lizenzbedingungen sowie der Einsatz &ldquo;im Team&rdquo;.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Persönliche Git-Zentrale]]></title>
@@ -924,285 +1049,6 @@ geschickt.</p>
 
 
 <p>Mehr Details: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Quilt für mein Debian-Paket von Git]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/04/14/quilt-fuer-gitdeb/"/>
-    <updated>2013-04-14T12:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/04/14/quilt-fuer-gitdeb</id>
-    <content type="html"><![CDATA[<h1>Quilt: Umstellung der Patchverwaltung meines Git-Debian-Paketes auf Quilt</h1>
-
-<p>Mein Git-Debian-Paket verwendet bislang keine vernünftige Patchverwaltung.
-Stattdessen werden bei der Erzeugung des Paketes einfach alle Patches
-unterhalb von debian/diff der Reihe nach angewandt. Blöderweise fallen so
-gescheiterte Patchanwendungen nicht auf, außerdem werden im Source-Paket
-teilweise Original-Dateien modifiziert &ndash; vermutlich weil einige Patches
-nicht sauber zurückgerollt werden.</p>
-
-<p>Also: Ich will Quilt haben!</p>
-
-<!-- more -->
-
-
-<h2>Sichtung des Debian-Paketes von Subversion</h2>
-
-<ul>
-<li>Patches liegen unter debian/patches und nicht unter debian/diff</li>
-<li>Es gibt eine Datei namens debian/patches/series, die alle Patches auflistet</li>
-<li>In debian/rules sind einige Änderungen vorzunehmen</li>
-</ul>
-
-
-<p>Die ersten beiden Punkte sind schnell erledigt:</p>
-
-<ul>
-<li><code>mv debian/diff debian/patches</code></li>
-<li><code>cd debian/patches; (ls|grep -v series) &gt;series</code></li>
-</ul>
-
-
-<p>Bleibt noch die Anpassung von debian/rules!</p>
-
-<h2>Anpassungen an &ldquo;debian/rules&rdquo;</h2>
-
-<p>An der Datei &ldquo;debian/rules&rdquo; müssen qualitativ diese Änderungen vorgenommen
-werden:</p>
-
-<ul>
-<li>Einbinden der Datei /usr/share/quilt/quilt.make</li>
-<li>Ziele &ldquo;patch&rdquo; und &ldquo;patch-stamp&rdquo; entfernen</li>
-<li>Ziele &ldquo;debian/stamp-autogen&rdquo; und &ldquo;debian/stamp-configure&rdquo; neu aufnehmen
-Bei &ldquo;debian/stamp-configure&rdquo; wird ein Verweis auf &ldquo;patches&rdquo; angelegt</li>
-<li>Verweise auf &ldquo;patch-stamp&rdquo; ersetzen durch &ldquo;$(QUILT_STAMPFN)&rdquo;</li>
-<li>Im Ziel &ldquo;clean&rdquo; diese Änderungen vornehmen:
-
-<ul>
-<li>Neue Abhängigkeit zu &ldquo;unpatch&rdquo; festlegen</li>
-<li>Neuer Aufruf: dh_testdir</li>
-<li>Neuer Aufruf: dh_clean</li>
-<li>Verweis auf &ldquo;patches&rdquo; löschen</li>
-<li>Manuelle Logik zum Zurücknehmen der Patches entfernen</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Die Änderungen sind im nachfolgenden DIFF zusammengefasst.</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen an debian/rules </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'>&amp;mdash;&amp;ndash; ../git-1.8.2.1_ok/debian/rules  2013-04-13 19:55:00.061153212 +0200
-</span><span class='line'><span class="gi">+++ debian/rules    2013-04-14 09:36:24.782564149 +0200</span>
-</span><span class='line'><span class="gu">@@ -37,19 +37,30 @@</span>
-</span><span class='line'> TMP =$(shell pwd)/tmp
-</span><span class='line'> GIT =$(shell pwd)/debian/git&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;-patch: deb-checkdir patch-stamp
-</span><span class='line'><span class="gd">-patch-stamp:</span>
-</span><span class='line'>&amp;ndash;   cp gitk-git/gitk gitk-git/gitk.uli.orig
-</span><span class='line'>&amp;ndash;   for i in &lt;code&gt;ls -1 debian/diff/*.diff debian/diff/*.patch \
-</span><span class='line'><span class="gd">-       2&amp;gt;/dev/null || :&lt;/code&gt;; do \</span>
-</span><span class='line'>&amp;ndash;     patch -p1 -N -r- &amp;lt;$$i || test $$? = 1 || exit 1; \
-</span><span class='line'>&amp;ndash;   done
-</span><span class='line'>&amp;ndash;   touch patch-stamp
-</span><span class='line'><span class="gi">+include /usr/share/quilt/quilt.make</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+debian/stamp-autogen:  $(QUILT_STAMPFN)</span>
-</span><span class='line'><span class="gi">+   $(DONT_BE_ROOT)</span>
-</span><span class='line'><span class="gi">+   ./autogen.sh</span>
-</span><span class='line'><span class="gi">+   touch $@</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+debian/stamp-configure:    $(QUILT_STAMPFN) debian/stamp-autogen</span>
-</span><span class='line'><span class="gi">+   dh_testdir</span>
-</span><span class='line'><span class="gi">+   test -e patches || ln -s debian/patches patches</span>
-</span><span class='line'><span class="gi">+</span>
-</span><span class='line'><span class="gi">+#patch: deb-checkdir patch-stamp</span>
-</span><span class='line'><span class="gi">+#patch-stamp:</span>
-</span><span class='line'><span class="gi">+#  cp gitk-git/gitk gitk-git/gitk.uli.orig</span>
-</span><span class='line'><span class="gi">+#  for i in &lt;code&gt;ls -1 debian/diff/*.diff debian/diff/*.patch \</span>
-</span><span class='line'><span class="gi">+#      2&amp;gt;/dev/null || :&lt;/code&gt;; do \</span>
-</span><span class='line'><span class="gi">+#    patch -p1 -N -r- &amp;lt;$$i || test $$? = 1 || exit 1; \</span>
-</span><span class='line'><span class="gi">+#  done</span>
-</span><span class='line'><span class="gi">+#  touch patch-stamp&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; build: build-arch build-indep&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; build-arch: deb-checkdir build-arch-stamp
-</span><span class='line'><span class="gd">-build-arch-stamp: patch-stamp</span>
-</span><span class='line'><span class="gi">+build-arch-stamp: $(QUILT_STAMPFN)&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;-$(CC) -v
-</span><span class='line'>DESTDIR=&#39;$(GIT)&#39; $(MAKE) all $(OPTS)
-</span><span class='line'>cd contrib/subtree; DESTDIR=&#39;$(GIT)&#39; $(MAKE) all $(OPTS)
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;@@ -66,7 +77,7 @@&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;touch build-arch-stamp
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt; build-indep: deb-checkdir build-indep-stamp
-</span><span class='line'><span class="gd">-build-indep-stamp: patch-stamp build-arch-stamp</span>
-</span><span class='line'><span class="gi">+build-indep-stamp: $(QUILT_STAMPFN) build-arch-stamp&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;: &#39;Work around bug #478524&#39;
-</span><span class='line'>set -e; if test &#39;$(BUILD_DOCS)&#39; = 1; \
-</span><span class='line'>then \
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;@@ -74,14 +85,17 @@&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;fi
-</span><span class='line'>touch build-indep-stamp
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;-clean: deb-checkdir
-</span><span class='line'><span class="gi">+clean: deb-checkdir unpatch</span>
-</span><span class='line'><span class="gi">+   dh_testdir</span>
-</span><span class='line'><span class="gi">+   dh_clean</span>
-</span><span class='line'><span class="gi">+   $(RM) patches&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;$(MAKE) clean $(OPTS)
-</span><span class='line'>cd contrib/subtree; $(MAKE) clean $(OPTS)
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;ul&gt;
-</span><span class='line'>&lt;li&gt;! test -e patch-stamp || \&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;  for i in `ls -1r debian/diff/&lt;em&gt;.diff debian/diff/&lt;/em&gt;.patch \&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;&lt;pre&gt;&lt;code&gt;  2&amp;gt;/dev/null || :`; do \
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;&lt;pre&gt;&lt;code&gt;patch -p1 -NR -r- &amp;lt;$$i || test $$? = 1 || exit 1; \
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-</span><span class='line'>&lt;li&gt;  done
-</span><span class='line'><span class="gi">+#  ! test -e patch-stamp || \</span>
-</span><span class='line'><span class="gi">+#    for i in &lt;code&gt;ls -1r debian/diff/*.diff debian/diff/*.patch \</span>
-</span><span class='line'><span class="gi">+#        2&amp;gt;/dev/null || :&lt;/code&gt;; do \</span>
-</span><span class='line'><span class="gi">+#      patch -p1 -NR -r- &amp;lt;$$i || test $$? = 1 || exit 1; \</span>
-</span><span class='line'><span class="gi">+#    done</span>
-</span><span class='line'>rm -rf &amp;lsquo;$(TMP)&amp;rsquo;
-</span><span class='line'>rm -f patch-stamp build-arch-stamp build-indep-stamp
-</span><span class='line'>rm -rf &amp;lsquo;$(GIT)&amp;rsquo; &amp;lsquo;$(GIT)&amp;rsquo;-doc &amp;lsquo;$(GIT)&amp;rsquo;-arch &amp;lsquo;$(GIT)&amp;rsquo;-cvs
-</span></code></pre></td></tr></table></div></figure></notextile></div></li>
-</ul>
-
-
-<h2>Neuerzeugung des Paketes</h2>
-
-<p>Nun kann versucht werden, das Paket neu zu erzeugen mit <code>dpkg-buildpackage</code>.
-Erwartungsgemäß scheitert die Erzeugung, weil einige Patches nicht sauber
-durchlaufen. Korrigiert habe ich das so:</p>
-
-<ul>
-<li>In &ldquo;debian/patches/series&rdquo; folgende Patches deaktiviert:
-
-<ul>
-<li>0005-gitk-use-symbolic-font-names-sans-and-monospace-when-.diff</li>
-<li>0006-gitk-Skip-over-AUTHOR-COMMIT_DATE-when-searching-all-.diff</li>
-</ul>
-</li>
-<li>Bei allen übrigen Patches:
-
-<ul>
-<li><code>quilt push -f</code></li>
-<li><code>quilt refresh</code></li>
-<li><code>dpkg-buildpackage</code></li>
-<li>&hellip; so oft wiederholen, bis es durchläuft</li>
-</ul>
-</li>
-</ul>
-
 ]]></content>
   </entry>
   
