@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Thema: SSH | Was ich so treibe...]]></title>
+  <link href="http://uli-heller.github.com/blog/categories/ssh/atom.xml" rel="self"/>
+  <link href="http://uli-heller.github.com/"/>
+  <updated>2014-02-13T07:09:37+01:00</updated>
+  <id>http://uli-heller.github.com/</id>
+  <author>
+    <name><![CDATA[Uli Heller]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Langsames SSH]]></title>
+    <link href="http://uli-heller.github.com/blog/2014/02/13/langsames-ssh/"/>
+    <updated>2014-02-13T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2014/02/13/langsames-ssh</id>
+    <content type="html"><![CDATA[<p>Ich habe bei mir zu Hause einen kleinen Server stehen, auf den
+ich mittels SSH zugreife. Der Server hängt &ldquo;so halb&rdquo; im Internet.
+Meine Beobachtung: Wenn ich mit einem meiner Heimrechner mit SSH
+auf den Rechner zugreifen möchte, dann dauert&rsquo;s immer ewig bis der
+Kommandozeilenprompt erscheint.</p>
+
+<!-- more -->
+
+
+<h2>Details</h2>
+
+<p>Auf dem Server läuft ein Ubuntu-12.04, weitgehend in Standardkonfiguration.
+SSH habe ich auch erstmal unverändert belassen. Für meinen Benutzer habe
+ich die Anmeldung mittels &ldquo;public/private key&rdquo; eingerichtet, die funktioniert
+auch &ndash; ich muß beim SSH-Zugriff das Benutzerkennwort nicht eingeben und lande
+direkt auf der Kommandozeile.</p>
+
+<p>Unschön ist nur die lange Dauer, bis die Kommandozeile erscheint.</p>
+
+<p>Es zeigt sich, dass die Ursache die Wandlung von IP-Adressen nach Hostnamen
+ist. Bei der SSH-Anmeldung versucht der Server üblicherweise, die IP-Adresse
+des Heimrechners umzuwandeln in den Namen dieses Rechners. Das funktioniert
+für mein Heimnetz oftmals nicht richtig und läuft in eine Zeitüberschreitung.
+Dies führt zu der Wartezeit.</p>
+
+<h2>Abhilfe</h2>
+
+<p>Ich schalte die Wandlung von IP-Adressen nach Hostnamen einfach ab.
+Dazu modifiziere ich die Datei &ldquo;/etc/ssh/sshd_config&rdquo; wie folgt:</p>
+
+<p><code>diff
+--- sshd_config.orig    2014-01-18 10:07:10.000000000 +0100
++++ sshd_config 2014-02-13 06:58:07.707506337 +0100
+@@ -85,3 +85,5 @@
+ # PAM authentication, then enable this but set PasswordAuthentication
+ # and ChallengeResponseAuthentication to 'no'.
+ UsePAM yes
++
++UseDNS no
+</code></p>
+
+<p>Zur &ldquo;Sicherheit&rdquo; starte ich den SSHD noch neu mit <code>/etc/init.d/ssh restart</code>
+und kontrolliere die SSH-Anmeldegeschwindigkeit: Alles gut!</p>
+]]></content>
+  </entry>
+  
+</feed>
