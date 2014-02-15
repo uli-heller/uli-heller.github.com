@@ -9,9 +9,7 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="BytecodeOutline-Plugin für Eclipse Zuerst ein paar Angaben zu meiner Systemumgebung: Ubuntu-12.04, 64bit
-Eclipse-jee-juno-SR1
-de.loskutov. &hellip;">
+  <meta name="description" content="Erzeugen einer WSDL-Datei für ein JAXWS-Webservice-Interface Vorab &ndash; unser Webservice Ausgangspunkt ist dieses Interface für unseren Webservice &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +72,215 @@ de.loskutov. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/30/wsgen/">WSGEN - Wie man&#8217;s mit Interfaces macht</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-11-30T08:00:00+01:00" pubdate data-updated="true">30. November 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Erzeugen einer WSDL-Datei für ein JAXWS-Webservice-Interface</h1>
+
+<h2>Vorab &ndash; unser Webservice</h2>
+
+<p>Ausgangspunkt ist dieses Interface für unseren Webservice:</p>
+
+<figure class='code'><figcaption><span> (SampleWebService.java)</span> <a href='/downloads/code/java/wsdl/SampleWebService.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebMethod</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebParam</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;sampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'>   <span class="nd">@WebMethod</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span>
+</span><span class='line'>            <span class="nd">@WebParam</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;msg&quot;</span><span class="o">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">WebParam</span><span class="o">.</span><span class="na">Mode</span><span class="o">.</span><span class="na">IN</span><span class="o">)</span> <span class="n">String</span> <span class="n">msg</span>
+</span><span class='line'>   <span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Zusätzlich gibt&rsquo;s auch schon eine Implementierung dafür, nämlich diese:</p>
+
+<figure class='code'><figcaption><span> (SampleWebServiceImpl.java)</span> <a href='/downloads/code/java/wsdl/SampleWebServiceImpl.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleWebServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'>   <span class="kd">public</span> <span class="n">String</span> <span class="nf">echo</span><span class="o">(</span><span class="n">String</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>       <span class="k">return</span> <span class="s">&quot;Echo: &quot;</span><span class="o">+</span><span class="n">msg</span><span class="o">;</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Da wir nur zwei Quelldateien haben, können wir die schnell manuell durchkompilieren:</p>
+
+<figure class='code'><figcaption><span>Kompilieren der Quelldateien </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>javac SampleWebServiceImpl.java  <span class="c"># ... kompiliert beide Dateien</span>
+</span><span class='line'><span class="nv">$ </span>ls
+</span><span class='line'>SampleWebService.class      SampleWebServiceImpl.java
+</span><span class='line'>SampleWebServiceImpl.class  SampleWebService.java
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>WSGEN &ndash; das übliche Vorgehen</h2>
+
+<p>Das übliche Vorgehen basiert auf dem Tool <code>wsgen</code>, welches dem JDK beiliegt:</p>
+
+<figure class='code'><figcaption><span>Vorgehen mit WSGEN </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>wsgen -cp . SampleWebServiceImpl -wsdl -inlineSchemas
+</span><span class='line'><span class="nv">$ </span>ls
+</span><span class='line'>jaxws                   SampleWebServiceImpl.class  SampleWebService.java
+</span><span class='line'>SampleWebService.class  SampleWebServiceImpl.java   SampleWebService.wsdl
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Da haben wir sie, die WSDL-Datei mit dem Namen &ldquo;SampleWebService.wsdl&rdquo;.</p>
+
+<h2>WSGEN &ndash; das Problem</h2>
+
+<p>Manchmal steht nur das Interface für den Webservice zur Verfügung, also nur die Datei <a href="/downloads/code/java/wsdl/SampleWebService.java">SampleWebService.java</a>. Wenn wir versuchen, daraus eine WSDL-Datei zu erzeugen, erscheint so eine Fehlermeldung:</p>
+
+<figure class='code'><figcaption><span>WSGEN und ServiceInterface </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>wsgen -cp . SampleWebService -wsdl -inlineSchemas
+</span><span class='line'>The class <span class="s2">&quot;SampleWebService&quot;</span> is not an endpoint implementation class.
+</span><span class='line'>
+</span><span class='line'>Usage: WSGEN <span class="o">[</span>options<span class="o">]</span> &lt;SEI&gt;
+</span><span class='line'>
+</span><span class='line'>where <span class="o">[</span>options<span class="o">]</span> include:
+</span><span class='line'>  -classpath &lt;path&gt;          specify where to find input class files
+</span><span class='line'>...
+</span><span class='line'>Examples:
+</span><span class='line'>  wsgen -cp . example.Stock
+</span><span class='line'>  wsgen -cp . example.Stock -wsdl -servicename <span class="o">{</span>http://mynamespace<span class="o">}</span>MyService
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wie&rsquo;s aussieht funktioniert WSGEN also nicht mit Interface-Klassen, es wird eine Implementierungsklasse benötigt:</p>
+
+<ul>
+<li><a href="http://java.net/jira/browse/JAX_WS-817">Jira-Ticket gegen JAXWS</a></li>
+</ul>
+
+
+<h2>Ein erster Versuch mit abstrakter Klasse</h2>
+
+<p>Hier eine abstrakte Implementierungsklasse:</p>
+
+<figure class='code'><figcaption><span> (AbstractSampleWebServiceImpl.java)</span> <a href='/downloads/code/java/wsdl/AbstractSampleWebServiceImpl.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">javax.jws.WebService</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s">&quot;SampleWebService&quot;</span><span class="o">,</span> <span class="n">targetNamespace</span> <span class="o">=</span> <span class="s">&quot;http:/sample.de/sample-web-service/&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="kd">abstract</span> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">AbstractSampleWebServiceImpl</span> <span class="kd">implements</span> <span class="n">SampleWebService</span> <span class="o">{</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Leider klappt&rsquo;s auch nicht:</p>
+
+<figure class='code'><figcaption><span>WSGEN mit abstrakter Implementierungsklasse </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>javac AbstractSampleWebServiceImpl.java
+</span><span class='line'><span class="nv">$ </span>wsgen -cp . AbstractSampleWebServiceImpl -wsdl -inlineSchemas
+</span><span class='line'>...
+</span><span class='line'>com.sun.tools.internal.ws.processor.modeler.ModelerException: modeler error: Classes annotated with @javax.jws.WebService must not be abstract. Class: AbstractSampleWebServiceImpl
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Dynamische Erstellung einer Implementierungsklasse</h2>
+
+<p>Der nächste Versuch sieht so aus:</p>
+
+<ul>
+<li>ich lade das Interface und untersuche alle seine Methoden</li>
+<li>daraus erzeuge ich den Quelltext für eine Implementierungsklasse</li>
+<li>die Implementierungsklasse kompiliere ich mit dem JavaCompiler</li>
+<li>auf die dabei erstellte .class-Datei lasse ich dann <code>wsgen</code> los</li>
+</ul>
+
+
+<p>Den Versuch habe ich in einem <a href="http://github.com/uli-heller/uli-wsgen">GITHUB-Projekt</a> plattformübergreifend umgesetzt. Er scheint grundsätzlich zu funktionieren, ich kann in meinem aktuellen Projekt auf die manuelle Erstellung von Dummy-Implementierungsklassen verzichten.</p>
+
+<p>Beispielaufruf: <code>./uli-wsgen.sh -c myproject.jar -f sample.wsdl SampleWebService</code></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1544,6 +1751,10 @@ source/archives/index.html</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/15/subgit_2/">SubGit - Experimente mit Zweigen und Zusammenführungen</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/13/langsames-ssh/">Langsames SSH</a>
       </li>
     
@@ -1559,15 +1770,11 @@ source/archives/index.html</li>
         <a href="/blog/2013/10/09/persoenliche-git-zentrale/">Persönliche Git-Zentrale</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/10/08/truecrypt-thunderbird/">Probleme mit Thunderbird-Profile korrigieren</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Themen</h1>
-    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 104.6875%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 102.8125%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 101.875%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 100.9375%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.875%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 101.875%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 101.875%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 101.875%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 107.5%'>Git(8)</a> <a href='/blog/categories/github' style='font-size: 100.9375%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 100.9375%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 100.9375%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 100.9375%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 100.9375%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 100.9375%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.6875%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 100.9375%'>JBoss(1)</a> <a href='/blog/categories/jdk' style='font-size: 100.9375%'>JDK(1)</a> <a href='/blog/categories/jmx' style='font-size: 100.9375%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 100.9375%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 101.875%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 100.9375%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(64)</a> <a href='/blog/categories/lucid' style='font-size: 103.75%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 105.625%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 100.9375%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 101.875%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 100.9375%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 102.8125%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 100.9375%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 109.375%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 100.9375%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.5625%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 100.9375%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 100.9375%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 100.9375%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 100.9375%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 100.9375%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 101.875%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 100.9375%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 130.9375%'>Precise(33)</a> <a href='/blog/categories/proxy' style='font-size: 101.875%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 101.875%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 101.875%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 102.8125%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 106.5625%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 100.9375%'>Server(1)</a> <a href='/blog/categories/shell' style='font-size: 100.9375%'>Shell(1)</a> <a href='/blog/categories/smtp' style='font-size: 100.9375%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 100.9375%'>Squid(1)</a> <a href='/blog/categories/ssh' style='font-size: 100.9375%'>SSH(1)</a> <a href='/blog/categories/subversion' style='font-size: 103.75%'>Subversion(4)</a> <a href='/blog/categories/thunderbird' style='font-size: 100.9375%'>Thunderbird(1)</a> <a href='/blog/categories/truecrypt' style='font-size: 100.9375%'>Truecrypt(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.75%'>Ubuntu(52)</a> <a href='/blog/categories/usb' style='font-size: 100.9375%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 100.9375%'>Webservice(1)</a> <a href='/blog/categories/windows' style='font-size: 100.9375%'>Windows(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 100.9375%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.875%'>ZFS(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 104.6875%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 102.8125%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 101.875%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 100.9375%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.875%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 101.875%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 101.875%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 101.875%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 108.4375%'>Git(9)</a> <a href='/blog/categories/github' style='font-size: 100.9375%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 100.9375%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 100.9375%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 100.9375%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 100.9375%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 100.9375%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.6875%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 100.9375%'>JBoss(1)</a> <a href='/blog/categories/jdk' style='font-size: 100.9375%'>JDK(1)</a> <a href='/blog/categories/jmx' style='font-size: 100.9375%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 100.9375%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 101.875%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 100.9375%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(64)</a> <a href='/blog/categories/lucid' style='font-size: 103.75%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 105.625%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 100.9375%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 101.875%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 100.9375%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 102.8125%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 100.9375%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 109.375%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 100.9375%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.5625%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 100.9375%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 100.9375%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 100.9375%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 100.9375%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 100.9375%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 101.875%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 100.9375%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 130.9375%'>Precise(33)</a> <a href='/blog/categories/proxy' style='font-size: 101.875%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 101.875%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 101.875%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 102.8125%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 106.5625%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 100.9375%'>Server(1)</a> <a href='/blog/categories/shell' style='font-size: 100.9375%'>Shell(1)</a> <a href='/blog/categories/smtp' style='font-size: 100.9375%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 100.9375%'>Squid(1)</a> <a href='/blog/categories/ssh' style='font-size: 100.9375%'>SSH(1)</a> <a href='/blog/categories/subversion' style='font-size: 104.6875%'>Subversion(5)</a> <a href='/blog/categories/thunderbird' style='font-size: 100.9375%'>Thunderbird(1)</a> <a href='/blog/categories/truecrypt' style='font-size: 100.9375%'>Truecrypt(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.75%'>Ubuntu(52)</a> <a href='/blog/categories/usb' style='font-size: 100.9375%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 100.9375%'>Webservice(1)</a> <a href='/blog/categories/windows' style='font-size: 100.9375%'>Windows(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 100.9375%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.875%'>ZFS(2)</a> </span>
 </section>
 
 

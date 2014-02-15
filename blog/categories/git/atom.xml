@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Git | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-02-13T07:09:37+01:00</updated>
+  <updated>2014-02-15T07:47:02+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -14,14 +14,237 @@
 
   
   <entry>
+    <title type="html"><![CDATA[SubGit - Experimente mit Zweigen und Zusammenführungen]]></title>
+    <link href="http://uli-heller.github.com/blog/2014/02/15/subgit_2/"/>
+    <updated>2014-02-15T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2014/02/15/subgit_2</id>
+    <content type="html"><![CDATA[<p>Nachdem die ersten Experimente mit
+ <a href="http://subgit.com">SubGit</a>
+ausgesprochen gut verliefen, habe ich mir für heute vorgenommen,
+ein wenig mit Zweigen (branches) und Zusammenführungen (merges)
+rumzuspielen.</p>
+
+<!-- more -->
+
+
+<h2>Ausgangslage</h2>
+
+<ul>
+<li>SubGit ist installiert wie in &hellip; beschrieben</li>
+<li>Subversion-Repo &ldquo;sandbox&rdquo; ist innerhalb von SubGit initialisiert und repliziert wie in &hellip; beschrieben</li>
+<li>Subversion-Repo &ldquo;sandbox&rdquo; vom SubGit-Repo repliziert mittels <code>git clone git/sandbox.git</code></li>
+</ul>
+
+
+<h2>Zweig in Git anlegen</h2>
+
+<p>```
+sandbox$ git checkout -b subgit-branch
+sandbox$ cat >subgit.txt &lt;&lt;EOF</p>
+
+<blockquote><p>Dies ist ein Test von Subgit. Mal sehen,
+ob ein Zweig &ldquo;einfach so&rdquo; erstellt werden kann&hellip;
+EOF
+sandbox$ git add subgit.txt
+sandbox$ git commit -m &ldquo;Neue Datei: subgit.txt&rdquo;
+[subgit-branch 3acd7b9] Neue Datei: subgit.txt
+ 1 file changed, 3 insertions(+)
+ create mode 100644 subgit.txt
+```</p></blockquote>
+
+<h2>Zweig nach Subversion übertragen</h2>
+
+<p>```
+sandbox$ git push
+fatal: Der aktuelle Branch subgit-branch hat keinen Upstream-Branch.
+Um den aktuellen Branch zu versenden und den Remote-Branch
+als Upstream-Branch zu setzen, benutzen Sie</p>
+
+<pre><code>git push --set-upstream origin subgit-branch
+</code></pre>
+
+<p>sandbox$ git push &mdash;set-upstream origin subgit-branchCounting objects: 5, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 367 bytes | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Synchronizing SVN and Git&hellip;
+remote:   translating SVN revisions to Git commits&hellip;
+remote:   translating Git commits to SVN revisions&hellip;
+remote:     translated commit 3acd7b957feede6750c5519478d21930f123db31 to revision 106
+remote: &hellip; done.
+remote: Synchronizing SVN and Git&hellip;
+remote: &hellip; done.
+To /tmp/subgit/git/sandbox.git
+ * [new branch]      subgit-branch &ndash;> subgit-branch
+Branch subgit-branch konfiguriert zum Folgen von Remote-Branch subgit-branch von origin durch Rebase.
+```</p>
+
+<p>Danach sichten, ob der Zweig in Subversion angekommen ist:</p>
+
+<p><code>
+sandbox$ svn ls https://svnhost.mydomain.com/svn/sandbox/branches
+subgit-branch/
+</code></p>
+
+<p>Sieht gut aus, es gibt den &ldquo;subgit-branch&rdquo;!</p>
+
+<h2>Zusammenführen des Zweiges in Git</h2>
+
+<p><code>
+sandbox$ git checkout master
+Gewechselt zu Branch 'master'
+Ihr Branch ist auf dem selben Stand wie 'origin/master'.
+sandbox$ git merge subgit-branch
+Aktualisiere e85015d..3acd7b9
+Fast-forward
+ subgit.txt | 3 +++
+ 1 file changed, 3 insertions(+)
+ create mode 100644 subgit.txt
+sandbox$ git push
+Total 0 (delta 0), reused 0 (delta 0)
+remote: Synchronizing SVN and Git...
+remote:   translating SVN revisions to Git commits...
+remote:   translating Git commits to SVN revisions...
+remote: ... done.
+remote: Synchronizing SVN and Git...
+remote: ... done.
+To /tmp/subgit/git/sandbox.git
+   e85015d..3acd7b9  master -&gt; master
+</code></p>
+
+<h2>Zusammenführen des Zweiges in Subversion</h2>
+
+<p><code>
+$ svn checkout https://svnhost.mydomain.com/svn/sandbox/trunk sandbox-trunk
+A    sandbox-trunk/changetest
+A    sandbox-trunk/changetest/file.txt
+...
+A    sandbox-trunk/renamed2.txt
+A    sandbox-trunk/rename-test-renamed.txt
+Ausgecheckt, Revision 106.
+$ cd sandbox-trunk
+sandbox-trunk$ svn merge https://svnhost.mydomain.com/svn/sandbox/branches/subgit-branch
+-- Aufzeichnung der Informationen für Zusammenführung von r107 in ».«:
+ U   .
+sandbox-trunk$ svn revert -R .
+Rückgängig gemacht: ».«
+</code></p>
+
+<p>Sieht gut aus, Subversion &ldquo;merkt&rdquo;, dass nicht zu tun ist.</p>
+
+<h2>Zweig in Subversion weiterbearbeiten</h2>
+
+<p>```
+$ svn checkout <a href="https://svnhost.mydomain.com/svn/sandbox/branches/subgit-branch">https://svnhost.mydomain.com/svn/sandbox/branches/subgit-branch</a> sandbox-subgit-branch
+A    sandbox-subgit-branch/changetest
+A    sandbox-subgit-branch/changetest/file.txt
+A    sandbox-subgit-branch/baumkonflikt
+&hellip;
+A    sandbox-subgit-branch/subgit.txt
+A    sandbox-subgit-branch/rename-test-renamed.txt
+Ausgecheckt, Revision 107.
+$ cd sandbox-subgit-branch
+sandbox-subgit-branch$ cat >>subgit.txt &lt;&lt;EOF</p>
+
+<blockquote><p>Eine Erweiterung mittels Subversion</p>
+
+<p>EOF
+sandbox-subgit-branch$ cat >subversion-neu.txt &lt;&lt;EOF
+Neue Datei, erzeugt in Subversion
+EOF
+sandbox-subgit-branch$ svn add subversion-neu.txt
+A         subversion-neu.txt
+sandbox-subgit-branch$ svn status
+M       subgit.txt
+A       subversion-neu.txt
+sandbox-subgit-branch$ svn commit -m &ldquo;Arbeit am SVN-Zweig&rdquo;
+Sende              subgit.txt
+Füge hinzu         subversion-neu.txt
+Übertrage Daten ..
+Revision 108 übertragen.
+```</p></blockquote>
+
+<h2>Zweig in Git sichten</h2>
+
+<p><code>
+sandbox$ git checkout subgit-branch
+sandbox$ git pull
+Zunächst wird der Branch zurückgespult, um Ihre Änderungen
+darauf neu anzuwenden...
+subgit-branch zu 736c76c930e4301e39ce8464300adbc7b3515f1f vorgespult.
+</code></p>
+
+<p>Das Verzeichnis sieht gut aus!</p>
+
+<h2>Zusammenführen des Zweiges in Subversion</h2>
+
+<p><code>
+sandbox-trunk$ svn update
+Aktualisiere ».«:
+Revision 108.
+sandbox-trunk$ svn merge https://svnhost.mydomain.com/svn/sandbox/branches/subgit-branch
+-- Zusammenführen von r107 bis r108 in ».«:
+A    subversion-neu.txt
+U    subgit.txt
+-- Aufzeichnung der Informationen für Zusammenführung von r107 bis r108 in ».«:
+ U   .
+sandbox-trunk$ svn commit -m "Merge mittels Subversion"
+Sende              .
+Sende              subgit.txt
+Füge hinzu         subversion-neu.txt
+Übertrage Daten .
+Revision 109 übertragen.
+</code></p>
+
+<h2>Master in Git sichten</h2>
+
+<p><code>
+sandbox$ git checkout master
+Gewechselt zu Branch 'master'
+Ihr Branch ist auf dem selben Stand wie 'origin/master'.
+sandbox$ git pull
+remote: Counting objects: 1, done.
+remote: Total 1 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (1/1), done.
+Von /tmp/subgit/git/sandbox
+   3acd7b9..bc9f1e0  master     -&gt; origin/master
+Zunächst wird der Branch zurückgespult, um Ihre Änderungen
+darauf neu anzuwenden...
+master zu bc9f1e0ff402ee46929d3459418b1d608870f847 vorgespult.
+</code></p>
+
+<p>Das Verzeichnis sieht gut aus!</p>
+
+<h2>Zusammenführen des Zweiges in Git</h2>
+
+<p><code>
+sandbox$ git checkout master
+Bereits auf 'master'
+Ihr Branch ist auf dem selben Stand wie 'origin/master'.
+sandbox$ git merge subgit-branch
+Already up-to-date.
+</code></p>
+
+<h2>Fazit</h2>
+
+<p>Die Arbeit mit Zweigen und auch die Zusammenführung funktioniert
+recht problemlos. Zusammenführungen in Git werden auch in Subversion
+erkannt und umgekehrt.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[SubGit - Kopplung von Git und Subversion]]></title>
     <link href="http://uli-heller.github.com/blog/2014/02/11/subgit/"/>
     <updated>2014-02-11T08:00:00+01:00</updated>
     <id>http://uli-heller.github.com/blog/2014/02/11/subgit</id>
-    <content type="html"><![CDATA[<p>Bislang habe ich immer &ldquo;GitSvn&rdquo; verwendet, wenn ich mit Git auf ein
+    <content type="html"><![CDATA[<p>Bislang habe ich immer
+<a href="https://www.kernel.org/pub/software/scm/git/docs/git-svn.html">GitSvn</a>
+verwendet, wenn ich mit Git auf ein
 Subversion-Repository zugreifen wollte. Leider ist GitSvn fehlerhaltig
 und in der Handhabung teilweise etwas sperrig. Vor einiger Zeit bin
-ich nun über SubGit gestolpert und möchte das heute in der Version
+ich nun über <a href="http://subgit.com">SubGit</a> gestolpert und möchte das heute in der Version
 2.0.1 einmal ausprobieren.</p>
 
 <!-- more -->
@@ -135,6 +358,17 @@ To /tmp/x/git/sandbox.git
 <p>SubGit sieht schonmal sehr vielversprechend aus. Es ist sehr einfach
 einzurichten und funktioniert dem ersten Eindruck nach tadellos.
 Für mich zu klären sind noch die Lizenzbedingungen sowie der Einsatz &ldquo;im Team&rdquo;.</p>
+
+<h2>Änderungen</h2>
+
+<ul>
+<li>2014-02-15: Links zu
+<a href="https://www.kernel.org/pub/software/scm/git/docs/git-svn.html">GitSvn</a>
+und
+<a href="http://subgit.com">SubGit</a>
+hinzugefügt</li>
+</ul>
+
 ]]></content>
   </entry>
   
@@ -1016,39 +1250,6 @@ geschickt.</p>
 <li>2013-09-01: Subversion-1.8.3, Git-1.8.4, Anpassungen an /usr/share/perl5/Git/SVN/Ra.pm, Korrektur</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Git Fork]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/07/21/git-fork/"/>
-    <updated>2013-07-21T09:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/07/21/git-fork</id>
-    <content type="html"><![CDATA[<h1>Git Fork</h1>
-
-<p>Hier kurz meine Notizen zum Arbeiten mit GitHub Forks:</p>
-
-<ul>
-<li>Bestehendes Projekt &ldquo;forken&rdquo; &ndash;> einfach via GitHub-Webseite</li>
-<li>Lokalen Clone hiervon anlegen: <code>git clone ...</code></li>
-<li>Lokale Änderungen an GitHub schicken:
-<code>git push origin master</code></li>
-<li>Original-Projekt als &ldquo;upstream&rdquo; definieren:
-<code>git remote add upstream ...</code></li>
-<li>Lokale Kopie des Original-Projektes aktualisieren:
-<code>git fetch upstream</code></li>
-<li>Lokale Kopie des Original-Projektes &ldquo;einarbeiten&rdquo;:
-
-<ul>
-<li><code>git merge --no-commit upstream/master</code></li>
-<li><code>git mergetool</code></li>
-<li><code>git commit -m ...</code></li>
-</ul>
-</li>
-</ul>
-
-
-<p>Mehr Details: <a href="https://help.github.com/articles/fork-a-repo">https://help.github.com/articles/fork-a-repo</a>.</p>
 ]]></content>
   </entry>
   

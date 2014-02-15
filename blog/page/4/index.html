@@ -9,8 +9,22 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Vor ein paar Tagen wurde Subversion-1.8.0 veröffentlicht.
-Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen. Aktuell kann ich die DEB-Pakete &hellip;">
+  <meta name="description" content="DEBs installieren 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+sudo apt-get install make build-essential dpkg-dev
+sudo apt-get install -f
+sudo dpkg -i zfs-dkms_0.6. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +87,865 @@ Hier meine Versuche, ein Paket für Ubuntu-12.04 zu bauen. Aktuell kann ich die 
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/12/zfs/">Experimente mit ZFS unter Ubuntu-12.04</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-07-12T08:00:00+02:00" pubdate data-updated="true">12. July 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>DEBs installieren</h2>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install make build-essential dpkg-dev
+</span><span class='line'>sudo apt-get install -f
+</span><span class='line'>sudo dpkg -i zfs-dkms_0.6.1-1~precise_amd64.deb <span class="se">\</span>
+</span><span class='line'>  spl-dkms_0.6.1-1~precise_all.deb              <span class="se">\</span>
+</span><span class='line'>  dkms_2.2.0.3-1ubuntu3.1+zfs6~precise1_all.deb
+</span><span class='line'>sudo dpkg -i zfsutils_0.6.1-1~precise_amd64.deb <span class="se">\</span>
+</span><span class='line'>  libnvpair1_0.6.1-1~precise_amd64.deb          <span class="se">\</span>
+</span><span class='line'>  libuutil1_0.6.1-1~precise_amd64.deb           <span class="se">\</span>
+</span><span class='line'>  libzfs1_0.6.1-1~precise_amd64.deb             <span class="se">\</span>
+</span><span class='line'>  libzpool1_0.6.1-1~precise_amd64.deb
+</span><span class='line'>sudo dpkg -i ubuntu-zfs_7~precise1_amd64.deb    <span class="se">\</span>
+</span><span class='line'>  spl_0.6.1-1~precise_amd64.deb
+</span><span class='line'>sudo dpkg -i mountall_2.48build1-zfs2_amd64.deb
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Kurzexperimente mit ZPOOL</h2>
+
+<h4>Pool anlegen</h4>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata /dev/sda
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: none requested
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    sda       ONLINE       0     0     0
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>sudo zpool destroy zfsdata
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Pool mit RaidZ anlegen</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: none requested
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    raidz1-0  ONLINE       0     0     0
+</span><span class='line'>      sda     ONLINE       0     0     0
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>sudo zpool destroy zfsdata
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Pool und Reboot</h3>
+
+<p>Dieser Test soll sicherstellen, dass ein ZPOOL auch nach einem Reboot verfügbar ist.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: none requested
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    raidz1-0  ONLINE       0     0     0
+</span><span class='line'>      sda     ONLINE       0     0     0
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>df|grep zfs
+</span><span class='line'>zfsdata                  2873622144    128 2873622016   1% /zfsdata
+</span><span class='line'><span class="nv">$ </span>sudo reboot
+</span><span class='line'>...
+</span><span class='line'><span class="nv">$ </span>df|grep zfs
+</span><span class='line'>zfsdata                  2873622144    128 2873622016   1% /zfsdata
+</span><span class='line'><span class="nv">$ </span>sudo zpool destroy zfsdata
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Das funktioniert offenbar nur dann, wenn das &ldquo;mountall&rdquo;-Paket installiert ist!</p>
+
+<h3>Pool mit RaidZ und Spare Disk (manuell)</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb spare /dev/sdc
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: none requested
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    raidz1-0  ONLINE       0     0     0
+</span><span class='line'>      sda     ONLINE       0     0     0
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    sdc       AVAIL
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jetzt habe ich die Platte /dev/sda rausgezogen. Ideal wäre nun, wenn sich das RAIDZ
+automatisch auf /dev/sdc verlagern würde&hellip;</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool scrub zfsdata
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: DEGRADED
+</span><span class='line'>status: One or more devices could not be used because the label is missing or
+</span><span class='line'>  invalid.  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue</span>
+</span><span class='line'><span class="k">  </span>functioning in a degraded state.
+</span><span class='line'>action: Replace the device using <span class="s1">&#39;zpool replace&#39;</span>.
+</span><span class='line'>   see: http://zfsonlinux.org/msg/ZFS-8000-4J
+</span><span class='line'>  scan: scrub repaired 0 in 0h0m with 0 errors on Sat Jul 20 11:07:11 2013
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     DEGRADED     0     0     0
+</span><span class='line'>    raidz1-0  DEGRADED     0     0     0
+</span><span class='line'>      sda     UNAVAIL      0     0     0  corrupted data
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    sdc       AVAIL
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>sudo zpool replace zfsdata sda sdc
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: DEGRADED
+</span><span class='line'>status: One or more devices could not be used because the label is missing or
+</span><span class='line'>  invalid.  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue</span>
+</span><span class='line'><span class="k">  </span>functioning in a degraded state.
+</span><span class='line'>action: Replace the device using <span class="s1">&#39;zpool replace&#39;</span>.
+</span><span class='line'>   see: http://zfsonlinux.org/msg/ZFS-8000-4J
+</span><span class='line'>  scan: resilvered 532K in 0h0m with 0 errors on Sat Jul 20 11:12:19 2013
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME         STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata      DEGRADED     0     0     0
+</span><span class='line'>    raidz1-0   DEGRADED     0     0     0
+</span><span class='line'>      spare-0  UNAVAIL      0     0     0
+</span><span class='line'>        sda    UNAVAIL      0     0     0  corrupted data
+</span><span class='line'>        sdc    ONLINE       0     0     0
+</span><span class='line'>      sdb      ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    sdc        INUSE     currently in use
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>sudo zpool detach zfsdata sda
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: resilvered 532K in 0h0m with 0 errors on Sat Jul 20 11:12:19 2013
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    raidz1-0  ONLINE       0     0     0
+</span><span class='line'>      sdc     ONLINE       0     0     0
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jetzt habe ich /dev/sda wieder eingebaut und mit <code>fdisk</code> geprüft, ob sie auch ansprechbar ist.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool add zfsdata spare sda
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: resilvered 532K in 0h0m with 0 errors on Sat Jul 20 11:12:19 2013
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    raidz1-0  ONLINE       0     0     0
+</span><span class='line'>      sdc     ONLINE       0     0     0
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    sda       AVAIL
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Pool mit RaidZ und Spare Disk (automatisch)</h3>
+
+<p>Nachfolgend meine Versuche mit &ldquo;autoreplace&rdquo; &ndash; leider wenig erfolgreich.
+Hier <a href="http://forums.nas4free.org/viewtopic.php?f=66&amp;t=3873">http://forums.nas4free.org/viewtopic.php?f=66&amp;t=3873</a> werden die
+gleichen Probleme mit FreeBSD beschrieben. Anscheinend unterstützt FreeBSD
+dieses Feature nicht richtig, vermutlich ist&rsquo;s bei Linux ebenso.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz /dev/sda /dev/sdb spare /dev/sdc
+</span><span class='line'><span class="nv">$ </span>sudo zpool <span class="nb">set </span><span class="nv">autoreplace</span><span class="o">=</span>on zfsdata
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: none requested
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    raidz1-0  ONLINE       0     0     0
+</span><span class='line'>      sda     ONLINE       0     0     0
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    sdc       AVAIL
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jetzt habe ich die Platte /dev/sda rausgezogen. Ideal wäre nun, wenn sich das RAIDZ
+automatisch auf /dev/sdc verlagern würde&hellip;</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool scrub zfsdata
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: DEGRADED
+</span><span class='line'>status: One or more devices has been removed by the administrator.
+</span><span class='line'>  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue </span>functioning in a
+</span><span class='line'>  degraded state.
+</span><span class='line'>action: Online the device using <span class="s1">&#39;zpool online&#39;</span> or replace the device with
+</span><span class='line'>  <span class="s1">&#39;zpool replace&#39;</span>.
+</span><span class='line'>  scan: scrub repaired 0 in 0h0m with 0 errors on Sat Jul 20 11:25:59 2013
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     DEGRADED     0     0     0
+</span><span class='line'>    raidz1-0  DEGRADED     0     0     0
+</span><span class='line'>      sda     REMOVED      0     0     0
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    sdc       AVAIL
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>sudo zpool replace zfsdata sda sdc
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: DEGRADED
+</span><span class='line'>status: One or more devices is currently being resilvered.  The pool will
+</span><span class='line'>  <span class="k">continue </span>to <span class="k">function</span>, possibly in a degraded state.
+</span><span class='line'>action: Wait <span class="k">for </span>the resilver to complete.
+</span><span class='line'>  scan: resilver in progress since Sat Jul 20 11:33:09 2013
+</span><span class='line'>    146M scanned out of 1,03G at 8,61M/s, 0h1m to go
+</span><span class='line'>    72,9M resilvered, 13,94% <span class="k">done</span>
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME         STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata      DEGRADED     0     0     0
+</span><span class='line'>    raidz1-0   DEGRADED     0     0     0
+</span><span class='line'>      spare-0  UNAVAIL      0     0     0
+</span><span class='line'>        sda    UNAVAIL      0     0     0  corrupted data
+</span><span class='line'>        sdc    ONLINE       0     0     0  <span class="o">(</span>resilvering<span class="o">)</span>
+</span><span class='line'>      sdb      ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    sdc        INUSE     currently in use
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: DEGRADED
+</span><span class='line'>status: One or more devices could not be used because the label is missing or
+</span><span class='line'>  invalid.  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue</span>
+</span><span class='line'><span class="k">  </span>functioning in a degraded state.
+</span><span class='line'>action: Replace the device using <span class="s1">&#39;zpool replace&#39;</span>.
+</span><span class='line'>   see: http://zfsonlinux.org/msg/ZFS-8000-4J
+</span><span class='line'>  scan: resilvered 526M in 0h1m with 0 errors on Sat Jul 20 11:34:28 2013
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME         STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata      DEGRADED     0     0     0
+</span><span class='line'>    raidz1-0   DEGRADED     0     0     0
+</span><span class='line'>      spare-0  UNAVAIL      0     0     0
+</span><span class='line'>        sda    UNAVAIL      0     0     0  corrupted data
+</span><span class='line'>        sdc    ONLINE       0     0     0
+</span><span class='line'>      sdb      ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    sdc        INUSE     currently in use
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>sudo zpool detach zfsdata sda
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: resilvered 526M in 0h1m with 0 errors on Sat Jul 20 11:34:28 2013
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    raidz1-0  ONLINE       0     0     0
+</span><span class='line'>      sdc     ONLINE       0     0     0
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jetzt habe ich /dev/sda wieder eingebaut und mit <code>fdisk</code> geprüft, ob sie auch ansprechbar ist.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool add zfsdata spare sda
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: resilvered 526M in 0h1m with 0 errors on Sat Jul 20 11:34:28 2013
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME        STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata     ONLINE       0     0     0
+</span><span class='line'>    raidz1-0  ONLINE       0     0     0
+</span><span class='line'>      sdc     ONLINE       0     0     0
+</span><span class='line'>      sdb     ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    sda       AVAIL
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Platten-IDs ermitteln</h2>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>ls /dev/disk/by-id/scsi-SATA_WDC*|grep -v part
+</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994
+</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
+</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577
+</span><span class='line'>/dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>ls /dev/disk/by-id/scsi-SATA_WDC*|grep -v part|xargs --verbose -n1 udevadm info -q path -n
+</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994
+</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host3/target3:0:0/3:0:0:0/block/sdd
+</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
+</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host2/target2:0:0/2:0:0:0/block/sdc
+</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577
+</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host0/target0:0:0/0:0:0:0/block/sda
+</span><span class='line'>udevadm info -q path -n /dev/disk/by-id/scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780
+</span><span class='line'>/devices/pci0000:00/0000:00:11.0/host1/target1:0:0/1:0:0:0/block/sdb
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Aus den Ausgaben kann man diese Zuordnung erkennen:</p>
+
+<ul>
+<li>sda &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577</li>
+<li>sdb &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780</li>
+<li>sdc &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511</li>
+<li>sdd &ndash; scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994</li>
+</ul>
+
+
+<p>Die Platten-IDs sollten am besten auch auf den jeweiligen Einbaurahmen geschrieben
+werden, damit es zu keinen Verwechslungen kommen kann.</p>
+
+<h2>ZPool über Platten-IDs</h2>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -f zfsdata raidz scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 <span class="se">\</span>
+</span><span class='line'>   scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 <span class="se">\</span>
+</span><span class='line'>   spare scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: none requested
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME                                           STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata                                        ONLINE       0     0     0
+</span><span class='line'>    raidz1-0                                     ONLINE       0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  ONLINE       0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511    AVAIL
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'><span class="nv">$ </span>sudo zpool scrub zfsdata
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: DEGRADED
+</span><span class='line'>status: One or more devices could not be used because the label is missing or
+</span><span class='line'>  invalid.  Sufficient replicas exist <span class="k">for </span>the pool to <span class="k">continue</span>
+</span><span class='line'><span class="k">  </span>functioning in a degraded state.
+</span><span class='line'>action: Replace the device using <span class="s1">&#39;zpool replace&#39;</span>.
+</span><span class='line'>   see: http://zfsonlinux.org/msg/ZFS-8000-4J
+</span><span class='line'>  scan: scrub repaired 0 in 0h0m with 0 errors on Sat Jul 20 12:19:07 2013
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME                                           STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata                                        DEGRADED     0     0     0
+</span><span class='line'>    raidz1-0                                     DEGRADED     0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  UNAVAIL      0     0     0  corrupted data
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
+</span><span class='line'>  spares
+</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511    AVAIL
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>sudo zpool replace zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
+</span><span class='line'><span class="nv">$ </span>sudo zpool detach zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: resilvered 532K in 0h0m with 0 errors on Sat Jul 20 12:19:36 2013
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME                                           STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata                                        ONLINE       0     0     0
+</span><span class='line'>    raidz1-0                                     ONLINE       0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511  ONLINE       0     0     0
+</span><span class='line'>      scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Finale</h2>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo zpool create -o <span class="nv">ashift</span><span class="o">=</span>12 -f zfsdata scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780 scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511
+</span><span class='line'><span class="nv">$ </span>sudo zpool status
+</span><span class='line'>  pool: zfsdata
+</span><span class='line'> state: ONLINE
+</span><span class='line'>  scan: none requested
+</span><span class='line'>config:
+</span><span class='line'>
+</span><span class='line'>  NAME                                         STATE     READ WRITE CKSUM
+</span><span class='line'>  zfsdata                                      ONLINE       0     0     0
+</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0771577  ONLINE       0     0     0
+</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0777780  ONLINE       0     0     0
+</span><span class='line'>    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0770511  ONLINE       0     0     0
+</span><span class='line'>
+</span><span class='line'>errors: No known data errors
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Die Platte &ldquo;scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994&rdquo; bleibt auf Vorrat
+nicht eingesteckt im Rahmen. Beim Ausfall einer Platte wird sie eingesteckt und
+mittels <code>zpool replace zfsdata {kaputte_platte} scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0755994</code>
+aktiviert.</p>
+
+<h2>Probleme</h2>
+
+<h3>Dateisystem nach Neustart nicht eingebunden</h3>
+
+<p>Nachdem ich den Kernel aktualisiert habe von 3.2 nach 3.5 klappt das automatische
+Einhängen des ZFS-Dateisystems nicht mehr.</p>
+
+<p>Abhilfe: Standard-Paket &ldquo;mountall&rdquo; wieder installieren und ZFS umkonfigurieren!</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install <span class="nv">mountall</span><span class="o">=</span>2.36.4
+</span><span class='line'>sudo sed -i s/ZFS_MOUNT<span class="o">=</span><span class="s1">&#39;no&#39;</span>/ZFS_MOUNT<span class="o">=</span><span class="s1">&#39;yes&#39;</span>/ /etc/default/zfs
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Änderungen</h2>
+
+<h3>2013-07-20</h3>
+
+<ul>
+<li>Formatierung korrigiert</li>
+<li>Reboot-Test</li>
+<li>Tests mit Spare Disk</li>
+<li>Tests mit Platten-IDs</li>
+<li>Finale</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -489,54 +1362,6 @@ was auf dem Server ohne graphische Benutzerschnittstelle schwierig ist.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/10/lxc-clone-x/">LXC: Clonen eines Containers mit Namen &#8216;x&#8217;</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-10T17:40:00+02:00" pubdate data-updated="true">10. June 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Seit ich BTRFS-Subvolumes und -Snapshots zum Clonen von
-LXC-Containern verwende, erzeuge ich viel mehr dieser
-Clones &ndash; es geht einfach <em>sehr</em> schnell und verbraucht
-fast keine Resourcen.</p>
-
-<p>Beim Rum-Clonen bin ich über einen blöden Fehler gestolpert:
-Man kann keinen Container clonen, der &ldquo;x&rdquo; heißt. Der Vorgang
-bricht ab mit der Meldung &ldquo;ERROR: can&rsquo;t access to &lsquo;/var/lib/lyc/x&rsquo;&rdquo;.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/06/10/lxc-clone-x/">Vollständiger Artikel &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Älter</a>
@@ -554,6 +1379,10 @@ bricht ab mit der Meldung &ldquo;ERROR: can&rsquo;t access to &lsquo;/var/lib/ly
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/15/subgit_2/">SubGit - Experimente mit Zweigen und Zusammenführungen</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/13/langsames-ssh/">Langsames SSH</a>
       </li>
     
@@ -569,15 +1398,11 @@ bricht ab mit der Meldung &ldquo;ERROR: can&rsquo;t access to &lsquo;/var/lib/ly
         <a href="/blog/2013/10/09/persoenliche-git-zentrale/">Persönliche Git-Zentrale</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/10/08/truecrypt-thunderbird/">Probleme mit Thunderbird-Profile korrigieren</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Themen</h1>
-    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 104.6875%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 102.8125%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 101.875%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 100.9375%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.875%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 101.875%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 101.875%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 101.875%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 107.5%'>Git(8)</a> <a href='/blog/categories/github' style='font-size: 100.9375%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 100.9375%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 100.9375%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 100.9375%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 100.9375%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 100.9375%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.6875%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 100.9375%'>JBoss(1)</a> <a href='/blog/categories/jdk' style='font-size: 100.9375%'>JDK(1)</a> <a href='/blog/categories/jmx' style='font-size: 100.9375%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 100.9375%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 101.875%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 100.9375%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(64)</a> <a href='/blog/categories/lucid' style='font-size: 103.75%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 105.625%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 100.9375%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 101.875%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 100.9375%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 102.8125%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 100.9375%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 109.375%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 100.9375%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.5625%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 100.9375%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 100.9375%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 100.9375%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 100.9375%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 100.9375%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 101.875%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 100.9375%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 130.9375%'>Precise(33)</a> <a href='/blog/categories/proxy' style='font-size: 101.875%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 101.875%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 101.875%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 102.8125%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 106.5625%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 100.9375%'>Server(1)</a> <a href='/blog/categories/shell' style='font-size: 100.9375%'>Shell(1)</a> <a href='/blog/categories/smtp' style='font-size: 100.9375%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 100.9375%'>Squid(1)</a> <a href='/blog/categories/ssh' style='font-size: 100.9375%'>SSH(1)</a> <a href='/blog/categories/subversion' style='font-size: 103.75%'>Subversion(4)</a> <a href='/blog/categories/thunderbird' style='font-size: 100.9375%'>Thunderbird(1)</a> <a href='/blog/categories/truecrypt' style='font-size: 100.9375%'>Truecrypt(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.75%'>Ubuntu(52)</a> <a href='/blog/categories/usb' style='font-size: 100.9375%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 100.9375%'>Webservice(1)</a> <a href='/blog/categories/windows' style='font-size: 100.9375%'>Windows(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 100.9375%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.875%'>ZFS(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 104.6875%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 102.8125%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 101.875%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 100.9375%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.875%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 101.875%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 101.875%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 101.875%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 108.4375%'>Git(9)</a> <a href='/blog/categories/github' style='font-size: 100.9375%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 100.9375%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 100.9375%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 100.9375%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 100.9375%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 100.9375%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.6875%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 100.9375%'>JBoss(1)</a> <a href='/blog/categories/jdk' style='font-size: 100.9375%'>JDK(1)</a> <a href='/blog/categories/jmx' style='font-size: 100.9375%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 100.9375%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 101.875%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 100.9375%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(64)</a> <a href='/blog/categories/lucid' style='font-size: 103.75%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 105.625%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 100.9375%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 101.875%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 100.9375%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 102.8125%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 100.9375%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 109.375%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 100.9375%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.5625%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 100.9375%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 100.9375%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 100.9375%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 100.9375%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 100.9375%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 101.875%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 100.9375%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 130.9375%'>Precise(33)</a> <a href='/blog/categories/proxy' style='font-size: 101.875%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 101.875%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 101.875%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 102.8125%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 106.5625%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 100.9375%'>Server(1)</a> <a href='/blog/categories/shell' style='font-size: 100.9375%'>Shell(1)</a> <a href='/blog/categories/smtp' style='font-size: 100.9375%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 100.9375%'>Squid(1)</a> <a href='/blog/categories/ssh' style='font-size: 100.9375%'>SSH(1)</a> <a href='/blog/categories/subversion' style='font-size: 104.6875%'>Subversion(5)</a> <a href='/blog/categories/thunderbird' style='font-size: 100.9375%'>Thunderbird(1)</a> <a href='/blog/categories/truecrypt' style='font-size: 100.9375%'>Truecrypt(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.75%'>Ubuntu(52)</a> <a href='/blog/categories/usb' style='font-size: 100.9375%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 100.9375%'>Webservice(1)</a> <a href='/blog/categories/windows' style='font-size: 100.9375%'>Windows(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 100.9375%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.875%'>ZFS(2)</a> </span>
 </section>
 
 

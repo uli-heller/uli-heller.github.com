@@ -4,7 +4,7 @@
   <title><![CDATA[Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-02-13T07:09:37+01:00</updated>
+  <updated>2014-02-15T07:47:02+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,345 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SubGit - Experimente mit Zweigen und Zusammenführungen]]></title>
+    <link href="http://uli-heller.github.com/blog/2014/02/15/subgit_2/"/>
+    <updated>2014-02-15T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2014/02/15/subgit_2</id>
+    <content type="html"><![CDATA[<p>Nachdem die ersten Experimente mit
+ <a href="http://subgit.com">SubGit</a>
+ausgesprochen gut verliefen, habe ich mir für heute vorgenommen,
+ein wenig mit Zweigen (branches) und Zusammenführungen (merges)
+rumzuspielen.</p>
+
+<!-- more -->
+
+
+<h2>Ausgangslage</h2>
+
+<ul>
+<li>SubGit ist installiert wie in &hellip; beschrieben</li>
+<li>Subversion-Repo &ldquo;sandbox&rdquo; ist innerhalb von SubGit initialisiert und repliziert wie in &hellip; beschrieben</li>
+<li>Subversion-Repo &ldquo;sandbox&rdquo; vom SubGit-Repo repliziert mittels <code>git clone git/sandbox.git</code></li>
+</ul>
+
+
+<h2>Zweig in Git anlegen</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sandbox$ git checkout -b subgit-branch
+</span><span class='line'>sandbox$ cat &gt;subgit.txt &lt;&lt;EOF
+</span><span class='line'>&gt; Dies ist ein Test von Subgit. Mal sehen,
+</span><span class='line'>&gt; ob ein Zweig "einfach so" erstellt werden kann...
+</span><span class='line'>&gt; EOF
+</span><span class='line'>sandbox$ git add subgit.txt
+</span><span class='line'>sandbox$ git commit -m "Neue Datei: subgit.txt" 
+</span><span class='line'>[subgit-branch 3acd7b9] Neue Datei: subgit.txt
+</span><span class='line'> 1 file changed, 3 insertions(+)
+</span><span class='line'> create mode 100644 subgit.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Zweig nach Subversion übertragen</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sandbox$ git push
+</span><span class='line'>fatal: Der aktuelle Branch subgit-branch hat keinen Upstream-Branch.
+</span><span class='line'>Um den aktuellen Branch zu versenden und den Remote-Branch
+</span><span class='line'>als Upstream-Branch zu setzen, benutzen Sie
+</span><span class='line'>
+</span><span class='line'>    git push --set-upstream origin subgit-branch
+</span><span class='line'>
+</span><span class='line'>sandbox$ git push --set-upstream origin subgit-branchCounting objects: 5, done.
+</span><span class='line'>Delta compression using up to 4 threads.
+</span><span class='line'>Compressing objects: 100% (3/3), done.
+</span><span class='line'>Writing objects: 100% (3/3), 367 bytes | 0 bytes/s, done.
+</span><span class='line'>Total 3 (delta 1), reused 0 (delta 0)
+</span><span class='line'>remote: Synchronizing SVN and Git...
+</span><span class='line'>remote:   translating SVN revisions to Git commits...
+</span><span class='line'>remote:   translating Git commits to SVN revisions...
+</span><span class='line'>remote:     translated commit 3acd7b957feede6750c5519478d21930f123db31 to revision 106
+</span><span class='line'>remote: ... done.
+</span><span class='line'>remote: Synchronizing SVN and Git...
+</span><span class='line'>remote: ... done.
+</span><span class='line'>To /tmp/subgit/git/sandbox.git
+</span><span class='line'> * [new branch]      subgit-branch -&gt; subgit-branch
+</span><span class='line'>Branch subgit-branch konfiguriert zum Folgen von Remote-Branch subgit-branch von origin durch Rebase.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Danach sichten, ob der Zweig in Subversion angekommen ist:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sandbox$ svn ls https://svnhost.mydomain.com/svn/sandbox/branches
+</span><span class='line'>subgit-branch/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sieht gut aus, es gibt den &ldquo;subgit-branch&rdquo;!</p>
+
+<h2>Zusammenführen des Zweiges in Git</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sandbox$ git checkout master
+</span><span class='line'>Gewechselt zu Branch 'master'
+</span><span class='line'>Ihr Branch ist auf dem selben Stand wie 'origin/master'.
+</span><span class='line'>sandbox$ git merge subgit-branch
+</span><span class='line'>Aktualisiere e85015d..3acd7b9
+</span><span class='line'>Fast-forward
+</span><span class='line'> subgit.txt | 3 +++
+</span><span class='line'> 1 file changed, 3 insertions(+)
+</span><span class='line'> create mode 100644 subgit.txt
+</span><span class='line'>sandbox$ git push
+</span><span class='line'>Total 0 (delta 0), reused 0 (delta 0)
+</span><span class='line'>remote: Synchronizing SVN and Git...
+</span><span class='line'>remote:   translating SVN revisions to Git commits...
+</span><span class='line'>remote:   translating Git commits to SVN revisions...
+</span><span class='line'>remote: ... done.
+</span><span class='line'>remote: Synchronizing SVN and Git...
+</span><span class='line'>remote: ... done.
+</span><span class='line'>To /tmp/subgit/git/sandbox.git
+</span><span class='line'>   e85015d..3acd7b9  master -&gt; master</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Zusammenführen des Zweiges in Subversion</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ svn checkout https://svnhost.mydomain.com/svn/sandbox/trunk sandbox-trunk
+</span><span class='line'>A    sandbox-trunk/changetest
+</span><span class='line'>A    sandbox-trunk/changetest/file.txt
+</span><span class='line'>...
+</span><span class='line'>A    sandbox-trunk/renamed2.txt
+</span><span class='line'>A    sandbox-trunk/rename-test-renamed.txt
+</span><span class='line'>Ausgecheckt, Revision 106.
+</span><span class='line'>$ cd sandbox-trunk
+</span><span class='line'>sandbox-trunk$ svn merge https://svnhost.mydomain.com/svn/sandbox/branches/subgit-branch
+</span><span class='line'>-- Aufzeichnung der Informationen für Zusammenführung von r107 in ».«:
+</span><span class='line'> U   .
+</span><span class='line'>sandbox-trunk$ svn revert -R .
+</span><span class='line'>Rückgängig gemacht: ».«</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sieht gut aus, Subversion &ldquo;merkt&rdquo;, dass nicht zu tun ist.</p>
+
+<h2>Zweig in Subversion weiterbearbeiten</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ svn checkout https://svnhost.mydomain.com/svn/sandbox/branches/subgit-branch sandbox-subgit-branch
+</span><span class='line'>A    sandbox-subgit-branch/changetest
+</span><span class='line'>A    sandbox-subgit-branch/changetest/file.txt
+</span><span class='line'>A    sandbox-subgit-branch/baumkonflikt
+</span><span class='line'>...
+</span><span class='line'>A    sandbox-subgit-branch/subgit.txt
+</span><span class='line'>A    sandbox-subgit-branch/rename-test-renamed.txt
+</span><span class='line'>Ausgecheckt, Revision 107.
+</span><span class='line'>$ cd sandbox-subgit-branch
+</span><span class='line'>sandbox-subgit-branch$ cat &gt;&gt;subgit.txt &lt;&lt;EOF
+</span><span class='line'>&gt; 
+</span><span class='line'>&gt; Eine Erweiterung mittels Subversion
+</span><span class='line'>&gt; 
+</span><span class='line'>&gt; EOF
+</span><span class='line'>sandbox-subgit-branch$ cat &gt;subversion-neu.txt &lt;&lt;EOF
+</span><span class='line'>&gt; Neue Datei, erzeugt in Subversion
+</span><span class='line'>&gt; EOF
+</span><span class='line'>sandbox-subgit-branch$ svn add subversion-neu.txt 
+</span><span class='line'>A         subversion-neu.txt
+</span><span class='line'>sandbox-subgit-branch$ svn status
+</span><span class='line'>M       subgit.txt
+</span><span class='line'>A       subversion-neu.txt
+</span><span class='line'>sandbox-subgit-branch$ svn commit -m "Arbeit am SVN-Zweig"
+</span><span class='line'>Sende              subgit.txt
+</span><span class='line'>Füge hinzu         subversion-neu.txt
+</span><span class='line'>Übertrage Daten ..
+</span><span class='line'>Revision 108 übertragen.</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Zweig in Git sichten</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sandbox$ git checkout subgit-branch
+</span><span class='line'>sandbox$ git pull
+</span><span class='line'>Zunächst wird der Branch zurückgespult, um Ihre Änderungen
+</span><span class='line'>darauf neu anzuwenden...
+</span><span class='line'>subgit-branch zu 736c76c930e4301e39ce8464300adbc7b3515f1f vorgespult.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Das Verzeichnis sieht gut aus!</p>
+
+<h2>Zusammenführen des Zweiges in Subversion</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sandbox-trunk$ svn update
+</span><span class='line'>Aktualisiere ».«:
+</span><span class='line'>Revision 108.
+</span><span class='line'>sandbox-trunk$ svn merge https://svnhost.mydomain.com/svn/sandbox/branches/subgit-branch
+</span><span class='line'>-- Zusammenführen von r107 bis r108 in ».«:
+</span><span class='line'>A    subversion-neu.txt
+</span><span class='line'>U    subgit.txt
+</span><span class='line'>-- Aufzeichnung der Informationen für Zusammenführung von r107 bis r108 in ».«:
+</span><span class='line'> U   .
+</span><span class='line'>sandbox-trunk$ svn commit -m "Merge mittels Subversion"
+</span><span class='line'>Sende              .
+</span><span class='line'>Sende              subgit.txt
+</span><span class='line'>Füge hinzu         subversion-neu.txt
+</span><span class='line'>Übertrage Daten .
+</span><span class='line'>Revision 109 übertragen.</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Master in Git sichten</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sandbox$ git checkout master
+</span><span class='line'>Gewechselt zu Branch 'master'
+</span><span class='line'>Ihr Branch ist auf dem selben Stand wie 'origin/master'.
+</span><span class='line'>sandbox$ git pull
+</span><span class='line'>remote: Counting objects: 1, done.
+</span><span class='line'>remote: Total 1 (delta 0), reused 0 (delta 0)
+</span><span class='line'>Unpacking objects: 100% (1/1), done.
+</span><span class='line'>Von /tmp/subgit/git/sandbox
+</span><span class='line'>   3acd7b9..bc9f1e0  master     -&gt; origin/master
+</span><span class='line'>Zunächst wird der Branch zurückgespult, um Ihre Änderungen
+</span><span class='line'>darauf neu anzuwenden...
+</span><span class='line'>master zu bc9f1e0ff402ee46929d3459418b1d608870f847 vorgespult.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Das Verzeichnis sieht gut aus!</p>
+
+<h2>Zusammenführen des Zweiges in Git</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sandbox$ git checkout master
+</span><span class='line'>Bereits auf 'master'
+</span><span class='line'>Ihr Branch ist auf dem selben Stand wie 'origin/master'.
+</span><span class='line'>sandbox$ git merge subgit-branch
+</span><span class='line'>Already up-to-date.</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Fazit</h2>
+
+<p>Die Arbeit mit Zweigen und auch die Zusammenführung funktioniert
+recht problemlos. Zusammenführungen in Git werden auch in Subversion
+erkannt und umgekehrt.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Langsames SSH]]></title>
@@ -77,10 +416,12 @@ und kontrolliere die SSH-Anmeldegeschwindigkeit: Alles gut!</p>
     <link href="http://uli-heller.github.com/blog/2014/02/11/subgit/"/>
     <updated>2014-02-11T08:00:00+01:00</updated>
     <id>http://uli-heller.github.com/blog/2014/02/11/subgit</id>
-    <content type="html"><![CDATA[<p>Bislang habe ich immer &ldquo;GitSvn&rdquo; verwendet, wenn ich mit Git auf ein
+    <content type="html"><![CDATA[<p>Bislang habe ich immer
+<a href="https://www.kernel.org/pub/software/scm/git/docs/git-svn.html">GitSvn</a>
+verwendet, wenn ich mit Git auf ein
 Subversion-Repository zugreifen wollte. Leider ist GitSvn fehlerhaltig
 und in der Handhabung teilweise etwas sperrig. Vor einiger Zeit bin
-ich nun über SubGit gestolpert und möchte das heute in der Version
+ich nun über <a href="http://subgit.com">SubGit</a> gestolpert und möchte das heute in der Version
 2.0.1 einmal ausprobieren.</p>
 
 <!-- more -->
@@ -228,6 +569,17 @@ aktualisiert und auch das Subversion-Repository:</p>
 <p>SubGit sieht schonmal sehr vielversprechend aus. Es ist sehr einfach
 einzurichten und funktioniert dem ersten Eindruck nach tadellos.
 Für mich zu klären sind noch die Lizenzbedingungen sowie der Einsatz &ldquo;im Team&rdquo;.</p>
+
+<h2>Änderungen</h2>
+
+<ul>
+<li>2014-02-15: Links zu
+<a href="https://www.kernel.org/pub/software/scm/git/docs/git-svn.html">GitSvn</a>
+und
+<a href="http://subgit.com">SubGit</a>
+hinzugefügt</li>
+</ul>
+
 ]]></content>
   </entry>
   
@@ -1730,8 +2082,8 @@ die Themenwolke angezeigt, unten eine alphabetisch sortierte Themenliste.</p>
 </span><span class='line'>---
 </span><span class='line'>
 </span><span class='line'><span class="nt">&lt;div&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;tag-cloud&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.6875%&#39;</span><span class="nt">&gt;</span>Blog<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.8125%&#39;</span><span class="nt">&gt;</span>CentOS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Chrome<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Cinnamon<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Debian<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Dovecot<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Eclipse<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Fotorama<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 107.5%&#39;</span><span class="nt">&gt;</span>Git<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>GitHub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>GPG<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gradle&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Gradle<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Groovy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Grub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>HTTPS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.6875%&#39;</span><span class="nt">&gt;</span>Java<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>JBoss<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jdk&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>JDK<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>JMX<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Kepler<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Kernel<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>LDAP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 160.0%&#39;</span><span class="nt">&gt;</span>Linux<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.75%&#39;</span><span class="nt">&gt;</span>Lucid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.625%&#39;</span><span class="nt">&gt;</span>Lxc<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>LXC<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Macbook Air<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Macbook Air 2013<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.8125%&#39;</span><span class="nt">&gt;</span>Markdown<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>MySQL<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 109.375%&#39;</span><span class="nt">&gt;</span>Octopress<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>OpenVPN<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.5625%&#39;</span><span class="nt">&gt;</span>Packaging<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Pakete<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Passenger<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>PDF<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Perl<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>PGP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Pigdeonhole<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/podcast&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Podcast<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 130.9375%&#39;</span><span class="nt">&gt;</span>Precise<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/proxy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Proxy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Quilt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Raring<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.8125%&#39;</span><span class="nt">&gt;</span>Redmine<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.5625%&#39;</span><span class="nt">&gt;</span>Ruby<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Server<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/shell&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Shell<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/smtp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>SMTP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/squid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Squid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ssh&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>SSH<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.75%&#39;</span><span class="nt">&gt;</span>Subversion<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/thunderbird&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Thunderbird<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/truecrypt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Truecrypt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 148.75%&#39;</span><span class="nt">&gt;</span>Ubuntu<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>USB<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Webservice<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/windows&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Windows<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Zertifikat<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>ZFS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/ul&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;category-list&quot;</span><span class="nt">&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span><span class="nt">&gt;</span>Blog (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span><span class="nt">&gt;</span>CentOS (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span><span class="nt">&gt;</span>Chrome (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span><span class="nt">&gt;</span>Cinnamon (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span><span class="nt">&gt;</span>Debian (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span><span class="nt">&gt;</span>Dovecot (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span><span class="nt">&gt;</span>Eclipse (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span><span class="nt">&gt;</span>Fotorama (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span><span class="nt">&gt;</span>Git (8)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span><span class="nt">&gt;</span>GitHub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span><span class="nt">&gt;</span>GPG (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gradle&#39;</span><span class="nt">&gt;</span>Gradle (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span><span class="nt">&gt;</span>Groovy (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span><span class="nt">&gt;</span>Grub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span><span class="nt">&gt;</span>HTTPS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span><span class="nt">&gt;</span>Java (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span><span class="nt">&gt;</span>JBoss (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jdk&#39;</span><span class="nt">&gt;</span>JDK (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span><span class="nt">&gt;</span>JMX (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span><span class="nt">&gt;</span>Kepler (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span><span class="nt">&gt;</span>Kernel (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span><span class="nt">&gt;</span>LDAP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span><span class="nt">&gt;</span>Linux (64)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span><span class="nt">&gt;</span>Lucid (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>Lxc (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>LXC (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span><span class="nt">&gt;</span>Macbook Air (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span><span class="nt">&gt;</span>Macbook Air 2013 (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span><span class="nt">&gt;</span>Markdown (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span><span class="nt">&gt;</span>MySQL (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span><span class="nt">&gt;</span>Octopress (10)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span><span class="nt">&gt;</span>OpenVPN (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span><span class="nt">&gt;</span>Packaging (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span><span class="nt">&gt;</span>Pakete (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span><span class="nt">&gt;</span>Passenger (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span><span class="nt">&gt;</span>PDF (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span><span class="nt">&gt;</span>Perl (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span><span class="nt">&gt;</span>PGP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span><span class="nt">&gt;</span>Pigdeonhole (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/podcast&#39;</span><span class="nt">&gt;</span>Podcast (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span><span class="nt">&gt;</span>Precise (33)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/proxy&#39;</span><span class="nt">&gt;</span>Proxy (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span><span class="nt">&gt;</span>Quilt (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span><span class="nt">&gt;</span>Raring (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span><span class="nt">&gt;</span>Redmine (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span><span class="nt">&gt;</span>Ruby (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span><span class="nt">&gt;</span>Server (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/shell&#39;</span><span class="nt">&gt;</span>Shell (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/smtp&#39;</span><span class="nt">&gt;</span>SMTP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/squid&#39;</span><span class="nt">&gt;</span>Squid (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ssh&#39;</span><span class="nt">&gt;</span>SSH (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span><span class="nt">&gt;</span>Subversion (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/thunderbird&#39;</span><span class="nt">&gt;</span>Thunderbird (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/truecrypt&#39;</span><span class="nt">&gt;</span>Truecrypt (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span><span class="nt">&gt;</span>Ubuntu (52)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span><span class="nt">&gt;</span>USB (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span><span class="nt">&gt;</span>Webservice (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/windows&#39;</span><span class="nt">&gt;</span>Windows (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span><span class="nt">&gt;</span>Zertifikat (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span><span class="nt">&gt;</span>ZFS (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;tag-cloud&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.6875%&#39;</span><span class="nt">&gt;</span>Blog<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.8125%&#39;</span><span class="nt">&gt;</span>CentOS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Chrome<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Cinnamon<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Debian<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Dovecot<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Eclipse<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Fotorama<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 108.4375%&#39;</span><span class="nt">&gt;</span>Git<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>GitHub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>GPG<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gradle&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Gradle<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Groovy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Grub<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>HTTPS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.6875%&#39;</span><span class="nt">&gt;</span>Java<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>JBoss<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jdk&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>JDK<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>JMX<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Kepler<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Kernel<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>LDAP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 160.0%&#39;</span><span class="nt">&gt;</span>Linux<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 103.75%&#39;</span><span class="nt">&gt;</span>Lucid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 105.625%&#39;</span><span class="nt">&gt;</span>Lxc<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>LXC<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Macbook Air<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Macbook Air 2013<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.8125%&#39;</span><span class="nt">&gt;</span>Markdown<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>MySQL<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 109.375%&#39;</span><span class="nt">&gt;</span>Octopress<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>OpenVPN<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.5625%&#39;</span><span class="nt">&gt;</span>Packaging<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Pakete<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Passenger<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>PDF<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Perl<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>PGP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Pigdeonhole<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/podcast&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Podcast<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 130.9375%&#39;</span><span class="nt">&gt;</span>Precise<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/proxy&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Proxy<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Quilt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>Raring<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 102.8125%&#39;</span><span class="nt">&gt;</span>Redmine<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 106.5625%&#39;</span><span class="nt">&gt;</span>Ruby<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Server<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/shell&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Shell<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/smtp&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>SMTP<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/squid&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Squid<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ssh&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>SSH<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 104.6875%&#39;</span><span class="nt">&gt;</span>Subversion<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/thunderbird&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Thunderbird<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/truecrypt&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Truecrypt<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 148.75%&#39;</span><span class="nt">&gt;</span>Ubuntu<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>USB<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Webservice<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/windows&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Windows<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 100.9375%&#39;</span><span class="nt">&gt;</span>Zertifikat<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span> <span class="na">style=</span><span class="s">&#39;font-size: 101.875%&#39;</span><span class="nt">&gt;</span>ZFS<span class="nt">&lt;/a&gt;</span> <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;category-list&quot;</span><span class="nt">&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/blog&#39;</span><span class="nt">&gt;</span>Blog (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/centos&#39;</span><span class="nt">&gt;</span>CentOS (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/chrome&#39;</span><span class="nt">&gt;</span>Chrome (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/cinnamon&#39;</span><span class="nt">&gt;</span>Cinnamon (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/debian&#39;</span><span class="nt">&gt;</span>Debian (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/dovecot&#39;</span><span class="nt">&gt;</span>Dovecot (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/eclipse&#39;</span><span class="nt">&gt;</span>Eclipse (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/fotorama&#39;</span><span class="nt">&gt;</span>Fotorama (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/git&#39;</span><span class="nt">&gt;</span>Git (9)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/github&#39;</span><span class="nt">&gt;</span>GitHub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gpg&#39;</span><span class="nt">&gt;</span>GPG (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/gradle&#39;</span><span class="nt">&gt;</span>Gradle (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/groovy&#39;</span><span class="nt">&gt;</span>Groovy (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/grub&#39;</span><span class="nt">&gt;</span>Grub (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/https&#39;</span><span class="nt">&gt;</span>HTTPS (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/java&#39;</span><span class="nt">&gt;</span>Java (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jboss&#39;</span><span class="nt">&gt;</span>JBoss (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jdk&#39;</span><span class="nt">&gt;</span>JDK (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/jmx&#39;</span><span class="nt">&gt;</span>JMX (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kepler&#39;</span><span class="nt">&gt;</span>Kepler (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/kernel&#39;</span><span class="nt">&gt;</span>Kernel (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ldap&#39;</span><span class="nt">&gt;</span>LDAP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/linux&#39;</span><span class="nt">&gt;</span>Linux (64)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lucid&#39;</span><span class="nt">&gt;</span>Lucid (4)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>Lxc (6)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/lxc&#39;</span><span class="nt">&gt;</span>LXC (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air&#39;</span><span class="nt">&gt;</span>Macbook Air (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/macbook-air-2013&#39;</span><span class="nt">&gt;</span>Macbook Air 2013 (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/markdown&#39;</span><span class="nt">&gt;</span>Markdown (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/mysql&#39;</span><span class="nt">&gt;</span>MySQL (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/octopress&#39;</span><span class="nt">&gt;</span>Octopress (10)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/openvpn&#39;</span><span class="nt">&gt;</span>OpenVPN (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/packaging&#39;</span><span class="nt">&gt;</span>Packaging (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pakete&#39;</span><span class="nt">&gt;</span>Pakete (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/passenger&#39;</span><span class="nt">&gt;</span>Passenger (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pdf&#39;</span><span class="nt">&gt;</span>PDF (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/perl&#39;</span><span class="nt">&gt;</span>Perl (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pgp&#39;</span><span class="nt">&gt;</span>PGP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/pigdeonhole&#39;</span><span class="nt">&gt;</span>Pigdeonhole (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/podcast&#39;</span><span class="nt">&gt;</span>Podcast (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/precise&#39;</span><span class="nt">&gt;</span>Precise (33)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/proxy&#39;</span><span class="nt">&gt;</span>Proxy (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/quilt&#39;</span><span class="nt">&gt;</span>Quilt (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/raring&#39;</span><span class="nt">&gt;</span>Raring (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/redmine&#39;</span><span class="nt">&gt;</span>Redmine (3)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ruby&#39;</span><span class="nt">&gt;</span>Ruby (7)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/server&#39;</span><span class="nt">&gt;</span>Server (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/shell&#39;</span><span class="nt">&gt;</span>Shell (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/smtp&#39;</span><span class="nt">&gt;</span>SMTP (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/squid&#39;</span><span class="nt">&gt;</span>Squid (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ssh&#39;</span><span class="nt">&gt;</span>SSH (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/subversion&#39;</span><span class="nt">&gt;</span>Subversion (5)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/thunderbird&#39;</span><span class="nt">&gt;</span>Thunderbird (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/truecrypt&#39;</span><span class="nt">&gt;</span>Truecrypt (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/ubuntu&#39;</span><span class="nt">&gt;</span>Ubuntu (52)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/usb&#39;</span><span class="nt">&gt;</span>USB (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/webservice&#39;</span><span class="nt">&gt;</span>Webservice (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/windows&#39;</span><span class="nt">&gt;</span>Windows (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zertifikat&#39;</span><span class="nt">&gt;</span>Zertifikat (1)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;/blog/categories/zfs&#39;</span><span class="nt">&gt;</span>ZFS (2)<span class="nt">&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</span>
 </span><span class='line'><span class="nt">&lt;/div&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -2749,70 +3101,6 @@ anschließendes Umbenennen mit <code>mv ...</code>.</p>
 </span><span class='line'>
 </span><span class='line'><span class="c">## Github Pages deploy complete</span>
 </span><span class='line'><span class="nb">cd</span> -
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Octopress-Fehler: Liquid Exception: undefined method `sort!' for nil:NilClass in post]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/08/04/octopress-category-generator/"/>
-    <updated>2013-08-04T19:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/08/04/octopress-category-generator</id>
-    <content type="html"><![CDATA[<p>Beim Ausführen von <code>rake generate</code> erscheint die Fehlermeldung:</p>
-
-<pre><code>Liquid Exception: undefined method `sort!' for nil:NilClass in post
-.../octopress/plugins/category_generator.rb:157:in `category_links'
-</code></pre>
-
-<!-- more -->
-
-
-<p>Die Korrektur erfolgt bspw. durch diese Änderung:</p>
-
-<figure class='code'><figcaption><span>Änderung an ../pligins/category_generator.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/plugins/category_generator.rb b/plugins/category_generator.rb</span>
-</span><span class='line'><span class="gh">index a49c429..63dbf97 100644</span>
-</span><span class='line'><span class="gd">--- a/plugins/category_generator.rb</span>
-</span><span class='line'><span class="gi">+++ b/plugins/category_generator.rb</span>
-</span><span class='line'><span class="gu">@@ -153,6 +153,7 @@ ERR</span>
-</span><span class='line'>     # Returns string
-</span><span class='line'>     #
-</span><span class='line'>     def category_links(categories)
-</span><span class='line'><span class="gi">+     if categories != nil</span>
-</span><span class='line'>       categories = categories.sort!.map { |c| category_link c }
-</span><span class='line'>
-</span><span class='line'>       case categories.length
-</span><span class='line'><span class="gu">@@ -163,6 +164,7 @@ ERR</span>
-</span><span class='line'>       else
-</span><span class='line'>         &quot;#{categories[0...-1].join(&#39;, &#39;)}, #{categories[-1]}&quot;
-</span><span class='line'>       end
-</span><span class='line'><span class="gi">+     end</span>
-</span><span class='line'>     end
-</span><span class='line'>
-</span><span class='line'>     # Outputs a single category as an &lt;a&gt; link.
 </span></code></pre></td></tr></table></div></figure>
 
 
