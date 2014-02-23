@@ -9,7 +9,8 @@
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Erzeugen einer WSDL-Datei für ein JAXWS-Webservice-Interface Vorab &ndash; unser Webservice Ausgangspunkt ist dieses Interface für unseren Webservice &hellip;">
+  <meta name="description" content="Rails-Update für Redmine-1.2 Einleitung Auf einem etwas älteren Linux-Server betreibe ich eine fast genauso alte
+Redmine-Instanz. Redmine ist eine &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +73,148 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/11/redmine-rails-update/">Rails-2.3.15</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2013-01-11T07:00:00+01:00" pubdate data-updated="true">11. January 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Rails-Update für Redmine-1.2</h1>
+
+<h2>Einleitung</h2>
+
+<p>Auf einem etwas älteren Linux-Server betreibe ich eine fast genauso alte
+<a href="http://redmine.org">Redmine</a>-Instanz. Redmine ist eine
+<a href="http://rubyonrails.org">Rails</a>-Anwendung und
+weil ich so eine alte Version davon verwende, ist die Rails-Version anfällig
+gegen die diese Woche entdeckten kritischen
+<a href="http://weblog.rubyonrails.org/2013/1/8/Rails-3-2-11-3-1-10-3-0-19-and-2-3-15-have-been-released/">Schwachstellen</a>.</p>
+
+<p>Redmine selbst kann zur Zeit nicht auf die aktuelle Version 2.2 aktualisiert
+werden, weil ich ältere, mit der neuen Version nicht verträgliche Plugins
+verwende. Also heißt die Strategie: Redmine beibehalten, Rails aktualisieren
+auf Version 2.3.15.</p>
+
+<h2>Gems herunterladen und zum Redmine-Server übertragen</h2>
+
+<p>Der Redmine-Server hat keinen Zugang zum Internet. Deshalb müssen die Gems
+auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
+werden.</p>
+
+<figure class='code'><figcaption><span> (get-2.3.15.sh)</span> <a href='/downloads/code/get-2.3.15.sh'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.15
+</span><span class='line'>
+</span><span class='line'>fetch<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="o">(</span>
+</span><span class='line'>  <span class="nv">GN</span><span class="o">=</span><span class="s2">&quot;$1-$2.gem&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> ! -s <span class="s2">&quot;${GN}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span>gem fetch <span class="s2">&quot;$1&quot;</span> -v <span class="s2">&quot;$2&quot;</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'>  <span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>i in actionmailer actionpack activerecord activeresource activesupport rails; <span class="k">do</span>
+</span><span class='line'><span class="k">  </span>fetch <span class="s2">&quot;${i}&quot;</span> <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>fetch rack 1.1.3
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Die Dateien werden danach mit SCP auf den Redmine-Server übertragen.</p>
+
+<h2>Basissystem aktualisieren</h2>
+
+<figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
+</span><span class='line'>apt-get upgrade
+</span><span class='line'>apt-get dist-upgrade
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Gems einspielen</h2>
+
+<figure class='code'><figcaption><span>Gems einspielen </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.15.gem
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Alte Gems deininstallieren</h2>
+
+<figure class='code'><figcaption><span> (uninstall-2.3.11.sh)</span> <a href='/downloads/code/uninstall-2.3.11.sh'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">VERSION</span><span class="o">=</span>2.3.11
+</span><span class='line'>
+</span><span class='line'>gem uninstall rails -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall actionmailer -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall actionpack -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activerecord -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activeresource -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall activesupport -v <span class="s2">&quot;${VERSION}&quot;</span>
+</span><span class='line'>gem uninstall rack -v 1.1.1
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1751,6 +1894,10 @@ source/archives/index.html</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/23/git_kuerzen/">Git - Versionsgeschichte kürzen</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/15/subgit_2/">SubGit - Experimente mit Zweigen und Zusammenführungen</a>
       </li>
     
@@ -1766,15 +1913,11 @@ source/archives/index.html</li>
         <a href="/blog/2013/11/10/grep/">GREP - Zeilen aus Umgebungsvariable ignorieren</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/10/09/persoenliche-git-zentrale/">Persönliche Git-Zentrale</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>Themen</h1>
-    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 104.6875%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 102.8125%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 101.875%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 100.9375%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.875%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 101.875%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 101.875%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 101.875%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 108.4375%'>Git(9)</a> <a href='/blog/categories/github' style='font-size: 100.9375%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 100.9375%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 100.9375%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 100.9375%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 100.9375%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 100.9375%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.6875%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 100.9375%'>JBoss(1)</a> <a href='/blog/categories/jdk' style='font-size: 100.9375%'>JDK(1)</a> <a href='/blog/categories/jmx' style='font-size: 100.9375%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 100.9375%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 101.875%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 100.9375%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(64)</a> <a href='/blog/categories/lucid' style='font-size: 103.75%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 105.625%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 100.9375%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 101.875%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 100.9375%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 102.8125%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 100.9375%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 109.375%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 100.9375%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.5625%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 100.9375%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 100.9375%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 100.9375%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 100.9375%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 100.9375%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 101.875%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 100.9375%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 130.9375%'>Precise(33)</a> <a href='/blog/categories/proxy' style='font-size: 101.875%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 101.875%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 101.875%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 102.8125%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 106.5625%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 100.9375%'>Server(1)</a> <a href='/blog/categories/shell' style='font-size: 100.9375%'>Shell(1)</a> <a href='/blog/categories/smtp' style='font-size: 100.9375%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 100.9375%'>Squid(1)</a> <a href='/blog/categories/ssh' style='font-size: 100.9375%'>SSH(1)</a> <a href='/blog/categories/subversion' style='font-size: 104.6875%'>Subversion(5)</a> <a href='/blog/categories/thunderbird' style='font-size: 100.9375%'>Thunderbird(1)</a> <a href='/blog/categories/truecrypt' style='font-size: 100.9375%'>Truecrypt(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.75%'>Ubuntu(52)</a> <a href='/blog/categories/usb' style='font-size: 100.9375%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 100.9375%'>Webservice(1)</a> <a href='/blog/categories/windows' style='font-size: 100.9375%'>Windows(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 100.9375%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.875%'>ZFS(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 104.6875%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 102.8125%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 101.875%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 100.9375%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.875%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 101.875%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 101.875%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 101.875%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 109.375%'>Git(10)</a> <a href='/blog/categories/github' style='font-size: 100.9375%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 100.9375%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 100.9375%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 100.9375%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 100.9375%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 100.9375%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.6875%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 100.9375%'>JBoss(1)</a> <a href='/blog/categories/jdk' style='font-size: 100.9375%'>JDK(1)</a> <a href='/blog/categories/jmx' style='font-size: 100.9375%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 100.9375%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 101.875%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 100.9375%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(64)</a> <a href='/blog/categories/lucid' style='font-size: 103.75%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 105.625%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 100.9375%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 101.875%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 100.9375%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 102.8125%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 100.9375%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 109.375%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 100.9375%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.5625%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 100.9375%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 100.9375%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 100.9375%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 100.9375%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 100.9375%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 101.875%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 100.9375%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 130.9375%'>Precise(33)</a> <a href='/blog/categories/proxy' style='font-size: 101.875%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 101.875%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 101.875%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 102.8125%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 106.5625%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 100.9375%'>Server(1)</a> <a href='/blog/categories/shell' style='font-size: 100.9375%'>Shell(1)</a> <a href='/blog/categories/smtp' style='font-size: 100.9375%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 100.9375%'>Squid(1)</a> <a href='/blog/categories/ssh' style='font-size: 100.9375%'>SSH(1)</a> <a href='/blog/categories/subversion' style='font-size: 104.6875%'>Subversion(5)</a> <a href='/blog/categories/thunderbird' style='font-size: 100.9375%'>Thunderbird(1)</a> <a href='/blog/categories/truecrypt' style='font-size: 100.9375%'>Truecrypt(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.75%'>Ubuntu(52)</a> <a href='/blog/categories/usb' style='font-size: 100.9375%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 100.9375%'>Webservice(1)</a> <a href='/blog/categories/windows' style='font-size: 100.9375%'>Windows(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 100.9375%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.875%'>ZFS(2)</a> </span>
 </section>
 
 

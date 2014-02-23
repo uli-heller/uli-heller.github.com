@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>JDK unter Windows installieren ohne Administratorrechte - Was ich so treibe...</title>
+  <title>Git - Versionsgeschichte kürzen - Was ich so treibe...</title>
   <meta name="author" content="Uli Heller">
 
   
-  <meta name="description" content="Leider muß ich bei meinem aktuellen Projekt unter Windows entwickeln.
-Es handelt sich um ein Java-Projekt. Die Arbeit kann nur auf einem Notebook &hellip;">
+  <meta name="description" content="Dieser Artikel basiert auf einer Idee aus
+http://honk.sigxcpu.org/con/Truncating_git_history.html. Ein privates Git-Repository mit einer langen Git- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ Es handelt sich um ein Java-Projekt. Die Arbeit kann nur auf einem Notebook &hel
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://uli-heller.github.com/blog/2013/10/07/windows-jdk">
+  <link rel="canonical" href="http://uli-heller.github.com/blog/2014/02/23/git_kuerzen">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Was ich so treibe..." type="application/atom+xml">
@@ -76,7 +76,7 @@ Es handelt sich um ein Java-Projekt. Die Arbeit kann nur auf einem Notebook &hel
   
   <header>
     
-      <h1 class="entry-title">JDK unter Windows installieren ohne Administratorrechte</h1>
+      <h1 class="entry-title">Git - Versionsgeschichte kürzen</h1>
     
     
       <p class="meta">
@@ -92,62 +92,82 @@ Es handelt sich um ein Java-Projekt. Die Arbeit kann nur auf einem Notebook &hel
   
 
 
-<time datetime="2013-10-07T18:00:00+02:00" pubdate data-updated="true">07. October 2013</time>
+<time datetime="2014-02-23T08:00:00+01:00" pubdate data-updated="true">23. February 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Leider muß ich bei meinem aktuellen Projekt unter Windows entwickeln.
-Es handelt sich um ein Java-Projekt. Die Arbeit kann nur auf einem Notebook
-erfolgen, das mir mein Auftraggeber stellt. Das Notebook läuft unter
-Windows 7 und stellt eine VPN-Verbindung zum Firmennetz her.</p>
+<div class="entry-content"><p>Dieser Artikel basiert auf einer Idee aus
+<a href="http://honk.sigxcpu.org/con/Truncating_git_history.html">http://honk.sigxcpu.org/con/Truncating_git_history.html</a>.</p>
 
-<p>Zur Entwicklung des im Projektrahmen zu erstellenden Programms benötige
-ich ein JDK. Das Einspielen auf dem Notebook gestaltet sich schwierig,
-denn ich habe dort keine Administratorrechte und Oracle&rsquo;s JDK benötigt
-eben diese. Schöner Mist. Nachfolgend eine Beschreibung, wie ich mir
-beholfen habe. Ich benötige dazu einen Linux-Rechner und einen USB-Stick.</p>
+<p>Ein privates Git-Repository mit einer langen Git-Versionsgeschichte
+soll bspw. auf GitHub veröffentlicht werden. Üblicherweise erscheint
+das Repository dann inklusive kompletter Versionsgeschichte.</p>
+
+<p>Ziel des hier beschriebenen Verfahrfens ist:</p>
+
+<ul>
+<li>Veröffentlichung ohne Versionsgeschichte</li>
+<li>Verfügbarhalten der Versionsgeschichte im lokalen Repository</li>
+</ul>
+
 
 <!-- more -->
 
 
-<h2>Linux-Rechner</h2>
+<h2>Ausgangslage</h2>
 
-<p>Auf meinem Linux-Rechner ist Ubuntu-12.04 installiert. Zusätzlich
-benötige ich Wine. Dieses wird schnell nachinstalliert mit</p>
-
-<pre><code>sudo apt-get install wine
-</code></pre>
-
-<p>Die Installation hat bei mir zunächst nicht geklappt &ndash; vermutlich weil
-ich auch VirtualBox auf dem Linux-Rechner habe. In einem LXC-Container
-ging&rsquo;s problemlos.</p>
-
-<p>Danach:</p>
+<p>Unsere Ausganglage ist diese:</p>
 
 <ul>
-<li>Oracle JDK für Windows x86 herunterladen von <a href="http://oracle.com">http://oracle.com</a></li>
-<li>Heruntergeladene Datei in LXC-Container hineinkopieren</li>
-<li>Kopierte Datei im LXC-Container ausführen mittels Wine<pre>
-wine ./jdk-7u40-windows-i586.exe</pre></li>
-<li>Es erscheinen diverse Fehlermeldungen &ndash;> ignorieren!</li>
-<li>Ordner ~/.wine/drive_c/Program Files/java verpacken (bspw. mit <code>zip</code>)</li>
-<li>Verpackten Ordner auf USB-Stick speichern</li>
+<li>Wir haben ein lokales Git-Projekt</li>
+<li>Das Git-Projekt hat keine &ldquo;offenen Dateien&rdquo;:</li>
 </ul>
 
 
-<h2>Windows-Rechner</h2>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git status
+</span><span class='line'>On branch master
+</span><span class='line'>nothing to commit, working directory clean</span></code></pre></td></tr></table></div></figure>
+
 
 <ul>
-<li>Ordner vom USB-Stick auspacken nach C:\Uli</li>
-<li>Skript erstellen zur Erweiterung der Umgebungsvariablen PATH</li>
-<li>Test: <code>javac -version</code> &ndash;> javac 1.7.0_40</li>
+<li>Das Git-Projekt hat eine längere Git-Versionsgeschichte:</li>
 </ul>
 
 
-<p>Der Aufruf vom Java-Kompiler klappt &ndash; ich bin zufrieden!</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git log --oneline
+</span><span class='line'>3d5444e Some changes with git-1.9
+</span><span class='line'>7d10363 Subversion merge
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Der aktuell ausgecheckte Stand soll veröffentlicht werden ohne
+Versionsgeschichte.</li>
+</ul>
+
+
+<h2>Ablauf</h2>
+
+<p>Der für mich einfachste Ablauf ist dieser:</p>
+
+<ul>
+<li>Alten &ldquo;master&rdquo; wegschieben: <code>git branch -m master ancient-history</code></li>
+<li>Neuen &ldquo;master&rdquo; erzeugen: <code>git checkout --orphan master</code></li>
+<li>Neuen &ldquo;master&rdquo; wegschreiben: <code>git commit -m "Initial commit"</code></li>
+<li>&ldquo;Kurze&rdquo; Versionsgeschichte: <code>git log --oneline master</code></li>
+<li>&ldquo;Lange&rdquo; Versionsgeschichte: <code>git log --oneline master ancient-history</code></li>
+</ul>
+
 </div>
 
 
@@ -170,12 +190,12 @@ wine ./jdk-7u40-windows-i586.exe</pre></li>
   
 
 
-<time datetime="2013-10-07T18:00:00+02:00" pubdate data-updated="true">07. October 2013</time>
+<time datetime="2014-02-23T08:00:00+01:00" pubdate data-updated="true">23. February 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/jdk/'>JDK</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/precise/'>Precise</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>, <a class='category' href='/blog/categories/windows/'>Windows</a>
+    <a class='category' href='/blog/categories/git/'>Git</a>
   
 </span>
 
@@ -191,10 +211,8 @@ wine ./jdk-7u40-windows-i586.exe</pre></li>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/10/06/zfs/" title="Voriger Beitrag: ZFS unter Ubuntu-12.04.3">&laquo; ZFS unter Ubuntu-12.04.3</a>
+        <a class="basic-alignment left" href="/blog/2014/02/15/subgit_2/" title="Voriger Beitrag: SubGit - Experimente mit Zweigen und Zusammenführungen">&laquo; SubGit - Experimente mit Zweigen und Zusammenführungen</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/10/08/truecrypt-thunderbird/" title="Nächster Beitrag: Probleme mit Thunderbird-Profile korrigieren">Probleme mit Thunderbird-Profile korrigieren &raquo;</a>
       
     </p>
   </footer>
@@ -285,8 +303,8 @@ wine ./jdk-7u40-windows-i586.exe</pre></li>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://uli-heller.github.com/blog/2013/10/07/windows-jdk/';
-        var disqus_url = 'http://uli-heller.github.com/blog/2013/10/07/windows-jdk/';
+        var disqus_identifier = 'http://uli-heller.github.com/blog/2014/02/23/git_kuerzen/';
+        var disqus_url = 'http://uli-heller.github.com/blog/2014/02/23/git_kuerzen/';
         var disqus_script = 'embed.js';
       
     (function () {
