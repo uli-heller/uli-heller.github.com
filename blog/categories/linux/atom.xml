@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Linux | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-02-23T09:13:53+01:00</updated>
+  <updated>2014-03-24T06:57:00+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -12,6 +12,203 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux - Zugriffsrechte mit ACL]]></title>
+    <link href="http://uli-heller.github.com/blog/2014/03/23/zugriffsrechte/"/>
+    <updated>2014-03-23T08:00:00+01:00</updated>
+    <id>http://uli-heller.github.com/blog/2014/03/23/zugriffsrechte</id>
+    <content type="html"><![CDATA[<p>Dieser Artikel basiert auf
+<a href="http://itsprite.com/3-acl-samples-for-linux-user-permission-management/">http://itsprite.com/3-acl-samples-for-linux-user-permission-management/</a>.</p>
+
+<p>Für einen meiner Kunden betreue ich eine Anwendung namens &ldquo;DUPL&rdquo;.
+Die Anwendung besteht aus verschiedenen Teilen, u.a.</p>
+
+<ul>
+<li>einer Webanwendung basierend auf TOMCAT</li>
+<li>einem Datenbank-Teil basierend auf ORACLE 11g</li>
+</ul>
+
+
+<p>Für die Betreuung brauche ich</p>
+
+<ul>
+<li>Schreib- und Lesezugriff auf das Arbeitsverzeichnis des TOMCATs</li>
+<li>Lesezugriff auf die Log-Dateien von ORACLE 11g</li>
+</ul>
+
+
+<p>Bislang wurde das durch eine Mischung aus Standard-Unix-Zugriffsrechte
+und Cronjobs erledigt. Mit ACLs müßte das wesentlich eleganter umzusetzen
+sein.</p>
+
+<!-- more -->
+
+
+<h2>Tomcat-Arbeitsverzeichnis</h2>
+
+<p>Der Tomcat von DUPL läuft unter einem eigenen Benutzer &ldquo;tomcat-dupl&rdquo; in
+einer eigenen Gruppe &ldquo;tomcat-dupl&rdquo;.
+Er hat ein Arbeitsverzeichnis /data/dupl.
+In diesem Arbeitsverzeichnis legt er Dateien und Verzeichnisstrukturen
+an. Die Struktur unterhalb des Arbeitsverzeichnisses sieht dann beispielsweise
+so aus:</p>
+
+<ul>
+<li>dupl.log</li>
+<li>dupl.log.2014-02-22</li>
+<li>dupl.log.2014-02-21</li>
+<li>&hellip;</li>
+<li>2014-02-22-statistics/00-06/access.log</li>
+<li>2014-02-22-statistics/06-12/access.log</li>
+<li>2014-02-22-statistics/12-18/access.log</li>
+<li>2014-02-22-statistics/18-24/access.log</li>
+<li>2014-02-21-statistics/00-06/access.log</li>
+<li>2014-02-21-statistics/06-12/access.log</li>
+<li>2014-02-21-statistics/12-18/access.log</li>
+<li>2014-02-21-statistics/18-24/access.log</li>
+<li>&hellip;</li>
+</ul>
+
+
+<p>Mein Wartungsbenutzer ist unabhängig vom Tomcat-Benutzer: Er hat den
+Namen &ldquo;uli&rdquo; und gehört nicht der Tomcat-Gruppe an, sondern nur der Gruppe
+&ldquo;staff&rdquo;.</p>
+
+<p>Die Wartungstätigkeiten erfordern die Möglichkeit:</p>
+
+<ul>
+<li>Sichten aller Dateien im Arbeitsverzeichnis und aller Unterverzeichnisse</li>
+<li>Editieren aller Dateien im Arbeitsverzeichnis und aller Unterverzeichnisse</li>
+<li>Löschen alter Dateien und alter Unterverzeichnisse</li>
+</ul>
+
+
+<h3>Traditioneller Ansatz</h3>
+
+<p>Beim bisher verwendeten traditionellen Ansatz wird:</p>
+
+<ul>
+<li><p>Das Arbeitsverzeichnis /data/dupl dem Benutzer &ldquo;tomcat-dupl&rdquo; und der
+Gruppe &ldquo;staff&rdquo; zugeordnet:</p>
+
+<ul>
+<li><code>chown tomcat-dupl.staff /data/dupl</code></li>
+</ul>
+</li>
+<li><p>Die Zugriffsrechte so geändert, dass sowohl der Benutzer als auch die
+Gruppe vollen Lese- und Schreibzugriff hat:</p>
+
+<ul>
+<li><code>chmod 775 /data/dupl</code></li>
+</ul>
+</li>
+<li><p>Zusätzlich wird noch das &ldquo;SETGID&rdquo;-Bit gesetzt, so dass alle Dateien und
+Verzeichnisse der Gruppe &ldquo;staff&rdquo; zugeordnet werden:</p>
+
+<ul>
+<li><code>chmod g+s /data/dupl</code></li>
+</ul>
+</li>
+<li><p>Die UMASK für den Tomcat-Benutzer und meinen Wartungsbenutzer wird auf
+&ldquo;002&rdquo; gesetzt, so dass neu angelegte Dateien und Verzeichnisse per
+Standard für die Gruppe beschreibbar sind:</p>
+
+<ul>
+<li><code>umask 002</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Mit diesen Einstellungen kann ich alle Dateien, die der Tomcat unterhalb
+von /data/dup anlegt, problemlos lesen und schreiben. Das ganze funktioniert
+auch für alle Unterverzeichnisse und darin enthaltene Dateien.</p>
+
+<p>Blöd wird&rsquo;s, wenn ich mit meinem Benutzer darin rumwerkle und den
+UMASK-Eintrag nicht richtig gesetzt habe. Wenn ich bspw. um <code>umask 022</code>
+in /data/dup neue Dateien oder Verzeichnisse anlege, dann hat
+der Tomcat nur Lesezugriff und keinen Schreibzugriff.</p>
+
+<p>Um die Auswirkungen von solchen Aktionen in Grenzen zu halten gibt es
+einen regelmässig ausgeführten CRONJOB, der für alle Dateien und Verzeichnisse
+die Schreibrechte für die Gruppe setzt, also etwas wie:</p>
+
+<p><code>
+find /data/dupl -print0|xargs -0 chmod g+w
+</code></p>
+
+<h3>Neuer Ansatz mit ACL</h3>
+
+<p>Mit ACLs kann man die Sache zuverlässiger in den Griff bekommen,
+die Rechte hängen dann nicht mehr von der UMASK ab.</p>
+
+<ul>
+<li>Zunächst: ACL für das Arbeitsverzeichnis festlegen:
+
+<ul>
+<li>Benutzer der Gruppe &ldquo;staff&rdquo;: rwx auf alles:
+
+<ul>
+<li><code>setfacl -m g:staff:rwx /data/dupl</code></li>
+</ul>
+</li>
+<li>Benutzer der Gruppe &ldquo;tomcat-dupl&rdquo;: rwx auf alles
+
+<ul>
+<li><code>setfacl -m g:tomcat-dupl:rwx /data/dupl</code></li>
+</ul>
+</li>
+<li>Die beiden vorgenannten Rechte sollen per Standard auch
+für alle darin angelegten Verzeichnisse und Dateien gelten:
+
+<ul>
+<li><code>setfacl -d -m g:staff:rwx /data/dupl</code></li>
+<li><code>setfacl -d -m g:tomcat-dupl:rwx /data/dupl</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Dann: Test, ob das alles so funktioniert
+
+<ul>
+<li>Tomcat: Datei und Verzeichnis innerhalb von /data/dupl anlegen,
+modifizieren, löschen &ndash;> klappt</li>
+<li>Benutzer der Gruppe &ldquo;staff&rdquo;: Datei und Verzeichnis innerhalb
+von /data/dupl anlegen, modifizieren, löschen &ndash;> klappt</li>
+<li>Tomcat: Verzeichnis anlegen, &ldquo;staff&rdquo;: Datei darin anlegen,
+Tomcat: Datei modifizieren &ndash;> klappt</li>
+</ul>
+</li>
+<li>Zuletzt: Rechte auf das gesamte Arbeitsverzeichnis anwenden:
+
+<ul>
+<li><code>setfacl -R -m g:staff:rwx /data/dupl</code></li>
+<li><code>setfacl -R -m g:tomcat-dupl:rwx /data/dupl</code></li>
+<li><code>setfacl -R -d -m g:staff:rwx /data/dupl</code></li>
+<li><code>setfacl -R -d -m g:tomcat-dupl:rwx /data/dupl</code></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Datenbank-Traces</h2>
+
+<p>Die Traces von Oracle 11G werden abgelegt unter /app/oracle/admin/oradba/udump.
+Per Standard habe ich keinen Lesezugriff auf die Traces. Eine einmalige Ausführung
+von <code>chmod o+r ...</code> bringt nichts, weil Oracle 11G dort immer wieder neue Dateien
+erzeugt, deren Zugriffsrechte ebenfalls geändert werden müssen.</p>
+
+<p>Auch hier kann man mit ACLs für die Lösung sorgen:</p>
+
+<ul>
+<li><code>setfacl -R -m g:staff:r /app/oracle/admin/oradba/udump</code></li>
+<li><code>setfacl -m g:staff:rx /app/oracle/admin/oradba/udump</code></li>
+<li><code>setfacl -R -d -m g:staff:r /app/oracle/admin/oradba/udump</code></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Persönliche Git-Zentrale]]></title>
@@ -704,111 +901,6 @@ $ sudo zpool replace zfsdata \
    scsi-SATA_WDC_WD30EFRX-68_WD-WCC1T0774712
 </pre></li>
 <li>Sichtung: Die neue Platte wird korrekt eingebunden und funktioniert: <code>sudo zpool status</code></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Maven/Gradle: Betrieb hinter einer Enterprise-Firewall]]></title>
-    <link href="http://uli-heller.github.com/blog/2013/10/06/forward-proxy/"/>
-    <updated>2013-10-06T08:00:00+02:00</updated>
-    <id>http://uli-heller.github.com/blog/2013/10/06/forward-proxy</id>
-    <content type="html"><![CDATA[<p>Einer meiner Kunden setzt eine Firewall kombiniert mit einem
-Proxy-Server ein, um das interne Netz vom Internet abzukoppeln.
-Der Zugriff vom internen Netz in&rsquo;s Internet ist dadurch stark eingeschränkt.</p>
-
-<ul>
-<li>Manche Web-Seiten werden generell geblockt &hellip; ist bislang kein Problem für mich</li>
-<li>Zugriff auf&rsquo;s Internet ist generell nur mit bestimmten Browsern möglich &ndash; der HTTP Header &ldquo;User-Agent&rdquo; muß bestimmte Werte haben &hellip; dadurch werden Build-Tools wie Gradle und Maven geblockt</li>
-<li>Zugriff auf&rsquo;s Internet geht generell nur, wenn man sich am Proxy-Server angemeldet hat &hellip; dadurch funktioniert bei mir der Zugriff von Eclipse aus nicht, man kann Eclipse-Plugins nur sehr umständlich installieren</li>
-</ul>
-
-
-<p>Zur Lösung der letzten beiden Probleme gibt es nun die Idee, einen eigenen
-Proxy-Server zu betreiben, der dann die Anmeldung am
-&ldquo;richtigen&rdquo; Proxy-Server übernimmt und der den User-Agent auf geeignete Werte
-setzt.</p>
-
-<!-- more -->
-
-
-<h2>Das GitHub-Projekt</h2>
-
-<p>Den Proxy-Server habe ich in Java implementiert und im Rahmen meiner &ldquo;Mini-Tools&rdquo; auf GitHub
-abgelegt. Zu finden ist der Proxy-Server hier: <a href="https://github.com/uli-heller/uli-mini-tools/blob/master/forward-proxy/README.md">Forward-Proxy</a>.</p>
-
-<h2>Die Zutaten</h2>
-
-<p>Der eigentliche Kern des Proxy-Servers ist recht klein &ndash; die meisten Zutaten liefert das Projekt
-<a href="http://www.eclipse.org/jetty/">Jetty</a>. Konkret habe ich hiervon verwendet:</p>
-
-<ul>
-<li><a href="http://www.eclipse.org/jetty/documentation/current/proxy-servlet.html">ProxyServlet</a></li>
-<li><a href="http://git.eclipse.org/c/jetty/org.eclipse.jetty.project.git/tree/examples/embedded/src/main/java/org/eclipse/jetty/embedded/ProxyServer.java?id=jetty-9.0.6.v20130930">ProxyServer</a></li>
-</ul>
-
-
-<p>Zur Kompilierung des Projektes verwende ich <a href="http://gradle.org">Gradle</a>. Von mir selbst stammen ein paar Ergänzungen,
-die</p>
-
-<ul>
-<li>diverse Einstellungen aus Properties-Dateien lesen</li>
-<li>die Anmeldung am Enterprise-Proxy-Server vornehmen</li>
-<li>das Programm paketieren und einfach ausführbar machen auf Kommandozeilenebene</li>
-</ul>
-
-
-<h2>Das Bauen</h2>
-
-<p>Das Bauen des Projektes ist denkbar einfach, sofern ein JDK7 installiert und im PATH verfügbar ist:</p>
-
-<ul>
-<li>Shell-Fenster öffnen</li>
-<li>In den Ordner &ldquo;uli-mini-tools/forward-proxy&rdquo; wechseln</li>
-<li>Ausführen: <code>../gradlew</code> (&hellip; oder unter Windows: <code>..\gradlew</code>)</li>
-</ul>
-
-
-<p>Danach gibt es die beiden Dateien</p>
-
-<ul>
-<li>forward-proxy-{version}.sh &hellip; für Unix/Linux</li>
-<li>forward-proxy-{version}.bat &hellip; für Windows</li>
-</ul>
-
-
-<p>Sie können direkt von der Shell aus ausgeführt werden.</p>
-
-<h2>Der Test</h2>
-
-<p>Getestet habe ich den neuen Proxy-Server mit einem einfachen Gradle-Projekt:</p>
-
-<ul>
-<li><p>Konfigurationsdatei &ldquo;forward-proxy.properties&rdquo; für den Forward-Proxy:</p>
-
-<pre><code>proxyPort           = 8888
-parentProxyHost     = 192.168.178.47
-parentProxyPort     = 3128
-parentProxyUser     = uli
-parentProxyPassword = xxxxxx
-replaceHeaders      = User-Agent
-User-Agent          = InternetExploder
-</code></pre></li>
-<li><p>Start vom Forward-Proxy:</p>
-
-<pre><code>./forward-proxy*.sh
-</code></pre></li>
-<li><p>gradle.properties:</p>
-
-<pre><code>systemProp.http.proxyHost=localhost
-systemProp.http.proxyPort=8888
-</code></pre></li>
-<li><p><a href="/downloads/code/simple-gradle-project.zip">Gradle-Projekt</a> auspacken und neu bauen mit</p>
-
-<pre><code>./gradlew --refresh-dependencies
-# Windows: .\gradlew --refresh-dependencies
-</code></pre></li>
 </ul>
 
 ]]></content>
