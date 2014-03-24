@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Server | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/server/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -104,7 +104,7 @@ Werte.</p>
 <p>Nun muß nur noch das WLAN-Interface aktiviert werden.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WLAN-Interface aktivieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -162,7 +162,7 @@ mir angezeigten 192.168.178.27 steht. Wie&rsquo;s aussieht funktioniert&rsquo;s 
 <h3>Zusatzpakete installieren</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Zusatzpakete installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -200,7 +200,7 @@ mir angezeigten 192.168.178.27 steht. Wie&rsquo;s aussieht funktioniert&rsquo;s 
 wie folgt modifiziert werden:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/default/hostapd </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -239,7 +239,7 @@ wie folgt modifiziert werden:</p>
 <a href="http://wiki.ubuntuusers.de/WLAN_Router">http://wiki.ubuntuusers.de/WLAN_Router</a></p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/hostapd.conf </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -456,7 +456,7 @@ wie folgt modifiziert werden:</p>
 <h3>Konfiguration von dnsmasq</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/dnsmasq.conf </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

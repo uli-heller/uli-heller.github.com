@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: ZFS | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/zfs/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -26,7 +26,7 @@ Hier beschreibe ich nun, wie ich&rsquo;s dann schließlich umgesetzt habe.</p>
 
 <h2>DEBs installieren</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -56,7 +56,7 @@ Hier beschreibe ich nun, wie ich&rsquo;s dann schließlich umgesetzt habe.</p>
 
 <h2>Platten-IDs ermitteln</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -116,7 +116,7 @@ auch auf den Platten aufgedruckt, und zwar bspw. wie folgt:</p>
 <h2>Zpool anlegen</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Zpool anlegen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -139,7 +139,7 @@ auch auf den Platten aufgedruckt, und zwar bspw. wie folgt:</p>
 <p>Nach dem Anlegen sollte der Status kontrolliert werden:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Zpool kontrollieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -179,7 +179,7 @@ auch auf den Platten aufgedruckt, und zwar bspw. wie folgt:</p>
 
 <p>Einen Plattenausfall erkennt man mit &ldquo;zpool status&rdquo;:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -257,7 +257,7 @@ $ sudo zpool replace zfsdata \
     <id>http://uli-heller.github.com/blog/2013/07/12/zfs</id>
     <content type="html"><![CDATA[<h2>DEBs installieren</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -289,7 +289,7 @@ $ sudo zpool replace zfsdata \
 
 <h4>Pool anlegen</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -321,7 +321,7 @@ $ sudo zpool replace zfsdata \
 
 <h3>Pool mit RaidZ anlegen</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -359,7 +359,7 @@ $ sudo zpool replace zfsdata \
 
 <p>Dieser Test soll sicherstellen, dass ein ZPOOL auch nach einem Reboot verfügbar ist.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -409,7 +409,7 @@ $ sudo zpool replace zfsdata \
 
 <h3>Pool mit RaidZ und Spare Disk (manuell)</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -448,7 +448,7 @@ $ sudo zpool replace zfsdata \
 <p>Jetzt habe ich die Platte /dev/sda rausgezogen. Ideal wäre nun, wenn sich das RAIDZ
 automatisch auf /dev/sdc verlagern würde&hellip;</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -586,7 +586,7 @@ automatisch auf /dev/sdc verlagern würde&hellip;</p>
 
 <p>Jetzt habe ich /dev/sda wieder eingebaut und mit <code>fdisk</code> geprüft, ob sie auch ansprechbar ist.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -629,7 +629,7 @@ Hier <a href="http://forums.nas4free.org/viewtopic.php?f=66&amp;t=3873">http://f
 gleichen Probleme mit FreeBSD beschrieben. Anscheinend unterstützt FreeBSD
 dieses Feature nicht richtig, vermutlich ist&rsquo;s bei Linux ebenso.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -670,7 +670,7 @@ dieses Feature nicht richtig, vermutlich ist&rsquo;s bei Linux ebenso.</p>
 <p>Jetzt habe ich die Platte /dev/sda rausgezogen. Ideal wäre nun, wenn sich das RAIDZ
 automatisch auf /dev/sdc verlagern würde&hellip;</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -872,7 +872,7 @@ automatisch auf /dev/sdc verlagern würde&hellip;</p>
 
 <p>Jetzt habe ich /dev/sda wieder eingebaut und mit <code>fdisk</code> geprüft, ob sie auch ansprechbar ist.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -910,7 +910,7 @@ automatisch auf /dev/sdc verlagern würde&hellip;</p>
 
 <h2>Platten-IDs ermitteln</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -957,7 +957,7 @@ werden, damit es zu keinen Verwechslungen kommen kann.</p>
 
 <h2>ZPool über Platten-IDs</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1083,7 +1083,7 @@ werden, damit es zu keinen Verwechslungen kommen kann.</p>
 
 <h2>Finale</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1129,7 +1129,7 @@ Einhängen des ZFS-Dateisystems nicht mehr.</p>
 
 <p>Abhilfe: Standard-Paket &ldquo;mountall&rdquo; wieder installieren und ZFS umkonfigurieren!</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install <span class="nv">mountall</span><span class="o">=</span>2.36.4
 </span><span class='line'>sudo sed -i s/ZFS_MOUNT<span class="o">=</span>&amp;lsquo;no&amp;rsquo;/ZFS_MOUNT<span class="o">=</span>&amp;lsquo;yes&amp;rsquo;/ /etc/default/zfs

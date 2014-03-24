@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Blog | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/blog/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -37,7 +37,7 @@ einbinde:</p>
 
 <h3>Wie sieht&rsquo;s mit der Version von Github/master aus?</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -256,7 +256,7 @@ einbinde:</p>
 <p>Jetzt noch ein Testdokument anlegen:</p>
 
 <h2><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>&hellip;/source/_posts/2013-07-20-octopress.md </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -345,7 +345,7 @@ mache ich mit &ldquo;master&rdquo; und &ldquo;source-2.1&rdquo;.</p>
 <h2>Aktuelle Octopress-Version runterladen</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Octropress runterladen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -390,7 +390,7 @@ mache ich mit &ldquo;master&rdquo; und &ldquo;source-2.1&rdquo;.</p>
 <h2>Kurztest Octopress-2.0</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Kurztest Octropress-2.0 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -410,7 +410,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 <h2>Kurztest Octopress-2.1</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Kurztest Octropress-2.1 &ndash; Mecker wegen JavaScript runtime </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -459,7 +459,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 <p>Am einfachsten korrigiert man&rsquo;s durch Anpassung vom Gemfile:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen am Gemfile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -498,7 +498,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 <p>Ausgangspunkt ist meine &ldquo;normale&rdquo; Octopress-Installation:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Normale Octopress-Installation </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -531,7 +531,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 <p>Mit diesem Setup kann man nun umschalten auf Version 2.1:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Umstellen auf Octopress-2.1 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -570,7 +570,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen an Octopress-2.1 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>git branch -m 2.1 <span class="nb">source</span>-2.1
@@ -583,7 +583,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 <h3>Kopie des Standards-Themas anlegen</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Eigenes Darstellungsthema f</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>cp -a .themes/classic .themes/uli
@@ -600,7 +600,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -655,7 +655,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 <h3>Darstellungsthema aktivieren</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen des Darstellungsthemas von Octopress-2.0 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -682,7 +682,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 <h2>Blog-Einträge von Octopress-2.0 übernehmen</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Dokumente von Octopress-2.0 </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -697,7 +697,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 <h3>Grundeinstellungen</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einstellungen anpassen &ndash; _config.yml </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -730,7 +730,7 @@ wird die Octopress-Grundseite angezeigt.</p>
 <h3>Überschriften &ndash; keine Großbuchstaben</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Keine Gro</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -782,7 +782,7 @@ source/archives/index.html</li>
 <p>Das grundätzliche Vorgehen kommt von <a href="http://home-server-mind.com/deutsche-lokalisation-in-octopress-seiten/">Marc </a>. Er schreibt allerdings, dass man als Einstellung für das Format &ldquo;ordinal&rdquo; verwenden muß. Grund hierfür ist eine Unschönheit in seiner Implementierung der Methode &ldquo;format_date&rdquo;. Bei meiner Variante kann man auch beliebige andere Einstellungen verwenden. Ich verwende beispielsweise &ldquo;%d. %B %Y&rdquo;.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Deutsche Datumsangaben &ndash; plugins/date.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -935,7 +935,7 @@ source/archives/index.html</li>
 <p>Änderung an _config.yml, damit das Datum so angegeben wird: &ldquo;25. Dezember 2012&rdquo;</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Datumsangaben &lsquo;TT. Monat JJJJ&rsquo; &ndash; _config.yml </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -962,7 +962,7 @@ source/archives/index.html</li>
 <h2>GitHub-Pages reaktivieren</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>GutHub-Pages reaktivieren &ndash; Rakefile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -979,7 +979,7 @@ source/archives/index.html</li>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 </pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gu">@@ -9,13 +9,13 @@</span>
-</span><span class='line'> ssh_user       = &amp;ldquo;&lt;a href=&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#58;&amp;#117;&amp;#115;&amp;#x65;&amp;#x72;&amp;#64;&amp;#x64;&amp;#111;&amp;#x6d;&amp;#97;&amp;#x69;&amp;#x6e;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&quot;&gt;&amp;#117;&amp;#x73;&amp;#x65;&amp;#x72;&amp;#x40;&amp;#100;&amp;#111;&amp;#x6d;&amp;#x61;&amp;#105;&amp;#x6e;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d;&lt;/a&gt;&amp;rdquo;
+</span><span class='line'> ssh_user       = &amp;ldquo;&lt;a href=&quot;&amp;#109;&amp;#x61;&amp;#x69;&amp;#x6c;&amp;#x74;&amp;#111;&amp;#58;&amp;#x75;&amp;#115;&amp;#x65;&amp;#114;&amp;#64;&amp;#x64;&amp;#x6f;&amp;#x6d;&amp;#97;&amp;#105;&amp;#x6e;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;&quot;&gt;&amp;#x75;&amp;#x73;&amp;#101;&amp;#114;&amp;#64;&amp;#100;&amp;#x6f;&amp;#109;&amp;#x61;&amp;#x69;&amp;#110;&amp;#46;&amp;#99;&amp;#x6f;&amp;#109;&lt;/a&gt;&amp;rdquo;
 </span><span class='line'> ssh_port       = &amp;ldquo;22&amp;rdquo;
 </span><span class='line'> document_root  = &amp;ldquo;~/website.com/&amp;rdquo;
 </span><span class='line'> rsync_delete   = false
@@ -1021,7 +1021,7 @@ source/archives/index.html</li>
 
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Partition vergr</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1046,7 +1046,7 @@ source/archives/index.html</li>
 <h4>Git</h4>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Git installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install -y git
 </span><span class='line'>sudo apt-get clean
@@ -1057,7 +1057,7 @@ source/archives/index.html</li>
 <h4>Ruby mittels RVM</h4>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ruby installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1080,7 +1080,7 @@ source/archives/index.html</li>
 <h5>Octopress und Pakete</h5>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Octropress installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1095,7 +1095,7 @@ source/archives/index.html</li>
 <h5>Textile statt Markdown</h5>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Textile statt Markdown &ndash; Rakefile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1118,7 +1118,7 @@ source/archives/index.html</li>
 <h5>Autor und Titel</h5>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Autor und Titel &ndash; _config.yml </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1195,7 +1195,7 @@ source/archives/index.html</li>
 <h5>Anpassungen im Octopress-Verzeichnis</h5>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Octopress f</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1214,7 +1214,7 @@ source/archives/index.html</li>
 <h5>Quellverzeichnis zur Sicherung hinzufügen</h5>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Sicherung vorbereiten </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>git add <span class="nb">source</span>
 </span><span class='line'>git commit -m &amp;ldquo;Quelltexte sichern&amp;rdquo;
@@ -1225,7 +1225,7 @@ source/archives/index.html</li>
 <p>Neue Artikel werden mit diesem Befehl auf GitHub gesichert:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Quellverzeichnis sichern </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
@@ -1238,7 +1238,7 @@ source/archives/index.html</li>
 <p>Immer dann, wenn neue Artikel veröffentlicht werden sollen, muß man so vorgehen:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Ver</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
@@ -1249,7 +1249,7 @@ source/archives/index.html</li>
 <h4>Folgeinstallation</h4>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Folgeinstallation </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1290,7 +1290,7 @@ source/archives/index.html</li>
 <h3>Darstellung</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Meinen Darstellungsstil aktivieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>rake install<span class="o">[</span>&amp;lsquo;uli&amp;rsquo;<span class="o">]</span>
@@ -1299,7 +1299,7 @@ source/archives/index.html</li>
 <p>Zurück zur Standard-Darstellung geht&rsquo;s so:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Standarddarstellung aktivieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">cd </span>octopress
 </span><span class='line'>rake install
@@ -1308,7 +1308,7 @@ source/archives/index.html</li>
 <h2>Ein erster Blog-Eintrag</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ersten Blog-Eintrag erstellen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1359,7 +1359,7 @@ source/archives/index.html</li>
 <p>Die Beschreibung ist obsolet! Verwende besser: <code>rake install['uli']</code>!</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Hellere Farben &ndash; sass/custom/<em>colors.scss </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1508,7 +1508,7 @@ source/archives/index.html</li>
 <p>Korrektur: Editiere sass/custom/_layout.scss wie folgt:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einger</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1541,7 +1541,7 @@ source/archives/index.html</li>
 <h5>RBENV</h5>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>RBENV </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1558,7 +1558,7 @@ source/archives/index.html</li>
 <h5>RUBY</h5>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>RUBY </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>rbenv install 1.9.3-p0
 </span><span class='line'>rbenv rehash
@@ -1569,7 +1569,7 @@ source/archives/index.html</li>
 <h4>YAML und zlib</h4>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fehlermeldung yaml und zlib </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1604,7 +1604,7 @@ source/archives/index.html</li>
 <p>Lösungsversuch mit libyaml-dev und libz-dev:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>yaml und zlib installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1619,7 +1619,7 @@ source/archives/index.html</li>
 <h4>OpenSSL</h4>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fehlermeldung OpenSSL </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1652,7 +1652,7 @@ source/archives/index.html</li>
 <p>Lösungsversuch mit libssl-dev:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>libssl-dev installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1723,7 +1723,7 @@ source/archives/index.html</li>
 <h3>Codeblock</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Here&rsquo;s an example .rvmrc file. </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
@@ -1732,7 +1732,7 @@ source/archives/index.html</li>
 <h3>Datei</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (Beispiel.java)</span> <a href='/downloads/code/Beispiel.java'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1758,7 +1758,7 @@ source/archives/index.html</li>
 <li>Liste</li>
 <li>mit Codeblock
   <div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Here&rsquo;s an example .rvmrc file. </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">rvm</span> <span class="n">ruby</span><span class="o">-</span><span class="mi">1</span><span class="o">.</span><span class="mi">8</span><span class="o">.</span><span class="mi">6</span> <span class="c1"># ZOMG, seriously? We still use this version?</span>
 </span><span class='line'>

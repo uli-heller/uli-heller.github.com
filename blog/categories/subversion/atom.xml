@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Subversion | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/subversion/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -416,7 +416,7 @@ das mittels &ldquo;file://&hellip;&rdquo; angesprochen wird,
 tritt das Problem nicht auf!</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Clonen des Svn-Repositories </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -462,7 +462,7 @@ tritt das Problem nicht auf!</p>
 weil immer das ganze Repository kopiert wird.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Datei git-svn-absturz.txt </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -510,7 +510,7 @@ weil immer das ganze Repository kopiert wird.</p>
 nicht für jeden Test eine neue Datei anlegen möchte.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einfache Reproduktion des Problems </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -557,7 +557,7 @@ durchführbar.</p>
 Wiederholung mit &ldquo;Ausschneiden und Einfügen&rdquo;:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einfache Reproduktion &ndash; abzusetzende Befehle </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
@@ -570,7 +570,7 @@ Wiederholung mit &ldquo;Ausschneiden und Einfügen&rdquo;:</p>
 <h3>strace</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Reproduktion mit &lsquo;strace&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
@@ -581,7 +581,7 @@ Wiederholung mit &ldquo;Ausschneiden und Einfügen&rdquo;:</p>
 <p>Diese Ausgaben werden geliefert:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ausgabe von &lsquo;strace git svn&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -624,7 +624,7 @@ anstürzt. Nun könnte man den Test nochmals laufen lassen mit &lsquo;strace -F&
 oder wir füttern &lsquo;strace&rsquo; direkt mit &lsquo;git-svn&rsquo;:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Reproduktion mit &lsquo;strace&rsquo; und &lsquo;git-svn&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
@@ -635,7 +635,7 @@ oder wir füttern &lsquo;strace&rsquo; direkt mit &lsquo;git-svn&rsquo;:</p>
 <p>Dies führt zu folgender Ausgabe:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ausgabe von &lsquo;strace git-svn&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -682,7 +682,7 @@ oder wir füttern &lsquo;strace&rsquo; direkt mit &lsquo;git-svn&rsquo;:</p>
 <h4>Test</h4>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Reproduktion mit &lsquo;Devel::Trace&rsquo; und &lsquo;git-svn&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>date &gt;&gt;git-svn-absturz.txt
@@ -693,7 +693,7 @@ oder wir füttern &lsquo;strace&rsquo; direkt mit &lsquo;git-svn&rsquo;:</p>
 <p>Dabei wird diese Ausgabe geliefert:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Ausgabe mit &lsquo;Devel::Trace&rsquo; </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -721,7 +721,7 @@ eine C-Funktion, die per SWIG in Perl eingebunden ist.</p>
 <h3>Neueste Version von serf-1.2.1</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Patch erzeugen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -836,7 +836,7 @@ Die Version 1.8.4 bringt also keine Verbesserung.</p>
 gibt es einen Korrekturvorschlag:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen an ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -902,7 +902,7 @@ nachfolgender Änderung wird der Destruktor aufgerufen, bevor
 <code>apr_terminate()</code> ausgeführt wird.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Korrektur von ./usr/share/perl5/Git/SVN/Ra.pm </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1356,7 +1356,7 @@ SUMMARY: All tests successful.
 <p>Das habe ich korrigiert durch Änderungen an ./subversion/bindings/swig/ruby/test/run-test.rb:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>run-test.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1422,7 +1422,7 @@ SUMMARY: All tests successful.
 <p>Das habe ich korrigiert durch Änderungen an ./debian/libapache2-svn.install:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>libapache2-svn.install </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

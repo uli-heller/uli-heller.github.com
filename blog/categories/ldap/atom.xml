@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: LDAP | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/ldap/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -29,7 +29,7 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 <p>Zunächst sollte der Rechner aktualisiert werden.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Rechner aktualisieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get update
 </span><span class='line'>sudo apt-get dist-upgrade
@@ -38,7 +38,7 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 <h2>LDAP-Pakete installieren</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Pakete installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -55,7 +55,7 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 <p>Standard-Schemas:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Schemas definieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
@@ -66,7 +66,7 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 <p>Zusatz-Schema:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Zusatzschema definieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/backend_dp.ldif
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
@@ -80,7 +80,7 @@ der Datenbestand eines anderen LDAP-Servers.</p>
 <h3>Grunddaten importieren</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Grunddaten importieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
@@ -94,7 +94,7 @@ der Datenbestand eines anderen LDAP-Servers.</p>
 von einem bestehenden LDAP-Server.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Daten importieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
@@ -124,7 +124,7 @@ von einem bestehenden LDAP-Server.</p>
 also spielen wir den Apache2 ein und konfigurieren ihn auch gleich.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Apache2 installieren und konfigurieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -151,7 +151,7 @@ also spielen wir den Apache2 ein und konfigurieren ihn auch gleich.</p>
 <p>Die Web-Anwendung benötigt noch einige Perl-Module.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Perl-Module installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install libconfig-tiny-perl
 </span><span class='line'>sudo apt-get install libnet-ldap-perl
@@ -174,7 +174,7 @@ also spielen wir den Apache2 ein und konfigurieren ihn auch gleich.</p>
 freigeschaltet werden.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP in Firewall freischalten </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ufw allow 389/tcp
@@ -189,14 +189,14 @@ freigeschaltet werden.</p>
 <h4>Sichern</h4>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Daten sichern </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo slapcat -l /tmp/slapcat.ldif
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h4>Zurückspielen</h4>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>LDAP-Daten zur</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -211,7 +211,7 @@ freigeschaltet werden.</p>
 <h4>Neustart mit einem leeren LDAP-Bestand</h4>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neustart mit leerem LDAP-Bestand </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop

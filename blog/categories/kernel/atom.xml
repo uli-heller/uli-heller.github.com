@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Kernel | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/kernel/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -35,7 +35,7 @@ muß man seinen Rechner neu starten, damit der neue Kernel auch
 verwendet wird:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen des Raring-Kernels </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -56,7 +56,7 @@ mit &ldquo;VirtualBox&rdquo; und anderen Dingen, die Kernel-Module benötigen).<
 <p>Nachdem der neue Kernel gut funktioniert, lösche ich nun die alten Kernels:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Entfernen der Alt-Kernel </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -76,7 +76,7 @@ auch VirtualBox-VMs können gestartet werden.</p>
 von VirtualBox:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neukompilieren der Kernel-Module von VirtualBox </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

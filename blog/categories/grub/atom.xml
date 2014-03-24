@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Grub | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/grub/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -32,7 +32,7 @@ Das Verfahren habe ich mir von <a href="http://michael-prokop.at/blog/2013/05/10
 <h2>Sichten: Welche Menüeinträge gibt es?</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Liste der Men</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -53,7 +53,7 @@ Das Verfahren habe ich mir von <a href="http://michael-prokop.at/blog/2013/05/10
 <h2>Umstellen des Standard-Boot-Eintrages</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Umstellen der Standard-Boot-Eintrages </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -99,7 +99,7 @@ Das Verfahren habe ich mir von <a href="http://michael-prokop.at/blog/2013/05/10
 starten, das ist der dritte Eintrag im Boot-Menü:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neustart mit dem dritten Standard-Boot-Eintrag </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

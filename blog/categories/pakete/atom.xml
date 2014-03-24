@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Pakete | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/pakete/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -153,7 +153,7 @@ Datei /etc/default/lxc editieren:
 <p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/apt/apt.conf.d/01proxy </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">Acquire</span><span class="p">::&lt;</span><span class="n">a</span> <span class="n">href</span><span class="p">=</span><span class="s">&quot;http::Proxy&quot;</span><span class="p">&gt;</span><span class="n">http</span><span class="p">::</span><span class="n">Proxy</span><span class="p">&lt;/</span><span class="n">a</span><span class="p">&gt;</span> <span class="p">&amp;</span><span class="n">ldquo</span><span class="p">;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="p">=</span><span class="s">&quot;http://10.0.3.1:3142&quot;</span><span class="p">&gt;</span><span class="n">http</span><span class="p">:</span><span class="c1">//10.0.3.1:3142&lt;/a&gt;&amp;rdquo;;</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
@@ -165,7 +165,7 @@ Datei /etc/default/lxc editieren:
 <h3>Paketquellen ergänzen um Source-Repositories</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/apt/sources.list </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

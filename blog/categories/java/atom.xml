@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Java | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -132,7 +132,7 @@ einspielen und starten:</li>
 
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen und Starten von JBossAS </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -204,7 +204,7 @@ angezeigt werden.</li>
 <p>Hier das klassische Vorgehen mittels Java-Properties:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>tomcat/bin/setenv.sh </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -270,7 +270,7 @@ angezeigt werden.</li>
 <p>Ausgangspunkt ist dieses Interface für unseren Webservice:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (SampleWebService.java)</span> <a href='/downloads/code/java/wsdl/SampleWebService.java'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -297,7 +297,7 @@ angezeigt werden.</li>
 <p>Zusätzlich gibt&rsquo;s auch schon eine Implementierung dafür, nämlich diese:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (SampleWebServiceImpl.java)</span> <a href='/downloads/code/java/wsdl/SampleWebServiceImpl.java'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -318,7 +318,7 @@ angezeigt werden.</li>
 <p>Da wir nur zwei Quelldateien haben, können wir die schnell manuell durchkompilieren:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Kompilieren der Quelldateien </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -333,7 +333,7 @@ angezeigt werden.</li>
 <p>Das übliche Vorgehen basiert auf dem Tool <code>wsgen</code>, welches dem JDK beiliegt:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Vorgehen mit WSGEN </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -350,7 +350,7 @@ angezeigt werden.</li>
 <p>Manchmal steht nur das Interface für den Webservice zur Verfügung, also nur die Datei <a href="/downloads/code/java/wsdl/SampleWebService.java">SampleWebService.java</a>. Wenn wir versuchen, daraus eine WSDL-Datei zu erzeugen, erscheint so eine Fehlermeldung:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WSGEN und ServiceInterface </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -386,7 +386,7 @@ angezeigt werden.</li>
 <p>Hier eine abstrakte Implementierungsklasse:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (AbstractSampleWebServiceImpl.java)</span> <a href='/downloads/code/java/wsdl/AbstractSampleWebServiceImpl.java'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -401,7 +401,7 @@ angezeigt werden.</li>
 <p>Leider klappt&rsquo;s auch nicht:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WSGEN mit abstrakter Implementierungsklasse </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -452,7 +452,7 @@ angezeigt werden.</li>
 <h2>Neue Eclipse-Installation</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Neue Eclipse-Installation </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -465,7 +465,7 @@ angezeigt werden.</li>
 <h2>Test der neuen Eclipse-Installation</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Test der Eclipse-Installation </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -484,7 +484,7 @@ angezeigt werden.</li>
 <h2>Einspielen des Plugins</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Einspielen des Plugins </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

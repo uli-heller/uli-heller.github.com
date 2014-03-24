@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Packaging | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/packaging/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -328,7 +328,7 @@ Bei &ldquo;debian/stamp-configure&rdquo; wird ein Verweis auf &ldquo;patches&rdq
 <p>Die Änderungen sind im nachfolgenden DIFF zusammengefasst.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Anpassungen an debian/rules </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

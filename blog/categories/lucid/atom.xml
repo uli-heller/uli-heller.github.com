@@ -4,7 +4,7 @@
   <title><![CDATA[Thema: Lucid | Was ich so treibe...]]></title>
   <link href="http://uli-heller.github.com/blog/categories/lucid/atom.xml" rel="self"/>
   <link href="http://uli-heller.github.com/"/>
-  <updated>2014-03-24T06:57:00+01:00</updated>
+  <updated>2014-03-24T07:23:21+01:00</updated>
   <id>http://uli-heller.github.com/</id>
   <author>
     <name><![CDATA[Uli Heller]]></name>
@@ -43,7 +43,7 @@ gut funktioniert:</p>
 
 <p>Soweit sieht alles ganz OK aus. Nun: Sichtung der Programmstände.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -83,7 +83,7 @@ gut funktioniert:</p>
 
 <p>Mit diesen Befehlen werden die Ruby-Gems heruntergeladen:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -106,7 +106,7 @@ gut funktioniert:</p>
 <p>Die *.gem-Dateien müssen auf die Redmine-VM übertragen werden, am besten
 mit <code>scp</code>. Danach spielt man sie ein mit</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install passenger-4.0.10.gem
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
@@ -115,7 +115,7 @@ mit <code>scp</code>. Danach spielt man sie ein mit</p>
 <p>Mit nachfolgendem Befehl wird das Passenger-Modul für Apache2
 installiert und auch gleich aktiviert:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get install libapache2-mod-passenger
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
@@ -126,7 +126,7 @@ installiert und auch gleich aktiviert:</p>
 <code>cp /etc/apache2/sites-available/default /etc/apache2/sites-available/passenger</code></p>
 
 <pre><code><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/apache2/sites-available/passenger </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -246,7 +246,7 @@ mehr starten. Es erscheint die Fehlermeldung &ldquo;start: Job failed to start&r
 
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Fehlermeldung beim Start von MySQL </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>service mysql start
 </span><span class='line'>  start: Job failed to start
@@ -256,7 +256,7 @@ mehr starten. Es erscheint die Fehlermeldung &ldquo;start: Job failed to start&r
 brauchbaren Informationen:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Sichtung der Log-Dateien </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -338,7 +338,7 @@ steht, wie man Logs für die Upstart-Skripte erzeugt. Die Idee ist, dem Ansatz
 &ldquo;Log Script Section Output to Syslog&rdquo; zu folgen:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Auszug aus dem Upstart-Kochbuch &ndash; Skriptausgabe loggen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -361,7 +361,7 @@ finden: /etc/init/mysql.conf. Eine Sichtung liefert:</p>
 <p>Dieser Teil sieht so aus:</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>/etc/init/mysql.conf &ndash; pre-start </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -394,7 +394,7 @@ Möglicherweise ist also auch einfach diese Partition voll gelaufen!</p>
 
 <h2>Sichtung und Bereinigung der Partition /var</h2>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Sichtung und Bereinigung der Partiton</span><a href='/var'>link</a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Sichtung und Bereinigung der Partiton</span><a href='/var'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -409,7 +409,7 @@ Möglicherweise ist also auch einfach diese Partition voll gelaufen!</p>
 <p>Nun kann man MySQL wieder normal starten!</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Normaler Start von MySQL </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>service mysql start
 </span><span class='line'>  mysql start/running, process 1589
@@ -451,7 +451,7 @@ auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
 werden.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (get-2.3.17.sh)</span> <a href='/downloads/code/get-2.3.17.sh'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -490,7 +490,7 @@ werden.</p>
 <h2>Basissystem aktualisieren</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
@@ -501,14 +501,14 @@ werden.</p>
 <h2>Gems einspielen</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gems einspielen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.17.gem
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Alte Gems deininstallieren</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (uninstall-2.3.15.sh)</span> <a href='/downloads/code/uninstall-2.3.15.sh'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -560,7 +560,7 @@ auf einem anderen Rechner heruntergeladen und zum Redmine-Server übertragen
 werden.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (get-2.3.15.sh)</span> <a href='/downloads/code/get-2.3.15.sh'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -599,7 +599,7 @@ werden.</p>
 <h2>Basissystem aktualisieren</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Basissystem aktualisieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>apt-get update
@@ -610,14 +610,14 @@ werden.</p>
 <h2>Gems einspielen</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gems einspielen </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>gem install rails-2.3.15.gem
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h2>Alte Gems deininstallieren</h2>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (uninstall-2.3.11.sh)</span> <a href='/downloads/code/uninstall-2.3.11.sh'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

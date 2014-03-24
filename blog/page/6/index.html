@@ -243,7 +243,7 @@ Datei /etc/default/lxc editieren:
 <p>Erstellen von /etc/apt/apt.conf.d/01proxy:</p>
 
 <figure class='code'><figcaption><span>/etc/apt/apt.conf.d/01proxy </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='d'><span class='line'><span class="n">Acquire</span><span class="p">::</span><span class="n">http</span><span class="p">::</span><span class="n">Proxy</span> <span class="s">&quot;http://10.0.3.1:3142&quot;</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -257,7 +257,7 @@ Datei /etc/default/lxc editieren:
 <h3>Paketquellen ergänzen um Source-Repositories</h3>
 
 <figure class='code'><figcaption><span>/etc/apt/sources.list </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -603,7 +603,7 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 <p>Zunächst sollte der Rechner aktualisiert werden.</p>
 
 <figure class='code'><figcaption><span>Rechner aktualisieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get update
 </span><span class='line'>sudo apt-get dist-upgrade
@@ -613,7 +613,7 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 <h2>LDAP-Pakete installieren</h2>
 
 <figure class='code'><figcaption><span>LDAP-Pakete installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install slapd ldap-utils cpu whois
 </span><span class='line'><span class="c"># LDAP-Administrator-Passwort: uli</span>
@@ -625,7 +625,7 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 <p>Standard-Schemas:</p>
 
 <figure class='code'><figcaption><span>LDAP-Schemas definieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/cosine.ldif
@@ -637,7 +637,7 @@ Einrichten eines LDAP-Servers unter Ubuntu-12.04
 <p>Zusatz-Schema:</p>
 
 <figure class='code'><figcaption><span>LDAP-Zusatzschema definieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/backend_dp.ldif
 </span></code></pre></td></tr></table></div></figure>
 
@@ -652,7 +652,7 @@ der Datenbestand eines anderen LDAP-Servers.</p>
 <h3>Grunddaten importieren</h3>
 
 <figure class='code'><figcaption><span>Grunddaten importieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
@@ -667,7 +667,7 @@ der Datenbestand eines anderen LDAP-Servers.</p>
 von einem bestehenden LDAP-Server.</p>
 
 <figure class='code'><figcaption><span>LDAP-Daten importieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
@@ -698,7 +698,7 @@ von einem bestehenden LDAP-Server.</p>
 also spielen wir den Apache2 ein und konfigurieren ihn auch gleich.</p>
 
 <figure class='code'><figcaption><span>Apache2 installieren und konfigurieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -720,7 +720,7 @@ also spielen wir den Apache2 ein und konfigurieren ihn auch gleich.</p>
 <p>Die Web-Anwendung benötigt noch einige Perl-Module.</p>
 
 <figure class='code'><figcaption><span>Perl-Module installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo apt-get install libconfig-tiny-perl
 </span><span class='line'>sudo apt-get install libnet-ldap-perl
@@ -744,7 +744,7 @@ also spielen wir den Apache2 ein und konfigurieren ihn auch gleich.</p>
 freigeschaltet werden.</p>
 
 <figure class='code'><figcaption><span>LDAP in Firewall freischalten </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo ufw allow 389/tcp
@@ -760,7 +760,7 @@ freigeschaltet werden.</p>
 <h4>Sichern</h4>
 
 <figure class='code'><figcaption><span>LDAP-Daten sichern </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo slapcat -l /tmp/slapcat.ldif
 </span></code></pre></td></tr></table></div></figure>
 
@@ -768,7 +768,7 @@ freigeschaltet werden.</p>
 <h4>Zurückspielen</h4>
 
 <figure class='code'><figcaption><span>LDAP-Daten zur</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -784,7 +784,7 @@ freigeschaltet werden.</p>
 <h4>Neustart mit einem leeren LDAP-Bestand</h4>
 
 <figure class='code'><figcaption><span>Neustart mit leerem LDAP-Bestand </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'>sudo service slapd stop
@@ -834,7 +834,7 @@ freigeschaltet werden.</p>
 <p>Den Trick habe ich von einem <a href="http://eclipsesource.com/blogs/2013/04/19/installing-eclipse-plug-ins-from-an-update-site-with-a-self-signed-certificate/">EclipseSource-Blog</a>:</p>
 
 <figure class='code'><figcaption><span>Herunterladen eines Server-Zertifikats </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1049,7 +1049,7 @@ direkt verwenden?</p>
 nicht aktiv:</p>
 
 <figure class='code'><figcaption><span>git-subtree fehlt </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git subtree
 </span><span class='line'>git: <span class="s1">&#39;subtree&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.
@@ -1061,7 +1061,7 @@ nicht aktiv:</p>
 <h2>Manuelles Aktivieren von Git Subtree</h2>
 
 <figure class='code'><figcaption><span>git-subtree manuell installieren </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -1167,7 +1167,7 @@ los geht&rsquo;s mit <code>dpkg-buildpackage</code> (&hellip; das dauert)</li>
 </section>
 <section>
   <h1>Themen</h1>
-    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 104.61538461538461%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 102.76923076923077%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 101.84615384615384%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 100.92307692307692%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.84615384615384%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 101.84615384615384%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 101.84615384615384%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 101.84615384615384%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 109.23076923076923%'>Git(10)</a> <a href='/blog/categories/github' style='font-size: 100.92307692307692%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 100.92307692307692%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 100.92307692307692%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 100.92307692307692%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 100.92307692307692%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 100.92307692307692%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.61538461538461%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 100.92307692307692%'>JBoss(1)</a> <a href='/blog/categories/jdk' style='font-size: 100.92307692307692%'>JDK(1)</a> <a href='/blog/categories/jmx' style='font-size: 100.92307692307692%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 100.92307692307692%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 101.84615384615384%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 100.92307692307692%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(65)</a> <a href='/blog/categories/lucid' style='font-size: 103.6923076923077%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 105.53846153846153%'>Lxc(6)</a> <a href='/blog/categories/lxc' style='font-size: 100.92307692307692%'>LXC(1)</a> <a href='/blog/categories/macbook-air' style='font-size: 101.84615384615384%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 100.92307692307692%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 102.76923076923077%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 100.92307692307692%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 109.23076923076923%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 100.92307692307692%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.46153846153847%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 100.92307692307692%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 100.92307692307692%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 100.92307692307692%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 100.92307692307692%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 100.92307692307692%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 101.84615384615384%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 100.92307692307692%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 130.46153846153845%'>Precise(33)</a> <a href='/blog/categories/proxy' style='font-size: 101.84615384615384%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 101.84615384615384%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 101.84615384615384%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 102.76923076923077%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 106.46153846153847%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 100.92307692307692%'>Server(1)</a> <a href='/blog/categories/shell' style='font-size: 100.92307692307692%'>Shell(1)</a> <a href='/blog/categories/smtp' style='font-size: 100.92307692307692%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 100.92307692307692%'>Squid(1)</a> <a href='/blog/categories/ssh' style='font-size: 100.92307692307692%'>SSH(1)</a> <a href='/blog/categories/subversion' style='font-size: 104.61538461538461%'>Subversion(5)</a> <a href='/blog/categories/thunderbird' style='font-size: 100.92307692307692%'>Thunderbird(1)</a> <a href='/blog/categories/truecrypt' style='font-size: 100.92307692307692%'>Truecrypt(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.0%'>Ubuntu(52)</a> <a href='/blog/categories/usb' style='font-size: 100.92307692307692%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 100.92307692307692%'>Webservice(1)</a> <a href='/blog/categories/windows' style='font-size: 100.92307692307692%'>Windows(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 100.92307692307692%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.84615384615384%'>ZFS(2)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/blog' style='font-size: 104.61538461538461%'>Blog(5)</a> <a href='/blog/categories/centos' style='font-size: 102.76923076923077%'>CentOS(3)</a> <a href='/blog/categories/chrome' style='font-size: 101.84615384615384%'>Chrome(2)</a> <a href='/blog/categories/cinnamon' style='font-size: 100.92307692307692%'>Cinnamon(1)</a> <a href='/blog/categories/debian' style='font-size: 101.84615384615384%'>Debian(2)</a> <a href='/blog/categories/dovecot' style='font-size: 101.84615384615384%'>Dovecot(2)</a> <a href='/blog/categories/eclipse' style='font-size: 101.84615384615384%'>Eclipse(2)</a> <a href='/blog/categories/fotorama' style='font-size: 101.84615384615384%'>Fotorama(2)</a> <a href='/blog/categories/git' style='font-size: 109.23076923076923%'>Git(10)</a> <a href='/blog/categories/github' style='font-size: 100.92307692307692%'>GitHub(1)</a> <a href='/blog/categories/gpg' style='font-size: 100.92307692307692%'>GPG(1)</a> <a href='/blog/categories/gradle' style='font-size: 100.92307692307692%'>Gradle(1)</a> <a href='/blog/categories/groovy' style='font-size: 100.92307692307692%'>Groovy(1)</a> <a href='/blog/categories/grub' style='font-size: 100.92307692307692%'>Grub(1)</a> <a href='/blog/categories/https' style='font-size: 100.92307692307692%'>HTTPS(1)</a> <a href='/blog/categories/java' style='font-size: 104.61538461538461%'>Java(5)</a> <a href='/blog/categories/jboss' style='font-size: 100.92307692307692%'>JBoss(1)</a> <a href='/blog/categories/jdk' style='font-size: 100.92307692307692%'>JDK(1)</a> <a href='/blog/categories/jmx' style='font-size: 100.92307692307692%'>JMX(1)</a> <a href='/blog/categories/kepler' style='font-size: 100.92307692307692%'>Kepler(1)</a> <a href='/blog/categories/kernel' style='font-size: 101.84615384615384%'>Kernel(2)</a> <a href='/blog/categories/ldap' style='font-size: 100.92307692307692%'>LDAP(1)</a> <a href='/blog/categories/linux' style='font-size: 160.0%'>Linux(65)</a> <a href='/blog/categories/lucid' style='font-size: 103.6923076923077%'>Lucid(4)</a> <a href='/blog/categories/lxc' style='font-size: 106.46153846153847%'>Lxc(7)</a> <a href='/blog/categories/macbook-air' style='font-size: 101.84615384615384%'>Macbook Air(2)</a> <a href='/blog/categories/macbook-air-2013' style='font-size: 100.92307692307692%'>Macbook Air 2013(1)</a> <a href='/blog/categories/markdown' style='font-size: 102.76923076923077%'>Markdown(3)</a> <a href='/blog/categories/mysql' style='font-size: 100.92307692307692%'>MySQL(1)</a> <a href='/blog/categories/octopress' style='font-size: 109.23076923076923%'>Octopress(10)</a> <a href='/blog/categories/openvpn' style='font-size: 100.92307692307692%'>OpenVPN(1)</a> <a href='/blog/categories/packaging' style='font-size: 106.46153846153847%'>Packaging(7)</a> <a href='/blog/categories/pakete' style='font-size: 100.92307692307692%'>Pakete(1)</a> <a href='/blog/categories/passenger' style='font-size: 100.92307692307692%'>Passenger(1)</a> <a href='/blog/categories/pdf' style='font-size: 100.92307692307692%'>PDF(1)</a> <a href='/blog/categories/perl' style='font-size: 100.92307692307692%'>Perl(1)</a> <a href='/blog/categories/pgp' style='font-size: 100.92307692307692%'>PGP(1)</a> <a href='/blog/categories/pigdeonhole' style='font-size: 101.84615384615384%'>Pigdeonhole(2)</a> <a href='/blog/categories/podcast' style='font-size: 100.92307692307692%'>Podcast(1)</a> <a href='/blog/categories/precise' style='font-size: 130.46153846153845%'>Precise(33)</a> <a href='/blog/categories/proxy' style='font-size: 101.84615384615384%'>Proxy(2)</a> <a href='/blog/categories/quilt' style='font-size: 101.84615384615384%'>Quilt(2)</a> <a href='/blog/categories/raring' style='font-size: 101.84615384615384%'>Raring(2)</a> <a href='/blog/categories/redmine' style='font-size: 102.76923076923077%'>Redmine(3)</a> <a href='/blog/categories/ruby' style='font-size: 106.46153846153847%'>Ruby(7)</a> <a href='/blog/categories/server' style='font-size: 100.92307692307692%'>Server(1)</a> <a href='/blog/categories/shell' style='font-size: 100.92307692307692%'>Shell(1)</a> <a href='/blog/categories/smtp' style='font-size: 100.92307692307692%'>SMTP(1)</a> <a href='/blog/categories/squid' style='font-size: 100.92307692307692%'>Squid(1)</a> <a href='/blog/categories/ssh' style='font-size: 100.92307692307692%'>SSH(1)</a> <a href='/blog/categories/subversion' style='font-size: 104.61538461538461%'>Subversion(5)</a> <a href='/blog/categories/thunderbird' style='font-size: 100.92307692307692%'>Thunderbird(1)</a> <a href='/blog/categories/truecrypt' style='font-size: 100.92307692307692%'>Truecrypt(1)</a> <a href='/blog/categories/ubuntu' style='font-size: 148.0%'>Ubuntu(52)</a> <a href='/blog/categories/usb' style='font-size: 100.92307692307692%'>USB(1)</a> <a href='/blog/categories/webservice' style='font-size: 100.92307692307692%'>Webservice(1)</a> <a href='/blog/categories/windows' style='font-size: 100.92307692307692%'>Windows(1)</a> <a href='/blog/categories/zertifikat' style='font-size: 100.92307692307692%'>Zertifikat(1)</a> <a href='/blog/categories/zfs' style='font-size: 101.84615384615384%'>ZFS(2)</a> </span>
 </section>
 
 
